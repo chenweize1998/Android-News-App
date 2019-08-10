@@ -3,7 +3,9 @@ package com.example.newstoday;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +15,8 @@ public class Table extends AppCompatActivity {
     private RecyclerView.Adapter mAdapterNews;
     private RecyclerView.LayoutManager layoutManagerNews;
     private RecyclerView recyclerViewCat;
-    private RecyclerView.Adapter mAdapterCat;
+//    private RecyclerView.Adapter mAdapterCat;
+    private CatAdapter mAdapterCat;
     private RecyclerView.LayoutManager layoutManagerCat;
     private String[] title, abs;
 
@@ -35,6 +38,13 @@ public class Table extends AppCompatActivity {
         ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
         mAdapterCat = new CatAdapter();
+//        CatAdapter.OnItemClickListener listener = new CatAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                view.setBackgroundColor(0xAA151515);
+//            }
+//        };
+//        mAdapterCat.setOnItemClickListener(listener);
         recyclerViewCat.setAdapter(mAdapterCat);
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);
