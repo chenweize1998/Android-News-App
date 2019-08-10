@@ -8,7 +8,7 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     private String[] title;
     private String[] abs;
 
@@ -29,14 +29,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(String[] title, String[] abs) {
+    public NewsAdapter(String[] title, String[] abs) {
         this.title = title;
         this.abs = abs;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public NewsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())

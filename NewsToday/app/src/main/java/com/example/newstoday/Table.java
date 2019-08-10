@@ -3,15 +3,18 @@ package com.example.newstoday;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
-//import com.example.newstoday.ui.table.TableFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class Table extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView recyclerViewNews;
+    private RecyclerView.Adapter mAdapterNews;
+    private RecyclerView.LayoutManager layoutManagerNews;
+    private RecyclerView recyclerViewCat;
+    private RecyclerView.Adapter mAdapterCat;
+    private RecyclerView.LayoutManager layoutManagerCat;
     private String[] title, abs;
 
     @Override
@@ -27,11 +30,19 @@ public class Table extends AppCompatActivity {
             abs[i] = "Abstract" + i;
         }
 
-        recyclerView = findViewById(R.id.table_recycler_view);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerViewCat = findViewById(R.id.cat_recycler_view);
+        layoutManagerCat = new LinearLayoutManager(this);
+        ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
+        recyclerViewCat.setLayoutManager(layoutManagerCat);
+        mAdapterCat = new CatAdapter();
+        recyclerViewCat.setAdapter(mAdapterCat);
 
-        mAdapter = new MyAdapter(title, abs);
-        recyclerView.setAdapter(mAdapter);
+        recyclerViewNews = findViewById(R.id.table_recycler_view);
+        layoutManagerNews = new LinearLayoutManager(this);
+        recyclerViewNews.setLayoutManager(layoutManagerNews);
+        mAdapterNews = new NewsAdapter(title, abs);
+        recyclerViewNews.setAdapter(mAdapterNews);
+
+
     }
 }
