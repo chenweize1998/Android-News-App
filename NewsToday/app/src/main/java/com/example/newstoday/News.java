@@ -2,6 +2,7 @@ package com.example.newstoday;
 
 import java.util.*;
 import java.text.*;
+import android.graphics.Bitmap;
 
 public class News {
     /*
@@ -15,14 +16,19 @@ public class News {
     private String organization;
     private String location;
     private String category;
+    private String newsID;
+    private Bitmap image;
 
-    News(final String title, final String date, final String content, final String category, final String organization, final String person, final String location){
+    News(final String title, final String date, final String content, final String category, final String organization,
+         final String newsID, final Bitmap image, final String person, final String location){
         this.title = title;
         this.content = content;
         this.person = person;
         this.organization = organization;
         this.location = location;
         this.category = category;
+        this.newsID = newsID;
+        this.image = image;
 
         /*
          * Change string into date
@@ -62,5 +68,13 @@ public class News {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getNewsID() {
+        return newsID;
+    }
+
+    public Bitmap getImage() {
+        return image;
     }
 }

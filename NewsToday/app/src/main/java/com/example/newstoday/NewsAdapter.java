@@ -1,16 +1,21 @@
 package com.example.newstoday;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
+import java.net.URL;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     private String[] title;
     private String[] abs;
+    private News[] news;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -29,9 +34,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public NewsAdapter(String[] title, String[] abs) {
-        this.title = title;
-        this.abs = abs;
+    public NewsAdapter(News[] news) {
+//        this.title = title;
+//        this.abs = abs;
+        this.news = news;
     }
 
     // Create new views (invoked by the layout manager)
@@ -50,14 +56,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.txtTitle.setText(title[position]);
-        holder.txtAbstract.setText(abs[position]);
-        holder.imgNews.setImageResource(R.mipmap.front_page);
+//        holder.txtTitle.setText(title[position]);
+//        holder.txtAbstract.setText(abs[position]);
+        holder.txtTitle.setText(news[position].getTitle().replace((char)12288+"", ""));
+        holder.txtAbstract.setText(news[position].getContent().replace((char)12288+"", "").substring(0, 30));
+//        holder.imgNews.setImageResource(R.mipmap.front_page);
+        if(news[position].getImage() != null)
+//            Picasso.get().load(news[position].getImage()).into(holder.imgNews);
+        {
+//            Bitmap bm = Bitmap.createScaledBitmap(news[position].getImage(), 70, 40, true);
+//            holder.imgNews.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//            holder.imgNews.setImageBitmap(bm);
+        }
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return title.length;
+        return news.length;
     }
 }

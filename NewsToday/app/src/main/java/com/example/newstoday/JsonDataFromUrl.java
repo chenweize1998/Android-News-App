@@ -1,21 +1,26 @@
 package com.example.newstoday;
+import android.os.AsyncTask;
+
 import java.io.*;
 import java.net.*;
 import org.json.*;
 
-public class JsonDataFromUrl {
+public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
+    private JSONObject jsonObject;
 
-    public static JSONObject getJsonData(final String size, final String startDate, final String endDate, final String words, final String categories) {
+    @Override
+    protected JSONObject doInBackground(String... strings){
         try {
-            String sizeUtf8 = (size == null)? "":URLEncoder.encode(size, "utf-8");
-            String startDateUtf8 = (startDate == null)? "":URLEncoder.encode(startDate, "utf-8");
-            String endDateUtf8 = (endDate == null)? "":URLEncoder.encode(endDate, "utf-8");
-            String wordsUtf8 = (words == null)? "":URLEncoder.encode(words, "utf-8");
-            String categoriesUtf8 = (categories == null)? "":URLEncoder.encode(categories, "utf-8");
+            String sizeUtf8 = (strings[0] == null)? "":URLEncoder.encode(strings[0], "utf-8");
+            String startDateUtf8 = (strings[1] == null)? "":URLEncoder.encode(strings[1], "utf-8");
+            String endDateUtf8 = (strings[2] == null)? "":URLEncoder.encode(strings[2], "utf-8");
+            String wordsUtf8 = (strings[3] == null)? "":URLEncoder.encode(strings[3], "utf-8");
+            String categoriesUtf8 = (strings[4] == null)? "":URLEncoder.encode(strings[4], "utf-8");
             String url = "https://api2.newsminer.net/svc/news/queryNewsList?size=" + sizeUtf8 + "&startDate=" + startDateUtf8 + "&endDate=" + endDateUtf8 + "&words=" + wordsUtf8 + "&categories=" + categoriesUtf8;
             String json = getHttpResponse(url);
             JSONObject jsonObj = new JSONObject(json);
             return jsonObj;
+//            this.jsonObject = jsonObj;
 
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
@@ -27,6 +32,28 @@ public class JsonDataFromUrl {
         return null;
     }
 
+//    public static JSONObject getJsonData(final String size, final String startDate, final String endDate, final String words, final String categories) {
+//        try {
+//            String sizeUtf8 = (size == null)? "":URLEncoder.encode(size, "utf-8");
+//            String startDateUtf8 = (startDate == null)? "":URLEncoder.encode(startDate, "utf-8");
+//            String endDateUtf8 = (endDate == null)? "":URLEncoder.encode(endDate, "utf-8");
+//            String wordsUtf8 = (words == null)? "":URLEncoder.encode(words, "utf-8");
+//            String categoriesUtf8 = (categories == null)? "":URLEncoder.encode(categories, "utf-8");
+//            String url = "https://api2.newsminer.net/svc/news/queryNewsList?size=" + sizeUtf8 + "&startDate=" + startDateUtf8 + "&endDate=" + endDateUtf8 + "&words=" + wordsUtf8 + "&categories=" + categoriesUtf8;
+//            String json = getHttpResponse(url);
+//            JSONObject jsonObj = new JSONObject(json);
+//            return jsonObj;
+//
+//        } catch (UnsupportedEncodingException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (JSONException e){
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
+
     private static String getHttpResponse(String allConfigUrl) {
         BufferedReader in = null;
         StringBuffer result = null;
@@ -34,7 +61,7 @@ public class JsonDataFromUrl {
 
             URL url = new URL(allConfigUrl);
             URLConnection connection = url.openConnection();
-            connection.setRequestProperty("Charset", "gbk");
+            connection.setRequestProperty("Charset", "UTF-8");
 
             connection.connect();
 

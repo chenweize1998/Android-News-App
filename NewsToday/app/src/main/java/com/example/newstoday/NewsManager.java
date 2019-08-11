@@ -5,7 +5,15 @@ import com.example.newstoday.JsonDataFromUrl;
 
 import org.json.*;
 import java.io.*;
+import java.net.ConnectException;
 import java.text.*;
+import java.util.ConcurrentModificationException;
+import java.util.concurrent.ExecutionException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import java.net.URL;
+import android.os.AsyncTask;
+import java.net.HttpURLConnection;
 
 public class NewsManager {
 
@@ -18,11 +26,13 @@ public class NewsManager {
     public News[] getNews(int size, final String startDate, final String endDate, final String words, final String categories) {
 
         newNewsCounter = 0;
-        JSONObject json = JsonDataFromUrl.getJsonData(String.valueOf(size), startDate, endDate, words, categories) ;
+        JsonDataFromUrl jsonData = new JsonDataFromUrl();
+
         /*
          * Parse json data and construct news object
          * */
         try {
+            JSONObject json = jsonData.execute(String.valueOf(size), startDate, endDate, words, categories).get();
             if(Integer.parseInt(json.getString("pageSize")) == 0) {
                 return null;
             }
@@ -37,17 +47,26 @@ public class NewsManager {
                     String date = news.getString("publishTime");
                     String content = news.getString("content");
                     String category = news.getString("category");
-                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
+                    String image = news.getString("image");
+                    String newsID = news.getString("newsID");
+//                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
+                    String organization = "";
 
-                    newNews[newNewsCounter] = new News(title, date, content, category, organization, null, null);
+                    Bitmap bimage = new DownLoadImageTask().execute(image).get();
+
+                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID, bimage, null, null);
                     newNewsCounter++;
-                }catch(Exception e) {
+                } catch (Exception e){
                     e.printStackTrace();
                 }
             }
 
             return newNews;
         }catch(JSONException e){
+            e.printStackTrace();
+        }catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -81,4 +100,33 @@ public class NewsManager {
 //        }
 //
 //    }
+    class DownLoadImageTask extends AsyncTask<String,Void,Bitmap>{
+    protected Bitmap doInBackground(String...urls){
+//        System.out.println(urls[0]);
+        String[] urlOfImage = urls[0].split(",");
+        String urlText = urlOfImage[0];
+        if (urlOfImage.length > 1)
+            urlText = urlText.substring(1, urlText.length());
+        else
+            urlText = urlText.substring(1, urlText.length()-1);
+        if(urlText == "")
+            return null;
+        Bitmap bimage = null;
+        try{
+            URL url = new URL(urlText);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            bimage = BitmapFactory.decodeStream(input);
+            return bimage;
+        }catch(Exception e){
+            e.printStackTrace();
+//            System.out.println("Error:"+urlText);
+        }
+        return bimage;
+        }
+    }
 }
+
+
