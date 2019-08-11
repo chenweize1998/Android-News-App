@@ -66,7 +66,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         {
 //            Bitmap bm = Bitmap.createScaledBitmap(news[position].getImage(), 70, 40, true);
 //            holder.imgNews.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            holder.imgNews.setImageBitmap(news[position].getImage());
+//            holder.imgNews.setImageBitmap(bm);
         }
     }
 
