@@ -4,6 +4,9 @@ import java.util.*;
 import java.text.*;
 import android.graphics.Bitmap;
 
+import androidx.room.Entity;
+
+@Entity
 public class News {
     /*
      * These are vital properties of News.
