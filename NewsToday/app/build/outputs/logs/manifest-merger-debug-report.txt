@@ -1,0 +1,210 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+MERGED from [androidx.appcompat:appcompat:1.0.2] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\3a332d3939db5d58d2811d65aa09c406\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\29aac013f087d8a31ed99f3f721f7b23\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\bab6c935ef2d69aa65404457b40cb9d0\AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\0dd55cc16c02c20973d28e2558fe4141\AndroidManifest.xml:17:1-22:12
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:2:1-14:12
+MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a5c64b749a6f8e9c047784792d0cff05\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a13a1fc44642164c4895a1549601457c\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\e0b539467eb6d4705e6732fba10d92c8\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\9e9832685dfe060a9d5dedaeb6130bdc\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\e640ae95090da81c7d9d8674878654cd\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\945bff40b4172990449a93fc60ec0c94\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\2521f147a79cb051ce976313c0c20f82\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\b9616a944f8d3cc4c5948062214cefc5\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\cc46a95526f13b10e180997a2f920a00\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\3d88679474cc3be12016c17cba352fd3\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\545c6cee9028cb410a954da4f2e6bd8f\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\f904c0193eb62fde24c319e4a8541271\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\974edf26d611f7bbd0e94f53298bf52b\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\61931d360250196f67d0562f16ccc0ac\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\808be4bf319ef618f34e0a5b7893a4b8\AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\ca7f8a543a5f708c5fd676d9faa67976\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a67a3329c281d1572e0cfd824e5596ed\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\058cce8d22b8ed8a9b1e93ca5008a5a9\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\6e3897f0eff6f52d285b7cf82554ebd4\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\ce7d797c474e9ed561b7d5e7ea217e2c\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\538c5bc0d653a1ee0594be0682573a3d\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\6638fa22532a0a7677b6a509315a62e1\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\2f5a7b11622f319b0ee1fd5e785e54e2\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\526ba601963e0ac20867880e063310fe\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\cbbb73c6f6b470a6bcc7c473cb05b1e0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\b102ec41ba0884d485dc18dc4ecdc62c\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\50edfdc6fb71097f072174b809dda7d8\AndroidManifest.xml:17:1-22:12
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+	package
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:3:5-36
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:1-26:12
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:2:11-69
+application
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:5:5-21:19
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\29aac013f087d8a31ed99f3f721f7b23\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\29aac013f087d8a31ed99f3f721f7b23\AndroidManifest.xml:9:5-20
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\bab6c935ef2d69aa65404457b40cb9d0\AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\bab6c935ef2d69aa65404457b40cb9d0\AndroidManifest.xml:22:5-23:19
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:7:5-12:19
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:7:5-12:19
+MERGED from [androidx.core:core:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\61931d360250196f67d0562f16ccc0ac\AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\61931d360250196f67d0562f16ccc0ac\AndroidManifest.xml:22:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\808be4bf319ef618f34e0a5b7893a4b8\AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\808be4bf319ef618f34e0a5b7893a4b8\AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:22:5-28:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:22:5-28:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\61931d360250196f67d0562f16ccc0ac\AndroidManifest.xml:22:18-86
+	android:supportsRtl
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:10:9-35
+	android:label
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:8:9-41
+	android:roundIcon
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:9:9-54
+	android:icon
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:7:9-43
+	android:allowBackup
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:6:9-35
+	android:theme
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:12:9-40
+	android:usesCleartextTraffic
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:11:9-44
+activity#com.example.newstoday.Table
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:13:9-52
+	android:name
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:13:19-40
+activity#com.example.newstoday.MainActivity
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:14:9-20:20
+	android:name
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:14:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:15:13-19:29
+action#android.intent.action.MAIN
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:16:17-69
+	android:name
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:16:25-66
+category#android.intent.category.LAUNCHER
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:18:17-77
+	android:name
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:18:27-74
+uses-permission#android.permission.INTERNET
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:23:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:24:5-79
+	android:name
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml:24:22-76
+uses-sdk
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+MERGED from [androidx.appcompat:appcompat:1.0.2] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\3a332d3939db5d58d2811d65aa09c406\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.2] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\3a332d3939db5d58d2811d65aa09c406\AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\29aac013f087d8a31ed99f3f721f7b23\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\29aac013f087d8a31ed99f3f721f7b23\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\bab6c935ef2d69aa65404457b40cb9d0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\bab6c935ef2d69aa65404457b40cb9d0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\0dd55cc16c02c20973d28e2558fe4141\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\0dd55cc16c02c20973d28e2558fe4141\AndroidManifest.xml:20:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:5:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a5c64b749a6f8e9c047784792d0cff05\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a5c64b749a6f8e9c047784792d0cff05\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a13a1fc44642164c4895a1549601457c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a13a1fc44642164c4895a1549601457c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\e0b539467eb6d4705e6732fba10d92c8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\e0b539467eb6d4705e6732fba10d92c8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\9e9832685dfe060a9d5dedaeb6130bdc\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\9e9832685dfe060a9d5dedaeb6130bdc\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\e640ae95090da81c7d9d8674878654cd\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\e640ae95090da81c7d9d8674878654cd\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\945bff40b4172990449a93fc60ec0c94\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\945bff40b4172990449a93fc60ec0c94\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\2521f147a79cb051ce976313c0c20f82\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\2521f147a79cb051ce976313c0c20f82\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\b9616a944f8d3cc4c5948062214cefc5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\b9616a944f8d3cc4c5948062214cefc5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\cc46a95526f13b10e180997a2f920a00\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\cc46a95526f13b10e180997a2f920a00\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\3d88679474cc3be12016c17cba352fd3\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\3d88679474cc3be12016c17cba352fd3\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\545c6cee9028cb410a954da4f2e6bd8f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\545c6cee9028cb410a954da4f2e6bd8f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\f904c0193eb62fde24c319e4a8541271\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\f904c0193eb62fde24c319e4a8541271\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\974edf26d611f7bbd0e94f53298bf52b\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\974edf26d611f7bbd0e94f53298bf52b\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\61931d360250196f67d0562f16ccc0ac\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\61931d360250196f67d0562f16ccc0ac\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\808be4bf319ef618f34e0a5b7893a4b8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\808be4bf319ef618f34e0a5b7893a4b8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\ca7f8a543a5f708c5fd676d9faa67976\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\ca7f8a543a5f708c5fd676d9faa67976\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a67a3329c281d1572e0cfd824e5596ed\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\a67a3329c281d1572e0cfd824e5596ed\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\058cce8d22b8ed8a9b1e93ca5008a5a9\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\058cce8d22b8ed8a9b1e93ca5008a5a9\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\6e3897f0eff6f52d285b7cf82554ebd4\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\6e3897f0eff6f52d285b7cf82554ebd4\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\ce7d797c474e9ed561b7d5e7ea217e2c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\ce7d797c474e9ed561b7d5e7ea217e2c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\538c5bc0d653a1ee0594be0682573a3d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\538c5bc0d653a1ee0594be0682573a3d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\6638fa22532a0a7677b6a509315a62e1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\6638fa22532a0a7677b6a509315a62e1\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\2f5a7b11622f319b0ee1fd5e785e54e2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\2f5a7b11622f319b0ee1fd5e785e54e2\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\526ba601963e0ac20867880e063310fe\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\526ba601963e0ac20867880e063310fe\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\cbbb73c6f6b470a6bcc7c473cb05b1e0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\cbbb73c6f6b470a6bcc7c473cb05b1e0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\b102ec41ba0884d485dc18dc4ecdc62c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\b102ec41ba0884d485dc18dc4ecdc62c\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\50edfdc6fb71097f072174b809dda7d8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\50edfdc6fb71097f072174b809dda7d8\AndroidManifest.xml:20:5-44
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\NewsToday\app\src\main\AndroidManifest.xml
+provider#com.squareup.picasso.PicassoProvider
+ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:8:9-11:40
+	android:authorities
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:10:13-72
+	android:exported
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:11:13-37
+	android:name
+		ADDED from [com.squareup.picasso:picasso:2.71828] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\c350cc9cfd6e9d4e4c2109454124d1c9\AndroidManifest.xml:9:13-64
+provider#androidx.lifecycle.ProcessLifecycleOwnerInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:23:9-27:43
+	android:authorities
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:25:13-69
+	android:multiprocess
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:27:13-40
+	android:exported
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:26:13-37
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] C:\Users\Erwindragon\.gradle\caches\transforms-2\files-2.1\039e082fe99d8b521bd420f19f3b6b58\AndroidManifest.xml:24:13-79
