@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -46,6 +48,7 @@ public class Table extends AppCompatActivity {
             title[i] = "Title" + i;
             abs[i] = "Abstract" + i;
         }
+
         CatAdapter.OnItemClickListener listener = new CatAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String category) {
@@ -55,6 +58,12 @@ public class Table extends AppCompatActivity {
 
             }
         };
+
+
+        NewsRepository newsRepository = new NewsRepository(AppDB.getAppDB(this));
+//        newsRepository.insertOneNews(news[0]);
+
+
 
         newsManager = new NewsManager();
         news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, "娱乐");
