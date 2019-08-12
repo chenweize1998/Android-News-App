@@ -57,7 +57,7 @@ public class Table extends AppCompatActivity {
         };
 
         newsManager = new NewsManager();
-        news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, null);
+        news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, "娱乐");
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
