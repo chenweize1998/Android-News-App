@@ -1,4 +1,0 @@
-#Sun Aug 11 19:48:54 CST 2019
-base.0=D\:\\AndroidStudioProjects\\NewsToday\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\8
-path.0=classes.dex
-renamed.0=classes.dex
