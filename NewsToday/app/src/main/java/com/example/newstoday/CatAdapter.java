@@ -26,9 +26,9 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
         }
     }
 
-//    public void setOnItemClickListener(CatAdapter.OnItemClickListener listener) {
-//        this.listener = listener;
-//    }
+    public void setOnItemClickListener(CatAdapter.OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public CatAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
@@ -40,19 +40,19 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.textView.setText(category[position]);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 //                if(listener != null) {
-                    int pos = holder.getLayoutPosition();
-                    if(lastClicked != null){
-                        unselect(lastClicked);
-                    }
-//                    listener.onItemClick(holder.itemView, pos);
-                    select(holder.itemView);
-                    lastClicked = holder.itemView;
+        int pos = holder.getLayoutPosition();
+        if(lastClicked != null){
+            unselect(lastClicked);
+        }
+        select(holder.itemView);
+        lastClicked = holder.itemView;
+        listener.onItemClick(holder.itemView, category[position]);
 //                }
              }
         });
@@ -76,6 +76,6 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, String category);
     }
 }

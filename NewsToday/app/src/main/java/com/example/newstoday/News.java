@@ -17,10 +17,11 @@ public class News {
     private String location;
     private String category;
     private String newsID;
-    private Bitmap image;
+//    private Bitmap image;
+    private String[] image;
 
     News(final String title, final String date, final String content, final String category, final String organization,
-         final String newsID, final Bitmap image, final String person, final String location){
+         final String newsID, final String[] image, final String person, final String location){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -74,7 +75,7 @@ public class News {
         return newsID;
     }
 
-    public Bitmap getImage() {
+    public String[] getImage() {
         return image;
     }
 }

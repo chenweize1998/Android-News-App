@@ -1,27 +1,31 @@
 package com.example.newstoday;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
+import android.content.*;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     private String[] title;
     private String[] abs;
     private News[] news;
+    private Context context;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         private TextView txtTitle;
         private TextView txtAbstract;
         private ImageView imgNews;
@@ -31,50 +35,82 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             txtAbstract = v.findViewById(R.id.txtAbstract);
             imgNews = v.findViewById(R.id.imgNews);
         }
-    }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
+    }
     public NewsAdapter(News[] news) {
-//        this.title = title;
-//        this.abs = abs;
         this.news = news;
     }
 
-    // Create new views (invoked by the layout manager)
+    public void updateNews(News[] news){
+        this.news = news;
+    }
+
     @Override
     public NewsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.news_item, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
 //        holder.txtTitle.setText(title[position]);
 //        holder.txtAbstract.setText(abs[position]);
         holder.txtTitle.setText(news[position].getTitle().replace((char)12288+"", ""));
-        holder.txtAbstract.setText(news[position].getContent().replace((char)12288+"", "").substring(0, 30));
-//        holder.imgNews.setImageResource(R.mipmap.front_page);
-        if(news[position].getImage() != null)
-//            Picasso.get().load(news[position].getImage()).into(holder.imgNews);
-        {
-//            Bitmap bm = Bitmap.createScaledBitmap(news[position].getImage(), 70, 40, true);
-//            holder.imgNews.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            holder.imgNews.setImageBitmap(news[position].getImage());
-        }
+        String tmp = news[position].getContent()
+                .replace((char)12288+"", "").replace("\n", "");
+        tmp = tmp.substring(0, tmp.length() < 35? tmp.length():35) + "...";
+        holder.txtAbstract.setText(tmp);
+        if(news[position].getImage()[0] != "")
+            Picasso.get().load(news[position].getImage()[0]).into(holder.imgNews);
     }
 
 
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return news.length;
     }
 }
+
+//class DownLoadImageTask extends AsyncTask<String,Void,Bitmap>{
+//    private ImageView view;
+////        private Bitmap bm;
+//
+//    public DownLoadImageTask(ImageView view){
+//        this.view = view;
+//    }
+//
+//    protected Bitmap doInBackground(String...urls){
+//        //        System.out.println(urls[0]);
+//        //        String[] urlOfImage = urls[0].split(",");
+//        //        String urlText = urlOfImage[0];
+//        //        if (urlOfImage.length > 1)
+//        //            urlText = urlText.substring(1, urlText.length());
+//        //        else
+//        //            urlText = urlText.substring(1, urlText.length()-1);
+//        //        if(urlText == "")
+//        //            return null;
+//        String urlText = urls[0];
+//        Bitmap bimage = null;
+//        try{
+//            URL url = new URL(urlText);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setDoInput(true);
+//            connection.connect();
+//            InputStream input = connection.getInputStream();
+//            bimage = BitmapFactory.decodeStream(input);
+//            return bimage;
+//        }catch(Exception e){
+//            e.printStackTrace();
+//            //            System.out.println("Error:"+urlText);
+//        }
+//        return bimage;
+//    }
+//
+//    protected void onPostExecute(Bitmap result) {
+//        view.setImageBitmap(result);
+//    }
+//}

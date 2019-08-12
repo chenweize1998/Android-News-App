@@ -13,6 +13,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import java.net.URL;
 import android.os.AsyncTask;
+import android.widget.ImageView;
+
 import java.net.HttpURLConnection;
 
 public class NewsManager {
@@ -52,9 +54,12 @@ public class NewsManager {
 //                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
                     String organization = "";
 
-                    Bitmap bimage = new DownLoadImageTask().execute(image).get();
+//                    Bitmap bimage = new DownLoadImageTask().execute(image).get();
+                    String[] images = image.split(",");
+                    for(int j = 0; j < images.length; ++j)
+                        images[j] = images[j].replace("[", "").replace("]", "").trim();
 
-                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID, bimage, null, null);
+                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID, images, null, null);
                     newNewsCounter++;
                 } catch (Exception e){
                     e.printStackTrace();
@@ -100,33 +105,7 @@ public class NewsManager {
 //        }
 //
 //    }
-    class DownLoadImageTask extends AsyncTask<String,Void,Bitmap>{
-    protected Bitmap doInBackground(String...urls){
-//        System.out.println(urls[0]);
-        String[] urlOfImage = urls[0].split(",");
-        String urlText = urlOfImage[0];
-        if (urlOfImage.length > 1)
-            urlText = urlText.substring(1, urlText.length());
-        else
-            urlText = urlText.substring(1, urlText.length()-1);
-        if(urlText == "")
-            return null;
-        Bitmap bimage = null;
-        try{
-            URL url = new URL(urlText);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            bimage = BitmapFactory.decodeStream(input);
-            return bimage;
-        }catch(Exception e){
-            e.printStackTrace();
-//            System.out.println("Error:"+urlText);
-        }
-        return bimage;
-        }
-    }
+
 }
 
 

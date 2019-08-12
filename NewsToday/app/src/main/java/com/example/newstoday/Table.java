@@ -25,7 +25,7 @@ import java.net.MalformedURLException;
 
 public class Table extends AppCompatActivity {
     private RecyclerView recyclerViewNews;
-    private RecyclerView.Adapter mAdapterNews;
+    private NewsAdapter mAdapterNews;
     private RecyclerView.LayoutManager layoutManagerNews;
     private RecyclerView recyclerViewCat;
     //    private RecyclerView.Adapter mAdapterCat;
@@ -46,28 +46,34 @@ public class Table extends AppCompatActivity {
             title[i] = "Title" + i;
             abs[i] = "Abstract" + i;
         }
+        CatAdapter.OnItemClickListener listener = new CatAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, String category) {
+                news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, category);
+                mAdapterNews.updateNews(news);
+                mAdapterNews.notifyDataSetChanged();
+
+            }
+        };
+
         newsManager = new NewsManager();
         news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, null);
-
-        recyclerViewCat = findViewById(R.id.cat_recycler_view);
-        layoutManagerCat = new LinearLayoutManager(this);
-        ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
-        recyclerViewCat.setLayoutManager(layoutManagerCat);
-        mAdapterCat = new CatAdapter();
-//        CatAdapter.OnItemClickListener listener = new CatAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                view.setBackgroundColor(0xAA151515);
-//            }
-//        };
-//        mAdapterCat.setOnItemClickListener(listener);
-        recyclerViewCat.setAdapter(mAdapterCat);
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
         mAdapterNews = new NewsAdapter(news);
         recyclerViewNews.setAdapter(mAdapterNews);
+
+        recyclerViewCat = findViewById(R.id.cat_recycler_view);
+        layoutManagerCat = new LinearLayoutManager(this);
+        ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
+        recyclerViewCat.setLayoutManager(layoutManagerCat);
+        mAdapterCat = new CatAdapter();
+        mAdapterCat.setOnItemClickListener(listener);
+        recyclerViewCat.setAdapter(mAdapterCat);
+
+
     }
 
 }
