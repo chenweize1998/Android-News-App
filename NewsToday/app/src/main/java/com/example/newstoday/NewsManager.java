@@ -2,6 +2,8 @@ package com.example.newstoday;
 
 import com.example.newstoday.News;
 import com.example.newstoday.JsonDataFromUrl;
+import com.example.newstoday.News.*;
+
 
 import org.json.*;
 import java.io.*;
@@ -59,7 +61,8 @@ public class NewsManager {
                     for(int j = 0; j < images.length; ++j)
                         images[j] = images[j].replace("[", "").replace("]", "").trim();
 
-                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID, images, null, null);
+                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID, News.imageConverter(images), null, null);
+                    newNews[newNewsCounter].setImage(images);
                     newNewsCounter++;
                 } catch (Exception e){
                     e.printStackTrace();
