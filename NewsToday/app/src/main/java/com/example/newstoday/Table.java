@@ -40,19 +40,12 @@ public class Table extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
 
-        title = new String[20];
-        abs = new String[20];
-        for (int i = 0; i < 20; ++i) {
-            title[i] = "Title" + i;
-            abs[i] = "Abstract" + i;
-        }
         CatAdapter.OnItemClickListener listener = new CatAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String category) {
                 news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, category);
                 mAdapterNews.updateNews(news);
                 mAdapterNews.notifyDataSetChanged();
-
             }
         };
 

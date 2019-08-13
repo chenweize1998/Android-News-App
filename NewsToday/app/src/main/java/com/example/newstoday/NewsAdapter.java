@@ -65,6 +65,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.txtAbstract.setText(tmp);
         if(news[position].getImage()[0] != "")
             Picasso.get().load(news[position].getImage()[0]).into(holder.imgNews);
+        else
+            holder.imgNews.setImageResource(R.mipmap.default_pic);
     }
 
 
