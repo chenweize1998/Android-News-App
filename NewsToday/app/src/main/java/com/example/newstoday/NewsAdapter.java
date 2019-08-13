@@ -16,7 +16,6 @@ import java.net.URL;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
@@ -63,7 +62,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 .replace((char)12288+"", "").replace("\n", "");
         tmp = tmp.substring(0, tmp.length() < 35? tmp.length():35) + "...";
         holder.txtAbstract.setText(tmp);
-        if(news[position].getImage()[0] != "")
+        if(!news[position].getImage()[0].equals(""))
             Picasso.get().load(news[position].getImage()[0]).into(holder.imgNews);
         else
             holder.imgNews.setImageResource(R.mipmap.default_pic);
