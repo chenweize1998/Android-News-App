@@ -2,6 +2,7 @@ package com.example.newstoday;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -42,12 +43,20 @@ public class Table extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
 
-        CatAdapter.OnItemClickListener listener = new CatAdapter.OnItemClickListener() {
+        CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String category) {
                 news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, category);
                 mAdapterNews.updateNews(news);
                 mAdapterNews.notifyDataSetChanged();
+            }
+        };
+        NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(getApplicationContext(), NewsPage.class);
+                intent.putExtra("news", news[position]);
+                startActivity(intent);
             }
         };
 
@@ -64,6 +73,7 @@ public class Table extends AppCompatActivity {
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
         mAdapterNews = new NewsAdapter(news);
+        mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
 
         recyclerViewCat = findViewById(R.id.cat_recycler_view);
@@ -71,7 +81,7 @@ public class Table extends AppCompatActivity {
         ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
         mAdapterCat = new CatAdapter();
-        mAdapterCat.setOnItemClickListener(listener);
+        mAdapterCat.setOnItemClickListener(listenerCat);
         recyclerViewCat.setAdapter(mAdapterCat);
 
 

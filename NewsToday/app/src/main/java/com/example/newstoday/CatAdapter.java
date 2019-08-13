@@ -45,15 +45,12 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-//                if(listener != null) {
-        int pos = holder.getLayoutPosition();
         if(lastClicked != null){
             unselect(lastClicked);
         }
         select(holder.itemView);
         lastClicked = holder.itemView;
         listener.onItemClick(holder.itemView, category[position]);
-//                }
              }
         });
         if(lastClicked == null && position == 0){

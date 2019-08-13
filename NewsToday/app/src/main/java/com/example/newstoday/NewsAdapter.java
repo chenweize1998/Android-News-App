@@ -23,6 +23,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private String[] abs;
     private News[] news;
     private Context context;
+    private OnItemClickListener listener;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
@@ -34,8 +35,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             txtAbstract = v.findViewById(R.id.txtAbstract);
             imgNews = v.findViewById(R.id.imgNews);
         }
-
     }
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public NewsAdapter(News[] news) {
         this.news = news;
     }
@@ -54,7 +62,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
 //        holder.txtTitle.setText(title[position]);
 //        holder.txtAbstract.setText(abs[position]);
         holder.txtTitle.setText(news[position].getTitle().replace((char)12288+"", ""));
@@ -66,6 +74,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             Picasso.get().load(news[position].getImage()[0]).into(holder.imgNews);
         else
             holder.imgNews.setImageResource(R.mipmap.default_pic);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                listener.onItemClick(position);
+            }
+        });
     }
 
 

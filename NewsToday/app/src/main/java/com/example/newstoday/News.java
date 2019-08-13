@@ -1,5 +1,6 @@
 package com.example.newstoday;
 
+import java.io.Serializable;
 import java.util.*;
 import java.text.*;
 import android.graphics.Bitmap;
@@ -11,7 +12,7 @@ import androidx.room.PrimaryKey;
 
 
 @Entity
-public class News {
+public class News implements Serializable {
     /*
      * These are vital properties of News.
      * All fields are private
@@ -26,6 +27,7 @@ public class News {
     private String organization;
     private String location;
     private String category;
+    private String publisher;
 //    private Bitmap image;
 
     private String oriImage;
@@ -35,7 +37,7 @@ public class News {
 
 
     News(final String title, final String date, final String content, final String category, final String organization,
-         final String newsID, final String oriImage, final String person, final String location){
+         final String newsID, final String oriImage, final String publisher, final String person, final String location){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -45,6 +47,7 @@ public class News {
         this.newsID = newsID;
         this.date = date;
         this.oriImage = oriImage;
+        this.publisher = publisher;
 
         /*
          * Change string into date
@@ -115,6 +118,10 @@ public class News {
         return image;
     }
 
+    public String getPublisher() {
+        return publisher;
+    }
+
 
     /*setter*/
     public void setNewsID(String newsID){
@@ -155,6 +162,10 @@ public class News {
 
     public void setImage(String[] image){
         this.image = image;
+    }
+
+    public void setPublisher(String publisher){
+        this.publisher = publisher;
     }
 
 }
