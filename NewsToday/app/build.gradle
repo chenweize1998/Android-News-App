@@ -11,12 +11,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
-        }
     }
     buildTypes {
         release {
@@ -39,18 +33,13 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0-alpha01'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.0.0'
-    implementation 'androidx.transition:transition:1.1.0'
-    implementation 'androidx.annotation:annotation:1.1.0'
-
-    implementation "com.mikepenz:materialdrawer:6.1.2"
-//
-//// Add for NavController support
-//    implementation "com.mikepenz:materialdrawer-nav:7.0.0"
+    implementation 'androidx.transition:transition:1.0.1'
+    implementation 'androidx.annotation:annotation:1.0.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -59,5 +48,5 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.0.0'
 
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
 }
