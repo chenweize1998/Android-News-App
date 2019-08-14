@@ -11,7 +11,11 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.mikepenz.materialdrawer.DrawerBuilder;
+
+import com.mikepenz.materialdrawer.*;
+import com.mikepenz.materialdrawer.model.*;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
@@ -44,7 +48,37 @@ public class Table extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
 
-        new DrawerBuilder().withActivity(this).build();
+        BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏").withIcon(R.mipmap.star);
+        BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史").withIcon(R.mipmap.history);
+        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式").withIcon(R.mipmap.night);
+        AccountHeader header = new AccountHeaderBuilder()
+                .withActivity(this)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Weize Chen & Hao Peng")
+                        .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.mipmap.header)
+                )
+//                .addProfiles(
+//                        new ProfileDrawerItem().withName("Hao Peng")
+//                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.mipmap.header)
+//                )
+                .build();
+        Drawer result = new DrawerBuilder()
+                .withActivity(this)
+                .withAccountHeader(header)
+                .addDrawerItems(
+                        item1,
+                        item2,
+                        new DividerDrawerItem(),
+                        switchDrawerItem
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
+                        // do something with the clicked item :D
+                        return false;
+                    }
+                })
+                .build();
 
         CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
