@@ -28,6 +28,9 @@ public class News implements Serializable {
     private String location;
     private String category;
     private String publisher;
+    private String url;
+    private boolean watched;
+
 //    private Bitmap image;
 
     private String oriImage;
@@ -48,6 +51,8 @@ public class News implements Serializable {
         this.date = date;
         this.oriImage = oriImage;
         this.publisher = publisher;
+        this.watched = false;
+        this.url = "www.tsinghua.edu.cn";
 
         /*
          * Change string into date
@@ -122,6 +127,14 @@ public class News implements Serializable {
         return publisher;
     }
 
+    public boolean getWatched(){
+        return watched;
+    }
+
+    public String getUrl(){
+        return url;
+    }
+
 
     /*setter*/
     public void setNewsID(String newsID){
@@ -166,6 +179,14 @@ public class News implements Serializable {
 
     public void setPublisher(String publisher){
         this.publisher = publisher;
+    }
+
+    public void setWatched(boolean watched){
+        this.watched = watched;
+    }
+
+    public void setUrl(String url){
+        this.url = url;
     }
 
 }

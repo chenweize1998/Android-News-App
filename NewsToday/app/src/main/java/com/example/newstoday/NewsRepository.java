@@ -1,6 +1,8 @@
 package com.example.newstoday;
 import android.os.AsyncTask;
 
+import java.util.concurrent.ExecutionException;
+
 public class NewsRepository {
 
     private final NewsDao newsDao;
@@ -11,21 +13,66 @@ public class NewsRepository {
         this.newsDao = this.appDB.newsDao();
     }
 
-    public void insertOneNews(News news){
-        InsertOneNewsTask insertOneNewsTask = new InsertOneNewsTask();
-        insertOneNewsTask.execute(news);
-
+    /**
+     * insert news to database
+     * */
+    public void insertNews(News... news){
+        InsertNewsTask insertNewsTask = new InsertNewsTask();
+        insertNewsTask.execute(news);
     }
 
-    private class InsertOneNewsTask extends AsyncTask<News, Void, Void>{
+    private class InsertNewsTask extends AsyncTask<News, Void, Void>{
 
         @Override
         protected Void doInBackground(News... news){
-            newsDao.insert(news[0]);
+            newsDao.insert(news);
             return null;
         }
     }
+    /********/
 
+    /**
+     *get all news from database
+     */
+    public News[] getAllNews(){
+        try {
+            GetAllNewsTask getAllNewsTask = new GetAllNewsTask();
+            return getAllNewsTask.execute(0).get();
+        }catch(ExecutionException e){
+            e.printStackTrace();
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private class GetAllNewsTask extends AsyncTask<Integer, Void, News[]>{
+
+        @Override
+        protected  News[] doInBackground(Integer... params){
+            return newsDao.getAllNews();
+        }
+    }
+    /****/
+
+    /**
+     * delete news
+     * */
+    public void deleteNews(News... news){
+        DeleteNewsTask deleteNewsTask = new DeleteNewsTask();
+        deleteNewsTask.execute(news);
+
+    }
+
+    private class DeleteNewsTask extends AsyncTask<News, Void, Void>{
+
+        @Override
+        protected Void doInBackground(News... news){
+            newsDao.delete(news);
+            return null;
+        }
+    }
+    /****/
 
 
 }

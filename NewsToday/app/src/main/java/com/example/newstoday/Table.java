@@ -51,18 +51,25 @@ public class Table extends AppCompatActivity {
                 mAdapterNews.notifyDataSetChanged();
             }
         };
+        final NewsRepository newsRepository = new NewsRepository(AppDB.getAppDB(this));
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(getApplicationContext(), NewsPage.class);
                 intent.putExtra("news", news[position]);
                 startActivity(intent);
+//                newsRepository.insertNews(news[position]);
+////                System.out.println("news has been inserted");
+//                News[] newNews = newsRepository.getAllNews();
+//                for(News news:newNews){
+//                    System.out.println(news.getTitle());
+//                }
+
             }
         };
 
 
-        NewsRepository newsRepository = new NewsRepository(AppDB.getAppDB(this));
-//        newsRepository.insertOneNews(news[0]);
+
 
 
 
