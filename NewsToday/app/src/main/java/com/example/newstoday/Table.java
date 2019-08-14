@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
@@ -42,6 +43,8 @@ public class Table extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
+
+        new DrawerBuilder().withActivity(this).build();
 
         CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
