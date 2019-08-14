@@ -9,13 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-
-import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -45,8 +42,6 @@ public class Table extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
-
-        new DrawerBuilder().withActivity(this).build();
 
         CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
