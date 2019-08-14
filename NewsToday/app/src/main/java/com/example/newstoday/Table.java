@@ -9,13 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-
-import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
