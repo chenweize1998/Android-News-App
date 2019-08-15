@@ -3,6 +3,7 @@ package com.example.newstoday;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -48,19 +49,23 @@ public class Table extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
 
-        BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏").withIcon(R.mipmap.star);
-        BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史").withIcon(R.mipmap.history);
-        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式").withIcon(R.mipmap.night);
+        BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
+                .withIcon(R.mipmap.star).withTextColor(Color.parseColor("#ababab"));
+        BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
+                .withIcon(R.mipmap.history).withTextColor(Color.parseColor("#ababab"));
+        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式")
+                .withIcon(R.mipmap.night).withTextColor(Color.parseColor("#ababab"));
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Weize Chen & Hao Peng")
-                        .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.mipmap.header)
+                        new ProfileDrawerItem().withName("Weize Chen")
+                        .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.mipmap.chenweize)
                 )
-//                .addProfiles(
-//                        new ProfileDrawerItem().withName("Hao Peng")
-//                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.mipmap.header)
-//                )
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Hao Peng")
+                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.mipmap.penghao)
+                )
+                .withTextColor(Color.parseColor("#ababab"))
                 .build();
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
@@ -71,6 +76,7 @@ public class Table extends AppCompatActivity {
                         new DividerDrawerItem(),
                         switchDrawerItem
                 )
+                .withSliderBackgroundDrawableRes(R.mipmap.drawer_bg)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
