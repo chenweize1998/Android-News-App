@@ -24,26 +24,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp">
+<!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:padding="8dp">-->
 
 <ImageView
     android:id="@+id/imgNews"
-    android:layout_width="150dp"
-    android:layout_height="120dp"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
     android:layout_gravity="center_vertical"
-    android:layout_margin="8dp"
     android:src="@mipmap/default_pic"
     android:scaleType="centerCrop" />
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/txtTitle"
@@ -51,8 +49,13 @@
         android:layout_height="wrap_content"
         android:padding="1dp"
         android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:lineSpacingMultiplier="0.9"/>
 
     <TextView
         android:id="@+id/txtAbstract"
@@ -60,19 +63,22 @@
         android:layout_height="wrap_content"
         android:padding="1dp"
         android:textColor="#5d5d5d"
-        android:textSize="18sp" />
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
 
 </LinearLayout>
 
-</LinearLayout>
+<!--</LinearLayout>-->
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:layout_marginTop="20dp"
     android:layout_marginRight="20dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="30dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,6 +86,12 @@
         android:id="@+id/item_keyword"
         android:layout_marginLeft="20dp"
         android:textColor="#000000"
+        android:height="40dp"
+        android:minWidth="90dp"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
         />
     <RelativeLayout
         android:layout_width="match_parent"
@@ -92,7 +104,8 @@
         android:background="@null"
         android:id="@+id/item_share_button"
         android:layout_toLeftOf="@+id/item_star_button"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
         />
 
     <ImageButton
@@ -102,6 +115,7 @@
         android:background="@null"
         android:id="@+id/item_star_button"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
         />
     </RelativeLayout>
 </LinearLayout>

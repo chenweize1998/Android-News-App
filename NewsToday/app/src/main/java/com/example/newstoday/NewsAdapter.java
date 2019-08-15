@@ -13,6 +13,7 @@ import android.content.*;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private String[] abs;
     private News[] news;
     private Context context;
+    private Pattern pat;
     private OnItemClickListener listener;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -36,6 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             txtAbstract = v.findViewById(R.id.txtAbstract);
             imgNews = v.findViewById(R.id.imgNews);
             txtKeyword = v.findViewById(R.id.item_keyword);
+
         }
     }
     public interface OnItemClickListener {
@@ -44,6 +47,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
         this.listener = listener;
+        pat = Pattern.compile("[！？。…~]");
     }
 
     public NewsAdapter(News[] news) {
@@ -70,9 +74,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.txtTitle.setText(news[position].getTitle().replace((char)12288+"", ""));
         String tmp = news[position].getContent()
                 .replace((char)12288+"", "").replace("\n", "");
-        tmp = tmp.substring(0, tmp.length() < 35? tmp.length():35) + "...";
+//        tmp = tmp.substring(0, tmp.length() < 35? tmp.length():35) + "...";
+        tmp = pat.split(tmp)[0];
+//        if(tmp.length() > 30)
+//            tmp = tmp.substring(0, 30);
+        tmp = tmp + "。...";
         holder.txtAbstract.setText(tmp);
-        holder.txtKeyword.setText("关键词");
+        holder.txtKeyword.setText(news[position].getKeywords()[0]);
         if(!news[position].getImage()[0].equals(""))
             Picasso.get().load(news[position].getImage()[0]).into(holder.imgNews);
         else

@@ -93,6 +93,7 @@ public class Table extends AppCompatActivity {
                 news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, category);
                 mAdapterNews.updateNews(news);
                 mAdapterNews.notifyDataSetChanged();
+                recyclerViewNews.smoothScrollToPosition(0);
             }
         };
 
