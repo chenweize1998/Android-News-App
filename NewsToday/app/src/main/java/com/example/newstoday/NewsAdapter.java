@@ -80,7 +80,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 //            tmp = tmp.substring(0, 30);
         tmp = tmp + "。...";
         holder.txtAbstract.setText(tmp);
-        holder.txtKeyword.setText("TODO: 在此加关键词");
+        holder.txtKeyword.setText(news[position].getKeywords()[0]);
         if(!news[position].getImage()[0].equals(""))
             Picasso.get().load(news[position].getImage()[0]).into(holder.imgNews);
         else
