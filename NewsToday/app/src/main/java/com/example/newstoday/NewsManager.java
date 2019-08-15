@@ -71,24 +71,13 @@ public class NewsManager {
                     String publisher = news.getString("publisher");
 //                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
                     String organization = "";
-                    StringBuffer keywords = new StringBuffer();
-                    JSONArray keywordsArray = news.getJSONArray("keywords");
-                    for(int j = 0; j<keywordsArray.length();j++){
-                        JSONObject keywordsObject = keywordsArray.getJSONObject(i);
-                        keywords.append(keywordsObject.getString("word"));
-                        if(j!=keywordsArray.length()-1){
-                            keywords.append(",");
-                        }
-                    }
 
 //                    Bitmap bimage = new DownLoadImageTask().execute(image).get();
                     String[] images = image.split(",");
                     for(int j = 0; j < images.length; ++j)
                         images[j] = images[j].replace("[", "").replace("]", "").trim();
 
-                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID,
-                                                        News.stringConverter(images), publisher, null,
-                                                        null, keywords.toString());
+                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID, News.imageConverter(images), publisher, null, null);
                     newNews[newNewsCounter].setImage(images);
                     newNewsCounter++;
                 } catch (Exception e){

@@ -34,17 +34,13 @@ public class News implements Serializable {
 //    private Bitmap image;
 
     private String oriImage;
-    private String oriKeywords;
 
     @Ignore
     private String[] image;
-    @Ignore
-    private String[] keywords;
 
 
     News(final String title, final String date, final String content, final String category, final String organization,
-         final String newsID, final String oriImage, final String publisher, final String person, final String location,
-         final String oriKeywords){
+         final String newsID, final String oriImage, final String publisher, final String person, final String location){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -57,8 +53,6 @@ public class News implements Serializable {
         this.publisher = publisher;
         this.watched = false;
         this.url = "www.tsinghua.edu.cn";
-        this.oriKeywords = oriKeywords;
-        this.keywords =stringParse(oriKeywords);
 
         /*
          * Change string into date
@@ -72,7 +66,7 @@ public class News implements Serializable {
 //        }
     }
 
-    public static String stringConverter(String[] image){
+    public static String imageConverter(String[] image){
         StringBuffer sb = new StringBuffer();
         for(String string:image){
             sb.append(string);
@@ -82,7 +76,7 @@ public class News implements Serializable {
         return sb.toString();
     }
 
-    public static String[] stringParse(String image){
+    public static String[] imageParse(String image){
         return image.split(",");
     }
 
@@ -141,14 +135,6 @@ public class News implements Serializable {
         return url;
     }
 
-    public String getOriKeywords(){
-        return oriKeywords;
-    }
-
-    public String[] getKeywords(){
-        return keywords;
-    }
-
 
     /*setter*/
     public void setNewsID(String newsID){
@@ -201,14 +187,6 @@ public class News implements Serializable {
 
     public void setUrl(String url){
         this.url = url;
-    }
-
-    public void setOriKeywords(String oriKeywords){
-        this.oriKeywords = oriKeywords;
-    }
-
-    public void setKeywords(String[] keywords){
-        this.keywords = keywords;
     }
 
 }
