@@ -74,7 +74,7 @@ public class NewsManager {
                     StringBuffer keywords = new StringBuffer();
                     JSONArray keywordsArray = news.getJSONArray("keywords");
                     for(int j = 0; j<keywordsArray.length();j++){
-                        JSONObject keywordsObject = keywordsArray.getJSONObject(i);
+                        JSONObject keywordsObject = keywordsArray.getJSONObject(j);
                         keywords.append(keywordsObject.getString("word"));
                         if(j!=keywordsArray.length()-1){
                             keywords.append(",");
