@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ec07744aa636ee1932e5203d02853446",
+    "identityHash": "76e9a10475d21deb95d04fd7b9798465",
     "entities": [
       {
         "tableName": "News",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newsID` TEXT NOT NULL, `title` TEXT, `date` TEXT, `content` TEXT, `person` TEXT, `organization` TEXT, `location` TEXT, `category` TEXT, `publisher` TEXT, `url` TEXT, `watched` INTEGER NOT NULL, `oriImage` TEXT, PRIMARY KEY(`newsID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newsID` TEXT NOT NULL, `title` TEXT, `date` TEXT, `content` TEXT, `person` TEXT, `organization` TEXT, `location` TEXT, `category` TEXT, `publisher` TEXT, `url` TEXT, `watched` INTEGER NOT NULL, `oriImage` TEXT, `oriKeywords` TEXT, PRIMARY KEY(`newsID`))",
         "fields": [
           {
             "fieldPath": "newsID",
@@ -79,6 +79,12 @@
             "columnName": "oriImage",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "oriKeywords",
+            "columnName": "oriKeywords",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -93,7 +99,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ec07744aa636ee1932e5203d02853446\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"76e9a10475d21deb95d04fd7b9798465\")"
     ]
   }
 }
