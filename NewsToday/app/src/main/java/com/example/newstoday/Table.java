@@ -44,6 +44,7 @@ public class Table extends AppCompatActivity {
     private News[] news;
     private NewsManager newsManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,16 +95,16 @@ public class Table extends AppCompatActivity {
                 mAdapterNews.notifyDataSetChanged();
             }
         };
-        final NewsRepository newsRepository = new NewsRepository(AppDB.getAppDB(this));
+
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(getApplicationContext(), NewsPage.class);
                 intent.putExtra("news", news[position]);
                 startActivity(intent);
-//                newsRepository.insertNews(news[position]);
-////                System.out.println("news has been inserted");
-//                News[] newNews = newsRepository.getAllNews();
+//                historyNews.insertNews(news[position]);
+//                System.out.println("news has been inserted");
+//                News[] newNews = historyNews.getAllNews();
 //                for(News news:newNews){
 //                    System.out.println(news.getTitle());
 //                }
@@ -116,7 +117,7 @@ public class Table extends AppCompatActivity {
 
 
 
-        newsManager = new NewsManager();
+        newsManager = NewsManager.getNewsManager(this);
         news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, "娱乐");
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);

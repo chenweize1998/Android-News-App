@@ -13,12 +13,9 @@ public abstract class AppDB extends RoomDatabase {
 
     private static AppDB INSTANCE = null;
 
-    public static AppDB getAppDB(Context context){
-        if(INSTANCE == null){
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDB.class,
-                                    "test").build();
-
-        }
+    public static AppDB getAppDB(Context context, String name){
+        INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDB.class,
+                                name).build();
         return INSTANCE;
     }
 
