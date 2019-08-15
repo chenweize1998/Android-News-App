@@ -80,6 +80,9 @@ public class NewsManager {
                             keywords.append(",");
                         }
                     }
+                    if(keywords.toString().equals("")){
+                        keywords.append(category);
+                    }
 
 //                    Bitmap bimage = new DownLoadImageTask().execute(image).get();
                     String[] images = image.split(",");
