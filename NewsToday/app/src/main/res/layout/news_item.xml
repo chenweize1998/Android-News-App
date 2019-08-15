@@ -10,12 +10,24 @@
         <!--android:id="@+id/news_item"/>-->
 
 <!--</LinearLayout>-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_card_view"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="#ffffff"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_margin="1dp"
     android:padding="8dp">
 
 <ImageView
@@ -54,3 +66,48 @@
 </LinearLayout>
 
 </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="10dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textview_border"
+        android:id="@+id/item_keyword"
+        android:layout_marginLeft="20dp"
+        android:textColor="#000000"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/share"
+        android:background="@null"
+        android:id="@+id/item_share_button"
+        android:layout_toLeftOf="@+id/item_star_button"
+        android:layout_marginRight="8dp"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/not_star"
+        android:background="@null"
+        android:id="@+id/item_star_button"
+        android:layout_alignParentRight="true"
+        />
+    </RelativeLayout>
+</LinearLayout>
+
+
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>
+

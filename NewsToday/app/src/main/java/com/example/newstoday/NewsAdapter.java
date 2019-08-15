@@ -29,11 +29,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         private TextView txtTitle;
         private TextView txtAbstract;
         private ImageView imgNews;
+        private TextView txtKeyword;
         public MyViewHolder(View v) {
             super(v);
             txtTitle = v.findViewById(R.id.txtTitle);
             txtAbstract = v.findViewById(R.id.txtAbstract);
             imgNews = v.findViewById(R.id.imgNews);
+            txtKeyword = v.findViewById(R.id.item_keyword);
         }
     }
     public interface OnItemClickListener {
@@ -70,6 +72,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 .replace((char)12288+"", "").replace("\n", "");
         tmp = tmp.substring(0, tmp.length() < 35? tmp.length():35) + "...";
         holder.txtAbstract.setText(tmp);
+        holder.txtKeyword.setText("关键词");
         if(!news[position].getImage()[0].equals(""))
             Picasso.get().load(news[position].getImage()[0]).into(holder.imgNews);
         else
