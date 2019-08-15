@@ -11,6 +11,8 @@ import java.net.ConnectException;
 import java.text.*;
 import java.util.ConcurrentModificationException;
 import java.util.concurrent.ExecutionException;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import java.net.URL;
@@ -22,9 +24,22 @@ import java.net.HttpURLConnection;
 public class NewsManager {
 
     private int newNewsCounter;
+    private static NewsManager Instance = null;
+    private  static NewsRepository historyNews;
+    private  static NewsRepository collectionNews;
 
-    NewsManager(){
+
+    private NewsManager(Context context){
         newNewsCounter = 0;
+        historyNews = new NewsRepository(AppDB.getAppDB(context, "history"));
+        collectionNews = new NewsRepository(AppDB.getAppDB(context, "collection"));
+    }
+
+    public static NewsManager getNewsManager(Context context){
+        if(Instance == null){
+            Instance = new NewsManager(context);
+        }
+        return Instance;
     }
 
     public News[] getNews(int size, final String startDate, final String endDate, final String words, final String categories) {
@@ -82,33 +97,37 @@ public class NewsManager {
         return null;
     }
 
+    public News[] getHistoryNews(){
+        return historyNews.getAllNews();
+    }
+
+    public News[] getCollectionNews(){
+        return collectionNews.getAllNews();
+    }
+
+    public void addInHistory(News... news){
+        historyNews.insertNews(news);
+    }
+
+    public void addInCollection(News... news){
+        collectionNews.insertNews(news);
+    }
+
+    public void deleteOneHistory(News... news){
+        historyNews.deleteNews(news);
+    }
+
+    public void deleteAllHistory(){
+        historyNews.deleteNews(historyNews.getAllNews());
+    }
+
+    public void deletaOneCollection(News... news){
+        collectionNews.deleteNews(news);
+    }
+
     public int getNewNewsCounter() {
         return newNewsCounter;
     }
-
-//    public static void main(String[] args) throws FileNotFoundException{
-//        NewsManager newsManager = new NewsManager();
-//        News[] news = newsManager.getNews(10, null, null, "清华大学", "科技");
-//        int newsCounter = newsManager.getNewNewsCounter();
-//
-//        File file = new File("news");
-//        BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-//
-//        try {
-//            bw.write(newsCounter + "\n\r");
-//            bw.write(news[0].getTitle());
-//            SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss" + "\n\r");
-//            bw.write(ft.format(news[0].getDate()));
-//            bw.write(news[0].getContent() + "\n\r");
-//            bw.write(news[0].getCategory() + "\n\r");
-//            bw.write(news[0].getOrganization() + "\n\r");
-//            bw.close();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//
-//    }
 
 }
 
