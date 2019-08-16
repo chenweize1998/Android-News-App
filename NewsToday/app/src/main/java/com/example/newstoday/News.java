@@ -44,7 +44,7 @@ public class News implements Serializable {
 
     News(final String title, final String date, final String content, final String category, final String organization,
          final String newsID, final String oriImage, final String publisher, final String person, final String location,
-         final String oriKeywords){
+         final String oriKeywords, final String url){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -56,7 +56,7 @@ public class News implements Serializable {
         this.oriImage = oriImage;
         this.publisher = publisher;
         this.watched = false;
-        this.url = "www.tsinghua.edu.cn";
+        this.url = url;
         this.oriKeywords = oriKeywords;
         this.keywords =stringParse(oriKeywords);
 

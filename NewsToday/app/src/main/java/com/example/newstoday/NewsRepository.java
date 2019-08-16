@@ -1,6 +1,8 @@
 package com.example.newstoday;
 import android.os.AsyncTask;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class NewsRepository {
@@ -34,7 +36,7 @@ public class NewsRepository {
     /**
      *get all news from database
      */
-    public News[] getAllNews(){
+    public ArrayList<News> getAllNews(){
         try {
             GetAllNewsTask getAllNewsTask = new GetAllNewsTask();
             return getAllNewsTask.execute(0).get();
@@ -46,11 +48,11 @@ public class NewsRepository {
         return null;
     }
 
-    private class GetAllNewsTask extends AsyncTask<Integer, Void, News[]>{
+    private class GetAllNewsTask extends AsyncTask<Integer, Void, ArrayList<News>>{
 
         @Override
-        protected  News[] doInBackground(Integer... params){
-            return newsDao.getAllNews();
+        protected  ArrayList<News> doInBackground(Integer... params){
+            return (ArrayList)Arrays.asList(newsDao.getAllNews());
         }
     }
     /****/

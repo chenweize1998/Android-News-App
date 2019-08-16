@@ -115,13 +115,7 @@ public class Table extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), NewsPage.class);
                 intent.putExtra("news", news.get(position));
                 startActivity(intent);
-//                historyNews.insertNews(news[position]);
-//                System.out.println("news has been inserted");
-//                News[] newNews = historyNews.getAllNews();
-//                for(News news:newNews){
-//                    System.out.println(news.getTitle());
-//                }
-
+                newsManager.addInHistory(news.get(position));
             }
         };
         mSwipyRefreshLayout = findViewById(R.id.item_swipyrefresh);

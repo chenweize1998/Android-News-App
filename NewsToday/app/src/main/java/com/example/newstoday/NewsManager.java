@@ -129,11 +129,11 @@ public class NewsManager {
         return null;
     }
 
-    public News[] getHistoryNews(){
+    public ArrayList<News> getHistoryNews(){
         return historyNews.getAllNews();
     }
 
-    public News[] getCollectionNews(){
+    public ArrayList<News> getCollectionNews(){
         return collectionNews.getAllNews();
     }
 
@@ -150,7 +150,7 @@ public class NewsManager {
     }
 
     public void deleteAllHistory(){
-        historyNews.deleteNews(historyNews.getAllNews());
+        historyNews.deleteNews((News [])historyNews.getAllNews().toArray());
     }
 
     public void deletaOneCollection(News... news){
