@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 
@@ -81,6 +82,17 @@ public class Table extends AppCompatActivity {
                 })
                 .build();
 
+        ImageButton imgButton = findViewById(R.id.cat_arange);
+        imgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CategoryArrangement.class);
+                intent.putExtra("cat", mAdapterCat.category);
+                intent.putExtra("delCat", mAdapterCat.delCategory);
+                startActivity(intent);
+            }
+        });
+
         CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String category) {
@@ -144,7 +156,7 @@ public class Table extends AppCompatActivity {
 
         newsManager = NewsManager.getNewsManager(this);
         ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                "2019-08-10", null, currentCategory, true);
+                "2019-08-10", null, currentCategory, false);
         news = new ArrayList<>();
         news.addAll(newsTmp);
 
@@ -162,6 +174,20 @@ public class Table extends AppCompatActivity {
         mAdapterCat = new CatAdapter();
         mAdapterCat.setOnItemClickListener(listenerCat);
         recyclerViewCat.setAdapter(mAdapterCat);
+
+        Intent intent = getIntent();
+        ArrayList<String> category = (ArrayList<String>) ((Intent) intent).getSerializableExtra("cat");
+        ArrayList<String> delCategory = (ArrayList<String>) ((Intent) intent).getSerializableExtra("delCat");
+        if(category != null || delCategory != null){
+            mAdapterCat.category = category;
+            mAdapterCat.delCategory = delCategory;
+            mAdapterCat.notifyDataSetChanged();
+            currentCategory = category.get(0);
+            news = newsManager.getNews(20, "2019-08-09",
+                    "2019-08-10", null, currentCategory, false);
+            mAdapterNews.updateNews(news);
+            mAdapterNews.notifyDataSetChanged();
+        }
 
 
     }

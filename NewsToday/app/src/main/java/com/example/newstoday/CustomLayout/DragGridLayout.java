@@ -57,7 +57,7 @@ public class DragGridLayout extends GridLayout {
      */
     public void addGridItem(String content) {
         TextView tv = new TextView(getContext());
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
         tv.setBackgroundResource(R.drawable.textview_border);
         tv.setGravity(Gravity.CENTER);
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
@@ -123,7 +123,7 @@ public class DragGridLayout extends GridLayout {
             rects.add(rect);
         }
     }
-    
+
     private int getExchangeIndex(DragEvent dragEvent) {
         for (int i = 0; i < rects.size(); i++) {
             Rect rect = rects.get(i);
@@ -152,5 +152,9 @@ public class DragGridLayout extends GridLayout {
 
     public void setOnDragItemClickListener(OnDragItemClickListener onDragItemClickListener) {
         this.onDragItemClickListener = onDragItemClickListener;
+    }
+
+    public List<String> getItems() {
+        return items;
     }
 }

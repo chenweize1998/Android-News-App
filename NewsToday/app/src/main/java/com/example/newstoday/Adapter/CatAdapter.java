@@ -10,9 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstoday.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
-    private String[] category = {"娱乐", "军事", "教育", "文化",
-            "健康", "财经", "体育", "汽车", "科技", "社会"};
+    public ArrayList<String> category = new ArrayList<>(Arrays.asList("娱乐", "军事", "教育", "文化",
+            "健康", "财经", "体育", "汽车", "科技", "社会"));
+    public ArrayList<String> delCategory = new ArrayList<>();
     private OnItemClickListener listener;
     private View lastClicked;
 
@@ -39,7 +44,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.textView.setText(category[position]);
+        holder.textView.setText(category.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -48,7 +53,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
         }
         select(holder.itemView);
         lastClicked = holder.itemView;
-        listener.onItemClick(holder.itemView, category[position]);
+        listener.onItemClick(holder.itemView, category.get(position));
              }
         });
         if(lastClicked == null && position == 0){
@@ -67,7 +72,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return category.length;
+        return category.size();
     }
 
     public interface OnItemClickListener {
