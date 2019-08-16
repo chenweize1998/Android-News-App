@@ -9,7 +9,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cat_recycler_view"
-        android:layout_width="540dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -17,22 +17,30 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/table_recycler_view"
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:layout_width="540dp"
         android:layout_height="0dp"
-        android:scrollbars="vertical"
+        android:id="@+id/item_swipyrefresh"
+        app:srl_direction="both"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/cat_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/cat_recycler_view">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/table_recycler_view"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
         />
+
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="540dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="0dp"
         android:scaleType="centerCrop"

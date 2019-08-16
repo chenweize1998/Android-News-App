@@ -28,7 +28,6 @@ public class NewsManager {
     private  static NewsRepository historyNews;
     private  static NewsRepository collectionNews;
 
-
     private NewsManager(Context context){
         newNewsCounter = 0;
         historyNews = new NewsRepository(AppDB.getAppDB(context, "history"));

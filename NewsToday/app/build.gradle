@@ -47,6 +47,7 @@ dependencies {
     implementation 'androidx.transition:transition:1.0.1'
     implementation 'androidx.annotation:annotation:1.0.1'
     implementation "com.mikepenz:materialdrawer:6.1.2"
+    implementation 'com.github.omadahealth:swipy:1.2.3@aar'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
