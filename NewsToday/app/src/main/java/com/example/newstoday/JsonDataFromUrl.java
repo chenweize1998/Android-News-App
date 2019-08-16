@@ -16,7 +16,11 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
             String endDateUtf8 = (strings[2] == null)? "":URLEncoder.encode(strings[2], "utf-8");
             String wordsUtf8 = (strings[3] == null)? "":URLEncoder.encode(strings[3], "utf-8");
             String categoriesUtf8 = (strings[4] == null)? "":URLEncoder.encode(strings[4], "utf-8");
-            String url = "https://api2.newsminer.net/svc/news/queryNewsList?size=" + sizeUtf8 + "&startDate=" + startDateUtf8 + "&endDate=" + endDateUtf8 + "&words=" + wordsUtf8 + "&categories=" + categoriesUtf8;
+            String pageUtf8 = (strings[5] == null)?"":URLEncoder.encode(strings[5], "utf-8");
+            String url = "https://api2.newsminer.net/svc/news/queryNewsList?size=" + sizeUtf8
+                    + "&startDate=" + startDateUtf8 + "&endDate=" + endDateUtf8 + "&words=" + wordsUtf8
+                    + "&categories=" + categoriesUtf8 + "&page=" + pageUtf8;
+            System.out.println(url);
             String json = getHttpResponse(url);
             JSONObject jsonObj = new JSONObject(json);
             return jsonObj;

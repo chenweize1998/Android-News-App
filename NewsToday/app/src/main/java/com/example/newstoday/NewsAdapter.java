@@ -13,6 +13,7 @@ import android.content.*;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +23,7 @@ import com.squareup.picasso.Picasso;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     private String[] title;
     private String[] abs;
-    private News[] news;
+    private ArrayList<News> news;
     private Context context;
     private Pattern pat;
     private OnItemClickListener listener;
@@ -50,12 +51,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         pat = Pattern.compile("[！？。…~]");
     }
 
-    public NewsAdapter(News[] news) {
+    public NewsAdapter(ArrayList<News> news) {
         this.news = news;
     }
 
-    public void updateNews(News[] news){
+    public void updateNews(ArrayList<News> news){
         this.news = news;
+    }
+
+    public void refreshNews(ArrayList<News> news){
+        this.news.addAll(news);
     }
 
     @Override
@@ -71,8 +76,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 //        holder.txtTitle.setText(title[position]);
 //        holder.txtAbstract.setText(abs[position]);
-        holder.txtTitle.setText(news[position].getTitle().replace((char)12288+"", ""));
-        String tmp = news[position].getContent()
+        holder.txtTitle.setText(news.get(position).getTitle().replace((char)12288+"", ""));
+        String tmp = news.get(position).getContent()
                 .replace((char)12288+"", "").replace("\n", "");
 //        tmp = tmp.substring(0, tmp.length() < 35? tmp.length():35) + "...";
         tmp = pat.split(tmp)[0];
@@ -80,9 +85,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 //            tmp = tmp.substring(0, 30);
         tmp = tmp + "。...";
         holder.txtAbstract.setText(tmp);
-        holder.txtKeyword.setText(news[position].getKeywords()[0]);
-        if(!news[position].getImage()[0].equals(""))
-            Picasso.get().load(news[position].getImage()[0]).into(holder.imgNews);
+        holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
+        if(!news.get(position).getImage()[0].equals(""))
+            Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
         else
             holder.imgNews.setImageResource(R.mipmap.default_pic);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +102,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return news.length;
+        return news.size();
     }
 }
 

@@ -7,12 +7,14 @@ import com.example.newstoday.News.*;
 
 import org.json.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.ConnectException;
 import java.text.*;
 import java.util.ConcurrentModificationException;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
+import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import java.net.URL;
@@ -24,12 +26,16 @@ import java.net.HttpURLConnection;
 public class NewsManager {
 
     private int newNewsCounter;
+    private static int pageCounter;
     private static NewsManager Instance = null;
-    private  static NewsRepository historyNews;
-    private  static NewsRepository collectionNews;
+    private static NewsRepository historyNews;
+    private static NewsRepository collectionNews;
+    private static String lastCategory;
 
     private NewsManager(Context context){
         newNewsCounter = 0;
+        pageCounter = 1;
+        lastCategory = "娱乐";
         historyNews = new NewsRepository(AppDB.getAppDB(context, "history"));
         collectionNews = new NewsRepository(AppDB.getAppDB(context, "collection"));
     }
@@ -41,7 +47,7 @@ public class NewsManager {
         return Instance;
     }
 
-    public News[] getNews(int size, final String startDate, final String endDate, final String words, final String categories) {
+    public ArrayList<News> getNews(int size, final String startDate, final String endDate, final String words, final String categories, boolean refresh) {
 
         newNewsCounter = 0;
         JsonDataFromUrl jsonData = new JsonDataFromUrl();
@@ -50,14 +56,23 @@ public class NewsManager {
          * Parse json data and construct news object
          * */
         try {
-            JSONObject json = jsonData.execute(String.valueOf(size), startDate, endDate, words, categories).get();
+            if(!lastCategory.equals(categories))
+                pageCounter = 1;
+            JSONObject json;
+            json = jsonData.execute(String.valueOf(size), startDate, endDate, words, categories, Integer.toString(pageCounter)).get();
+            lastCategory = categories;
+
             if(Integer.parseInt(json.getString("pageSize")) == 0) {
                 return null;
             }
+            if(refresh)
+                ++pageCounter;
+
 
             JSONArray newsArray = json.getJSONArray("data");
 
-            News[] newNews = new News[newsArray.length()];
+//            News[] newNews = new News[newsArray.length()];
+            ArrayList<News> newNews = new ArrayList<>();
             for(int i = 0; i<newsArray.length(); i++) {
                 try {
                     JSONObject news = newsArray.getJSONObject(i);
@@ -88,10 +103,14 @@ public class NewsManager {
                     for(int j = 0; j < images.length; ++j)
                         images[j] = images[j].replace("[", "").replace("]", "").trim();
 
-                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID,
+//                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID,
+//                                                        News.stringConverter(images), publisher, null,
+//                                                        null, keywords.toString());
+//                    newNews[newNewsCounter].setImage(images);
+                    newNews.add(new News(title, date, content, category, organization, newsID,
                                                         News.stringConverter(images), publisher, null,
-                                                        null, keywords.toString());
-                    newNews[newNewsCounter].setImage(images);
+                                                        null, keywords.toString()));
+                    newNews.get(newNewsCounter).setImage(images);
                     newNewsCounter++;
                 } catch (Exception e){
                     e.printStackTrace();
@@ -140,6 +159,14 @@ public class NewsManager {
 
     public int getNewNewsCounter() {
         return newNewsCounter;
+    }
+
+    public String getLastCategory(){
+        return lastCategory;
+    }
+
+    public int getPageCounter(){
+        return pageCounter;
     }
 
 }
