@@ -1,7 +1,6 @@
-package com.example.newstoday;
+package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -10,6 +9,9 @@ import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.newstoday.Adapter.NewsPageAdapter;
+import com.example.newstoday.News;
+import com.example.newstoday.R;
 import com.squareup.picasso.Picasso;
 
 import android.util.DisplayMetrics;

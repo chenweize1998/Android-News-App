@@ -1,8 +1,5 @@
-package com.example.newstoday;
+package com.example.newstoday.Adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,14 +7,13 @@ import android.widget.TextView;
 import android.view.View;
 import android.content.*;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newstoday.News;
+import com.example.newstoday.R;
 import com.squareup.picasso.Picasso;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {

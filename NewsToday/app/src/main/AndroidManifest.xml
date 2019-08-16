@@ -14,9 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NewsPage"></activity>
-        <activity android:name=".Table" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.NewsPage"></activity>
+        <activity android:name=".Activity.Table" />
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

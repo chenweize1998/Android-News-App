@@ -1,16 +1,14 @@
-package com.example.newstoday;
+package com.example.newstoday.Adapter;
 
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.content.res.Resources.*;
-import android.content.Context.*;
 
-import androidx.annotation.ColorInt;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.newstoday.R;
 
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
     private String[] category = {"娱乐", "军事", "教育", "文化",

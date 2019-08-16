@@ -20,7 +20,7 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
             String url = "https://api2.newsminer.net/svc/news/queryNewsList?size=" + sizeUtf8
                     + "&startDate=" + startDateUtf8 + "&endDate=" + endDateUtf8 + "&words=" + wordsUtf8
                     + "&categories=" + categoriesUtf8 + "&page=" + pageUtf8;
-            System.out.println(url);
+//            System.out.println(url);
             String json = getHttpResponse(url);
             JSONObject jsonObj = new JSONObject(json);
             return jsonObj;

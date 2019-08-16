@@ -1,9 +1,12 @@
-package com.example.newstoday;
+package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.newstoday.R;
+
 import java.util.Timer;
 import java.util.TimerTask;
 

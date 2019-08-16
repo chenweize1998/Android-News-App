@@ -1,4 +1,4 @@
-package com.example.newstoday;
+package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,34 +9,21 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.newstoday.Adapter.CatAdapter;
+import com.example.newstoday.News;
+import com.example.newstoday.Adapter.NewsAdapter;
+import com.example.newstoday.NewsManager;
+import com.example.newstoday.R;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
-import com.omadahealth.github.swipyrefreshlayout.library.BuildConfig;
-
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.MalformedURLException;
 
 public class Table extends AppCompatActivity {
     private RecyclerView recyclerViewNews;
@@ -49,7 +36,7 @@ public class Table extends AppCompatActivity {
     private NewsManager newsManager;
     private SwipyRefreshLayout mSwipyRefreshLayout;
     private static final int DISMISS_TIMEOUT = 2000;
-    private String category = "娱乐";
+    private String currentCategory = "娱乐";
 
 
     @Override
@@ -97,9 +84,9 @@ public class Table extends AppCompatActivity {
         CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String category) {
-                Table.this.category = category;
+                Table.this.currentCategory = category;
                 if(newsManager.getLastCategory() != category){
-                    news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, category, false);
+                    news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, currentCategory, false);
                     mAdapterNews.updateNews(news);
                     mAdapterNews.notifyDataSetChanged();
                     recyclerViewNews.smoothScrollToPosition(0);
@@ -142,7 +129,8 @@ public class Table extends AppCompatActivity {
                             Table.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, category, true);
+                                    ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                                            "2019-08-10", null, currentCategory, true);
                                     mAdapterNews.refreshNews(newsTmp);
                                     mAdapterNews.notifyDataSetChanged();
                                     mSwipyRefreshLayout.setRefreshing(false);
@@ -155,7 +143,8 @@ public class Table extends AppCompatActivity {
         });
 
         newsManager = NewsManager.getNewsManager(this);
-        ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, category, true);
+        ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                "2019-08-10", null, currentCategory, true);
         news = new ArrayList<>();
         news.addAll(newsTmp);
 

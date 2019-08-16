@@ -1,27 +1,12 @@
 package com.example.newstoday;
 
-import com.example.newstoday.News;
-import com.example.newstoday.JsonDataFromUrl;
-import com.example.newstoday.News.*;
-
 
 import org.json.*;
-import java.io.*;
-import java.lang.reflect.Array;
-import java.net.ConnectException;
-import java.text.*;
-import java.util.ConcurrentModificationException;
+
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 import java.util.ArrayList;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import java.net.URL;
-import android.os.AsyncTask;
-import android.widget.ImageView;
-
-import java.net.HttpURLConnection;
 
 public class NewsManager {
 
@@ -83,6 +68,7 @@ public class NewsManager {
                     String image = news.getString("image");
                     String newsID = news.getString("newsID");
                     String publisher = news.getString("publisher");
+                    String url = news.getString("url");
 //                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
                     String organization = "";
                     StringBuffer keywords = new StringBuffer();
@@ -109,7 +95,7 @@ public class NewsManager {
 //                    newNews[newNewsCounter].setImage(images);
                     newNews.add(new News(title, date, content, category, organization, newsID,
                                                         News.stringConverter(images), publisher, null,
-                                                        null, keywords.toString()));
+                                                        null, keywords.toString(), url));
                     newNews.get(newNewsCounter).setImage(images);
                     newNewsCounter++;
                 } catch (Exception e){

@@ -1,22 +1,17 @@
-package com.example.newstoday;
+package com.example.newstoday.Adapter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.media.Image;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newstoday.News;
+import com.example.newstoday.R;
 import com.squareup.picasso.Picasso;
-import android.util.DisplayMetrics;
-
-import static java.security.AccessController.getContext;
 
 public class NewsPageAdapter extends RecyclerView.Adapter <NewsPageAdapter.MyViewHolder> {
     private News news;
