@@ -20,6 +20,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
     public ArrayList<String> delCategory = new ArrayList<>();
     private OnItemClickListener listener;
     private View lastClicked;
+    private boolean updateSelection;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
@@ -56,9 +57,10 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
         listener.onItemClick(holder.itemView, category.get(position));
              }
         });
-        if(lastClicked == null && position == 0){
+        if((lastClicked == null || updateSelection) && position == 0){
             select(holder.itemView);
             lastClicked = holder.itemView;
+            updateSelection = false;
         }
     }
 
@@ -77,5 +79,9 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(View view, String category);
+    }
+
+    public void updateSelection(){
+        updateSelection = true;
     }
 }

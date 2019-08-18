@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -36,14 +38,20 @@ public class Table extends AppCompatActivity {
     private ArrayList<News> news;
     private NewsManager newsManager;
     private SwipyRefreshLayout mSwipyRefreshLayout;
-    private static final int DISMISS_TIMEOUT = 2000;
+    private static final int DISMISS_TIMEOUT = 1000;
     private String currentCategory = "娱乐";
+    private final int REQUEST_CODE = 1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
 
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
                 .withIcon(R.mipmap.star).withTextColor(Color.parseColor("#ababab"));
@@ -89,7 +97,7 @@ public class Table extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryArrangement.class);
                 intent.putExtra("cat", mAdapterCat.category);
                 intent.putExtra("delCat", mAdapterCat.delCategory);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -154,9 +162,12 @@ public class Table extends AppCompatActivity {
             }
         });
 
+//        if(category != null)
+//            currentCategory = category.get(0);
         newsManager = NewsManager.getNewsManager(this);
+        newsManager.resetPageCounter();
         ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                "2019-08-10", null, currentCategory, false);
+                "2019-08-10", null, currentCategory, true);
         news = new ArrayList<>();
         news.addAll(newsTmp);
 
@@ -171,25 +182,45 @@ public class Table extends AppCompatActivity {
         layoutManagerCat = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
+        recyclerViewCat.setHasFixedSize(true);
         mAdapterCat = new CatAdapter();
         mAdapterCat.setOnItemClickListener(listenerCat);
         recyclerViewCat.setAdapter(mAdapterCat);
 
-        Intent intent = getIntent();
-        ArrayList<String> category = (ArrayList<String>) ((Intent) intent).getSerializableExtra("cat");
-        ArrayList<String> delCategory = (ArrayList<String>) ((Intent) intent).getSerializableExtra("delCat");
-        if(category != null || delCategory != null){
-            mAdapterCat.category = category;
-            mAdapterCat.delCategory = delCategory;
-            mAdapterCat.notifyDataSetChanged();
-            currentCategory = category.get(0);
-            news = newsManager.getNews(20, "2019-08-09",
-                    "2019-08-10", null, currentCategory, false);
-            mAdapterNews.updateNews(news);
-            mAdapterNews.notifyDataSetChanged();
+
+//        if(category != null || delCategory != null){
+//            mAdapterCat.category = category;
+//            mAdapterCat.delCategory = delCategory;
+//            mAdapterCat.notifyDataSetChanged();
+//            currentCategory = category.get(0);
+//            news = newsManager.getNews(20, "2019-08-09",
+//                    "2019-08-10", null, currentCategory, false);
+//            mAdapterNews.updateNews(news);
+//            mAdapterNews.notifyDataSetChanged();
+
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<String> category = (ArrayList<String>) (data).getSerializableExtra("cat");
+                ArrayList<String> delCategory = (ArrayList<String>) (data).getSerializableExtra("delCat");
+                currentCategory = category.get(0);
+                mAdapterCat.category = category;
+                mAdapterCat.delCategory = delCategory;
+                mAdapterCat.updateSelection();
+                mAdapterCat.notifyDataSetChanged();
+                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                        "2019-08-10", null, currentCategory, true);
+                news.clear();
+                news.addAll(newsTmp);
+                mAdapterNews.updateNews(news);
+                mAdapterNews.notifyDataSetChanged();
+            }
         }
-
-
     }
 
 }

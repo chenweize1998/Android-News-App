@@ -2,6 +2,7 @@ package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class CategoryArrangement extends AppCompatActivity {
     private DragGridLayout gridLayout2;
     private ArrayList<String> mCategory;
     private ArrayList<String> mDelCategory;
+//    private boolean editFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +40,9 @@ public class CategoryArrangement extends AppCompatActivity {
         mCategory = (ArrayList<String>) ((Intent) intent).getSerializableExtra("cat");
         mDelCategory = (ArrayList<String>) ((Intent) intent).getSerializableExtra("delCat");
 
+        gridLayout1.setCanDrag(true);
         gridLayout1.setItems(category);
         gridLayout2.setItems(delCategory);
-        gridLayout1.setCanDrag(true);
 
         gridLayout1.setOnDragItemClickListener(new DragGridLayout.OnDragItemClickListener() {
             @Override
@@ -49,6 +51,7 @@ public class CategoryArrangement extends AppCompatActivity {
                 mDelCategory.add(tv.getText().toString());
                 gridLayout1.removeView(tv);
                 gridLayout2.addGridItem(tv.getText().toString());
+//                editFlag = true;
             }
         });
         gridLayout2.setOnDragItemClickListener(new DragGridLayout.OnDragItemClickListener() {
@@ -58,15 +61,17 @@ public class CategoryArrangement extends AppCompatActivity {
                 mCategory.add(tv.getText().toString());
                 gridLayout2.removeView(tv);
                 gridLayout1.addGridItem(tv.getText().toString());
+//                editFlag = true;
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), Table.class);
+        Intent intent = getIntent();
         intent.putExtra("cat", mCategory);
         intent.putExtra("delCat", mDelCategory);
-        startActivity(intent);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 }

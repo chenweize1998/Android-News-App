@@ -19,7 +19,6 @@ public class DragGridLayout extends GridLayout {
     private List<String> items;
     private int margin = 15;
 
-    // 是否可以拖拽
     private boolean isCanDrag;
     // 记录被拖拽的View
     private View dragView;
@@ -106,6 +105,9 @@ public class DragGridLayout extends GridLayout {
                 // 弹起
                 case DragEvent.ACTION_DRAG_ENDED:
                     dragView.setEnabled(true);
+                    int index = indexOfChild(dragView);
+                    items.remove(((TextView)dragView).getText().toString());
+                    items.add(index, ((TextView)dragView).getText().toString());
                     break;
             }
 
