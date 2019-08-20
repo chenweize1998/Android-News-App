@@ -183,11 +183,9 @@ public class Table extends AppCompatActivity {
         recyclerViewCat = findViewById(R.id.cat_recycler_view);
         recyclerViewCat.setHasFixedSize(true);
         catWidth = recyclerViewCat.getWidth();
-        recyclerViewCat.setMinimumWidth(catWidth);
         layoutManagerCat = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
-        recyclerViewCat.setHasFixedSize(true);
         mAdapterCat = new CatAdapter();
         mAdapterCat.setOnItemClickListener(listenerCat);
         recyclerViewCat.setAdapter(mAdapterCat);
