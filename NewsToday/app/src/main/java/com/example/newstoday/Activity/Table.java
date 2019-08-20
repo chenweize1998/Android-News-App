@@ -41,6 +41,7 @@ public class Table extends AppCompatActivity {
     private static final int DISMISS_TIMEOUT = 1000;
     private String currentCategory = "娱乐";
     private final int REQUEST_CODE = 1;
+    private int catWidth;
 
 
     @Override
@@ -172,6 +173,7 @@ public class Table extends AppCompatActivity {
         news.addAll(newsTmp);
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);
+        recyclerViewNews.setHasFixedSize(true);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
         mAdapterNews = new NewsAdapter(news);
@@ -179,6 +181,9 @@ public class Table extends AppCompatActivity {
         recyclerViewNews.setAdapter(mAdapterNews);
 
         recyclerViewCat = findViewById(R.id.cat_recycler_view);
+        recyclerViewCat.setHasFixedSize(true);
+        catWidth = recyclerViewCat.getWidth();
+        recyclerViewCat.setMinimumWidth(catWidth);
         layoutManagerCat = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
@@ -213,6 +218,7 @@ public class Table extends AppCompatActivity {
                 mAdapterCat.delCategory = delCategory;
                 mAdapterCat.updateSelection();
                 mAdapterCat.notifyDataSetChanged();
+                newsManager.resetPageCounter();
                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
                         "2019-08-10", null, currentCategory, true);
                 news.clear();
