@@ -41,7 +41,6 @@ public class Table extends AppCompatActivity {
     private static final int DISMISS_TIMEOUT = 1000;
     private String currentCategory = "娱乐";
     private final int REQUEST_CODE = 1;
-    private int catWidth;
 
 
     @Override
@@ -49,10 +48,10 @@ public class Table extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
+//        Display display = getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int width = size.x;
 
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
                 .withIcon(R.mipmap.star).withTextColor(Color.parseColor("#ababab"));
@@ -75,6 +74,7 @@ public class Table extends AppCompatActivity {
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(header)
+                .withSelectedItem(-1)
                 .addDrawerItems(
                         item1,
                         item2,
@@ -155,6 +155,8 @@ public class Table extends AppCompatActivity {
                                     mAdapterNews.refreshNews(newsTmp);
                                     mAdapterNews.notifyDataSetChanged();
                                     mSwipyRefreshLayout.setRefreshing(false);
+                                    if(newsTmp != null)
+                                        recyclerViewNews.smoothScrollToPosition(mAdapterNews.getItemCount() - newsTmp.size());
                                 }
                             });
                         }
@@ -173,7 +175,6 @@ public class Table extends AppCompatActivity {
         news.addAll(newsTmp);
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);
-        recyclerViewNews.setHasFixedSize(true);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
         mAdapterNews = new NewsAdapter(news);
@@ -182,27 +183,12 @@ public class Table extends AppCompatActivity {
 
         recyclerViewCat = findViewById(R.id.cat_recycler_view);
         recyclerViewCat.setHasFixedSize(true);
-        catWidth = recyclerViewCat.getWidth();
         layoutManagerCat = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
         mAdapterCat = new CatAdapter();
         mAdapterCat.setOnItemClickListener(listenerCat);
         recyclerViewCat.setAdapter(mAdapterCat);
-
-
-//        if(category != null || delCategory != null){
-//            mAdapterCat.category = category;
-//            mAdapterCat.delCategory = delCategory;
-//            mAdapterCat.notifyDataSetChanged();
-//            currentCategory = category.get(0);
-//            news = newsManager.getNews(20, "2019-08-09",
-//                    "2019-08-10", null, currentCategory, false);
-//            mAdapterNews.updateNews(news);
-//            mAdapterNews.notifyDataSetChanged();
-
-
-
     }
 
     @Override

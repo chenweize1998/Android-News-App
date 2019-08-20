@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.newstoday.CustomLayout.DragGridLayout;
 import com.example.newstoday.News;
@@ -29,6 +30,7 @@ public class CategoryArrangement extends AppCompatActivity {
         setContentView(R.layout.activity_category_arrangement);
 
         gridLayout1 = findViewById(R.id.arr_grid1);
+        gridLayout1.setIsRemain(true);
         gridLayout2 = findViewById(R.id.arr_grid2);
         mCategory = new ArrayList<>();
         mDelCategory = new ArrayList<>();
@@ -47,8 +49,8 @@ public class CategoryArrangement extends AppCompatActivity {
         gridLayout1.setOnDragItemClickListener(new DragGridLayout.OnDragItemClickListener() {
             @Override
             public void onDragItemClick(TextView tv) {
-                mCategory.remove(tv.getText().toString());
-                mDelCategory.add(tv.getText().toString());
+                mCategory.remove(tv.getText().toString().replace("+", ""));
+                mDelCategory.add(tv.getText().toString().replace("+", ""));
                 gridLayout1.removeView(tv);
                 gridLayout2.addGridItem(tv.getText().toString());
 //                editFlag = true;
@@ -57,8 +59,8 @@ public class CategoryArrangement extends AppCompatActivity {
         gridLayout2.setOnDragItemClickListener(new DragGridLayout.OnDragItemClickListener() {
             @Override
             public void onDragItemClick(TextView tv) {
-                mDelCategory.remove(tv.getText().toString());
-                mCategory.add(tv.getText().toString());
+                mDelCategory.remove(tv.getText().toString().replace("+", ""));
+                mCategory.add(tv.getText().toString().replace("+", ""));
                 gridLayout2.removeView(tv);
                 gridLayout1.addGridItem(tv.getText().toString());
 //                editFlag = true;
@@ -68,6 +70,10 @@ public class CategoryArrangement extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if(mCategory.size() == 0){
+            Toast.makeText(getApplicationContext(), "必须至少选择一个频道", Toast.LENGTH_LONG).show();
+            return;
+        }
         Intent intent = getIntent();
         intent.putExtra("cat", mCategory);
         intent.putExtra("delCat", mDelCategory);

@@ -5,7 +5,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Table">
+    tools:context=".Activity.Table"
+    android:background="#F5F5F5">
 
     <ImageView
         android:layout_width="match_parent"
