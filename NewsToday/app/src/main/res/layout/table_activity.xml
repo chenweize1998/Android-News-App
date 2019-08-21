@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:background="#000000"
-        android:src="@mipmap/cat_list"
+        android:src="@drawable/cat_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cat_recycler_view"
         app:layout_constraintTop_toBottomOf="@+id/imageView"/>
@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/app_title"
+        android:src="@drawable/app_title"
         app:layout_constraintBottom_toTopOf="@+id/cat_recycler_view"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"

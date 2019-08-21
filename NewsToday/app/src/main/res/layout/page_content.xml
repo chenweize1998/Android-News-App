@@ -12,7 +12,7 @@
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    android:src="@mipmap/default_pic"
+    android:src="@drawable/default_pic"
     android:id="@+id/page_top_pic"
     android:adjustViewBounds="true"
     />

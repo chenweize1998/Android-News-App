@@ -54,20 +54,20 @@ public class Table extends AppCompatActivity {
 //        int width = size.x;
 
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
-                .withIcon(R.mipmap.star).withTextColor(Color.parseColor("#ababab"));
+                .withIcon(R.drawable.star).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
-                .withIcon(R.mipmap.history).withTextColor(Color.parseColor("#ababab"));
+                .withIcon(R.drawable.history).withTextColor(Color.parseColor("#ababab"));
         SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式")
-                .withIcon(R.mipmap.night).withTextColor(Color.parseColor("#ababab"));
+                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab"));
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .addProfiles(
                         new ProfileDrawerItem().withName("Weize Chen")
-                        .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.mipmap.chenweize)
+                        .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.drawable.chenweize)
                 )
                 .addProfiles(
                         new ProfileDrawerItem().withName("Hao Peng")
-                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.mipmap.penghao)
+                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.drawable.penghao)
                 )
                 .withTextColor(Color.parseColor("#ababab"))
                 .build();
@@ -81,7 +81,7 @@ public class Table extends AppCompatActivity {
                         new DividerDrawerItem(),
                         switchDrawerItem
                 )
-                .withSliderBackgroundDrawableRes(R.mipmap.drawer_bg)
+                .withSliderBackgroundDrawableRes(R.drawable.drawer_bg)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
@@ -180,6 +180,7 @@ public class Table extends AppCompatActivity {
         mAdapterNews = new NewsAdapter(news);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
+        recyclerViewNews.setItemViewCacheSize(100);
 
         recyclerViewCat = findViewById(R.id.cat_recycler_view);
         recyclerViewCat.setHasFixedSize(true);

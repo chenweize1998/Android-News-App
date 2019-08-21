@@ -39,7 +39,7 @@ public class NewsPage extends AppCompatActivity {
         if(!news.getImage()[0].equals(""))
             Picasso.get().load(news.getImage()[0]).resize(width, 500).centerCrop().into(imageView);
         else
-            imageView.setImageResource(R.mipmap.default_pic);
+            imageView.setImageResource(R.drawable.default_pic);
 //
         TextView pageTitle = findViewById(R.id.page_title);
         pageTitle.setText(news.getTitle());
