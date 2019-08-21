@@ -25,7 +25,7 @@ public class WechatShareManager implements IWXAPIEventHandler{
     private static WechatShareManager mInstance;
     private IWXAPI mWxapi;
     private Context mContext;
-    private String APPID = "dsfsdfdsfsfsdfsd";
+    private String APPID = "wx09c88c57e084213f";
 
 
     private WechatShareManager(Context context){

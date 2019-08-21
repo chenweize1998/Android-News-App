@@ -21,6 +21,7 @@ import com.example.newstoday.News;
 import com.example.newstoday.Adapter.NewsAdapter;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.example.newstoday.WechatShareManager;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -117,6 +118,7 @@ public class Table extends AppCompatActivity {
             }
         };
 
+        final WechatShareManager wsm = WechatShareManager.getInstance(this);
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -124,6 +126,8 @@ public class Table extends AppCompatActivity {
                 intent.putExtra("news", news.get(position));
                 startActivity(intent);
                 newsManager.addInHistory(news.get(position));
+                wsm.shareNews(news.get(position));
+
             }
         };
         mSwipyRefreshLayout = findViewById(R.id.item_swipyrefresh);
