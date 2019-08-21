@@ -1,5 +1,6 @@
 package com.example.newstoday.Adapter;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -70,17 +71,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-//        holder.txtTitle.setText(title[position]);
-//        holder.txtAbstract.setText(abs[position]);
+//        Typeface typefaceAbstract = Typeface.createFromAsset(holder.itemView.getContext().getAssets(), "font/siyuanlight.otf");
         holder.txtTitle.setText(news.get(position).getTitle().replace((char)12288+"", ""));
+//        holder.txtTitle.setTypeface(typefaceTitle);
         String tmp = news.get(position).getContent()
                 .replace((char)12288+"", "").replace("\n", "");
-//        tmp = tmp.substring(0, tmp.length() < 35? tmp.length():35) + "...";
         tmp = pat.split(tmp)[0];
-//        if(tmp.length() > 30)
-//            tmp = tmp.substring(0, 30);
-        tmp = tmp + "。...";
+//        tmp = tmp + "。...";
         holder.txtAbstract.setText(tmp);
+//        holder.txtAbstract.setTypeface(typefaceAbstract);
         holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
         if(!news.get(position).getImage()[0].equals(""))
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);

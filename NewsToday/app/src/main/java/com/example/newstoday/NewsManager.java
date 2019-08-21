@@ -155,6 +155,10 @@ public class NewsManager {
         return pageCounter;
     }
 
+    public void resetPageCounter(){
+        pageCounter = 1;
+    }
+
 }
 
 

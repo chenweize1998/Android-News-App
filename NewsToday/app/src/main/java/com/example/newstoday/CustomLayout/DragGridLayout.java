@@ -16,14 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DragGridLayout extends GridLayout {
+    private boolean isRemain;
     private List<String> items;
     private int margin = 15;
 
-    // 是否可以拖拽
     private boolean isCanDrag;
-    // 记录被拖拽的View
     private View dragView;
-    // 存放所有条目的矩形区域
     private List<Rect> rects;
 
     public void setItems(List<String> items) {
@@ -52,20 +50,27 @@ public class DragGridLayout extends GridLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    /**
-     * 给GridLayout添加item
-     */
     public void addGridItem(String content) {
         TextView tv = new TextView(getContext());
         tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
-        tv.setBackgroundResource(R.drawable.textview_border);
+//        tv.setBackgroundResource(R.drawable.textview_border);
+        tv.setPadding(0, 20, 0, 20);
+        tv.setBackgroundColor(0xAAE8E8E8);
         tv.setGravity(Gravity.CENTER);
+        if(!isRemain){
+            tv.setTextColor(0xFF9c9393);
+            tv.setBackgroundResource(R.drawable.textview_unselect_border);
+        }
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = getResources().getDisplayMetrics().widthPixels / 4 - margin * 2;
         params.setMargins(margin, margin, margin, margin);
         tv.setLayoutParams(params);
 
-        tv.setText(content);
+        if(!isRemain)
+            tv.setText("+"+content);
+        else
+            tv.setText(content.substring(content.length()-2));
+
         addView(tv);
 
 
@@ -106,6 +111,9 @@ public class DragGridLayout extends GridLayout {
                 // 弹起
                 case DragEvent.ACTION_DRAG_ENDED:
                     dragView.setEnabled(true);
+                    int index = indexOfChild(dragView);
+                    items.remove(((TextView)dragView).getText().toString());
+                    items.add(index, ((TextView)dragView).getText().toString());
                     break;
             }
 
@@ -154,7 +162,7 @@ public class DragGridLayout extends GridLayout {
         this.onDragItemClickListener = onDragItemClickListener;
     }
 
-    public List<String> getItems() {
-        return items;
+    public void setIsRemain(boolean isRemain){
+        this.isRemain = isRemain;
     }
 }
