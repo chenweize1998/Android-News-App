@@ -17,6 +17,8 @@
         <activity android:name=".Activity.CategoryArrangement"></activity>
         <activity android:name=".Activity.NewsPage" />
         <activity android:name=".Activity.Table" />
+        <activity android:name=".Activity.HistoryNews"/>
+        <activity android:name=".Activity.CollectionNews"/>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

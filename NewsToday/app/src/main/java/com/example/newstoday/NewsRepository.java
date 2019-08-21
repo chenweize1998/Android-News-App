@@ -39,7 +39,7 @@ public class NewsRepository {
     public ArrayList<News> getAllNews(){
         try {
             GetAllNewsTask getAllNewsTask = new GetAllNewsTask();
-            return getAllNewsTask.execute(0).get();
+            return new ArrayList<News>(Arrays.asList(getAllNewsTask.execute(0).get()));
         }catch(ExecutionException e){
             e.printStackTrace();
         }catch(InterruptedException e){
@@ -48,11 +48,11 @@ public class NewsRepository {
         return null;
     }
 
-    private class GetAllNewsTask extends AsyncTask<Integer, Void, ArrayList<News>>{
+    private class GetAllNewsTask extends AsyncTask<Integer, Void, News[]>{
 
         @Override
-        protected  ArrayList<News> doInBackground(Integer... params){
-            return (ArrayList)Arrays.asList(newsDao.getAllNews());
+        protected  News[] doInBackground(Integer... params){
+            return newsDao.getAllNews();
         }
     }
     /****/

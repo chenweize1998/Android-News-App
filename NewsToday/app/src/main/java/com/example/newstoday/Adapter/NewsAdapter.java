@@ -3,6 +3,7 @@ package com.example.newstoday.Adapter;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.util.regex.Pattern;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstoday.News;
+import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.squareup.picasso.Picasso;
 
@@ -24,23 +26,28 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private Context context;
     private Pattern pat;
     private OnItemClickListener listener;
+    private NewsManager newsManager;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
         private TextView txtAbstract;
         private ImageView imgNews;
         private TextView txtKeyword;
+        private ImageButton shareButton;
+        private ImageButton starButton;
         public MyViewHolder(View v) {
             super(v);
             txtTitle = v.findViewById(R.id.txtTitle);
             txtAbstract = v.findViewById(R.id.txtAbstract);
             imgNews = v.findViewById(R.id.imgNews);
             txtKeyword = v.findViewById(R.id.item_keyword);
-
+            shareButton = v.findViewById(R.id.item_share_button);
+            starButton = v.findViewById(R.id.item_star_button);
         }
     }
+
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(int position, final View v);
     }
 
     public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
@@ -66,6 +73,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.news_item, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
+        newsManager = NewsManager.getNewsManager(parent.getContext());
         return vh;
     }
 
@@ -85,10 +93,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
         else
             holder.imgNews.setImageResource(R.mipmap.default_pic);
+
+        holder.starButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                newsManager.addInCollection(news.get(position));
+            }
+        });
+
+        holder.shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+//                wsm.shareNews(news.get(position));
+            }
+        });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                listener.onItemClick(position);
+                listener.onItemClick(position, v);
             }
         });
     }

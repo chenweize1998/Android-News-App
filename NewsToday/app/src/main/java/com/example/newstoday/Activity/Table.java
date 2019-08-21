@@ -87,6 +87,14 @@ public class Table extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
                         // do something with the clicked item :D
+                        if(drawerItem.getIdentifier() == 1){
+                            Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
+                            startActivity(intent);
+                        }else if(drawerItem.getIdentifier() == 2) {
+                            Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
+                            startActivity(intent);
+                        }
+
                         return false;
                     }
                 })
@@ -121,15 +129,14 @@ public class Table extends AppCompatActivity {
         final WechatShareManager wsm = WechatShareManager.getInstance(this);
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position, final View v) {
                 Intent intent = new Intent(getApplicationContext(), NewsPage.class);
                 intent.putExtra("news", news.get(position));
                 startActivity(intent);
                 newsManager.addInHistory(news.get(position));
-                wsm.shareNews(news.get(position));
-
             }
         };
+
         mSwipyRefreshLayout = findViewById(R.id.item_swipyrefresh);
         mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
@@ -168,6 +175,8 @@ public class Table extends AppCompatActivity {
                 }
             }
         });
+
+
 
 //        if(category != null)
 //            currentCategory = category.get(0);
