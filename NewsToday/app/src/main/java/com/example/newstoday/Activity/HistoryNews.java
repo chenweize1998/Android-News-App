@@ -1,5 +1,6 @@
 package com.example.newstoday.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -58,5 +59,11 @@ public class HistoryNews extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = getIntent();
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
 
 }

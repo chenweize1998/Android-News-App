@@ -1,5 +1,6 @@
 package com.example.newstoday.Adapter;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -95,6 +96,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             holder.starButton.setImageResource(R.drawable.star_selected);
         else
             holder.starButton.setImageResource(R.drawable.not_star);
+        if(newsManager.getOneHistoryNews(news.get(position).getNewsID()) != null)
+            holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
+        else
+            holder.txtTitle.setTextColor(Color.parseColor("#000000"));
 
         holder.starButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +127,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                News tmp = news.get(position);
+                tmp.setWatched(true);
+                holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
                 listener.onItemClick(position, v);
             }
         });

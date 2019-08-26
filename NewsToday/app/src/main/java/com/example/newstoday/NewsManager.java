@@ -127,6 +127,10 @@ public class NewsManager {
         return collectionNews.getOneNews(ID);
     }
 
+    public News getOneHistoryNews(String ID){
+        return historyNews.getOneNews(ID);
+    }
+
     public void addInHistory(News... news){
         historyNews.insertNews(news);
     }

@@ -34,6 +34,7 @@ public class Table extends AppCompatActivity {
     private RecyclerView recyclerViewCat;
     private CatAdapter mAdapterCat;
     private RecyclerView.LayoutManager layoutManagerCat;
+    private Drawer drawer;
     private ArrayList<News> news;
     private NewsManager newsManager;
     private SwipyRefreshLayout mSwipyRefreshLayout;
@@ -72,7 +73,7 @@ public class Table extends AppCompatActivity {
                 )
                 .withTextColor(Color.parseColor("#ababab"))
                 .build();
-        Drawer result = new DrawerBuilder()
+        drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(header)
                 .withSelectedItem(-1)
@@ -93,7 +94,8 @@ public class Table extends AppCompatActivity {
                             startActivityForResult(intent, COLLECTION_CHANGED);
                         }else if(drawerItem.getIdentifier() == 2) {
                             Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
-                            startActivity(intent);
+//                            startActivity(intent);
+                            startActivityForResult(intent, HISTORY_CHANGED);
                         }
 
                         return false;
@@ -225,9 +227,10 @@ public class Table extends AppCompatActivity {
                 mAdapterNews.updateNews(news);
                 mAdapterNews.notifyDataSetChanged();
             }
-        } else if(requestCode == COLLECTION_CHANGED){
+        } else if(requestCode == COLLECTION_CHANGED || requestCode == HISTORY_CHANGED){
             if(resultCode == RESULT_OK){
                 mAdapterNews.notifyDataSetChanged();
+                drawer.setSelectionAtPosition(-1);
             }
         }
     }
