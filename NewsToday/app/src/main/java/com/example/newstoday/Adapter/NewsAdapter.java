@@ -20,8 +20,6 @@ import com.example.newstoday.R;
 import com.squareup.picasso.Picasso;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
-    private String[] title;
-    private String[] abs;
     private ArrayList<News> news;
     private Context context;
     private Pattern pat;
@@ -52,11 +50,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
         this.listener = listener;
-        pat = Pattern.compile("[！？。…~]");
+
     }
 
     public NewsAdapter(ArrayList<News> news) {
         this.news = news;
+        pat = Pattern.compile("[！？。…~]");
     }
 
     public void updateNews(ArrayList<News> news){
@@ -78,26 +77,38 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 //        Typeface typefaceAbstract = Typeface.createFromAsset(holder.itemView.getContext().getAssets(), "font/siyuanlight.otf");
         holder.txtTitle.setText(news.get(position).getTitle().replace((char)12288+"", ""));
 //        holder.txtTitle.setTypeface(typefaceTitle);
         String tmp = news.get(position).getContent()
                 .replace((char)12288+"", "").replace("\n", "");
         tmp = pat.split(tmp)[0];
-//        tmp = tmp + "。...";
         holder.txtAbstract.setText(tmp);
-//        holder.txtAbstract.setTypeface(typefaceAbstract);
+//        holder.txtAbstract.setTypeface(typefaceAbstract);     # 看看到时候要不要设置字体
         holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
         if(!news.get(position).getImage()[0].equals(""))
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
         else
             holder.imgNews.setImageResource(R.mipmap.default_pic);
+        if(newsManager.getOneCollectionNews(news.get(position).getNewsID()) != null)
+            holder.starButton.setImageResource(R.drawable.star_selected);
+        else
+            holder.starButton.setImageResource(R.drawable.not_star);
 
         holder.starButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                newsManager.addInCollection(news.get(position));
+                News tmp = news.get(position);
+                if(tmp.getStarred()){
+                    tmp.setStarred(false);
+                    holder.starButton.setImageResource(R.drawable.not_star);
+                    newsManager.deletaOneCollection(tmp);
+                } else{
+                    tmp.setStarred(true);
+                    holder.starButton.setImageResource(R.drawable.star_selected);
+                    newsManager.addInCollection(tmp);
+                }
             }
         });
 
@@ -115,8 +126,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             }
         });
     }
-
-
 
     @Override
     public int getItemCount() {

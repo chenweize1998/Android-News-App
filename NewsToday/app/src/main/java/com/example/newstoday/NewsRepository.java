@@ -76,5 +76,23 @@ public class NewsRepository {
     }
     /****/
 
+    public News getOneNews(String ID){
+        try {
+            GetOneNewsTask getOneNewsTask = new GetOneNewsTask();
+            return getOneNewsTask.execute(ID).get();
+        }catch(ExecutionException e){
+            e.printStackTrace();
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    private class GetOneNewsTask extends AsyncTask<String, Void, News>{
+
+        @Override
+        protected News doInBackground(String... params){
+            return newsDao.getOneNews(params[0]);
+        }
+    }
 }

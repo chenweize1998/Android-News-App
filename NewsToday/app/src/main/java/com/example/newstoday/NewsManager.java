@@ -119,8 +119,12 @@ public class NewsManager {
         return historyNews.getAllNews();
     }
 
-    public ArrayList<News> getCollectionNews(){
+    public ArrayList<News> getAllCollectionNews(){
         return collectionNews.getAllNews();
+    }
+
+    public News getOneCollectionNews(String ID){
+        return collectionNews.getOneNews(ID);
     }
 
     public void addInHistory(News... news){

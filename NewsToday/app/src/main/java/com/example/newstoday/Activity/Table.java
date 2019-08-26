@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -41,7 +39,9 @@ public class Table extends AppCompatActivity {
     private SwipyRefreshLayout mSwipyRefreshLayout;
     private static final int DISMISS_TIMEOUT = 1000;
     private String currentCategory = "娱乐";
-    private final int REQUEST_CODE = 1;
+    private final int CAT_REARRANGE = 1;
+    private final int HISTORY_CHANGED = 2;
+    private final int COLLECTION_CHANGED = 3;
 
 
     @Override
@@ -89,7 +89,8 @@ public class Table extends AppCompatActivity {
                         // do something with the clicked item :D
                         if(drawerItem.getIdentifier() == 1){
                             Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
-                            startActivity(intent);
+//                            startActivity(intent);
+                            startActivityForResult(intent, COLLECTION_CHANGED);
                         }else if(drawerItem.getIdentifier() == 2) {
                             Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
                             startActivity(intent);
@@ -107,7 +108,7 @@ public class Table extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryArrangement.class);
                 intent.putExtra("cat", mAdapterCat.category);
                 intent.putExtra("delCat", mAdapterCat.delCategory);
-                startActivityForResult(intent, REQUEST_CODE);
+                startActivityForResult(intent, CAT_REARRANGE);
             }
         });
 
@@ -207,7 +208,7 @@ public class Table extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
+        if (requestCode == CAT_REARRANGE) {
             if (resultCode == RESULT_OK) {
                 ArrayList<String> category = (ArrayList<String>) (data).getSerializableExtra("cat");
                 ArrayList<String> delCategory = (ArrayList<String>) (data).getSerializableExtra("delCat");
@@ -222,6 +223,10 @@ public class Table extends AppCompatActivity {
                 news.clear();
                 news.addAll(newsTmp);
                 mAdapterNews.updateNews(news);
+                mAdapterNews.notifyDataSetChanged();
+            }
+        } else if(requestCode == COLLECTION_CHANGED){
+            if(resultCode == RESULT_OK){
                 mAdapterNews.notifyDataSetChanged();
             }
         }

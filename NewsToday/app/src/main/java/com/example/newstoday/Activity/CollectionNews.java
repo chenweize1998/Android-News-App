@@ -1,8 +1,10 @@
 package com.example.newstoday.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,7 +32,7 @@ public class CollectionNews extends AppCompatActivity {
         setContentView(R.layout.collection_news);
 
         newsManager = NewsManager.getNewsManager(getApplicationContext());
-        news = newsManager.getCollectionNews();
+        news = newsManager.getAllCollectionNews();
         for(News _news: news){
             _news.setImage(News.stringParse(_news.getOriImage()));
         }
@@ -41,7 +43,6 @@ public class CollectionNews extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), NewsPage.class);
                 intent.putExtra("news", news.get(position));
                 startActivity(intent);
-
             }
         };
 
@@ -53,6 +54,13 @@ public class CollectionNews extends AppCompatActivity {
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = getIntent();
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 
 }

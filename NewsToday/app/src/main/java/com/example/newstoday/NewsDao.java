@@ -12,6 +12,9 @@ public interface NewsDao {
     @Query("SELECT * FROM News")
     News[] getAllNews();
 
+    @Query("select * from News where newsID = :ID limit 1")
+    News getOneNews(String ID);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(News... news);
 
