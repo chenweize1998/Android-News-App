@@ -97,16 +97,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.starButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-//                News tmp = news.get(position);
-//                if(tmp.getStarred()){
-//                    tmp.setStarred(false);
-//                    holder.starButton.setImageResource(R.drawable.not_star);
-//                    newsManager.deletaOneCollection(tmp);
-//                } else {
-//                    tmp.setStarred(true);
-//                    holder.starButton.setImageResource(R.drawable.star_selected);
-//                    newsManager.addInCollection(tmp);
-//                }
+                newsManager.addInCollection(news.get(position));
             }
         });
 
