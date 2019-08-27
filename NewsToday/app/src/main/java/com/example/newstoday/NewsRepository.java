@@ -76,10 +76,14 @@ public class NewsRepository {
     }
     /****/
 
-    public News getOneNews(String ID){
-        try {
-            GetOneNewsTask getOneNewsTask = new GetOneNewsTask();
-            return getOneNewsTask.execute(ID).get();
+
+    /**
+     * get all newsID
+     */
+    public String[] getAllNewsID(){
+        try{
+            GetAllNewsIDTask getAllNewsIDTask = new GetAllNewsIDTask();
+            return getAllNewsIDTask.execute(0).get();
         }catch(ExecutionException e){
             e.printStackTrace();
         }catch(InterruptedException e){
@@ -88,11 +92,8 @@ public class NewsRepository {
         return null;
     }
 
-    private class GetOneNewsTask extends AsyncTask<String, Void, News>{
-
+    private class GetAllNewsIDTask extends AsyncTask<Integer, Void, String[]>{
         @Override
-        protected News doInBackground(String... params){
-            return newsDao.getOneNews(params[0]);
-        }
+        protected String[] doInBackground(Integer... params){return newsDao.getAllNewsID();}
     }
 }

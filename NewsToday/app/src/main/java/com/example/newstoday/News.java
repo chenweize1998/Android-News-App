@@ -30,8 +30,6 @@ public class News implements Serializable {
     private String category;
     private String publisher;
     private String url;
-    private boolean watched;
-    private boolean starred;
 
 //    private Bitmap image;
 
@@ -57,8 +55,6 @@ public class News implements Serializable {
         this.date = date;
         this.oriImage = oriImage;
         this.publisher = publisher;
-        this.watched = false;
-        this.starred = false;
         this.url = url;
         this.oriKeywords = oriKeywords;
         this.keywords =stringParse(oriKeywords);
@@ -136,14 +132,6 @@ public class News implements Serializable {
         return publisher;
     }
 
-    public boolean getWatched(){
-        return watched;
-    }
-
-    public boolean getStarred(){
-        return starred;
-    }
-
     public String getUrl(){
         return url;
     }
@@ -200,14 +188,6 @@ public class News implements Serializable {
 
     public void setPublisher(String publisher){
         this.publisher = publisher;
-    }
-
-    public void setWatched(boolean watched){
-        this.watched = watched;
-    }
-
-    public void setStarred(boolean starred){
-        this.starred = starred;
     }
 
     public void setUrl(String url){
