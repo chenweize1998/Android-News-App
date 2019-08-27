@@ -53,12 +53,7 @@ public class NewsManager {
         return Instance;
     }
 
-    public ArrayList<News> searchNews(final String keyword){
-
-        return getNews(20, null, null, keyword, null, false);
-    }
-
-    public ArrayList<News> getNews(int size, final String startDate, final String endDate, final String words, final String categories, boolean refresh) {
+    public ArrayList<News> getNews(int size, final String startDate, final String endDate, final String words, final String categories, boolean refresh, boolean reset) {
 
         newNewsCounter = 0;
         JsonDataFromUrl jsonData = new JsonDataFromUrl();
@@ -67,17 +62,20 @@ public class NewsManager {
          * Parse json data and construct news object
          * */
         try {
-            if(!lastCategory.equals(categories))
+//            if(!lastCategory.equals(categories))
+            if(reset || !lastCategory.equals(categories))
                 pageCounter = 1;
             JSONObject json;
             json = jsonData.execute(String.valueOf(size), startDate, endDate, words, categories, Integer.toString(pageCounter)).get();
-            lastCategory = categories;
+//            if(categories != null)
 
+            if(refresh || !lastCategory.equals(categories)) {
+                ++pageCounter;
+            }
+            lastCategory = categories;
             if(Integer.parseInt(json.getString("pageSize")) == 0) {
                 return null;
             }
-            if(refresh)
-                ++pageCounter;
 
 
             JSONArray newsArray = json.getJSONArray("data");

@@ -1,73 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:fitsSystemWindows="true">-->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Table"
-    android:background="#F5F5F5">
+    tools:context=".Activity.Table">
 
-    <ImageView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/page_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#000000"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
-        />
+        android:fitsSystemWindows="true"
+        >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cat_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:scrollbars="horizontal"
-        app:layout_constraintBottom_toBottomOf="@id/cat_arange"
-        app:layout_constraintEnd_toStartOf="@+id/cat_arange"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/table_collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="#000000"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways">
 
-    <ImageButton
-        android:id="@+id/cat_arange"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:background="#000000"
-        android:src="@drawable/cat_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cat_recycler_view"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
+                android:src="@drawable/app_title"
+                 />
+
+            <SearchView
+                android:id="@+id/table_searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="parallax"
+                android:layoutDirection="rtl"
+                android:queryBackground="@color/black"
+                android:searchIcon="@drawable/search"
+                android:closeIcon="@drawable/close"
+                android:queryHint="@string/queryHint"
+                />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/table_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+<!--</androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="#000000"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/page_bar"-->
+<!--        />-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical">-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="horizontal"-->
+<!--            >-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cat_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:scrollbars="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/cat_arange"
+            app:layout_constraintEnd_toStartOf="@+id/cat_arange"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/cat_arange"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="#000000"
+            android:src="@drawable/cat_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cat_recycler_view"
+            app:layout_constraintTop_toTopOf="@id/cat_recycler_view"/>
+
 
     <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/item_swipyrefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cat_recycler_view"
-        app:layout_constraintVertical_bias="0.0"
-        app:srl_direction="both">
+        app:srl_direction="both"
+        app:layout_constraintTop_toBottomOf="@id/cat_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/table_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:overScrollMode="never"
-            android:scrollbars="vertical" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/table_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:overScrollMode="never"
+                android:scrollbars="vertical"
+                />
 
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+<!--            android:id="@+id/imageView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        android:src="@drawable/app_title"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/cat_recycler_view"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+<!--        </androidx.core.widget.NestedScrollView>-->
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/app_title"
-        app:layout_constraintBottom_toTopOf="@+id/cat_recycler_view"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </LinearLayout>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--</androidx.core.widget.NestedScrollView>-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

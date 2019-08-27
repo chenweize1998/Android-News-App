@@ -2,13 +2,20 @@ package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
+
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,7 +67,7 @@ public class Table extends AppCompatActivity {
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
                 .withIcon(R.drawable.history).withTextColor(Color.parseColor("#ababab"));
         SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式")
-                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab"));
+                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab")).withSelectable(false);
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .addProfiles(
@@ -90,18 +97,28 @@ public class Table extends AppCompatActivity {
                         // do something with the clicked item :D
                         if(drawerItem.getIdentifier() == 1){
                             Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
-//                            startActivity(intent);
-                            startActivityForResult(intent, COLLECTION_CHANGED);
+                            startActivity(intent);
+//                            startActivityForResult(intent, COLLECTION_CHANGED);
                         }else if(drawerItem.getIdentifier() == 2) {
                             Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
-//                            startActivity(intent);
-                            startActivityForResult(intent, HISTORY_CHANGED);
+                            startActivity(intent);
+//                            startActivityForResult(intent, HISTORY_CHANGED);
                         }
 
                         return false;
                     }
                 })
                 .build();
+
+//        SearchView searchView = findViewById(R.id.table_searchView);
+//        searchView.setLayoutParams(new ActionBar.LayoutParams(Gravity.RIGHT));
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = findViewById(R.id.table_searchView);
+        ComponentName cn = new ComponentName(this, SearchActivity.class);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
+        // Assumes current activity is the searchable activity
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setIconifiedByDefault(false);
 
         ImageButton imgButton = findViewById(R.id.cat_arange);
         imgButton.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +136,7 @@ public class Table extends AppCompatActivity {
             public void onItemClick(View view, String category) {
                 Table.this.currentCategory = category;
                 if(newsManager.getLastCategory() != category){
-                    news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, currentCategory, false);
+                    news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, currentCategory, false, false);
                     mAdapterNews.updateNews(news);
                     mAdapterNews.notifyDataSetChanged();
                     recyclerViewNews.smoothScrollToPosition(0);
@@ -164,7 +181,7 @@ public class Table extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                                            "2019-08-10", null, currentCategory, true);
+                                            "2019-08-10", null, currentCategory, true, false);
                                     mAdapterNews.refreshNews(newsTmp);
                                     mAdapterNews.notifyDataSetChanged();
                                     mSwipyRefreshLayout.setRefreshing(false);
@@ -185,7 +202,7 @@ public class Table extends AppCompatActivity {
         newsManager = NewsManager.getNewsManager(this);
         newsManager.resetPageCounter();
         ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                "2019-08-10", null, currentCategory, true);
+                "2019-08-10", null, currentCategory, true, true);
         news = new ArrayList<>();
         news.addAll(newsTmp);
 
@@ -200,7 +217,7 @@ public class Table extends AppCompatActivity {
         recyclerViewCat = findViewById(R.id.cat_recycler_view);
         recyclerViewCat.setHasFixedSize(true);
         layoutManagerCat = new LinearLayoutManager(this);
-        ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
+        ((LinearLayoutManager) layoutManagerCat).setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
         mAdapterCat = new CatAdapter();
         mAdapterCat.setOnItemClickListener(listenerCat);
@@ -220,22 +237,25 @@ public class Table extends AppCompatActivity {
                 mAdapterCat.notifyDataSetChanged();
                 newsManager.resetPageCounter();
                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                        "2019-08-10", null, currentCategory, true);
+                        "2019-08-10", null, currentCategory, true, true);
                 news.clear();
                 news.addAll(newsTmp);
                 mAdapterNews.updateNews(news);
                 mAdapterNews.notifyDataSetChanged();
             }
-        } else if(requestCode == COLLECTION_CHANGED || requestCode == HISTORY_CHANGED){
-            if(resultCode == RESULT_OK){
-                mAdapterNews.notifyDataSetChanged();
-                drawer.setSelectionAtPosition(-1);
-            }
         }
+//        } else if(requestCode == COLLECTION_CHANGED || requestCode == HISTORY_CHANGED){
+//            if(resultCode == RESULT_OK){
+//                System.out.println("Here");
+//                mAdapterNews.notifyDataSetChanged();
+//                drawer.setSelection(-1);
+//            }
+//        }
     }
 
     @Override
     protected void onNewIntent(Intent intent){
         mAdapterNews.notifyDataSetChanged();
+        drawer.setSelectionAtPosition(-1);
     }
 }

@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.newstoday">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,19 +10,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.CategoryArrangement"></activity>
+        <activity android:name=".Activity.SearchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <activity android:name=".Activity.CategoryArrangement" />
         <activity android:name=".Activity.NewsPage" />
         <activity
             android:name=".Activity.Table"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".Activity.HistoryNews"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".Activity.CollectionNews"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,10 +38,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/searchable" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
