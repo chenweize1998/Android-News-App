@@ -16,14 +16,16 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".Activity.CategoryArrangement"></activity>
         <activity android:name=".Activity.NewsPage" />
-        <activity android:name=".Activity.Table" />
+        <activity
+            android:name=".Activity.Table"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".Activity.HistoryNews"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
         </activity>
         <activity
             android:name=".Activity.CollectionNews"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
         </activity>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>

@@ -147,7 +147,7 @@ public class NewsManager {
         historyNews.deleteNews((News [])historyNews.getAllNews().toArray());
     }
 
-    public void deletaOneCollection(News... news){
+    public void deleteOneCollection(News... news){
         collectionNews.deleteNews(news);
     }
 
