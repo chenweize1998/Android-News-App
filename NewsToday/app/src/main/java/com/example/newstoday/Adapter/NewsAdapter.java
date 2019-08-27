@@ -94,13 +94,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             holder.imgNews.setImageResource(R.mipmap.default_pic);
         if(newsManager.inCollectionNews(news.get(position)))
             holder.starButton.setImageResource(R.drawable.star_selected);
-        else
+            news.get(position).setStarred(true);
+        }
+        else {
             holder.starButton.setImageResource(R.drawable.not_star);
         if(newsManager.inHistoryNews(news.get(position)) )
             holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
-        else
+            news.get(position).setWatched(true);
+        }
+        else {
             holder.txtTitle.setTextColor(Color.parseColor("#000000"));
-
+            news.get(position).setWatched(false);
+        }
         holder.starButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -108,7 +113,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 if(newsManager.inCollectionNews(tmp)){
                     newsManager.deletaOneCollection(tmp);
                     holder.starButton.setImageResource(R.drawable.not_star);
-                    newsManager.deletaOneCollection(tmp);
+                    newsManager.deleteOneCollection(tmp);
                 } else{
                     newsManager.addInCollection(tmp);
                     holder.starButton.setImageResource(R.drawable.star_selected);

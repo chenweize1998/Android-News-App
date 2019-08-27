@@ -234,4 +234,8 @@ public class Table extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent){
+        mAdapterNews.notifyDataSetChanged();
+    }
 }

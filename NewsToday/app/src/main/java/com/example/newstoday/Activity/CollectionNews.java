@@ -2,6 +2,7 @@ package com.example.newstoday.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +15,17 @@ import com.example.newstoday.Adapter.NewsAdapter;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.BaseDrawerItem;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 
@@ -37,6 +49,55 @@ public class CollectionNews extends AppCompatActivity {
             _news.setImage(News.stringParse(_news.getOriImage()));
         }
 
+        BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
+                .withIcon(R.drawable.star).withTextColor(Color.parseColor("#ababab"));
+        BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
+                .withIcon(R.drawable.history).withTextColor(Color.parseColor("#ababab"));
+        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式")
+                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab"));
+        AccountHeader header = new AccountHeaderBuilder()
+                .withActivity(this)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Weize Chen")
+                                .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.drawable.chenweize)
+                )
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Hao Peng")
+                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.drawable.penghao)
+                )
+                .withTextColor(Color.parseColor("#ababab"))
+                .build();
+        Drawer drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withAccountHeader(header)
+                .withSelectedItem(1)
+                .addDrawerItems(
+                        item1,
+                        item2,
+                        new DividerDrawerItem(),
+                        switchDrawerItem
+                )
+                .withSliderBackgroundDrawableRes(R.drawable.drawer_bg)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
+                        // do something with the clicked item :D
+                        if(drawerItem.getIdentifier() == 1){
+                            Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
+                            startActivity(intent);
+//                            startActivityForResult(intent, COLLECTION_CHANGED);
+                        }else if(drawerItem.getIdentifier() == 2) {
+                            Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
+                            startActivity(intent);
+//                            startActivityForResult(intent, HISTORY_CHANGED);
+                        }
+
+                        return false;
+                    }
+                })
+                .build();
+
+
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, final View v) {
@@ -58,9 +119,12 @@ public class CollectionNews extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = getIntent();
-        setResult(Activity.RESULT_OK, intent);
-        finish();
+//        Intent intent = getIntent();
+//        setResult(Activity.RESULT_OK, intent);
+        Intent intent = new Intent(getApplicationContext(), Table.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+//        finish();
     }
 
 }

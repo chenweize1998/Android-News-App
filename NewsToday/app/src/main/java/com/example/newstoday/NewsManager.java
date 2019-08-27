@@ -174,7 +174,7 @@ public class NewsManager {
         historyNewsInMem.clear();
     }
 
-    public void deletaOneCollection(News... news){
+    public void deleteOneCollection(News... news){
         collectionNews.deleteNews(news);
         for(News _news: news){
             collectionNewsInmem.remove(_news.getNewsID());
