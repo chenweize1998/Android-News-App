@@ -172,5 +172,44 @@ android:fitsSystemWindows="true">
         <!--android:src="@drawable/ic_launcher_background"-->
         <!--android:layout_margin="10dp"-->
         <!--android:clickable="true"/>-->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        app:hideOnScroll="true"
+        style="@style/Widget.MaterialComponents.BottomAppBar">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/page_bottom_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/textview_rounded"
+                android:hint="@string/commentHint"
+                android:paddingLeft="20dp"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:scaleType="centerInside"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/share"
+                android:layout_marginLeft="15dp"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/page_bottom_star"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/not_star"
+                android:scaleType="centerInside" />
+
+        </LinearLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

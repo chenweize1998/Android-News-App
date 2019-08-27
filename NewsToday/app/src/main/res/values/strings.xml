@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">News Today</string>
     <string name="queryHint">Type key words you want to query</string>
+    <string name="commentHint">Type your comment...</string>
 </resources>
