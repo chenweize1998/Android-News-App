@@ -136,7 +136,7 @@ public class Table extends AppCompatActivity {
             public void onItemClick(View view, String category) {
                 Table.this.currentCategory = category;
                 if(newsManager.getLastCategory() != category){
-                    news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, currentCategory, false);
+                    news = newsManager.getNews(20, "2019-08-09", "2019-08-10", null, currentCategory, false, false);
                     mAdapterNews.updateNews(news);
                     mAdapterNews.notifyDataSetChanged();
                     recyclerViewNews.smoothScrollToPosition(0);
@@ -181,7 +181,7 @@ public class Table extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                                            "2019-08-10", null, currentCategory, true);
+                                            "2019-08-10", null, currentCategory, true, false);
                                     mAdapterNews.refreshNews(newsTmp);
                                     mAdapterNews.notifyDataSetChanged();
                                     mSwipyRefreshLayout.setRefreshing(false);
@@ -202,7 +202,7 @@ public class Table extends AppCompatActivity {
         newsManager = NewsManager.getNewsManager(this);
         newsManager.resetPageCounter();
         ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                "2019-08-10", null, currentCategory, true);
+                "2019-08-10", null, currentCategory, true, true);
         news = new ArrayList<>();
         news.addAll(newsTmp);
 
@@ -237,7 +237,7 @@ public class Table extends AppCompatActivity {
                 mAdapterCat.notifyDataSetChanged();
                 newsManager.resetPageCounter();
                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                        "2019-08-10", null, currentCategory, true);
+                        "2019-08-10", null, currentCategory, true, true);
                 news.clear();
                 news.addAll(newsTmp);
                 mAdapterNews.updateNews(news);
