@@ -12,6 +12,9 @@ public interface NewsDao {
     @Query("SELECT * FROM News")
     News[] getAllNews();
 
+    @Query("DELETE FROM News")
+    void clear();
+
     @Query("SELECT newsID FROM News")
     String[] getAllNewsID();
 

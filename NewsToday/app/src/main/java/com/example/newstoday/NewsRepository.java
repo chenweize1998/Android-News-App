@@ -76,6 +76,23 @@ public class NewsRepository {
     }
     /****/
 
+    /**
+     * clear the table
+     */
+    public void clearNews(){
+        ClearNewsTask clearNewsTask = new ClearNewsTask();
+        clearNewsTask.execute(0);
+    }
+
+    private class ClearNewsTask extends AsyncTask<Integer, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Integer... params){
+            newsDao.clear();
+            return null;
+        }
+    }
+
 
     /**
      * get all newsID

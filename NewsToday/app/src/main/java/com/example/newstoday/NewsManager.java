@@ -173,7 +173,7 @@ public class NewsManager {
     }
 
     public void deleteAllHistory(){
-        historyNews.deleteNews((News [])historyNews.getAllNews().toArray());
+        historyNews.clearNews();
         historyNewsInMem.clear();
     }
 
