@@ -100,7 +100,7 @@ public class HistoryNews extends AppCompatActivity {
                 .build();
 
 
-        System.out.println(news.isEmpty());
+//        System.out.println(news.isEmpty());
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, final View v) {

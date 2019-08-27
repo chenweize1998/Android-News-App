@@ -66,7 +66,8 @@ public class NewsManager {
                 pageCounter = 1;
             JSONObject json;
             json = jsonData.execute(String.valueOf(size), startDate, endDate, words, categories, Integer.toString(pageCounter)).get();
-            lastCategory = categories;
+            if(categories != null)
+                lastCategory = categories;
 
             if(Integer.parseInt(json.getString("pageSize")) == 0) {
                 return null;

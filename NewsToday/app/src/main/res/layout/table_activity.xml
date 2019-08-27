@@ -49,6 +49,7 @@
                 android:queryBackground="@color/black"
                 android:searchIcon="@drawable/search"
                 android:closeIcon="@drawable/close"
+                android:queryHint="@string/queryHint"
                 />
 
             <androidx.appcompat.widget.Toolbar
@@ -108,12 +109,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:srl_direction="both"
-        app:layout_constraintTop_toBottomOf="@id/cat_recycler_view">
+        app:layout_constraintTop_toBottomOf="@id/cat_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/table_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:overScrollMode="never"
                 android:scrollbars="vertical"
                 />

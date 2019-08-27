@@ -7,4 +7,5 @@
     <color name="catBgSelected">#0f0f0f</color>
     <color name="black">#000000</color>
     <color name="editText">#777474</color>
+    <color name="hint">#545151</color>
 </resources>

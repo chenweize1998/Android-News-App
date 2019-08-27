@@ -3,6 +3,9 @@ package com.example.newstoday.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -109,6 +112,13 @@ public class Table extends AppCompatActivity {
 
 //        SearchView searchView = findViewById(R.id.table_searchView);
 //        searchView.setLayoutParams(new ActionBar.LayoutParams(Gravity.RIGHT));
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = findViewById(R.id.table_searchView);
+        ComponentName cn = new ComponentName(this, SearchActivity.class);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
+        // Assumes current activity is the searchable activity
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setIconifiedByDefault(false);
 
         ImageButton imgButton = findViewById(R.id.cat_arange);
         imgButton.setOnClickListener(new View.OnClickListener() {
