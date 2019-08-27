@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d67198b4068aeb8e3b26e529b67ef909",
+    "identityHash": "25e281b65dea6b2423899a8c387a0f04",
     "entities": [
       {
         "tableName": "News",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newsID` TEXT NOT NULL, `title` TEXT, `date` TEXT, `content` TEXT, `person` TEXT, `organization` TEXT, `location` TEXT, `category` TEXT, `publisher` TEXT, `url` TEXT, `watched` INTEGER NOT NULL, `starred` INTEGER NOT NULL, `oriImage` TEXT, `oriKeywords` TEXT, PRIMARY KEY(`newsID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newsID` TEXT NOT NULL, `title` TEXT, `date` TEXT, `content` TEXT, `person` TEXT, `organization` TEXT, `location` TEXT, `category` TEXT, `publisher` TEXT, `url` TEXT, `oriImage` TEXT, `oriKeywords` TEXT, PRIMARY KEY(`newsID`))",
         "fields": [
           {
             "fieldPath": "newsID",
@@ -69,18 +69,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "watched",
-            "columnName": "watched",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "starred",
-            "columnName": "starred",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "oriImage",
             "columnName": "oriImage",
             "affinity": "TEXT",
@@ -105,7 +93,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d67198b4068aeb8e3b26e529b67ef909\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"25e281b65dea6b2423899a8c387a0f04\")"
     ]
   }
 }
