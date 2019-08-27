@@ -44,14 +44,14 @@ class SearchHistory {
 @Dao
 interface SearchHistoryDao{
 
-    @Query("select * from SearchHistory")
+    @Query("select keyword from SearchHistory")
     String[] getAllSearchHistory();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertSearchHistory(String... keywords);
+    void insertSearchHistory(SearchHistory... keywords);
 
     @Delete
-    void deleteSearchHistory(String... keywords);
+    void deleteSearchHistory(SearchHistory... keywords);
 }
 
 @Database(entities = SearchHistory.class, version = 1)
@@ -115,7 +115,7 @@ class SearchHistoryRepo{
 
         @Override
         protected Void doInBackground(String... keywords){
-            searchHistoryDao.insertSearchHistory(keywords);
+            searchHistoryDao.insertSearchHistory(new SearchHistory(keywords[0]));
             return null;
         }
     }
@@ -133,7 +133,7 @@ class SearchHistoryRepo{
 
         @Override
         protected Void doInBackground(String... keywords){
-            searchHistoryDao.deleteSearchHistory(keywords);
+            searchHistoryDao.deleteSearchHistory(new SearchHistory(keywords[0]));
             return null;
         }
     }
