@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.newstoday.Adapter.NewsAdapter;
 import com.example.newstoday.News;
@@ -50,6 +51,9 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+
+        ImageView imageView = findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.search_result_title);
 
         mSwipyRefreshLayout = findViewById(R.id.item_swipyrefresh);
         mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {

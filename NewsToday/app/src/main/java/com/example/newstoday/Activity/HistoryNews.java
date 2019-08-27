@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,6 +50,8 @@ public class HistoryNews extends AppCompatActivity {
             _news.setImage(News.stringParse(_news.getOriImage()));
         }
 
+        ImageView imageView = findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.history_title);
 
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
                 .withIcon(R.drawable.star).withTextColor(Color.parseColor("#ababab"));

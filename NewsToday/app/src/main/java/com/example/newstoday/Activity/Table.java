@@ -67,7 +67,7 @@ public class Table extends AppCompatActivity {
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
                 .withIcon(R.drawable.history).withTextColor(Color.parseColor("#ababab"));
         SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式")
-                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab"));
+                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab")).withSelectable(false);
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .addProfiles(
@@ -97,12 +97,12 @@ public class Table extends AppCompatActivity {
                         // do something with the clicked item :D
                         if(drawerItem.getIdentifier() == 1){
                             Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
-//                            startActivity(intent);
-                            startActivityForResult(intent, COLLECTION_CHANGED);
+                            startActivity(intent);
+//                            startActivityForResult(intent, COLLECTION_CHANGED);
                         }else if(drawerItem.getIdentifier() == 2) {
                             Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
-//                            startActivity(intent);
-                            startActivityForResult(intent, HISTORY_CHANGED);
+                            startActivity(intent);
+//                            startActivityForResult(intent, HISTORY_CHANGED);
                         }
 
                         return false;
@@ -217,7 +217,7 @@ public class Table extends AppCompatActivity {
         recyclerViewCat = findViewById(R.id.cat_recycler_view);
         recyclerViewCat.setHasFixedSize(true);
         layoutManagerCat = new LinearLayoutManager(this);
-        ((LinearLayoutManager) layoutManagerCat).setOrientation(LinearLayout.HORIZONTAL);
+        ((LinearLayoutManager) layoutManagerCat).setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
         mAdapterCat = new CatAdapter();
         mAdapterCat.setOnItemClickListener(listenerCat);
@@ -243,16 +243,19 @@ public class Table extends AppCompatActivity {
                 mAdapterNews.updateNews(news);
                 mAdapterNews.notifyDataSetChanged();
             }
-        } else if(requestCode == COLLECTION_CHANGED || requestCode == HISTORY_CHANGED){
-            if(resultCode == RESULT_OK){
-                mAdapterNews.notifyDataSetChanged();
-                drawer.setSelectionAtPosition(-1);
-            }
         }
+//        } else if(requestCode == COLLECTION_CHANGED || requestCode == HISTORY_CHANGED){
+//            if(resultCode == RESULT_OK){
+//                System.out.println("Here");
+//                mAdapterNews.notifyDataSetChanged();
+//                drawer.setSelection(-1);
+//            }
+//        }
     }
 
     @Override
     protected void onNewIntent(Intent intent){
         mAdapterNews.notifyDataSetChanged();
+        drawer.setSelectionAtPosition(-1);
     }
 }

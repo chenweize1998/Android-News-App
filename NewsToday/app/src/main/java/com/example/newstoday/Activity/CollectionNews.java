@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,9 @@ public class CollectionNews extends AppCompatActivity {
         for(News _news: news){
             _news.setImage(News.stringParse(_news.getOriImage()));
         }
+
+        ImageView imageView = findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.collection_title);
 
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
                 .withIcon(R.drawable.star).withTextColor(Color.parseColor("#ababab"));
@@ -120,8 +124,8 @@ public class CollectionNews extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //        Intent intent = getIntent();
-//        setResult(Activity.RESULT_OK, intent);
         Intent intent = new Intent(getApplicationContext(), Table.class);
+//        setResult(Activity.RESULT_OK, intent);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
 //        finish();
