@@ -32,7 +32,7 @@ public class HistoryNews extends AppCompatActivity {
         setContentView(R.layout.history_news);
 
         newsManager = NewsManager.getNewsManager(getApplicationContext());
-        news = newsManager.getHistoryNews();
+        news = newsManager.getAllHistoryNews();
         for(News _news: news){
             _news.setImage(News.stringParse(_news.getOriImage()));
         }

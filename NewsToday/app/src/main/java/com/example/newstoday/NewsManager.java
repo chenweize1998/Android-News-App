@@ -6,6 +6,9 @@ import org.json.*;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
+import android.util.ArrayMap;
+import android.util.ArraySet;
+
 import java.util.ArrayList;
 
 public class NewsManager {
@@ -16,6 +19,8 @@ public class NewsManager {
     private static NewsRepository historyNews;
     private static NewsRepository collectionNews;
     private static String lastCategory;
+    private ArraySet<String> historyNewsInMem;
+    private ArraySet<String> collectionNewsInmem;
 
     private NewsManager(Context context){
         newNewsCounter = 0;
@@ -23,6 +28,22 @@ public class NewsManager {
         lastCategory = "娱乐";
         historyNews = new NewsRepository(AppDB.getAppDB(context, "history"));
         collectionNews = new NewsRepository(AppDB.getAppDB(context, "collection"));
+
+        initNewInMem();
+    }
+
+    private void initNewInMem(){
+        String[] historyNewsID = getHistoryNewsID();
+        historyNewsInMem = new ArraySet(historyNewsID.length);
+        for(String ID: historyNewsID){
+            historyNewsInMem.add(ID);
+        }
+
+        String[] collectionNewsID = getCollectionNewsID();
+        collectionNewsInmem = new ArraySet(collectionNewsID.length);
+        for(String ID: collectionNewsID){
+            collectionNewsInmem.add(ID);
+        }
     }
 
     public static NewsManager getNewsManager(Context context){
@@ -115,7 +136,7 @@ public class NewsManager {
         return null;
     }
 
-    public ArrayList<News> getHistoryNews(){
+    public ArrayList<News> getAllHistoryNews(){
         return historyNews.getAllNews();
     }
 
@@ -123,32 +144,41 @@ public class NewsManager {
         return collectionNews.getAllNews();
     }
 
-    public News getOneCollectionNews(String ID){
-        return collectionNews.getOneNews(ID);
-    }
+    private String[] getHistoryNewsID(){return historyNews.getAllNewsID();}
 
-    public News getOneHistoryNews(String ID){
-        return historyNews.getOneNews(ID);
-    }
+    private String[] getCollectionNewsID(){return collectionNews.getAllNewsID();}
 
     public void addInHistory(News... news){
         historyNews.insertNews(news);
+        for(News _news: news){
+            historyNewsInMem.add(_news.getNewsID());
+        }
     }
 
     public void addInCollection(News... news){
         collectionNews.insertNews(news);
+        for(News _news: news){
+            collectionNewsInmem.add(_news.getNewsID());
+        }
     }
 
     public void deleteOneHistory(News... news){
         historyNews.deleteNews(news);
+        for(News _news: news){
+            historyNewsInMem.remove(_news.getNewsID());
+        }
     }
 
     public void deleteAllHistory(){
         historyNews.deleteNews((News [])historyNews.getAllNews().toArray());
+        historyNewsInMem.clear();
     }
 
     public void deletaOneCollection(News... news){
         collectionNews.deleteNews(news);
+        for(News _news: news){
+            collectionNewsInmem.remove(_news.getNewsID());
+        }
     }
 
     public int getNewNewsCounter() {
@@ -165,6 +195,14 @@ public class NewsManager {
 
     public void resetPageCounter(){
         pageCounter = 1;
+    }
+
+    public boolean inHistoryNews(News news){
+        return historyNewsInMem.contains(news.getNewsID());
+    }
+
+    public boolean inCollectionNews(News news){
+        return collectionNewsInmem.contains(news.getNewsID());
     }
 
 }

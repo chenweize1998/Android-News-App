@@ -136,7 +136,6 @@ public class Table extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), NewsPage.class);
                 intent.putExtra("news", news.get(position));
                 startActivity(intent);
-                newsManager.addInHistory(news.get(position));
             }
         };
 
