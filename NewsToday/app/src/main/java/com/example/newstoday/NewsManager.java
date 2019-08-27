@@ -53,6 +53,11 @@ public class NewsManager {
         return Instance;
     }
 
+    public ArrayList<News> searchNews(final String keyword){
+
+        return getNews(20, null, null, keyword, null, false);
+    }
+
     public ArrayList<News> getNews(int size, final String startDate, final String endDate, final String words, final String categories, boolean refresh) {
 
         newNewsCounter = 0;
