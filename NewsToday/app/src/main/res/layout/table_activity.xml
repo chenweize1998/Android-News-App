@@ -27,9 +27,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="#000000"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways">
+
 
             <ImageView
                 android:id="@+id/imageView"
@@ -41,12 +40,22 @@
                 android:src="@drawable/app_title"
                  />
 
+            <SearchView
+                android:id="@+id/table_searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="parallax"
+                android:layoutDirection="rtl"
+                android:queryBackground="@color/black"
+                android:searchIcon="@drawable/search"
+                android:closeIcon="@drawable/close"
+                />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/table_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"/>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

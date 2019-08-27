@@ -2,13 +2,17 @@ package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
+
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -102,6 +106,9 @@ public class Table extends AppCompatActivity {
                     }
                 })
                 .build();
+
+//        SearchView searchView = findViewById(R.id.table_searchView);
+//        searchView.setLayoutParams(new ActionBar.LayoutParams(Gravity.RIGHT));
 
         ImageButton imgButton = findViewById(R.id.cat_arange);
         imgButton.setOnClickListener(new View.OnClickListener() {

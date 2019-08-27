@@ -5,4 +5,6 @@
     <color name="colorAccent">#D81B60</color>
     <color name="catBg">#000000</color>
     <color name="catBgSelected">#0f0f0f</color>
+    <color name="black">#000000</color>
+    <color name="editText">#777474</color>
 </resources>
