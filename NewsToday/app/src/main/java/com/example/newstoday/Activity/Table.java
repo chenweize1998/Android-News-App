@@ -231,6 +231,7 @@ public class Table extends AppCompatActivity {
         mAdapterCat = new CatAdapter();
         mAdapterCat.setOnItemClickListener(listenerCat);
         recyclerViewCat.setAdapter(mAdapterCat);
+        recyclerViewCat.setItemViewCacheSize(5);
     }
 
     @Override

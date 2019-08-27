@@ -61,6 +61,8 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
             select(holder.itemView);
             lastClicked = holder.itemView;
             updateSelection = false;
+        }else{
+            unselect(holder.itemView);
         }
     }
 
