@@ -35,9 +35,9 @@
 <ImageView
     android:id="@+id/imgNews"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="wrap_content"
+    android:maxHeight="250dp"
     android:layout_gravity="center_vertical"
-    android:src="@drawable/default_pic"
     android:scaleType="centerCrop" />
 
 <LinearLayout

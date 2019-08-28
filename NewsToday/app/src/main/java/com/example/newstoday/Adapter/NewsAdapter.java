@@ -91,7 +91,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         if(!news.get(position).getImage()[0].equals(""))
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
         else
-            holder.imgNews.setImageResource(R.mipmap.default_pic);
+            holder.imgNews.setImageResource(0);
         if(newsManager.inCollectionNews(news.get(position))){
             holder.starButton.setImageResource(R.drawable.star_selected);
         }
