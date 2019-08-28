@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -47,6 +48,7 @@ public class Table extends AppCompatActivity {
     private SwipyRefreshLayout mSwipyRefreshLayout;
     private static final int DISMISS_TIMEOUT = 1000;
     private String currentCategory = "娱乐";
+    private boolean doubleBackToExitPressedOnce;
     private final int CAT_REARRANGE = 1;
     private final int HISTORY_CHANGED = 2;
     private final int COLLECTION_CHANGED = 3;
@@ -66,7 +68,9 @@ public class Table extends AppCompatActivity {
                 .withIcon(R.drawable.star).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
                 .withIcon(R.drawable.history).withTextColor(Color.parseColor("#ababab"));
-        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式")
+        BaseDrawerItem item3 = new SecondaryDrawerItem().withIdentifier(3).withName("清除历史")
+                .withIcon(R.drawable.clear).withTextColor(Color.parseColor("#ababab"));
+        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(4).withName("夜间模式")
                 .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab")).withSelectable(false);
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -88,6 +92,7 @@ public class Table extends AppCompatActivity {
                         item1,
                         item2,
                         new DividerDrawerItem(),
+                        item3,
                         switchDrawerItem
                 )
                 .withSliderBackgroundDrawableRes(R.drawable.drawer_bg)
@@ -103,6 +108,10 @@ public class Table extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
                             startActivity(intent);
 //                            startActivityForResult(intent, HISTORY_CHANGED);
+                        }else if(drawerItem.getIdentifier() == 3){
+                            newsManager.deleteAllHistory();
+                            mAdapterNews.notifyDataSetChanged();
+                            Toast.makeText(getApplicationContext(), "历史记录已清除", Toast.LENGTH_LONG).show();
                         }
 
                         return false;
@@ -222,8 +231,7 @@ public class Table extends AppCompatActivity {
         mAdapterCat = new CatAdapter();
         mAdapterCat.setOnItemClickListener(listenerCat);
         recyclerViewCat.setAdapter(mAdapterCat);
-
-        newsManager.deleteAllHistory();
+        recyclerViewCat.setItemViewCacheSize(5);
     }
 
     @Override
@@ -259,5 +267,24 @@ public class Table extends AppCompatActivity {
     protected void onNewIntent(Intent intent){
         mAdapterNews.notifyDataSetChanged();
         drawer.setSelectionAtPosition(-1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }
