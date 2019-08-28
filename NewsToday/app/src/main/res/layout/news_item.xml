@@ -36,7 +36,8 @@
     android:id="@+id/imgNews"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxHeight="250dp"
+    android:maxHeight="300dp"
+    android:adjustViewBounds="true"
     android:layout_gravity="center_vertical"
     android:scaleType="centerCrop" />
 
