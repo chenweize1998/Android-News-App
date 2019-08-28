@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
@@ -103,24 +104,35 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setText(news.getContent());
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
-
-        System.out.println("视频开始展示");
         String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
-        videoView = (VideoView) findViewById(R.id.videoView);
-        MediaController controller = new MediaController(this);
-        controller.setMediaPlayer(videoView);
-        videoView.setMediaController(controller);
+        videoView = findViewById(R.id.videoView);
+//        final MediaController controller = new MediaController(this);
+//        controller.setMediaPlayer(videoView);
+//        videoView.setMediaController(controller);
         videoView.setVideoURI(Uri.parse(url));
-
+//        controller.setAnchorView(videoView);
         videoView.start();
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 //         mp.setLooping(true);
+                mp.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
+                     @Override
+                     public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+                         /*
+                          * add media controller
+                          */
+                         MediaController controller = new MediaController(NewsPage.this);
+                         videoView.setMediaController(controller);
+                         /*
+                          * and set its position on screen
+                          */
+                         controller.setAnchorView(videoView);
+                     }
+                 });
                 mp.start();// 播放
                 Toast.makeText(NewsPage.this, "开始播放！", Toast.LENGTH_LONG).show();
-                System.out.println("准备播放视频");
             }
         });
 

@@ -165,8 +165,11 @@ android:fitsSystemWindows="true">
             />
             <VideoView
                 android:id="@+id/videoView"
-                android:layout_width="100dp"
-                android:layout_height="100dp" />
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                android:paddingHorizontal="50dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginBottom="100dp"/>
 
 
         </LinearLayout>

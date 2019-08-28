@@ -110,6 +110,8 @@ public class BaseRecyclerAdapter
                         builder.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
                     }
                 });
+            } else {
+                image.setImageResource(R.drawable.default_pic);
             }
         }
     }
