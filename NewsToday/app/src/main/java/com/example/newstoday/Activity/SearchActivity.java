@@ -86,7 +86,7 @@ public class SearchActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                                            "2019-08-10", null, category, true, false);
+                                            "2019-08-28", null, category, true, false);
                                     mAdapterNews.refreshNews(newsTmp);
                                     mAdapterNews.notifyDataSetChanged();
                                     mSwipyRefreshLayout.setRefreshing(false);

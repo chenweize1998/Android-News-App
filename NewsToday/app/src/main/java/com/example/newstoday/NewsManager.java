@@ -3,6 +3,7 @@ package com.example.newstoday;
 
 import org.json.*;
 
+import java.util.HashSet;
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.renderscript.Float4;
 import android.util.ArrayMap;
 import android.util.ArraySet;
+import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -30,6 +32,8 @@ public class NewsManager {
     private ArraySet<String> collectionNewsInmem;
     private final String allCategory = "娱乐,军事,教育,文化,健康,财经,体育,汽车,科技,社会";
     private final int recommendWordCnt = 4;
+    private HashSet<String> recommended = new HashSet<>();
+    private ArrayMap<String, Integer> keywordPage = new ArrayMap<>();
 
     private NewsManager(Context context){
         newNewsCounter = 0;
@@ -72,6 +76,8 @@ public class NewsManager {
             JSONObject json;
             ArrayList<News> newNews = new ArrayList<>();
             boolean recommendJudge = categories.equals("推荐");
+            if(recommendJudge && !lastCategory.equals("推荐"))
+                keywordPage.clear();
             int cnt = 0;
             String recommendWord;
             do {
@@ -80,13 +86,14 @@ public class NewsManager {
                 System.out.println(recommendWord);
                 if(recommendJudge && recommendWord != null) {
                     json = jsonData.execute(String.valueOf(size / recommendWordCnt), startDate, endDate,
-                            recommendWord, allCategory, Integer.toString(pageCounter)).get();
+                            recommendWord, allCategory, Integer.toString(keywordPage.getOrDefault(recommendWord, 1))).get();
+                    keywordPage.put(recommendWord, keywordPage.getOrDefault(recommendWord, 1) + 1);
                 } else {
                     json = jsonData.execute(String.valueOf(size), startDate, endDate, words,
                             recommendJudge ? allCategory : categories, Integer.toString(pageCounter)).get();
                 }
                 if ((refresh || !lastCategory.equals(categories)) && (!recommendJudge) ) {
-                    ++pageCounter;  // 推荐的在最后再更新
+                    ++pageCounter;  // 推荐的在前面按词更新
                 }
                 lastCategory = categories;
                 if (Integer.parseInt(json.getString("pageSize")) == 0) {
@@ -98,12 +105,14 @@ public class NewsManager {
                 for (int i = 0; i < newsArray.length(); i++) {
                     try {
                         JSONObject news = newsArray.getJSONObject(i);
+                        String newsID = news.getString("newsID");
+                        if(recommendJudge && recommended.contains(newsID))
+                            continue;
                         String title = news.getString("title");
                         String date = news.getString("publishTime");
                         String content = news.getString("content");
                         String category = news.getString("category");
                         String image = news.getString("image");
-                        String newsID = news.getString("newsID");
                         String publisher = news.getString("publisher");
                         String url = news.getString("url");
                         //                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
@@ -140,6 +149,7 @@ public class NewsManager {
                                 News.stringConverter(images), publisher, null,
                                 null, keywords.toString(), scores.toString(), url));
                         newNews.get(newNewsCounter).setImage(images);
+                        recommended.add(newsID);
                         newNewsCounter++;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -148,8 +158,6 @@ public class NewsManager {
             } while (recommendJudge && ++cnt < recommendWordCnt && recommendWord != null);
             if(recommendJudge) {
                 Collections.shuffle(newNews);
-                if(lastCategory != categories || refresh)
-                    ++pageCounter;
             }
             return newNews;
         }catch(JSONException e){
