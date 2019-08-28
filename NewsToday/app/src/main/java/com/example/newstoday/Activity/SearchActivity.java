@@ -107,4 +107,12 @@ public class SearchActivity extends AppCompatActivity {
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), Table.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
 }

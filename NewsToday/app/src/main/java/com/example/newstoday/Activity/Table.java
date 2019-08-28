@@ -49,6 +49,7 @@ public class Table extends AppCompatActivity {
     private static final int DISMISS_TIMEOUT = 500;
     private String currentCategory = "推荐";
     private boolean doubleBackToExitPressedOnce;
+    private boolean restart;
     private final int CAT_REARRANGE = 1;
     private final int HISTORY_CHANGED = 2;
     private final int COLLECTION_CHANGED = 3;
@@ -269,6 +270,12 @@ public class Table extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop (){
+        super.onStop();
+        newsManager.resetRecommendation();
+    }
+
+    @Override
     protected void onNewIntent(Intent intent){
         mAdapterNews.notifyDataSetChanged();
         drawer.setSelectionAtPosition(-1);
@@ -277,8 +284,7 @@ public class Table extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
+            finish();
         }
 
         this.doubleBackToExitPressedOnce = true;

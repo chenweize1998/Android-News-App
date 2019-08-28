@@ -131,7 +131,7 @@ public class HistoryNews extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Table.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-//        finish();
+        finish();
     }
 
 }

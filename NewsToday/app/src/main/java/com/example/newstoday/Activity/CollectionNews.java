@@ -128,7 +128,7 @@ public class CollectionNews extends AppCompatActivity {
 //        setResult(Activity.RESULT_OK, intent);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-//        finish();
+        finish();
     }
 
 }

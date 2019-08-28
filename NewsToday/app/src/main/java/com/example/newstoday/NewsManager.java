@@ -5,6 +5,7 @@ import org.json.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -44,6 +45,12 @@ public class NewsManager {
         collectionNews = new NewsRepository(AppDB.getAppDB(context, "collection"));
         recommendKeyword = new RandomCollection<>();
         initNewInMem();
+    }
+
+    public void resetRecommendation(){
+        for(String key:keywordPage.keySet())
+            keywordPage.put(key, 1);
+        recommended.clear();
     }
 
     private void initNewInMem(){
