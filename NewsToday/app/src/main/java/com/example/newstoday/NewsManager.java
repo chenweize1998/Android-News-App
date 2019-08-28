@@ -254,9 +254,11 @@ public class NewsManager {
     }
 
     class RandomCollection<E> {
-        private final NavigableMap<Double, E> map = new TreeMap<Double, E>();
+        private NavigableMap<Double, E> map = new TreeMap<Double, E>();
         private final Random random;
         private double total = 0;
+        private final int UPDATE_TIMES = 20;
+        private int updateCnt = 0;
 
         public RandomCollection() {
             this(new Random());
@@ -268,6 +270,18 @@ public class NewsManager {
 
         public RandomCollection<E> add(double weight, E result) {
             if (weight <= 0) return this;
+
+            // 看要不要开起来，复杂度有点高O(nlogn)，但是感觉可以调节推荐比例
+//            if(++updateCnt == UPDATE_TIMES){
+//                updateCnt = 0;
+//                NavigableMap<Double, E> newMap = new TreeMap<>();
+//                for(Map.Entry entry : map.entrySet()){
+//                    newMap.put((Double)entry.getKey() * 0.5, (E) entry.getValue());
+//                }
+//                total *= 0.5;
+//                map = newMap;
+//            }
+
             total += weight;
             map.put(total, result);
             return this;

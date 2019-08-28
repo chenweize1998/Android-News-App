@@ -131,15 +131,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             @Override
             public void onClick(final View v) {
                 News tmp = news.get(position);
-                newsManager.addInHistory(tmp);
-                holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
                 String[] keywords = news.get(position).getKeywords();
                 Double[] scores = news.get(position).getScores();
                 for(int i = 0; i < keywords.length; ++i) {
-                    if (scores[i] < 0.5)
+                    if (scores[i] < 0.5 || newsManager.inHistoryNews(tmp)) {
                         break;
+                    }
                     newsManager.addWeight(scores[i], keywords[i]);
                 }
+                newsManager.addInHistory(tmp);
+                holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
                 listener.onItemClick(position, v);
             }
         });
