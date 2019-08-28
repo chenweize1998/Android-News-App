@@ -95,7 +95,7 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setText(news.getContent());
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
-        mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, width, news);
+        mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);
 
         mIndicator = findViewById(R.id.page_indicator);
         final RecyclerView recyclerView = findViewById(R.id.page_image_recycler);

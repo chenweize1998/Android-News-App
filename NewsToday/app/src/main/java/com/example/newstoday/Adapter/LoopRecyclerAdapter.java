@@ -3,20 +3,24 @@ package com.example.newstoday.Adapter;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
 import com.example.newstoday.News;
+import com.example.newstoday.R;
 
 public class LoopRecyclerAdapter extends BaseRecyclerAdapter {
     private News mNews;
     private int mWidth;
+    private Context mContext;
 
-    public LoopRecyclerAdapter(int count, int width, News news) {
-        super(count, width, news);
+    public LoopRecyclerAdapter(int count, Context context, News news) {
+        super(count, context, news);
         mNews = news;
-        mWidth = width;
+//        mWidth = width;
+        mContext = context;
     }
 
     @Override public int getItemCount() {
@@ -49,6 +53,6 @@ public class LoopRecyclerAdapter extends BaseRecyclerAdapter {
     }
 
     @Override public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.bindView(getRealPosition(position), mWidth, mNews);
+        holder.bindView(getRealPosition(position), mContext, mNews);
     }
 }

@@ -1,11 +1,18 @@
 package com.example.newstoday.Adapter;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,12 +28,14 @@ public class BaseRecyclerAdapter
 
     protected int mCount;
     private News mNews;
-    private int mWidth;
+//    private int mWidth;
+    private Context mContext;
 
-    public BaseRecyclerAdapter(int count, int width, News news) {
+    public BaseRecyclerAdapter(int count, Context context, News news) {
         mCount = count;
         mNews = news;
-        mWidth = width;
+//        mWidth = width;
+        mContext = context;
     }
 
     @NonNull @Override
@@ -35,7 +44,7 @@ public class BaseRecyclerAdapter
     }
 
     @Override public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.bindView(position, mWidth, mNews);
+        holder.bindView(position, mContext, mNews);
     }
 
     @Override public int getItemCount() {
@@ -60,7 +69,7 @@ public class BaseRecyclerAdapter
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
 //        private final Random random = new Random();
-        private ImageView imageView;
+        private ImageView image;
 
         static MyViewHolder createViewHolder(@NonNull ViewGroup parent) {
             View v = LayoutInflater.from(parent.getContext())
@@ -70,15 +79,38 @@ public class BaseRecyclerAdapter
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.page_image);
+            image = itemView.findViewById(R.id.page_image);
         }
 
-        void bindView(int position, int width, News news) {
+        void bindView(final int position, final Context context, final News news) {
 //            TextView textView = (TextView) itemView;
 //            textView.setText(String.valueOf(position + 1));
 //            textView.setBackgroundColor(0xff000000 | random.nextInt(0x00ffffff));
-            if(news.getImage()[0] != "")
-                Picasso.get().load(news.getImage()[position]).fit().centerCrop().into(imageView);
+            if(news.getImage()[0] != "") {
+                Picasso.get().load(news.getImage()[position]).fit().centerCrop().into(image);
+                image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        Dialog builder = new Dialog(context);
+                        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        builder.getWindow().setBackgroundDrawable(
+                                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialogInterface) {
+                            }
+                        });
+
+                        ImageView imageView = new ImageView(context);
+                        Picasso.get().load(news.getImage()[position]).into(imageView);
+                        builder.addContentView(imageView, new RelativeLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT));
+                        builder.show();
+                        builder.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                    }
+                });
+            }
         }
     }
 }
