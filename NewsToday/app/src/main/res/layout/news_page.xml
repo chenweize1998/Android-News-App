@@ -158,6 +158,10 @@ android:fitsSystemWindows="true">
                 android:layout_marginBottom="10dp"
                 android:textColor="#222222"
             />
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
 
         </LinearLayout>

@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 
 import com.example.newstoday.Adapter.NewsPageAdapter;
@@ -17,12 +20,16 @@ import com.example.newstoday.R;
 import com.squareup.picasso.Picasso;
 
 import android.util.DisplayMetrics;
+import android.widget.Toast;
+import android.widget.VideoView;
+import android.widget.MediaController;
 
 public class NewsPage extends AppCompatActivity {
     private RecyclerView recyclerView;
     private NewsPageAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private NewsManager newsManager;
+    private VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -90,6 +97,28 @@ public class NewsPage extends AppCompatActivity {
         TextView pageContent = findViewById(R.id.page_content);
         pageContent.setText(news.getContent());
         pageContent.setMovementMethod(new ScrollingMovementMethod());
+
+
+        System.out.println("视频开始展示");
+        String url = "https://developers.google.com/training/images/tacoma_narrows.mp4";
+        videoView = (VideoView) findViewById(R.id.videoView);
+        MediaController controller = new MediaController(this);
+        controller.setMediaPlayer(videoView);
+        videoView.setMediaController(controller);
+        videoView.setVideoURI(Uri.parse(url));
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                //         mp.setLooping(true);
+                mp.start();// 播放
+                Toast.makeText(NewsPage.this, "开始播放！", Toast.LENGTH_LONG).show();
+                System.out.println("准备播放视频");
+            }
+        });
+
+
     }
 
     @Override
