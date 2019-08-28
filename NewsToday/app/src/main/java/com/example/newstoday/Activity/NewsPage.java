@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -104,12 +105,13 @@ public class NewsPage extends AppCompatActivity {
 
 
         System.out.println("视频开始展示");
-        String url = "https://developers.google.com/training/images/tacoma_narrows.mp4";
+        String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
         videoView = (VideoView) findViewById(R.id.videoView);
         MediaController controller = new MediaController(this);
         controller.setMediaPlayer(videoView);
         videoView.setMediaController(controller);
         videoView.setVideoURI(Uri.parse(url));
+
         videoView.start();
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -121,6 +123,8 @@ public class NewsPage extends AppCompatActivity {
                 System.out.println("准备播放视频");
             }
         });
+
+
 
         mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);
 
@@ -157,4 +161,5 @@ public class NewsPage extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+
 }
