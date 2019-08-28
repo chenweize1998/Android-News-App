@@ -1,6 +1,7 @@
 package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -110,7 +111,7 @@ public class NewsPage extends AppCompatActivity {
 //        videoView.setMediaController(controller);
         videoView.setVideoURI(Uri.parse(url));
 //        controller.setAnchorView(videoView);
-        videoView.start();
+//        videoView.start();
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -130,7 +131,7 @@ public class NewsPage extends AppCompatActivity {
                          controller.setAnchorView(videoView);
                      }
                  });
-                mp.start();// 播放
+//                mp.start();// 播放
                 Toast.makeText(NewsPage.this, "开始播放！", Toast.LENGTH_LONG).show();
             }
         });
@@ -163,6 +164,7 @@ public class NewsPage extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 

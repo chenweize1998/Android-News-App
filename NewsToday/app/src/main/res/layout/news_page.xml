@@ -112,13 +112,15 @@ android:fitsSystemWindows="true">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/page_scroll_view"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="24dp">
+            android:paddingTop="24dp"
+            android:descendantFocusability="blocksDescendants">
 
 
             <TextView
@@ -148,6 +150,13 @@ android:fitsSystemWindows="true">
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
             />
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="1000dp"
+                android:paddingHorizontal="50dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginBottom="50dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -163,13 +172,6 @@ android:fitsSystemWindows="true">
                 android:layout_marginBottom="10dp"
                 android:textColor="#222222"
             />
-            <VideoView
-                android:id="@+id/videoView"
-                android:layout_width="match_parent"
-                android:layout_height="1000dp"
-                android:paddingHorizontal="50dp"
-                android:layout_marginHorizontal="50dp"
-                android:layout_marginBottom="100dp"/>
 
 
         </LinearLayout>
