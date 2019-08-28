@@ -135,8 +135,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
                 String[] keywords = news.get(position).getKeywords();
                 Double[] scores = news.get(position).getScores();
-                for(int i = 0; i < keywords.length; ++i)
+                for(int i = 0; i < keywords.length; ++i) {
+                    if (scores[i] < 0.5)
+                        break;
                     newsManager.addWeight(scores[i], keywords[i]);
+                }
                 listener.onItemClick(position, v);
             }
         });

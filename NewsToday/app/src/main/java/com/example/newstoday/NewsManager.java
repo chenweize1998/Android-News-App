@@ -3,6 +3,7 @@ package com.example.newstoday;
 
 import org.json.*;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.NavigableMap;
 import java.util.Random;
@@ -32,7 +33,7 @@ public class NewsManager {
     private ArraySet<String> collectionNewsInmem;
     private final String allCategory = "娱乐,军事,教育,文化,健康,财经,体育,汽车,科技,社会";
     private final int recommendWordCnt = 4;
-    private HashSet<String> recommended = new HashSet<>();
+    private ArraySet<String> recommended = new ArraySet<>();
     private ArrayMap<String, Integer> keywordPage = new ArrayMap<>();
 
     private NewsManager(Context context){
@@ -88,6 +89,7 @@ public class NewsManager {
                     json = jsonData.execute(String.valueOf(size / recommendWordCnt), startDate, endDate,
                             recommendWord, allCategory, Integer.toString(keywordPage.getOrDefault(recommendWord, 1))).get();
                     keywordPage.put(recommendWord, keywordPage.getOrDefault(recommendWord, 1) + 1);
+                    System.out.println(keywordPage.get(recommendWord));
                 } else {
                     json = jsonData.execute(String.valueOf(size), startDate, endDate, words,
                             recommendJudge ? allCategory : categories, Integer.toString(pageCounter)).get();
