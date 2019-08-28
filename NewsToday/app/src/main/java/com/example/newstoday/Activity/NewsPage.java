@@ -23,6 +23,7 @@ import com.example.newstoday.Adapter.NewsPageAdapter;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.example.newstoday.MyVideoView;
 import com.squareup.picasso.Picasso;
 
 import me.relex.circleindicator.CircleIndicator2;
@@ -36,7 +37,7 @@ import android.widget.MediaController;
 public class NewsPage extends AppCompatActivity {
     private LoopRecyclerAdapter mAdapterImg;
     private NewsManager newsManager;
-    private VideoView videoView;
+    private MyVideoView mVideoView;
     private CircleIndicator2 mIndicator;
 
     @Override
@@ -106,15 +107,13 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
         String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
-        videoView = findViewById(R.id.videoView);
-//        final MediaController controller = new MediaController(this);
-//        controller.setMediaPlayer(videoView);
-//        videoView.setMediaController(controller);
-        videoView.setVideoURI(Uri.parse(url));
-//        controller.setAnchorView(videoView);
-//        videoView.start();
+        mVideoView = new MyVideoView((VideoView) findViewById(R.id.videoView));
+        mVideoView.setVideoURI(Uri.parse(url));
+        mVideoView.start();
 
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 //         mp.setLooping(true);
@@ -125,18 +124,40 @@ public class NewsPage extends AppCompatActivity {
                           * add media controller
                           */
                          MediaController controller = new MediaController(NewsPage.this);
-                         videoView.setMediaController(controller);
+                         mVideoView.setMediaController(controller);
                          /*
                           * and set its position on screen
                           */
-                         controller.setAnchorView(videoView);
+                         controller.setAnchorView(mVideoView.getVideoView());
                      }
                  });
-//                mp.start();// 播放
-                Toast.makeText(NewsPage.this, "开始播放！", Toast.LENGTH_LONG).show();
+                mp.start();// 播放
             }
         });
 
+        mVideoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mVideoView.isPlaying()){
+//                    mVideoView.pause();
+                }else{
+//                    mVideoView.start();
+                }
+            }
+        });
+
+        mVideoView.setPlayPauseListener(new MyVideoView.PlayPauseListener() {
+
+            @Override
+            public void onPlay() {
+                System.out.println("Play!");
+            }
+
+            @Override
+            public void onPause() {
+                System.out.println("Pause!");
+            }
+        });
 
 
         mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);
