@@ -73,6 +73,7 @@ android:fitsSystemWindows="true">
         android:id="@+id/page_bar"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:background="#fafafa"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -85,14 +86,18 @@ android:fitsSystemWindows="true">
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/page_backdrop"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/page_image_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"
-                android:src="@drawable/default_pic"/>
+                android:layout_height="match_parent">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <me.relex.circleindicator.CircleIndicator2
+                android:id="@+id/page_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="48dp"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/page_toolbar"
