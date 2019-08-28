@@ -89,22 +89,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.txtAbstract.setText(tmp);
 //        holder.txtAbstract.setTypeface(typefaceAbstract);     # 看看到时候要不要设置字体
         holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
+
         if(!news.get(position).getImage()[0].equals(""))
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
         else
             holder.imgNews.setImageResource(0);
-        if(newsManager.inCollectionNews(news.get(position))){
+
+        if(newsManager.inCollectionNews(news.get(position)))
             holder.starButton.setImageResource(R.drawable.star_selected);
-        }
-        else {
+        else
             holder.starButton.setImageResource(R.drawable.not_star);
-        }
-        if(newsManager.inHistoryNews(news.get(position))){
+
+        if(newsManager.inHistoryNews(news.get(position)))
             holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
-        }
-        else {
+        else
             holder.txtTitle.setTextColor(Color.parseColor("#000000"));
-        }
         holder.starButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -134,6 +133,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 News tmp = news.get(position);
                 newsManager.addInHistory(tmp);
                 holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
+                String[] keywords = news.get(position).getKeywords();
+                Double[] scores = news.get(position).getScores();
+                for(int i = 0; i < keywords.length; ++i)
+                    newsManager.addWeight(scores[i], keywords[i]);
                 listener.onItemClick(position, v);
             }
         });

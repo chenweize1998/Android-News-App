@@ -35,16 +35,19 @@ public class News implements Serializable {
 
     private String oriImage;
     private String oriKeywords;
+    private String oriScores;
 
     @Ignore
     private String[] image;
     @Ignore
     private String[] keywords;
+    @Ignore
+    private String[] scores;
 
 
     News(final String title, final String date, final String content, final String category, final String organization,
          final String newsID, final String oriImage, final String publisher, final String person, final String location,
-         final String oriKeywords, final String url){
+         final String oriKeywords, final String oriScores, final String url){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -58,6 +61,8 @@ public class News implements Serializable {
         this.url = url;
         this.oriKeywords = oriKeywords;
         this.keywords =stringParse(oriKeywords);
+        this.oriScores = oriScores;
+        this.scores = stringParse(oriScores);
 
         /*
          * Change string into date
@@ -144,6 +149,16 @@ public class News implements Serializable {
         return keywords;
     }
 
+    public Double[] getScores(){
+        Double[] result = new Double[scores.length];
+        for(int i = 0; i < scores.length; ++i)
+            result[i] = Double.parseDouble(scores[i]);
+        return result;
+    }
+
+    public String getOriScores(){
+        return oriScores;
+    }
 
     /*setter*/
     public void setNewsID(String newsID){
@@ -200,6 +215,14 @@ public class News implements Serializable {
 
     public void setKeywords(String[] keywords){
         this.keywords = keywords;
+    }
+
+    public void setOriScores(String oriScores){
+        this.oriScores = oriScores;
+    }
+
+    public void setScores(String[] scores){
+        this.scores = scores;
     }
 
 }

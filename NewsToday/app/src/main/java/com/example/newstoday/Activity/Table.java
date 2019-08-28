@@ -46,8 +46,8 @@ public class Table extends AppCompatActivity {
     private ArrayList<News> news;
     private NewsManager newsManager;
     private SwipyRefreshLayout mSwipyRefreshLayout;
-    private static final int DISMISS_TIMEOUT = 1000;
-    private String currentCategory = "娱乐";
+    private static final int DISMISS_TIMEOUT = 500;
+    private String currentCategory = "推荐";
     private boolean doubleBackToExitPressedOnce;
     private final int CAT_REARRANGE = 1;
     private final int HISTORY_CHANGED = 2;
@@ -59,11 +59,9 @@ public class Table extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
 
-//        Display display = getWindowManager().getDefaultDisplay();
-//        Point size = new Point();
-//        display.getSize(size);
-//        int width = size.x;
-
+        /**
+         * Drawer
+         */
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
                 .withIcon(R.drawable.star).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
@@ -119,16 +117,17 @@ public class Table extends AppCompatActivity {
                 })
                 .build();
 
-//        SearchView searchView = findViewById(R.id.table_searchView);
-//        searchView.setLayoutParams(new ActionBar.LayoutParams(Gravity.RIGHT));
+        /**
+         * Search view
+         */
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = findViewById(R.id.table_searchView);
         ComponentName cn = new ComponentName(this, SearchActivity.class);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
-        // Assumes current activity is the searchable activity
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setIconifiedByDefault(false);
 
+        /**
+         * Category arrangement button
+         */
         ImageButton imgButton = findViewById(R.id.cat_arange);
         imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +139,9 @@ public class Table extends AppCompatActivity {
             }
         });
 
+        /**
+         * Category click event
+         */
         CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String category) {
@@ -155,6 +157,9 @@ public class Table extends AppCompatActivity {
             }
         };
 
+        /**
+         * Wechat share
+         */
         final WechatShareManager wsm = WechatShareManager.getInstance(this);
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
@@ -165,6 +170,9 @@ public class Table extends AppCompatActivity {
             }
         };
 
+        /**
+         * News items
+         */
         mSwipyRefreshLayout = findViewById(R.id.item_swipyrefresh);
         mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
@@ -205,9 +213,9 @@ public class Table extends AppCompatActivity {
         });
 
 
-
-//        if(category != null)
-//            currentCategory = category.get(0);
+        /**
+         * News and Category recycler view
+         */
         newsManager = NewsManager.getNewsManager(this);
         newsManager.resetPageCounter();
         ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
@@ -254,13 +262,6 @@ public class Table extends AppCompatActivity {
                 mAdapterNews.notifyDataSetChanged();
             }
         }
-//        } else if(requestCode == COLLECTION_CHANGED || requestCode == HISTORY_CHANGED){
-//            if(resultCode == RESULT_OK){
-//                System.out.println("Here");
-//                mAdapterNews.notifyDataSetChanged();
-//                drawer.setSelection(-1);
-//            }
-//        }
     }
 
     @Override
