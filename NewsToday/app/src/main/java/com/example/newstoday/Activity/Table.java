@@ -203,12 +203,8 @@ public class Table extends AppCompatActivity {
                                     mAdapterNews.refreshNews(newsTmp);
                                     mAdapterNews.notifyDataSetChanged();
                                     mSwipyRefreshLayout.setRefreshing(false);
-//                                    if(newsTmp != null) {
                                     recyclerViewNews.smoothScrollToPosition(mAdapterNews.getItemCount() - newsTmp.size());
                                     Toast.makeText(getApplicationContext(), "新返回"+newsTmp.size()+"条新闻", Toast.LENGTH_LONG).show();
-//                                    }
-//                                    else
-//                                        Toast.makeText(getApplicationContext(), "没有更多新闻啦", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }

@@ -51,8 +51,10 @@ public class NewsPageAdapter extends RecyclerView.Adapter <NewsPageAdapter.MyVie
     public void onBindViewHolder(NewsPageAdapter.MyViewHolder holder, final int position) {
         if(!news.getImage()[0].equals(""))
             Picasso.get().load(news.getImage()[0]).resize(width, 500).centerCrop().into(holder.imageView);
-        else
+        else{
+            holder.imageView.setBackgroundColor(0xFF000000);
             holder.imageView.setImageResource(R.mipmap.default_pic);
+        }
 
         holder.title.setText(news.getTitle());
         holder.title.setTextColor(0xFF000000);
