@@ -57,6 +57,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     public NewsAdapter(ArrayList<News> news) {
         this.news = news;
         pat = Pattern.compile("[！？。…~]");
+
     }
 
     public void updateNews(ArrayList<News> news){

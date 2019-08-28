@@ -49,6 +49,7 @@ dependencies {
     implementation "com.mikepenz:materialdrawer:6.1.2"
     implementation 'com.github.omadahealth:swipy:1.2.3@aar'
     implementation 'me.relex:circleindicator:2.1.4'
+    implementation 'me.relex:recyclerpager:1.0.4'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

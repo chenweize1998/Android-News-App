@@ -1,6 +1,8 @@
 package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -10,19 +12,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.newstoday.Adapter.LoopRecyclerAdapter;
 import com.example.newstoday.Adapter.NewsPageAdapter;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.squareup.picasso.Picasso;
 
+import me.relex.circleindicator.CircleIndicator2;
+import me.relex.recyclerpager.SnapPageScrollListener;
+
 import android.util.DisplayMetrics;
 
 public class NewsPage extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private NewsPageAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private LoopRecyclerAdapter mAdapterImg;
     private NewsManager newsManager;
+    private CircleIndicator2 mIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,7 +42,6 @@ public class NewsPage extends AppCompatActivity {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
 
         TextView textView = findViewById(R.id.page_bottom_comment);
@@ -67,11 +71,11 @@ public class NewsPage extends AppCompatActivity {
             }
         });
 //
-        ImageView imageView = findViewById(R.id.page_backdrop);
-        if(!news.getImage()[0].equals(""))
-            Picasso.get().load(news.getImage()[0]).resize(width, 500).centerCrop().into(imageView);
-        else
-            imageView.setImageResource(R.drawable.default_pic);
+//        ImageView imageView = findViewById(R.id.page_backdrop);
+//        if(!news.getImage()[0].equals(""))
+//            Picasso.get().load(news.getImage()[0]).resize(width, 500).centerCrop().into(imageView);
+//        else
+//            imageView.setImageResource(R.drawable.default_pic);
 //
         TextView pageTitle = findViewById(R.id.page_title);
         pageTitle.setText(news.getTitle());
@@ -90,6 +94,34 @@ public class NewsPage extends AppCompatActivity {
         TextView pageContent = findViewById(R.id.page_content);
         pageContent.setText(news.getContent());
         pageContent.setMovementMethod(new ScrollingMovementMethod());
+
+        mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, width, news);
+
+        mIndicator = findViewById(R.id.page_indicator);
+        final RecyclerView recyclerView = findViewById(R.id.page_image_recycler);
+
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapterImg);
+        mIndicator.createIndicators(mAdapterImg.getRealItemCount(), 0);
+
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.addOnScrollListener(new SnapPageScrollListener() {
+            @Override public void onPageSelected(int position) {
+                mIndicator.animatePageSelected(mAdapterImg.getRealPosition(position));
+            }
+
+            @Override public void onPageScrolled(int position, float positionOffset,
+                                                 int positionOffsetPixels) {
+                if (positionOffsetPixels == 0) {
+                    recyclerView.scrollToPosition(mAdapterImg.getLoopPosition(position));
+                }
+            }
+        });
+
     }
 
     @Override
