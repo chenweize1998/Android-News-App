@@ -1,42 +1,62 @@
 package com.example.newstoday;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
-public class MyVideoView extends VideoView {
+public class MyVideoView {
 
     private PlayPauseListener mListener;
+    private VideoView videoView;
 
-    public MyVideoView(Context context) {
-        super(context);
+    public MyVideoView(VideoView videoView) {
+        this.videoView = videoView;
     }
 
-    public MyVideoView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public MyVideoView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    public void MyVideoView(PlayPauseListener listener) {
+    public void setPlayPauseListener(PlayPauseListener listener) {
         mListener = listener;
     }
 
-    @Override
     public void pause() {
-        super.pause();
+        videoView.pause();
         if (mListener != null) {
             mListener.onPause();
         }
     }
 
-    @Override
     public void start() {
-        super.start();
+        videoView.start();
         if (mListener != null) {
             mListener.onPlay();
         }
+    }
+
+    public void setVideoURI(Uri uri){
+        videoView.setVideoURI(uri);
+    }
+
+    public void setOnPreparedListener(MediaPlayer.OnPreparedListener onPreparedListener){
+        videoView.setOnPreparedListener(onPreparedListener);
+    }
+
+    public void setOnClickListener(View.OnClickListener onClickListener){
+        videoView.setOnClickListener(onClickListener);
+    }
+
+    public boolean isPlaying(){
+        return videoView.isPlaying();
+    }
+
+    public void setMediaController(MediaController controller){
+        videoView.setMediaController(controller);
+    }
+
+    public VideoView getVideoView(){
+        return videoView;
     }
 
     public static interface PlayPauseListener {
