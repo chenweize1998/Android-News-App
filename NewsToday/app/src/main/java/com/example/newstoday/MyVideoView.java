@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.MediaController;
+import android.util.AttributeSet;
 import android.widget.VideoView;
 
 public class MyVideoView {

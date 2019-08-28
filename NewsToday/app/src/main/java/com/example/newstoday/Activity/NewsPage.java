@@ -1,6 +1,7 @@
 package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -185,6 +186,7 @@ public class NewsPage extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 

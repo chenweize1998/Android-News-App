@@ -106,6 +106,7 @@ public class BaseRecyclerAdapter
                         builder.addContentView(imageView, new RelativeLayout.LayoutParams(
                                 ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.MATCH_PARENT));
+                        builder.setCanceledOnTouchOutside(true);
                         builder.show();
                         builder.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
                     }
