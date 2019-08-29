@@ -199,6 +199,7 @@ public class NewsManager {
         for(News _news: news){
             historyNewsInMem.add(_news.getNewsID());
         }
+        System.out.println("插入一条数据");
     }
 
     public void addInCollection(News... news){
@@ -206,6 +207,7 @@ public class NewsManager {
         for(News _news: news){
             collectionNewsInmem.add(_news.getNewsID());
         }
+
     }
 
     public void deleteOneHistory(News... news){

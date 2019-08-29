@@ -6,18 +6,15 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.newstoday.Adapter.LoopRecyclerAdapter;
-import com.example.newstoday.MyVideoView;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
@@ -32,7 +29,7 @@ import android.widget.VideoView;
 public class NewsPage extends AppCompatActivity {
     private LoopRecyclerAdapter mAdapterImg;
     private NewsManager newsManager;
-    private MyVideoView mVideoView;
+    private VideoView mVideoView;
     private CircleIndicator2 mIndicator;
 
     @Override
@@ -108,11 +105,10 @@ public class NewsPage extends AppCompatActivity {
         if(true){
             RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
             relativeLayout.setVisibility(View.VISIBLE);
-            mVideoView = new MyVideoView((VideoView) findViewById(R.id.videoView));
+            mVideoView = (VideoView) findViewById(R.id.videoView);
 //            mVideoView.setVideoURI(Uri.parse(news.getVideo()));
             mVideoView.setVideoURI(Uri.parse(url));
             mVideoView.seekTo(1);
-//        mVideoView.start();
             mVideoView.setVisibility(View.VISIBLE);
             final ImageView cover = findViewById(R.id.page_video_cover);
             cover.setVisibility(View.VISIBLE);
@@ -121,15 +117,7 @@ public class NewsPage extends AppCompatActivity {
             mVideoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    if (mVideoView.isPlaying()) {
-//                        mVideoView.pause();
-//                        cover.setVisibility(View.VISIBLE);
-//                    } else {
-//                        mVideoView.start();
-//                        cover.setVisibility(View.INVISIBLE);
-//                    }
                     Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
-                    intent.putExtra("videoView", mVideoView);
                     startActivity(intent);
                 }
             });

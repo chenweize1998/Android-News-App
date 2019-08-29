@@ -38,6 +38,7 @@ public class AsyncServerNews {
                 return false;
             }
             JSONArray newsArray = jsonData.getJSONArray("data");
+            System.out.println("来了"+newsArray.length()+"条数据");
             for(int i = 0; i<newsArray.length(); i++){
                 JSONObject news = newsArray.getJSONObject(i);
                 String newsID = news.getString("newsID");
@@ -52,14 +53,14 @@ public class AsyncServerNews {
                 String url = news.getString("url");
                 String oriImage = news.getString("oriImage");
                 String oriKeywords = news.getString("oriKeywords");
-                String oriScores = news.getString("oriSocres");
+                String oriScores = news.getString("oriScores");
                 String video = news.getString("video");
 
                 newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
                                                     oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
 
-                return true;
             }
+            return true;
 
         }catch (JSONException e){
             e.printStackTrace();
@@ -91,7 +92,7 @@ public class AsyncServerNews {
                 String url = news.getString("url");
                 String oriImage = news.getString("oriImage");
                 String oriKeywords = news.getString("oriKeywords");
-                String oriScores = news.getString("oriSocres");
+                String oriScores = news.getString("oriScores");
                 String video = news.getString("video");
 
                 newsManager.addInCollection(new News(title, date, content, category, organization, newsID,

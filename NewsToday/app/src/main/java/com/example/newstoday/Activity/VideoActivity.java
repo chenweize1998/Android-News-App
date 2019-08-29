@@ -3,26 +3,23 @@ package com.example.newstoday.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.MediaController;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.newstoday.MyVideoView;
 import com.example.newstoday.R;
-
-import java.io.Serializable;
 
 public class VideoActivity extends AppCompatActivity{
 
-    private MyVideoView mVideoView;
+    private VideoView mVideoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_activity);
 
-        Intent intent = getIntent();
-        mVideoView = (MyVideoView) intent.getSerializableExtra("videoView");
 
         final MediaController controller = new MediaController(getApplicationContext());
 
@@ -41,11 +38,24 @@ public class VideoActivity extends AppCompatActivity{
                         /*
                          * and set its position on screen
                          */
-                        controller.setAnchorView(mVideoView.getVideoView());
+                        controller.setAnchorView(mVideoView);
                     }
                 });
 //                mp.start();// 播放
             }
+        });
+
+        mVideoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                    if (mVideoView.isPlaying()) {
+//                        mVideoView.pause();
+//                        cover.setVisibility(View.VISIBLE);
+//                    } else {
+//                        mVideoView.start();
+//                        cover.setVisibility(View.INVISIBLE);
+//                    }
+        }
         });
 
 
