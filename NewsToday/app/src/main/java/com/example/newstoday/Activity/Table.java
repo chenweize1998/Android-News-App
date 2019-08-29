@@ -358,6 +358,7 @@ public class Table extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "当前没有用户登录", Toast.LENGTH_SHORT).show();
                                 return false;
                             }
+                            account.remove(header.getActiveProfile().getEmail().toString());
                             header.removeProfileByIdentifier(header.getActiveProfile().getIdentifier());
                             --identifier;
                             --position;
