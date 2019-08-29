@@ -55,7 +55,7 @@ public class AsyncServerNews {
                 String oriScores = news.getString("oriSocres");
                 String video = news.getString("video");
 
-                newsManager.addInHistory(new News(title, date, content, category, origanization, newsID,
+                newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
                                                     oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
 
                 return true;
@@ -94,7 +94,7 @@ public class AsyncServerNews {
                 String oriScores = news.getString("oriSocres");
                 String video = news.getString("video");
 
-                newsManager.addInCollection(new News(title, date, content, category, origanization, newsID,
+                newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
                         oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
 
                 return true;

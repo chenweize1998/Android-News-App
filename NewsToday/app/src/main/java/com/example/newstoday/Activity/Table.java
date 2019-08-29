@@ -7,7 +7,11 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -17,6 +21,9 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,10 +41,14 @@ import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.WechatShareManager;
 import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.iconics.typeface.IIcon;
 import com.mikepenz.materialdrawer.*;
+import com.mikepenz.materialdrawer.holder.ImageHolder;
+import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
@@ -45,26 +56,34 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 public class Table extends AppCompatActivity {
+    private boolean doubleBackToExitPressedOnce;
+
     private RecyclerView recyclerViewNews;
     private NewsAdapter mAdapterNews;
-    private RecyclerView.LayoutManager layoutManagerNews;
-    private RecyclerView recyclerViewCat;
     private CatAdapter mAdapterCat;
-    private RecyclerView.LayoutManager layoutManagerCat;
-    private Drawer drawer;
+
     private ArrayList<News> news;
     private NewsManager newsManager;
-//    private SwipyRefreshLayout mSwipyRefreshLayout;
-    private RefreshLayout refreshLayout;
-    private static final int DISMISS_TIMEOUT = 500;
     private String currentCategory = "推荐";
-    private boolean doubleBackToExitPressedOnce;
-    private boolean restart;
-    private final int CAT_REARRANGE = 1;
-    private final int HISTORY_CHANGED = 2;
-    private final int COLLECTION_CHANGED = 3;
+
     private AsyncServerNews asyncServerNews;
     private UserManagerOnServer userManagerOnServer;
+
+    private Drawer drawer;
+    private AccountHeader header;
+
+    private static final int DISMISS_TIMEOUT = 500;
+
+    private final int CAT_REARRANGE = 1;
+    private final int USER_REQUEST = 2;
+    private final int PICK_IMAGE = 3;
+
+    private final int COLLECTION_IDENTIFIER = 1;
+    private final int HISTORY_IDENTIFIER = 2;
+    private final int CLEAR_IDENTIFIER = 3;
+    private final int NIGHT_IDENTIFIER = 4;
+    private final int LOGIN_IDENTIFIER = 5;
+    private final int LOGOUT_IDENTIFIER = 6;
 
 
 
@@ -79,27 +98,55 @@ public class Table extends AppCompatActivity {
         /**
          * Drawer
          */
-        BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
+        BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(COLLECTION_IDENTIFIER).withName("我的收藏")
                 .withIcon(R.drawable.star).withTextColor(Color.parseColor("#ababab"));
-        BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
+        BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(HISTORY_IDENTIFIER).withName("浏览历史")
                 .withIcon(R.drawable.history).withTextColor(Color.parseColor("#ababab"));
-        BaseDrawerItem item3 = new SecondaryDrawerItem().withIdentifier(3).withName("清除历史")
+        BaseDrawerItem item3 = new SecondaryDrawerItem().withIdentifier(CLEAR_IDENTIFIER).withName("清除历史")
                 .withIcon(R.drawable.clear).withTextColor(Color.parseColor("#ababab"));
-        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(4).withName("夜间模式")
+        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(NIGHT_IDENTIFIER).withName("夜间模式")
                 .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab")).withSelectable(false);
-        AccountHeader header = new AccountHeaderBuilder()
+        header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Weize Chen")
+                        new ProfileDrawerItem().withName("Weize Chen").withIdentifier(1)
                         .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.drawable.chenweize),
-                        new ProfileDrawerItem().withName("Hao Peng")
+                        new ProfileDrawerItem().withName("Hao Peng").withIdentifier(2)
                                 .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.drawable.penghao)
                 )
                 .addProfiles(
                         new ProfileSettingDrawerItem().withName("Add Account")
-                                .withIcon(R.drawable.plus),
+                                .withIcon(R.drawable.plus).withIdentifier(LOGIN_IDENTIFIER),
                         new ProfileSettingDrawerItem().withName("Manage Your Account")
-                                .withIcon(R.drawable.setting))
+                                .withIcon(R.drawable.setting).withIdentifier(LOGOUT_IDENTIFIER))
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
+                        if (profile.getIdentifier() == LOGIN_IDENTIFIER){
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            startActivityForResult(intent, USER_REQUEST);
+                        }
+                        return false;
+                    }
+                })
+                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
+                    @Override
+                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
+                        if(header.getActiveProfile() == profile) {
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                        }
+                        header.setActiveProfile(profile.getIdentifier(), true);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
+                        return false;
+                    }
+                })
                 .withTextColor(Color.parseColor("#ababab"))
                 .build();
         drawer = new DrawerBuilder()
@@ -118,16 +165,17 @@ public class Table extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
                         // do something with the clicked item :D
-                        if(drawerItem.getIdentifier() == 1){
+                        if(drawerItem.getIdentifier() == COLLECTION_IDENTIFIER) {
                             Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
                             startActivity(intent);
+
 //                            startActivityForResult(intent, COLLECTION_CHANGED);
 //                            if(userManagerOnServer.userSignUp("h-peng17", "123456")){
 //                                System.out.println("用户注册成功");
 //                            }else{
 //                                System.out.println("用户注册失败");
 //                            }
-                        }else if(drawerItem.getIdentifier() == 2) {
+                        } else if (drawerItem.getIdentifier() == HISTORY_IDENTIFIER) {
                             Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
                             startActivity(intent);
 //                            startActivityForResult(intent, HISTORY_CHANGED);
@@ -146,12 +194,11 @@ public class Table extends AppCompatActivity {
 //                            }else{
 //                                System.out.println("同步失败");
 //                            }
-                        }else if(drawerItem.getIdentifier() == 3){
+                        } else if (drawerItem.getIdentifier() == CLEAR_IDENTIFIER) {
                             newsManager.deleteAllHistory();
                             mAdapterNews.notifyDataSetChanged();
                             Toast.makeText(getApplicationContext(), "历史记录已清除", Toast.LENGTH_LONG).show();
                         }
-
                         return false;
                     }
                 })
@@ -253,7 +300,7 @@ public class Table extends AppCompatActivity {
 //                }
 //            }
 //        });
-        refreshLayout = findViewById(R.id.item_refresh_layout);
+        RefreshLayout refreshLayout = findViewById(R.id.item_refresh_layout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(final RefreshLayout refreshlayout) {
@@ -312,16 +359,16 @@ public class Table extends AppCompatActivity {
         news.addAll(newsTmp);
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);
-        layoutManagerNews = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
         mAdapterNews = new NewsAdapter(news, Table.this);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
         recyclerViewNews.setItemViewCacheSize(100);
 
-        recyclerViewCat = findViewById(R.id.cat_recycler_view);
+        RecyclerView recyclerViewCat = findViewById(R.id.cat_recycler_view);
         recyclerViewCat.setHasFixedSize(true);
-        layoutManagerCat = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManagerCat = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManagerCat).setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
         mAdapterCat = new CatAdapter();
@@ -350,6 +397,25 @@ public class Table extends AppCompatActivity {
                 mAdapterNews.updateNews(news);
                 mAdapterNews.notifyDataSetChanged();
             }
+        } else if(requestCode == USER_REQUEST){
+            if(resultCode == RESULT_OK){
+                String email = (String) data.getSerializableExtra("email");
+                String name = (String) data.getSerializableExtra("name");
+                header.addProfiles(new ProfileDrawerItem().withName(name)
+                        .withEmail(email).withIdentifier(header.getProfiles().size()));
+                header.setActiveProfile(header.getProfiles().get(header.getProfiles().size() - 1), true);
+            }
+        } else if(requestCode == PICK_IMAGE){
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                header.getActiveProfile().withIcon(bitmap);
+                header.updateProfile(header.getActiveProfile());
+            } catch (FileNotFoundException e){
+                e.printStackTrace();
+                System.exit(-1);                // 调试完以后注释掉！！！！！！！！！！！！！！！！！！！！
+            }
+
         }
     }
 
