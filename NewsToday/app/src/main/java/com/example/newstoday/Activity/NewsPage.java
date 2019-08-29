@@ -100,7 +100,7 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setText(news.getContent());
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
-        String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+        final String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
 //        if(!news.getVideo().equals("")) {
         if(true){
             RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
@@ -118,6 +118,7 @@ public class NewsPage extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+                    intent.putExtra("url", url);
                     startActivity(intent);
                 }
             });
