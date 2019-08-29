@@ -1,7 +1,6 @@
 package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,26 +17,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.newstoday.Adapter.LoopRecyclerAdapter;
-import com.example.newstoday.Adapter.NewsPageAdapter;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
-import com.example.newstoday.MyVideoView;
 import com.sackcentury.shinebuttonlib.ShineButton;
-import com.squareup.picasso.Picasso;
 
 import me.relex.circleindicator.CircleIndicator2;
 import me.relex.recyclerpager.SnapPageScrollListener;
 
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 import android.widget.VideoView;
-import android.widget.MediaController;
 
 public class NewsPage extends AppCompatActivity {
     private LoopRecyclerAdapter mAdapterImg;
     private NewsManager newsManager;
-    private MyVideoView mVideoView;
+    private VideoView mVideoView;
     private CircleIndicator2 mIndicator;
 
     @Override
@@ -110,22 +102,26 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setText(news.getContent());
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
-//        String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
-        if(!news.getVideo().equals("")) {
+        String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+//        if(!news.getVideo().equals("")) {
+        if(true){
             RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
             relativeLayout.setVisibility(View.VISIBLE);
-            mVideoView = new MyVideoView((VideoView) findViewById(R.id.videoView));
-            mVideoView.setVideoURI(Uri.parse(news.getVideo()));
-            mVideoView.getVideoView().seekTo(1);
+            mVideoView = (VideoView) findViewById(R.id.videoView);
+//            mVideoView.setVideoURI(Uri.parse(news.getVideo()));
+            mVideoView.setVideoURI(Uri.parse(url));
+            mVideoView.seekTo(1);
 //        mVideoView.start();
-            mVideoView.getVideoView().setVisibility(View.VISIBLE);
+            mVideoView.setVisibility(View.VISIBLE);
             final ImageView cover = findViewById(R.id.page_video_cover);
             cover.setVisibility(View.VISIBLE);
             final MediaController controller = new MediaController(NewsPage.this);
+
             mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     //         mp.setLooping(true);
+                    mp.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
                     mp.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
                         @Override
                         public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
@@ -137,7 +133,7 @@ public class NewsPage extends AppCompatActivity {
                             /*
                              * and set its position on screen
                              */
-                            controller.setAnchorView(mVideoView.getVideoView());
+                            controller.setAnchorView(mVideoView);
                         }
                     });
 //                mp.start();// 播放
@@ -154,21 +150,20 @@ public class NewsPage extends AppCompatActivity {
                         mVideoView.start();
                         cover.setVisibility(View.INVISIBLE);
                     }
+                    Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+                    startActivity(intent);
                 }
             });
 
-            mVideoView.setPlayPauseListener(new MyVideoView.PlayPauseListener() {
-
+            mVideoView.setOnLongClickListener(new View.OnLongClickListener(){
                 @Override
-                public void onPlay() {
-                    System.out.println("Play!");
-                }
-
-                @Override
-                public void onPause() {
-                    System.out.println("Pause!");
+                public boolean onLongClick(View view){
+                    Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+                    startActivity(intent);
+                    return false;
                 }
             });
+
         }
 
 
