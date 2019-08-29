@@ -110,6 +110,7 @@ public class NewsPage extends AppCompatActivity {
         mVideoView = new MyVideoView((VideoView) findViewById(R.id.videoView));
         mVideoView.setVideoURI(Uri.parse(url));
         mVideoView.start();
+        mVideoView.setVisiibility(View.INVISIBLE);
 
 
 

@@ -253,6 +253,14 @@ public class NewsManager {
         recommendKeyword.add(weight, result);
     }
 
+    public void setMap(NavigableMap<Double, String> map){
+        recommendKeyword.setMap(map);
+    }
+
+    public NavigableMap<Double, String> getMap(){
+        return recommendKeyword.getMap();
+    }
+
     class RandomCollection<E> {
         private NavigableMap<Double, E> map = new TreeMap<Double, E>();
         private final Random random;
@@ -266,6 +274,14 @@ public class NewsManager {
 
         public RandomCollection(Random random) {
             this.random = random;
+        }
+
+        public void setMap(NavigableMap<Double, E> map){
+            this.map = map;
+        }
+
+        public NavigableMap<Double, E> getMap(){
+            return map;
         }
 
         public RandomCollection<E> add(double weight, E result) {
