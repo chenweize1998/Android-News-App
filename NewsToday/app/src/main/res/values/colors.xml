@@ -10,4 +10,5 @@
     <color name="hint">#545151</color>
     <color name="material_drawer_divider">#1FFFFFFF</color>
     <color name="material_drawer_primary_text">#70FFFFFF</color>
+    <color name="textInputLayout">#96ffffff</color>
 </resources>
