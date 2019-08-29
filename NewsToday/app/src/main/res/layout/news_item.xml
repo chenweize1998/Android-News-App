@@ -43,7 +43,8 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginHorizontal="20dp">
 
     <TextView
         android:id="@+id/txtTitle"
@@ -54,8 +55,6 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
         android:lineSpacingMultiplier="0.9"/>
 
@@ -65,9 +64,7 @@
         android:layout_height="wrap_content"
         android:padding="1dp"
         android:textColor="#5d5d5d"
-        android:textSize="20sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:textSize="20sp"/>
 
 
 </LinearLayout>
@@ -79,14 +76,13 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginTop="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginBottom="30dp">
+    android:layout_marginBottom="30dp"
+    android:layout_marginHorizontal="20dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/textview_border"
         android:id="@+id/item_keyword"
-        android:layout_marginLeft="20dp"
         android:textColor="#000000"
         android:height="40dp"
         android:minWidth="90dp"
@@ -98,29 +94,51 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="right">
+        android:layout_gravity="right"
+        android:layout_marginRight="20dp">
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/share"
         android:background="?android:attr/selectableItemBackground"
         android:id="@+id/item_share_button"
         android:layout_toLeftOf="@+id/item_star_button"
         android:layout_marginRight="25dp"
-        android:paddingVertical="5dp"
+        android:layout_marginVertical="5dp"
         android:scaleType="centerInside"
         />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:scaleType="centerInside"
-        android:src="@drawable/not_star"
-        android:background="?android:attr/selectableItemBackground"
-        android:id="@+id/item_star_button"
-        android:layout_alignParentRight="true"
-        android:paddingVertical="3dp"
-        />
+<!--    <ImageButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:scaleType="centerInside"-->
+<!--        android:src="@drawable/not_star"-->
+<!--        android:background="?android:attr/selectableItemBackground"-->
+<!--        android:id="@+id/item_star_button"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:paddingVertical="3dp"-->
+<!--        />-->
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:scaleType="centerInside"
+            android:layout_alignParentRight="true"
+            android:id="@+id/item_star_button"
+            android:layout_marginVertical="5dp"
+            app:btn_color="@android:color/black"
+            app:btn_fill_color="@android:color/holo_orange_light"
+            app:allow_random_color="false"
+            app:siShape="@drawable/not_star"
+            app:enable_flashing="true"
+            app:big_shine_color="#FF6666"
+            app:click_animation_duration="200"
+            app:shine_animation_duration="1500"
+            app:shine_turn_angle="30"
+            app:small_shine_offset_angle="20"
+            app:shine_distance_multiple="1.5"
+            app:small_shine_color="#CC9999"
+            app:shine_count="10"
+            />
     </RelativeLayout>
 </LinearLayout>
 

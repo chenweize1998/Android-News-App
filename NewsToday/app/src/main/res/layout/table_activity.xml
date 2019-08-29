@@ -118,6 +118,7 @@
                 android:layout_height="0dp"
                 android:overScrollMode="never"
                 android:scrollbars="vertical"
+                android:background="#f6f6f6"
                 />
 
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>

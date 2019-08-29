@@ -91,7 +91,7 @@ public class NewsManager {
             do {
                 JsonDataFromUrl jsonData = new JsonDataFromUrl();
                 recommendWord = recommendKeyword.next();
-                System.out.println(recommendWord);
+//                System.out.println(recommendWord);
                 if(recommendJudge && recommendWord != null) {
                     json = jsonData.execute(String.valueOf(size / recommendWordCnt), startDate, endDate,
                             recommendWord, allCategory, Integer.toString(keywordPage.getOrDefault(recommendWord, 1))).get();
@@ -102,7 +102,7 @@ public class NewsManager {
                             recommendJudge ? allCategory : categories, Integer.toString(pageCounter)).get();
                 }
                 if ((refresh || !lastCategory.equals(categories)) && (!recommendJudge) ) {
-                    ++pageCounter;  // 推荐的在前面按词更新
+                    ++pageCounter;  // 推荐的在前面 按词更新
                 }
                 lastCategory = categories;
                 if (Integer.parseInt(json.getString("pageSize")) == 0) {

@@ -21,7 +21,10 @@ import com.example.newstoday.SearchProvider;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class SearchActivity extends AppCompatActivity {
     private RecyclerView recyclerViewNews;
@@ -85,8 +88,9 @@ public class SearchActivity extends AppCompatActivity {
                             SearchActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                                     ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                                            "2019-08-28", null, category, true, false);
+                                            today, null, category, true, false);
                                     mAdapterNews.refreshNews(newsTmp);
                                     mAdapterNews.notifyDataSetChanged();
                                     mSwipyRefreshLayout.setRefreshing(false);
@@ -103,7 +107,7 @@ public class SearchActivity extends AppCompatActivity {
         recyclerViewNews = findViewById(R.id.table_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news);
+        mAdapterNews = new NewsAdapter(news, SearchActivity.this);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
     }

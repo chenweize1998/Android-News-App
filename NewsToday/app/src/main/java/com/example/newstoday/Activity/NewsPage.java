@@ -24,6 +24,7 @@ import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.MyVideoView;
+import com.sackcentury.shinebuttonlib.ShineButton;
 import com.squareup.picasso.Picasso;
 
 import me.relex.circleindicator.CircleIndicator2;
@@ -58,12 +59,14 @@ public class NewsPage extends AppCompatActivity {
         TextView textView = findViewById(R.id.page_bottom_comment);
         textView.setWidth((int)(0.75*width));
 
-        final ImageView starButton = findViewById(R.id.page_bottom_star);
+        final ShineButton starButton = findViewById(R.id.page_bottom_star);
         if(newsManager.inCollectionNews(news)){
-            starButton.setImageResource(R.drawable.star_selected);
+//            starButton.setImageResource(R.drawable.star_selected);
+            starButton.setChecked(true);
         }
         else {
-            starButton.setImageResource(R.drawable.not_star);
+//            starButton.setImageResource(R.drawable.not_star);
+            starButton.setChecked(false);
         }
 //
         starButton.setOnClickListener(new View.OnClickListener() {

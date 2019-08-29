@@ -118,7 +118,7 @@ public class HistoryNews extends AppCompatActivity {
         recyclerViewNews = findViewById(R.id.table_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news);
+        mAdapterNews = new NewsAdapter(news, HistoryNews.this);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
 

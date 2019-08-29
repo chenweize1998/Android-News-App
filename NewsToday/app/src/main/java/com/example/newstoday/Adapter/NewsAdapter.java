@@ -1,9 +1,11 @@
 package com.example.newstoday.Adapter;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,17 +17,19 @@ import java.util.regex.Pattern;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newstoday.Activity.Table;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.sackcentury.shinebuttonlib.ShineButton;
 import com.squareup.picasso.Picasso;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     private ArrayList<News> news;
-    private Context context;
     private Pattern pat;
     private OnItemClickListener listener;
     private NewsManager newsManager;
+    private Activity activity;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
@@ -33,7 +37,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         private ImageView imgNews;
         private TextView txtKeyword;
         private ImageButton shareButton;
-        private ImageButton starButton;
+//        private ImageButton starButton;
+        private ShineButton starButton;
         public MyViewHolder(View v) {
             super(v);
             txtTitle = v.findViewById(R.id.txtTitle);
@@ -51,12 +56,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
         this.listener = listener;
-
     }
 
-    public NewsAdapter(ArrayList<News> news) {
+    public NewsAdapter(ArrayList<News> news, Activity activity) {
         this.news = news;
         pat = Pattern.compile("[！？。…~]");
+        this.activity = activity;
 
     }
 
@@ -96,26 +101,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             holder.imgNews.setImageResource(0);
 
         if(newsManager.inCollectionNews(news.get(position)))
-            holder.starButton.setImageResource(R.drawable.star_selected);
+            holder.starButton.setChecked(true);
         else
-            holder.starButton.setImageResource(R.drawable.not_star);
+            holder.starButton.setChecked(false);
 
-        if(newsManager.inHistoryNews(news.get(position)))
+        if(newsManager.inHistoryNews(news.get(position))) {
             holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
-        else
+        }
+        else {
             holder.txtTitle.setTextColor(Color.parseColor("#000000"));
-        holder.starButton.setOnClickListener(new View.OnClickListener() {
+        }
+        holder.starButton.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(final View v) {
+            public void onCheckedChanged(View view, boolean checked) {
                 News tmp = news.get(position);
                 if(newsManager.inCollectionNews(tmp)){
                     newsManager.deleteOneCollection(tmp);
-                    holder.starButton.setImageResource(R.drawable.not_star);
-                    newsManager.deleteOneCollection(tmp);
+//                    holder.starButton.setImageResource(R.drawable.not_star);
                 } else{
                     newsManager.addInCollection(tmp);
-                    holder.starButton.setImageResource(R.drawable.star_selected);
-                    newsManager.addInCollection(tmp);
+//                    holder.starButton.setImageResource(R.drawable.star_selected);
                 }
             }
         });

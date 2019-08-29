@@ -17,7 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -147,8 +150,9 @@ public class Table extends AppCompatActivity {
             @Override
             public void onItemClick(View view, String category) {
                 Table.this.currentCategory = category;
+                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                 if(newsManager.getLastCategory() != category){
-                    news = newsManager.getNews(20, "2019-08-09", "2019-08-28", null, currentCategory, false, false);
+                    news = newsManager.getNews(20, "2019-08-09", today, null, currentCategory, false, false);
                     mAdapterNews.updateNews(news);
                     mAdapterNews.notifyDataSetChanged();
                     recyclerViewNews.smoothScrollToPosition(0);
@@ -198,8 +202,9 @@ public class Table extends AppCompatActivity {
                             Table.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                                     ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                                            "2019-08-28", null, currentCategory, true, false);
+                                            today, null, currentCategory, true, false);
                                     mAdapterNews.refreshNews(newsTmp);
                                     mAdapterNews.notifyDataSetChanged();
                                     mSwipyRefreshLayout.setRefreshing(false);
@@ -219,15 +224,16 @@ public class Table extends AppCompatActivity {
          */
         newsManager = NewsManager.getNewsManager(this);
         newsManager.resetPageCounter();
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
         ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                "2019-08-28", null, currentCategory, true, true);
+                today, null, currentCategory, true, true);
         news = new ArrayList<>();
         news.addAll(newsTmp);
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news);
+        mAdapterNews = new NewsAdapter(news, Table.this);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
         recyclerViewNews.setItemViewCacheSize(100);
@@ -255,8 +261,9 @@ public class Table extends AppCompatActivity {
                 mAdapterCat.updateSelection();
                 mAdapterCat.notifyDataSetChanged();
                 newsManager.resetPageCounter();
+                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                        "2019-08-28", null, currentCategory, true, true);
+                        today, null, currentCategory, true, true);
                 news.clear();
                 news.addAll(newsTmp);
                 mAdapterNews.updateNews(news);
