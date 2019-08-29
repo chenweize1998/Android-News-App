@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,8 +30,15 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.sql.Ref;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class HistoryNews extends AppCompatActivity {
 
@@ -110,18 +119,15 @@ public class HistoryNews extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), NewsPage.class);
                 intent.putExtra("news", news.get(position));
                 startActivity(intent);
-
             }
         };
 
-
-        recyclerViewNews = findViewById(R.id.table_recycler_view);
+        recyclerViewNews = findViewById(R.id.history_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news);
+        mAdapterNews = new NewsAdapter(news, HistoryNews.this);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
-
     }
 
     @Override

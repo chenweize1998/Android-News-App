@@ -29,6 +29,7 @@ import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CollectionNews extends AppCompatActivity {
 
@@ -112,10 +113,10 @@ public class CollectionNews extends AppCompatActivity {
         };
 
 
-        recyclerViewNews = findViewById(R.id.table_recycler_view);
+        recyclerViewNews = findViewById(R.id.collection_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news);
+        mAdapterNews = new NewsAdapter(news, CollectionNews.this);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
 

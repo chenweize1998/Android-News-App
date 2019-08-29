@@ -137,19 +137,36 @@ android:fitsSystemWindows="true">
                 android:layout_marginRight="10dp"
             />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/page_publisher"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/page_title"
-                android:textSize="15sp"
+                android:orientation="horizontal"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
-                android:textAlignment="center"
-            />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/page_title">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/clock"
+                    android:baselineAlignBottom="true"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/page_publisher"
+
+                    android:textSize="15sp"
+
+                    android:textAlignment="center"
+                />
+
+            </LinearLayout>
+
             <VideoView
                 android:id="@+id/videoView"
                 android:layout_width="match_parent"
@@ -212,16 +229,39 @@ android:fitsSystemWindows="true">
                 android:scaleType="centerInside"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/share"
-                android:layout_marginLeft="15dp"/>
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/page_bottom_star"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"/>
+<!--            <ImageButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/page_bottom_star"-->
+<!--                android:scaleX="0.8"-->
+<!--                android:scaleY="0.8"-->
+<!--                android:background="?android:attr/selectableItemBackground"-->
+<!--                android:src="@drawable/not_star"-->
+<!--                android:scaleType="centerInside" />-->
+
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/not_star"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:id="@+id/page_bottom_star"
+                app:btn_color="@android:color/black"
+                app:btn_fill_color="@android:color/holo_orange_light"
+                app:allow_random_color="false"
+                app:siShape="@drawable/not_star"
+                app:enable_flashing="true"
+                app:big_shine_color="#FF6666"
+                app:click_animation_duration="200"
+                app:shine_animation_duration="1500"
+                app:shine_turn_angle="30"
+                app:small_shine_offset_angle="20"
+                app:shine_distance_multiple="1.5"
+                app:small_shine_color="#CC9999"
+                app:shine_count="8"
+                />
 
         </LinearLayout>
     </com.google.android.material.bottomappbar.BottomAppBar>

@@ -17,27 +17,36 @@
         <!--app:layout_constraintTop_toBottomOf="@id/imageView"-->
         <!--/>-->
 
-    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
-        android:id="@+id/item_swipyrefresh"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/history_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0"
-        app:srl_direction="both">
+        android:background="@android:color/white"
+        app:srlPrimaryColor="#000"
+        app:srlAccentColor="#fff"
+        app:srlEnableLoadMore="true"
+        app:srlEnableRefresh="false"
+        app:srlEnableHeaderTranslationContent="true"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.scwang.smartrefresh.header.StoreHouseHeader
+            android:id="@+id/history_storeHouseHeader"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:shhText="News TODAY"
+            app:shhLineWidth="2dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/table_recycler_view"
+            android:id="@+id/history_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:overScrollMode="never"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:background="#f6f6f6"
+            />
 
-    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <ImageView
         android:id="@+id/imageView"
@@ -45,7 +54,6 @@
         android:layout_height="50dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/app_title"
-        app:layout_constraintBottom_toTopOf="@+id/item_swipyrefresh"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

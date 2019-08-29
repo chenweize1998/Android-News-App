@@ -17,7 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,8 +37,11 @@ import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
+import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 public class Table extends AppCompatActivity {
     private RecyclerView recyclerViewNews;
@@ -47,7 +53,8 @@ public class Table extends AppCompatActivity {
     private Drawer drawer;
     private ArrayList<News> news;
     private NewsManager newsManager;
-    private SwipyRefreshLayout mSwipyRefreshLayout;
+//    private SwipyRefreshLayout mSwipyRefreshLayout;
+    private RefreshLayout refreshLayout;
     private static final int DISMISS_TIMEOUT = 500;
     private String currentCategory = "推荐";
     private boolean doubleBackToExitPressedOnce;
@@ -175,8 +182,9 @@ public class Table extends AppCompatActivity {
             @Override
             public void onItemClick(View view, String category) {
                 Table.this.currentCategory = category;
+                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                 if(newsManager.getLastCategory() != category){
-                    news = newsManager.getNews(20, "2019-08-09", "2019-08-28", null, currentCategory, false, false);
+                    news = newsManager.getNews(20, "2019-08-09", today, null, currentCategory, false, false);
                     mAdapterNews.updateNews(news);
                     mAdapterNews.notifyDataSetChanged();
                     recyclerViewNews.smoothScrollToPosition(0);
@@ -202,42 +210,88 @@ public class Table extends AppCompatActivity {
         /**
          * News items
          */
-        mSwipyRefreshLayout = findViewById(R.id.item_swipyrefresh);
-        mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+//        mSwipyRefreshLayout = findViewById(R.id.item_swipyrefresh);
+//        mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+//                if(direction == SwipyRefreshLayoutDirection.TOP) {
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Table.this.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    mSwipyRefreshLayout.setRefreshing(false);
+//                                }
+//                            });
+//                        }
+//                    }, DISMISS_TIMEOUT);
+//                }
+//                else if(direction == SwipyRefreshLayoutDirection.BOTTOM){
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Table.this.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+//                                    ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+//                                            today, null, currentCategory, true, false);
+//                                    mAdapterNews.refreshNews(newsTmp);
+//                                    mAdapterNews.notifyDataSetChanged();
+//                                    mSwipyRefreshLayout.setRefreshing(false);
+//                                    recyclerViewNews.smoothScrollToPosition(mAdapterNews.getItemCount() - newsTmp.size());
+//                                    Toast.makeText(getApplicationContext(), "新返回"+newsTmp.size()+"条新闻", Toast.LENGTH_LONG).show();
+//                                }
+//                            });
+//                        }
+//                    }, DISMISS_TIMEOUT);
+//                }
+//            }
+//        });
+        refreshLayout = findViewById(R.id.item_refresh_layout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                if(direction == SwipyRefreshLayoutDirection.TOP) {
-                    new Handler().postDelayed(new Runnable() {
+            public void onRefresh(final RefreshLayout refreshlayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Table.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+                                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                                        today, null, currentCategory, true, true);
+                                mAdapterNews.updateNews(newsTmp);
+                                refreshlayout.finishRefresh();
+                                mAdapterNews.notifyDataSetChanged();
+                                Toast.makeText(getApplicationContext(), "刷新完成", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }, DISMISS_TIMEOUT);
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(final RefreshLayout refreshlayout) {
+                new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             Table.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mSwipyRefreshLayout.setRefreshing(false);
-                                }
-                            });
-                        }
-                    }, DISMISS_TIMEOUT);
-                }
-                else if(direction == SwipyRefreshLayoutDirection.BOTTOM){
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Table.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                                    String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                                     ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                                            "2019-08-28", null, currentCategory, true, false);
+                                            today, null, currentCategory, true, false);
                                     mAdapterNews.refreshNews(newsTmp);
+                                    refreshlayout.finishLoadMore();
                                     mAdapterNews.notifyDataSetChanged();
-                                    mSwipyRefreshLayout.setRefreshing(false);
-                                    recyclerViewNews.smoothScrollToPosition(mAdapterNews.getItemCount() - newsTmp.size());
-                                    Toast.makeText(getApplicationContext(), "新返回"+newsTmp.size()+"条新闻", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "新返回"+newsTmp.size()+"条新闻", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
                     }, DISMISS_TIMEOUT);
-                }
             }
         });
 
@@ -247,15 +301,16 @@ public class Table extends AppCompatActivity {
          */
         newsManager = NewsManager.getNewsManager(this);
         newsManager.resetPageCounter();
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
         ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                "2019-08-28", null, currentCategory, true, true);
+                today, null, currentCategory, true, true);
         news = new ArrayList<>();
         news.addAll(newsTmp);
 
         recyclerViewNews = findViewById(R.id.table_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news);
+        mAdapterNews = new NewsAdapter(news, Table.this);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
         recyclerViewNews.setItemViewCacheSize(100);
@@ -283,8 +338,9 @@ public class Table extends AppCompatActivity {
                 mAdapterCat.updateSelection();
                 mAdapterCat.notifyDataSetChanged();
                 newsManager.resetPageCounter();
+                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                        "2019-08-28", null, currentCategory, true, true);
+                        today, null, currentCategory, true, true);
                 news.clear();
                 news.addAll(newsTmp);
                 mAdapterNews.updateNews(news);

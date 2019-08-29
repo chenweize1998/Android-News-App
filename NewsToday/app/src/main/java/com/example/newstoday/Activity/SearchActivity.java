@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.newstoday.Adapter.NewsAdapter;
 import com.example.newstoday.News;
@@ -20,8 +21,14 @@ import com.example.newstoday.R;
 import com.example.newstoday.SearchProvider;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class SearchActivity extends AppCompatActivity {
     private RecyclerView recyclerViewNews;
@@ -61,49 +68,74 @@ public class SearchActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.imageView);
         imageView.setImageResource(R.drawable.search_result_title);
 
-        mSwipyRefreshLayout = findViewById(R.id.item_swipyrefresh);
-        mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+//        mSwipyRefreshLayout = findViewById(R.id.history_refresh_layout);
+//        mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+//                if(direction == SwipyRefreshLayoutDirection.TOP) {
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            SearchActivity.this.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    mSwipyRefreshLayout.setRefreshing(false);
+//                                }
+//                            });
+//                        }
+//                    }, DISMISS_TIMEOUT);
+//                }
+//                else if(direction == SwipyRefreshLayoutDirection.BOTTOM){
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            SearchActivity.this.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+//                                    ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+//                                            today, null, category, true, false);
+//                                    mAdapterNews.refreshNews(newsTmp);
+//                                    mAdapterNews.notifyDataSetChanged();
+//                                    mSwipyRefreshLayout.setRefreshing(false);
+//                                    if(newsTmp != null)
+//                                        recyclerViewNews.smoothScrollToPosition(mAdapterNews.getItemCount() - newsTmp.size());
+//                                }
+//                            });
+//                        }
+//                    }, DISMISS_TIMEOUT);
+//                }
+//            }
+//        });
+
+        RefreshLayout refreshLayout = findViewById(R.id.history_refresh_layout);
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                if(direction == SwipyRefreshLayoutDirection.TOP) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            SearchActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mSwipyRefreshLayout.setRefreshing(false);
-                                }
-                            });
-                        }
-                    }, DISMISS_TIMEOUT);
-                }
-                else if(direction == SwipyRefreshLayoutDirection.BOTTOM){
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            SearchActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                                            "2019-08-28", null, category, true, false);
-                                    mAdapterNews.refreshNews(newsTmp);
-                                    mAdapterNews.notifyDataSetChanged();
-                                    mSwipyRefreshLayout.setRefreshing(false);
-                                    if(newsTmp != null)
-                                        recyclerViewNews.smoothScrollToPosition(mAdapterNews.getItemCount() - newsTmp.size());
-                                }
-                            });
-                        }
-                    }, DISMISS_TIMEOUT);
-                }
+            public void onLoadMore(final RefreshLayout refreshlayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SearchActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+                                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                                        today, null, category, true, false);
+                                mAdapterNews.refreshNews(newsTmp);
+                                refreshlayout.finishLoadMore();
+                                mAdapterNews.notifyDataSetChanged();
+                                Toast.makeText(getApplicationContext(), "新返回"+newsTmp.size()+"条新闻", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }, DISMISS_TIMEOUT);
             }
         });
 
-        recyclerViewNews = findViewById(R.id.table_recycler_view);
+        recyclerViewNews = findViewById(R.id.history_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news);
+        mAdapterNews = new NewsAdapter(news, SearchActivity.this);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
     }

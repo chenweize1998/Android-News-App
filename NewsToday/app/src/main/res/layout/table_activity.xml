@@ -104,36 +104,51 @@
             app:layout_constraintTop_toTopOf="@id/cat_recycler_view"/>
 
 
-    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
-        android:id="@+id/item_swipyrefresh"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:srl_direction="both"
-        app:layout_constraintTop_toBottomOf="@id/cat_recycler_view"
-        app:layout_constraintBottom_toBottomOf="parent">
+<!--    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout-->
+<!--        android:id="@+id/item_swipyrefresh"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:srl_direction="both"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/cat_recycler_view"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent">-->
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/item_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            app:srlPrimaryColor="#000"
+            app:srlAccentColor="#fff"
+            app:srlEnableLoadMore="true"
+            app:srlEnableHeaderTranslationContent="true"
+            app:layout_constraintTop_toBottomOf="@id/cat_recycler_view"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.scwang.smartrefresh.header.StoreHouseHeader
+                android:id="@+id/storeHouseHeader"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:shhText="News TODAY"
+                app:shhLineWidth="2dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/table_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:overScrollMode="never"
                 android:scrollbars="vertical"
+                android:background="#f6f6f6"
                 />
+            
+            <com.scwang.smartrefresh.layout.footer.BallPulseFooter
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/table_footer"/>
 
-    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
-<!--            android:id="@+id/imageView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:scaleType="centerCrop"-->
-    <!--        android:src="@drawable/app_title"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/cat_recycler_view"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintRight_toRightOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-<!--        </androidx.core.widget.NestedScrollView>-->
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-<!--    </LinearLayout>-->
+<!--    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 <!--</androidx.core.widget.NestedScrollView>-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
