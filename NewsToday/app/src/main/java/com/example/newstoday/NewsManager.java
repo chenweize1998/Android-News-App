@@ -227,6 +227,11 @@ public class NewsManager {
         }
     }
 
+    public void deleteAllCollection(){
+        collectionNews.clearNews();
+        collectionNewsInmem.clear();
+    }
+
     public int getNewNewsCounter() {
         return newNewsCounter;
     }

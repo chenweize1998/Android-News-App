@@ -173,13 +173,13 @@ android:fitsSystemWindows="true">
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="50dp"
                 android:id="@+id/page_video_layout"
-                android:visibility="gone">
+                android:visibility="visible">
                 <VideoView
                     android:id="@+id/videoView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -188,7 +188,7 @@ android:fitsSystemWindows="true">
                     android:layout_centerVertical="true"
                     android:id="@+id/page_video_cover"
                     android:src="@drawable/start"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
 
             </RelativeLayout>
 
