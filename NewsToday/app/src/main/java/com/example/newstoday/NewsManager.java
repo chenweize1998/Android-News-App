@@ -74,7 +74,8 @@ public class NewsManager {
         return Instance;
     }
 
-    public ArrayList<News> getNews(int size, final String startDate, final String endDate, final String words, final String categories, boolean refresh, boolean reset) {
+    public ArrayList<News> getNews(int size, final String startDate, final String endDate, final String words,
+                                   final String categories, boolean refresh, boolean reset) {
 
         newNewsCounter = 0;
 
@@ -85,7 +86,7 @@ public class NewsManager {
             ArrayList<News> newNews = new ArrayList<>();
             boolean recommendJudge = categories.equals("推荐");
             if(recommendJudge && !lastCategory.equals("推荐"))
-                keywordPage.clear();
+                resetRecommendation();
             int cnt = 0;
             String recommendWord;
             do {

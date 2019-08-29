@@ -57,6 +57,8 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.4'
     implementation 'me.relex:recyclerpager:1.0.4'
     implementation 'com.sackcentury:shinebutton:1.0.0'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

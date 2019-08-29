@@ -113,7 +113,7 @@ public class CollectionNews extends AppCompatActivity {
         };
 
 
-        recyclerViewNews = findViewById(R.id.table_recycler_view);
+        recyclerViewNews = findViewById(R.id.collection_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
         mAdapterNews = new NewsAdapter(news, CollectionNews.this);
