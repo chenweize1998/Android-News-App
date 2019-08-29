@@ -16,6 +16,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.newstoday.Adapter.LoopRecyclerAdapter;
@@ -109,58 +110,66 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setText(news.getContent());
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
-        String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
-        mVideoView = new MyVideoView((VideoView) findViewById(R.id.videoView));
-        mVideoView.setVideoURI(Uri.parse(url));
-        mVideoView.start();
+//        String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+        if(!news.getVideo().equals("")) {
+            RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
+            relativeLayout.setVisibility(View.VISIBLE);
+            mVideoView = new MyVideoView((VideoView) findViewById(R.id.videoView));
+            mVideoView.setVideoURI(Uri.parse(news.getVideo()));
+            mVideoView.getVideoView().seekTo(1);
+//        mVideoView.start();
+            mVideoView.getVideoView().setVisibility(View.VISIBLE);
+            final ImageView cover = findViewById(R.id.page_video_cover);
+            cover.setVisibility(View.VISIBLE);
+            final MediaController controller = new MediaController(NewsPage.this);
+            mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    //         mp.setLooping(true);
+                    mp.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
+                        @Override
+                        public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+                            /*
+                             * add media controller
+                             */
 
-
-
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                //         mp.setLooping(true);
-                mp.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                     @Override
-                     public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-                         /*
-                          * add media controller
-                          */
-                         MediaController controller = new MediaController(NewsPage.this);
-                         mVideoView.setMediaController(controller);
-                         /*
-                          * and set its position on screen
-                          */
-                         controller.setAnchorView(mVideoView.getVideoView());
-                     }
-                 });
-                mp.start();// 播放
-            }
-        });
-
-        mVideoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mVideoView.isPlaying()){
-//                    mVideoView.pause();
-                }else{
-//                    mVideoView.start();
+                            mVideoView.setMediaController(controller);
+                            /*
+                             * and set its position on screen
+                             */
+                            controller.setAnchorView(mVideoView.getVideoView());
+                        }
+                    });
+//                mp.start();// 播放
                 }
-            }
-        });
+            });
 
-        mVideoView.setPlayPauseListener(new MyVideoView.PlayPauseListener() {
+            mVideoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mVideoView.isPlaying()) {
+                        mVideoView.pause();
+                        cover.setVisibility(View.VISIBLE);
+                    } else {
+                        mVideoView.start();
+                        cover.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
 
-            @Override
-            public void onPlay() {
-                System.out.println("Play!");
-            }
+            mVideoView.setPlayPauseListener(new MyVideoView.PlayPauseListener() {
 
-            @Override
-            public void onPause() {
-                System.out.println("Pause!");
-            }
-        });
+                @Override
+                public void onPlay() {
+                    System.out.println("Play!");
+                }
+
+                @Override
+                public void onPause() {
+                    System.out.println("Pause!");
+                }
+            });
+        }
 
 
         mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);

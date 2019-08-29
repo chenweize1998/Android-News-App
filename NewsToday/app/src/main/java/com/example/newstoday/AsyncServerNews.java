@@ -58,9 +58,10 @@ public class AsyncServerNews {
                 String oriImage = news.getString("oriImage");
                 String oriKeywords = news.getString("oriKeywords");
                 String oriScores = news.getString("oriSocres");
+                String video = news.getString("video");
 
                 newsManager.addInHistory(new News(title, date, content, category, origanization, newsID,
-                                                    oriImage, publisher, person, location, oriKeywords, oriScores, url));
+                                                    oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
 
                 return true;
             }
@@ -95,9 +96,10 @@ public class AsyncServerNews {
                 String oriImage = news.getString("oriImage");
                 String oriKeywords = news.getString("oriKeywords");
                 String oriScores = news.getString("oriSocres");
+                String video = news.getString("video");
 
                 newsManager.addInCollection(new News(title, date, content, category, origanization, newsID,
-                        oriImage, publisher, person, location, oriKeywords, oriScores, url));
+                        oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
 
                 return true;
             }

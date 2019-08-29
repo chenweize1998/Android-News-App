@@ -31,6 +31,7 @@ import com.example.newstoday.Adapter.NewsAdapter;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.WechatShareManager;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -82,12 +83,15 @@ public class Table extends AppCompatActivity {
                 .withActivity(this)
                 .addProfiles(
                         new ProfileDrawerItem().withName("Weize Chen")
-                        .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.drawable.chenweize)
-                )
-                .addProfiles(
+                        .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.drawable.chenweize),
                         new ProfileDrawerItem().withName("Hao Peng")
                                 .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.drawable.penghao)
                 )
+                .addProfiles(
+                        new ProfileSettingDrawerItem().withName("Add Account")
+                                .withIcon(R.drawable.plus),
+                        new ProfileSettingDrawerItem().withName("Manage Your Account")
+                                .withIcon(R.drawable.setting))
                 .withTextColor(Color.parseColor("#ababab"))
                 .build();
         drawer = new DrawerBuilder()

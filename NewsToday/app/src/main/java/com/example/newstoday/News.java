@@ -36,6 +36,7 @@ public class News implements Serializable {
     private String oriImage;
     private String oriKeywords;
     private String oriScores;
+    private String video;
 
     @Ignore
     private String[] image;
@@ -47,7 +48,7 @@ public class News implements Serializable {
 
     News(final String title, final String date, final String content, final String category, final String organization,
          final String newsID, final String oriImage, final String publisher, final String person, final String location,
-         final String oriKeywords, final String oriScores, final String url){
+         final String oriKeywords, final String oriScores, final String url, final String video){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -63,6 +64,7 @@ public class News implements Serializable {
         this.keywords =stringParse(oriKeywords);
         this.oriScores = oriScores;
         this.scores = stringParse(oriScores);
+        this.video = video;
 
         /*
          * Change string into date
@@ -160,6 +162,10 @@ public class News implements Serializable {
         return oriScores;
     }
 
+    public String getVideo(){
+        return video;
+    }
+
     /*setter*/
     public void setNewsID(String newsID){
         this.newsID = newsID;
@@ -225,4 +231,7 @@ public class News implements Serializable {
         this.scores = scores;
     }
 
+    public void setVideo(String video){
+        this.video = video;
+    }
 }

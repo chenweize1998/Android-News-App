@@ -39,6 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         private ImageButton shareButton;
 //        private ImageButton starButton;
         private ShineButton starButton;
+        private ImageView cover;
         public MyViewHolder(View v) {
             super(v);
             txtTitle = v.findViewById(R.id.txtTitle);
@@ -95,8 +96,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 //        holder.txtAbstract.setTypeface(typefaceAbstract);     # 看看到时候要不要设置字体
         holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
 
-        if(!news.get(position).getImage()[0].equals(""))
+        if(!news.get(position).getImage()[0].equals("")) {
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
+        }
         else
             holder.imgNews.setImageResource(0);
 

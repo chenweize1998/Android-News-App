@@ -125,6 +125,7 @@ public class NewsManager {
                         String image = news.getString("image");
                         String publisher = news.getString("publisher");
                         String url = news.getString("url");
+                        String video = news.getString("video");
                         //                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
                         String organization = "";
                         StringBuffer keywords = new StringBuffer();
@@ -157,7 +158,7 @@ public class NewsManager {
                         //                    newNews[newNewsCounter].setImage(images);
                         newNews.add(new News(title, date, content, category, organization, newsID,
                                 News.stringConverter(images), publisher, null,
-                                null, keywords.toString(), scores.toString(), url));
+                                null, keywords.toString(), scores.toString(), url, video));
                         newNews.get(newNewsCounter).setImage(images);
                         recommended.add(newsID);
                         newNewsCounter++;

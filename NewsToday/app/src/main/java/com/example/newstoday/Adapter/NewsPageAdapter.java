@@ -53,8 +53,6 @@ public class NewsPageAdapter extends RecyclerView.Adapter <NewsPageAdapter.MyVie
             Picasso.get().load(news.getImage()[0]).resize(width, 500).centerCrop().into(holder.imageView);
         else{
             holder.imageView.setImageResource(R.mipmap.default_pic);
-//            holder.imageView.setBackgroundColor(0xFF000000);
-//            Picasso.get().load(R.drawable.default_pic).fit().centerCrop().into(holder.imageView);
         }
 
         holder.title.setText(news.getTitle());
