@@ -137,7 +137,7 @@ public class AsyncServerNews {
                     "&content="+news.getContent()+"&person="+news.getPerson()+"&organization="+news.getOrganization()+
                     "&location="+news.getLocation()+"&category="+news.getCategory()+"&publisher="+news.getPublisher()+
                     "&url="+news.getUrl()+"&oriImage="+news.getOriImage()+"&oriKeywords="+news.getOriKeywords()+
-                    "&oriScores="+news.getOriScores();
+                    "&oriScores="+news.getOriScores()+"&video="+news.getVideo();
             String res = serverHttpResponse.postResponse(url, data);
             if(res==null){
                 return false;
@@ -159,7 +159,7 @@ public class AsyncServerNews {
                             "&content="+news.getContent()+"&person="+news.getPerson()+"&organization="+news.getOrganization()+
                                 "&location="+news.getLocation()+"&category="+news.getCategory()+"&publisher="+news.getPublisher()+
                                     "&url="+news.getUrl()+"&oriImage="+news.getOriImage()+"&oriKeywords="+news.getOriKeywords()+
-                                        "&oriScores="+news.getOriScores();
+                                        "&oriScores="+news.getOriScores()+"&video="+news.getVideo();
             String res = serverHttpResponse.postResponse(url, data);
             if(res==null){
                 return false;
