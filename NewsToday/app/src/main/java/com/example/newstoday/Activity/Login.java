@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 String passwd = inputPasswd.getText().toString();
                 String name = inputName.getText().toString();
-                if(userManagerOnServer.userSignUp(email, passwd)){      // 记得在后端的这个方法上加名字参数！！
+                if(userManagerOnServer.userSignUp(email, name, passwd)){      // 记得在后端的这个方法上加名字参数！！
                     Toast.makeText(getApplicationContext(), "注册成功！", Toast.LENGTH_SHORT);
                     Intent intent = getIntent();
                     intent.putExtra("name", name);
