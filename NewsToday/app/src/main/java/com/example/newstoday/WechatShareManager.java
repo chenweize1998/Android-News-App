@@ -88,6 +88,7 @@ public class WechatShareManager implements IWXAPIEventHandler{
         req.scene = WXSceneSession;
         mWxapi.sendReq(req);
     }
+
     // 需要对图片进行处理，否则微信会在log中输出thumbData检查错误
     private static byte[] getBitmapBytes(Bitmap bitmap, boolean paramBoolean) {
         Bitmap localBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.RGB_565);
@@ -122,5 +123,6 @@ public class WechatShareManager implements IWXAPIEventHandler{
             j = bitmap.getHeight();
         }
     }
+
 
 }

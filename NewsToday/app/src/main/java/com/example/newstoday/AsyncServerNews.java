@@ -55,7 +55,7 @@ public class AsyncServerNews {
                 String oriScores = news.getString("oriSocres");
                 String video = news.getString("video");
 
-                newsManager.addInHistory(new News(title, date, content, category, origanization, newsID,
+                newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
                                                     oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
 
                 return true;
@@ -94,7 +94,7 @@ public class AsyncServerNews {
                 String oriScores = news.getString("oriSocres");
                 String video = news.getString("video");
 
-                newsManager.addInCollection(new News(title, date, content, category, origanization, newsID,
+                newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
                         oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
 
                 return true;
@@ -137,7 +137,7 @@ public class AsyncServerNews {
                     "&content="+news.getContent()+"&person="+news.getPerson()+"&organization="+news.getOrganization()+
                     "&location="+news.getLocation()+"&category="+news.getCategory()+"&publisher="+news.getPublisher()+
                     "&url="+news.getUrl()+"&oriImage="+news.getOriImage()+"&oriKeywords="+news.getOriKeywords()+
-                    "&oriScores="+news.getOriScores();
+                    "&oriScores="+news.getOriScores()+"&video="+news.getVideo();
             String res = serverHttpResponse.postResponse(url, data);
             if(res==null){
                 return false;
@@ -159,7 +159,7 @@ public class AsyncServerNews {
                             "&content="+news.getContent()+"&person="+news.getPerson()+"&organization="+news.getOrganization()+
                                 "&location="+news.getLocation()+"&category="+news.getCategory()+"&publisher="+news.getPublisher()+
                                     "&url="+news.getUrl()+"&oriImage="+news.getOriImage()+"&oriKeywords="+news.getOriKeywords()+
-                                        "&oriScores="+news.getOriScores();
+                                        "&oriScores="+news.getOriScores()+"&video="+news.getVideo();
             String res = serverHttpResponse.postResponse(url, data);
             if(res==null){
                 return false;
