@@ -34,14 +34,14 @@ public class Login extends AppCompatActivity {
                 String passwd = inputPasswd.getText().toString();
                 String name = inputName.getText().toString();
                 if(userManagerOnServer.userSignUp(email, name, passwd)){      // 记得在后端的这个方法上加名字参数！！
-                    Toast.makeText(getApplicationContext(), "注册成功！", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "注册成功！", Toast.LENGTH_SHORT).show();
                     Intent intent = getIntent();
                     intent.putExtra("name", name);
                     intent.putExtra("email", email);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }else{
-                    Toast.makeText(getApplicationContext(), "注册失败，邮箱已存在", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "注册失败，邮箱已存在", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity {
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 }else{
-                    Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_SHORT).show();
                 }
             }
         });

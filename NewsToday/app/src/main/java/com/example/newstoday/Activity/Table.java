@@ -316,7 +316,7 @@ public class Table extends AppCompatActivity {
                 header.updateProfile(header.getActiveProfile());
             } catch (FileNotFoundException e){
                 e.printStackTrace();
-                System.exit(-1);                // 调试完以后注释掉！！！！！！！！！！！！！！！！！！！！
+                Toast.makeText(getApplicationContext(), "更换头像失败", Toast.LENGTH_SHORT);
             }
         }
     }
@@ -363,6 +363,8 @@ public class Table extends AppCompatActivity {
                             --position;
                             if(identifier != 3)
                                 header.setActiveProfile(identifier - 1);
+                            newsManager.deleteAllHistory();
+                            newsManager.deleteAllCollection();
                         }
                         return false;
                     }
@@ -375,8 +377,11 @@ public class Table extends AppCompatActivity {
                             intent.setType("image/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                        } else {
+                            header.setActiveProfile(profile.getIdentifier(), true);
+                            newsManager.deleteAllCollection();
+                            newsManager.deleteAllHistory();
                         }
-                        header.setActiveProfile(profile.getIdentifier(), true);
                         return true;
                     }
 
@@ -405,46 +410,25 @@ public class Table extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
-                        // do something with the clicked item :D
                         if(drawerItem.getIdentifier() == COLLECTION_IDENTIFIER) {
                             Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
                             startActivity(intent);
-
-//                            startActivityForResult(intent, COLLECTION_CHANGED);
-//                            if(userManagerOnServer.userSignUp("h-peng17", "123456")){
-//                                System.out.println("用户注册成功");
-//                            }else{
-//                                System.out.println("用户注册失败");
-//                            }
                         } else if (drawerItem.getIdentifier() == HISTORY_IDENTIFIER) {
                             Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
                             startActivity(intent);
-//                            startActivityForResult(intent, HISTORY_CHANGED);
-//                            if(userManagerOnServer.userSignOut()){
-//                                System.out.println("用户退出成功");
-//                            }else{
-//                                System.out.println("用户退出失败");
-////                            }
-//                            if(userManagerOnServer.userSignIn("h-peng17","123456")){
-//                                System.out.println("用户登录成功");
-//                            }else{
-//                                System.out.println("用户登陆失败");
-//                            }
-//                            if(asyncServerNews.asyncHistoryNewsFromServer()){
-//                                System.out.println("同步成功");
-//                            }else{
-//                                System.out.println("同步失败");
-//                            }
                         } else if (drawerItem.getIdentifier() == CLEAR_IDENTIFIER) {
                             newsManager.deleteAllHistory();
                             mAdapterNews.notifyDataSetChanged();
                             Toast.makeText(getApplicationContext(), "历史记录已清除", Toast.LENGTH_LONG).show();
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
-                            newsManager.deleteAllHistory();
-                            asyncServerNews.asyncHistoryNewsFromServer();
-                        } else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
                             asyncServerNews.asyncCollectionNewsToServer();
                             asyncServerNews.asyncHistoryNewsToServer();
+                        } else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
+                            newsManager.deleteAllHistory();
+                            asyncServerNews.asyncHistoryNewsFromServer();
+                            newsManager.deleteAllCollection();
+                            asyncServerNews.asyncCollectionNewsFromServer();
+                            mAdapterNews.notifyDataSetChanged();
                         }
                         return false;
                     }
@@ -480,5 +464,12 @@ public class Table extends AppCompatActivity {
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        newsManager.deleteAllCollection();
+        newsManager.deleteAllHistory();
     }
 }
