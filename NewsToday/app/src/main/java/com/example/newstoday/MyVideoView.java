@@ -60,6 +60,10 @@ public class MyVideoView {
         return videoView;
     }
 
+    public void setVisiibility(int visiibility){
+        videoView.setVisibility(visiibility);
+    }
+
     public static interface PlayPauseListener {
         void onPlay();
         void onPause();

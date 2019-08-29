@@ -30,6 +30,8 @@ import com.example.newstoday.News;
 import com.example.newstoday.Adapter.NewsAdapter;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.example.newstoday.UserManagerOnServer;
+import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.WechatShareManager;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.*;
@@ -61,12 +63,18 @@ public class Table extends AppCompatActivity {
     private final int CAT_REARRANGE = 1;
     private final int HISTORY_CHANGED = 2;
     private final int COLLECTION_CHANGED = 3;
+    private AsyncServerNews asyncServerNews;
+    private UserManagerOnServer userManagerOnServer;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_activity);
+
+        asyncServerNews = AsyncServerNews.getAsyncServerNews(getApplicationContext());
+        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
 
         /**
          * Drawer
@@ -114,10 +122,30 @@ public class Table extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
                             startActivity(intent);
 //                            startActivityForResult(intent, COLLECTION_CHANGED);
+//                            if(userManagerOnServer.userSignUp("h-peng17", "123456")){
+//                                System.out.println("用户注册成功");
+//                            }else{
+//                                System.out.println("用户注册失败");
+//                            }
                         }else if(drawerItem.getIdentifier() == 2) {
                             Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
                             startActivity(intent);
 //                            startActivityForResult(intent, HISTORY_CHANGED);
+//                            if(userManagerOnServer.userSignOut()){
+//                                System.out.println("用户退出成功");
+//                            }else{
+//                                System.out.println("用户退出失败");
+////                            }
+//                            if(userManagerOnServer.userSignIn("h-peng17","123456")){
+//                                System.out.println("用户登录成功");
+//                            }else{
+//                                System.out.println("用户登陆失败");
+//                            }
+//                            if(asyncServerNews.asyncHistoryNewsFromServer()){
+//                                System.out.println("同步成功");
+//                            }else{
+//                                System.out.println("同步失败");
+//                            }
                         }else if(drawerItem.getIdentifier() == 3){
                             newsManager.deleteAllHistory();
                             mAdapterNews.notifyDataSetChanged();
