@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.newstoday.Adapter.LoopRecyclerAdapter;
+import com.example.newstoday.MyVideoView;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
@@ -31,7 +32,7 @@ import android.widget.VideoView;
 public class NewsPage extends AppCompatActivity {
     private LoopRecyclerAdapter mAdapterImg;
     private NewsManager newsManager;
-    private VideoView mVideoView;
+    private MyVideoView mVideoView;
     private CircleIndicator2 mIndicator;
 
     @Override
@@ -107,7 +108,7 @@ public class NewsPage extends AppCompatActivity {
         if(true){
             RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
             relativeLayout.setVisibility(View.VISIBLE);
-            mVideoView = (VideoView) findViewById(R.id.videoView);
+            mVideoView = new MyVideoView((VideoView) findViewById(R.id.videoView));
 //            mVideoView.setVideoURI(Uri.parse(news.getVideo()));
             mVideoView.setVideoURI(Uri.parse(url));
             mVideoView.seekTo(1);
@@ -115,54 +116,24 @@ public class NewsPage extends AppCompatActivity {
             mVideoView.setVisibility(View.VISIBLE);
             final ImageView cover = findViewById(R.id.page_video_cover);
             cover.setVisibility(View.VISIBLE);
-            final MediaController controller = new MediaController(NewsPage.this);
 
-            mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    //         mp.setLooping(true);
-                    mp.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
-                    mp.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                        @Override
-                        public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-                            /*
-                             * add media controller
-                             */
-
-                            mVideoView.setMediaController(controller);
-                            /*
-                             * and set its position on screen
-                             */
-                            controller.setAnchorView(mVideoView);
-                        }
-                    });
-//                mp.start();// 播放
-                }
-            });
 
             mVideoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mVideoView.isPlaying()) {
-                        mVideoView.pause();
-                        cover.setVisibility(View.VISIBLE);
-                    } else {
-                        mVideoView.start();
-                        cover.setVisibility(View.INVISIBLE);
-                    }
+//                    if (mVideoView.isPlaying()) {
+//                        mVideoView.pause();
+//                        cover.setVisibility(View.VISIBLE);
+//                    } else {
+//                        mVideoView.start();
+//                        cover.setVisibility(View.INVISIBLE);
+//                    }
                     Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+                    intent.putExtra("videoView", mVideoView);
                     startActivity(intent);
                 }
             });
 
-            mVideoView.setOnLongClickListener(new View.OnLongClickListener(){
-                @Override
-                public boolean onLongClick(View view){
-                    Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
-                    startActivity(intent);
-                    return false;
-                }
-            });
 
         }
 
