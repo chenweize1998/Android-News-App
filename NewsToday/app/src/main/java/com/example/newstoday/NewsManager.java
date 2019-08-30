@@ -97,7 +97,7 @@ public class NewsManager {
                     json = jsonData.execute(String.valueOf(size / recommendWordCnt), startDate, endDate,
                             recommendWord, allCategory, Integer.toString(keywordPage.getOrDefault(recommendWord, 1))).get();
                     keywordPage.put(recommendWord, keywordPage.getOrDefault(recommendWord, 1) + 1);
-                    System.out.println(keywordPage.get(recommendWord));
+//                    System.out.println(keywordPage.get(recommendWord));
                 } else {
                     json = jsonData.execute(String.valueOf(size), startDate, endDate, words,
                             recommendJudge ? allCategory : categories, Integer.toString(pageCounter)).get();
