@@ -7,13 +7,14 @@ from newsForApp.models import CollectionNews
 # Create your views here.
 
 USERS = {"wei10", "h-peng17"}
-currentUser = "null"
+
+class G:
+    currentUser = 'null'
 
 def index(request):
     return render(request, 'exam.html')
 
 def userSignIn(request):
-    global currentUser
     if request.method == 'POST':
         email = request.POST.get("email")
         password = request.POST.get("password")
@@ -29,7 +30,7 @@ def userSignIn(request):
         passwordOfUserInDB = userInDB[0].password
         if passwordOfUserInDB != password:
             return HttpResponse("Fail")
-        currentUser = email
+        G.currentUser = email
         return HttpResponse("Success")
     return HttpResponse("Fail")
 
@@ -40,24 +41,23 @@ def userSignUp(request):
         password = request.POST.get("password")
         newUser = User(email = email, name = name, password = password)
         newUser.save()
+        G.currentUser = email
         return HttpResponse("Success")
     return HttpResponse("Fail")
 
 def userSignOut(request):
-    global currentUser
     if request.method == "GET":
-        HistoryNews.objects.filter(user = currentUser).delete()
-        currentUser = "null"
+        HistoryNews.objects.filter(user = G.currentUser).delete()
+        G.currentUser = "null"
         return HttpResponse("Success")
     return HttpResponse("Fail")    
 
 def history(request):
-    global currentUser
-    print(currentUser)
+    print(G.currentUser)
     if request.method == 'POST':
-        if currentUser == 'null':
+        if G.currentUser == 'null':
             return HttpResponse("Fail")
-        HistoryNews.objects.filter(user=currentUser).delete()
+        HistoryNews.objects.filter(user = G.currentUser).delete()
         try:
             if len(HistoryNews.objects.filter(newsID = request.POST["newsID"])) != 0:
                 return HttpResponse("Success") 
@@ -65,17 +65,17 @@ def history(request):
                                             content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
                                             location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],
                                             url = request.POST["url"], oriImage = request.POST["oriImage"], oriKeywords = request.POST["oriKeywords"], 
-                                            oriScores =  request.POST["oriScores"], video = request.POST["video"], user = currentUser) 
+                                            oriScores =  request.POST["oriScores"], video = request.POST["video"], user = G.currentUser) 
             newHistoryNews.save()
             print("保存成功")
             return HttpResponse("Success")  
         except KeyError:
             return HttpResponse("Fail")
     if request.method == 'GET':
-        if currentUser == 'null':
+        if G.currentUser == 'null':
             return HttpResponse("Fail")
         data = []
-        allHistoryNews = HistoryNews.objects.filter(user = currentUser) # just return history news for current user
+        allHistoryNews = HistoryNews.objects.filter(user = G.currentUser) # just return history news for current user
         for news in allHistoryNews:
             newsIndata = {
                 "newsID":news.newsID,
@@ -95,15 +95,16 @@ def history(request):
             }
             data.append(newsIndata)
         jsonData = {"data":data}
+        print(jsonData)
         return HttpResponse(json.dumps(jsonData), content_type = "application/json")
 
 
 def collection(request):
-    global currentUser
-    print(currentUser)
+    print(G.currentUser)
     if request.method == 'POST':
-        if currentUser == 'null':
+        if G.currentUser == 'null':
             return HttpResponse("Fail")
+        CollectionNews.objects.filter(user = G.currentUser).delete()
         try:
             if len(CollectionNews.objects.filter(newsID = request.POST["newsID"])) != 0:
                 return HttpResponse("Success") 
@@ -111,17 +112,17 @@ def collection(request):
                                             content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
                                             location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],
                                             url = request.POST["url"], oriImage = request.POST["oriImage"], oriKeywords = request.POST["oriKeywords"], 
-                                            oriScores =  request.POST["oriScores"], video = request.POST["video"], user = currentUser) 
+                                            oriScores =  request.POST["oriScores"], video = request.POST["video"], user = G.currentUser) 
             newCollectionNews.save()
             print("保存成功")
             return HttpResponse("Success")  
         except KeyError:
             return HttpResponse("Fail")
     if request.method == 'GET':
-        if currentUser == 'null':
+        if G.currentUser == 'null':
             return HttpResponse("Fail")
         data = []
-        allCollectionNews = CollectionNews.objects.filter(user = currentUser) # just return history news for current user
+        allCollectionNews = CollectionNews.objects.filter(user = G.currentUser) # just return history news for current user
         for news in allCollectionNews:
             newsIndata = {
                 "newsID":news.newsID,
@@ -144,19 +145,18 @@ def collection(request):
         return HttpResponse(json.dumps(jsonData), content_type = "application/json")
 
 def weightMap(request):
-    global currentUser
     if request.method == 'GET':
-        if currentUser == 'null':
+        if G.currentUser == 'null':
             return HttpResponse("Fail")
-        allWeightMap = WeightMap.objects.filter(user = currentUser)
+        allWeightMap = WeightMap.objects.filter(user = G.currentUser)
         return HttpResponse(allWeightMap)
     if request.method == 'POST':
-        if currentUser == 'null':
+        if G.currentUser == 'null':
             return HttpResponse("Fail")
         try:
-            entry = WeightMap.objects.get(user = currentUser)
+            entry = WeightMap.objects.get(user = G.currentUser)
             if len(entry) == 0:
-                newWeightMap = WeightMap(data = request.POST["data"], user = currentUser)
+                newWeightMap = WeightMap(data = request.POST["data"], user = G.currentUser)
                 newWeightMap.save()
             else:
                 entry.data = request.POST["data"]
