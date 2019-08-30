@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from newsForApp.models import User 
 from newsForApp.models import HistoryNews
 from newsForApp.models import CollectionNews
+from newsForApp.models import Map
 # Create your views here.
 
 class G:
@@ -150,15 +151,16 @@ def weightMap(request):
     if request.method == 'GET':
         if G.currentUser == 'null':
             return HttpResponse("Fail")
-        allWeightMap = WeightMap.objects.filter(user = G.currentUser)
+        allWeightMap = Map.objects.filter(user = G.currentUser)
+        print(allWeightMap)
         return HttpResponse(allWeightMap)
     if request.method == 'POST':
         if G.currentUser == 'null':
             return HttpResponse("Fail")
         try:
-            entry = WeightMap.objects.get(user = G.currentUser)
+            entry = Map.objects.get(user = G.currentUser)
             if len(entry) == 0:
-                newWeightMap = WeightMap(data = request.POST["data"], user = G.currentUser)
+                newWeightMap = Map(data = request.POST["data"], user = G.currentUser)
                 newWeightMap.save()
             else:
                 entry.data = request.POST["data"]

@@ -1,18 +1,22 @@
 package com.example.newstoday;
 
 
+import android.content.Context;
+
 public class UserManagerOnServer {
 
     private ServerHttpResponse serverHttpResponse;
+    private UserManager userManager;
     private static UserManagerOnServer INSTANCE = null;
 
-    private UserManagerOnServer(){
+    private UserManagerOnServer(Context context){
         serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
+        userManager = UserManager.getUserManager(context);
     }
 
-    public static UserManagerOnServer getUserManagerOnServer(){
+    public static UserManagerOnServer getUserManagerOnServer(Context context){
         if(INSTANCE == null){
-            INSTANCE = new UserManagerOnServer();
+            INSTANCE = new UserManagerOnServer(context);
         }
         return INSTANCE;
     }
@@ -28,6 +32,7 @@ public class UserManagerOnServer {
                 return false;
             }
         }
+        userManager.addInUser(new User(email, name, password));
         return true;
     }
 

@@ -44,6 +44,7 @@ import com.example.newstoday.News;
 import com.example.newstoday.Adapter.NewsAdapter;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.example.newstoday.UserManager;
 import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.WechatShareManager;
@@ -74,6 +75,7 @@ public class Table extends AppCompatActivity {
 //
 //    private ArrayList<News> news;
     private NewsManager newsManager;
+//    private UserManager userManager;
 //    private String currentCategory = "推荐";
 
     private AsyncServerNews asyncServerNews;
