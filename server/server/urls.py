@@ -25,5 +25,5 @@ urlpatterns = [
     path("signOut/", views.userSignOut),
     path("history/", views.history),
     path("collection/", views.collection),
-    path("weightMap/",views.weightMap),
+    path("weightMap/", views.weightMap),
 ]

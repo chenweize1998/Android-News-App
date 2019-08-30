@@ -158,6 +158,8 @@ def weightMap(request):
         if G.currentUser == 'null':
             return HttpResponse("Fail")
         try:
+            print("weightMap post:", end='      ')
+            print(request.POST)
             entry = Map.objects.get(user = G.currentUser)
             if len(entry) == 0:
                 newWeightMap = Map(data = request.POST["data"], user = G.currentUser)
