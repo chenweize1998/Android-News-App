@@ -21,7 +21,10 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".Activity.CategoryArrangement" />
-        <activity android:name=".Activity.NewsPage" />
+        <activity
+            android:name=".Activity.NewsPage"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.Table"
             android:launchMode="singleTask" />
@@ -39,8 +42,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.VideoActivity"
-            android:launchMode="singleTask" />
+            android:name=".Activity.VideoActivity"/>
 
         <meta-data
             android:name="com.google.android.actions"

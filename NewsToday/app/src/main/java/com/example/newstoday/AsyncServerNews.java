@@ -98,8 +98,8 @@ public class AsyncServerNews {
                 newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
                         oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
 
-                return true;
             }
+            return true;
 
         }catch (JSONException e){
             e.printStackTrace();

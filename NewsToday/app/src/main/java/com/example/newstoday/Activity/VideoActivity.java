@@ -2,8 +2,10 @@ package com.example.newstoday.Activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -20,8 +22,16 @@ public class VideoActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_activity);
 
+        Intent intent = getIntent();
+        String url = intent.getStringExtra("url");
+        mVideoView = findViewById(R.id.videoViewJ);
+        mVideoView.setVideoURI(Uri.parse(url));
+        mVideoView.seekTo(1);
 
-        final MediaController controller = new MediaController(getApplicationContext());
+        final ImageView cover = findViewById(R.id.page_video_coverJ);
+        System.out.println("视频开始准备");
+
+        final MediaController controller = new MediaController(VideoActivity.this);
 
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -48,19 +58,15 @@ public class VideoActivity extends AppCompatActivity{
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                    if (mVideoView.isPlaying()) {
-//                        mVideoView.pause();
+                    if (mVideoView.isPlaying()) {
+                        mVideoView.pause();
 //                        cover.setVisibility(View.VISIBLE);
-//                    } else {
-//                        mVideoView.start();
+                    } else {
+                        mVideoView.start();
 //                        cover.setVisibility(View.INVISIBLE);
-//                    }
+                    }
         }
         });
-
-
-
-
 
     }
 

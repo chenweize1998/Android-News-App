@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -20,6 +21,7 @@ import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
+import cn.jzvd.JZVideoPlayerStandard;
 import me.relex.circleindicator.CircleIndicator2;
 import me.relex.recyclerpager.SnapPageScrollListener;
 
@@ -100,30 +102,37 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setText(news.getContent());
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
-        String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
-//        if(!news.getVideo().equals("")) {
-        if(true){
-            RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
-            relativeLayout.setVisibility(View.VISIBLE);
-            mVideoView = (VideoView) findViewById(R.id.videoView);
-//            mVideoView.setVideoURI(Uri.parse(news.getVideo()));
-            mVideoView.setVideoURI(Uri.parse(url));
-            mVideoView.seekTo(1);
-            mVideoView.setVisibility(View.VISIBLE);
-            final ImageView cover = findViewById(R.id.page_video_cover);
-            cover.setVisibility(View.VISIBLE);
+//        final String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+////        if(!news.getVideo().equals("")) {
+//        if(true){
+//            RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
+//            relativeLayout.setVisibility(View.VISIBLE);
+//            mVideoView = (VideoView) findViewById(R.id.videoView);
+////            mVideoView.setVideoURI(Uri.parse(news.getVideo()));
+//            mVideoView.setVideoURI(Uri.parse(url));
+//            mVideoView.seekTo(1);
+//            mVideoView.setVisibility(View.VISIBLE);
+//            final ImageView cover = findViewById(R.id.page_video_cover);
+//            cover.setVisibility(View.VISIBLE);
+//
+//
+//            mVideoView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+////                    Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+////                    intent.putExtra("url", url);
+////                    startActivity(intent);
+//                }
+//            });
+//
+//
+//        }
 
-
-            mVideoView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
-                    startActivity(intent);
-                }
-            });
-
-
-        }
+        JZVideoPlayerStandard jzVideoPlayerStandard = (JZVideoPlayerStandard) findViewById(R.id.videoPlayer);
+        jzVideoPlayerStandard.setUp("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4",
+                JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL,
+                "饺子闭眼睛");
+//        jzVideoPlayerStandard.thumbImageView.setImage("http://p.qpic.cn/videoyun/0/2449_43b6f696980311e59ed467f22794e792_1/640");
 
 
         mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);
@@ -161,7 +170,17 @@ public class NewsPage extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Table.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        if (JZVideoPlayerStandard.backPress()) {
+            return;
+        }
+        super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JZVideoPlayerStandard.releaseAllVideos();
     }
 
 }
