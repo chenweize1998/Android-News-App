@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,9 +35,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class CollectionNews extends AppCompatActivity {
-
-
+public class CollectionNews extends Fragment {
     private RecyclerView recyclerViewNews;
     private NewsAdapter mAdapterNews;
     private RecyclerView.LayoutManager layoutManagerNews;
@@ -41,95 +43,40 @@ public class CollectionNews extends AppCompatActivity {
     private NewsManager newsManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.collection_news);
+    }
 
-        newsManager = NewsManager.getNewsManager(getApplicationContext());
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.collection_news, container, false);
+
+        newsManager = NewsManager.getNewsManager(getActivity().getApplicationContext());
         news = newsManager.getAllCollectionNews();
-        for(News _news: news){
+        for (News _news : news) {
             _news.setImage(News.stringParse(_news.getOriImage()));
         }
 
-        ImageView imageView = findViewById(R.id.imageView);
+        ImageView imageView = view.findViewById(R.id.imageView);
         imageView.setImageResource(R.drawable.collection_title);
-
-        BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("我的收藏")
-                .withIcon(R.drawable.star).withTextColor(Color.parseColor("#ababab"));
-        BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName("浏览历史")
-                .withIcon(R.drawable.history).withTextColor(Color.parseColor("#ababab"));
-        SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(3).withName("夜间模式")
-                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab"));
-        AccountHeader header = new AccountHeaderBuilder()
-                .withActivity(this)
-                .addProfiles(
-                        new ProfileDrawerItem().withName("Weize Chen")
-                                .withEmail("wei10@mails.tsinghua.edu.cn").withIcon(R.drawable.chenweize)
-                )
-                .addProfiles(
-                        new ProfileDrawerItem().withName("Hao Peng")
-                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.drawable.penghao)
-                )
-                .withTextColor(Color.parseColor("#ababab"))
-                .build();
-        Drawer drawer = new DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(header)
-                .withSelectedItem(1)
-                .addDrawerItems(
-                        item1,
-                        item2,
-                        new DividerDrawerItem(),
-                        switchDrawerItem
-                )
-                .withSliderBackgroundDrawableRes(R.drawable.drawer_bg)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
-                        // do something with the clicked item :D
-                        if(drawerItem.getIdentifier() == 1){
-                            Intent intent = new Intent(getApplicationContext(), CollectionNews.class);
-                            startActivity(intent);
-//                            startActivityForResult(intent, COLLECTION_CHANGED);
-                        }else if(drawerItem.getIdentifier() == 2) {
-                            Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
-                            startActivity(intent);
-//                            startActivityForResult(intent, HISTORY_CHANGED);
-                        }
-
-                        return false;
-                    }
-                })
-                .build();
-
 
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, final View v) {
-                Intent intent = new Intent(getApplicationContext(), NewsPage.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), NewsPage.class);
                 intent.putExtra("news", news.get(position));
                 startActivity(intent);
             }
         };
 
-
-        recyclerViewNews = findViewById(R.id.collection_recycler_view);
-        layoutManagerNews = new LinearLayoutManager(this);
+        recyclerViewNews = view.findViewById(R.id.collection_recycler_view);
+        layoutManagerNews = new LinearLayoutManager(getContext());
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news, CollectionNews.this);
+        mAdapterNews = new NewsAdapter(news, getActivity());
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
 
+        return view;
     }
-
-    @Override
-    public void onBackPressed() {
-//        Intent intent = getIntent();
-        Intent intent = new Intent(getApplicationContext(), Table.class);
-//        setResult(Activity.RESULT_OK, intent);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-    }
-
 }

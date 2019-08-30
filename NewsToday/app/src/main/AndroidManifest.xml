@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Login"></activity>
+        <activity android:name=".Activity.Login" />
         <activity android:name=".Activity.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -55,9 +55,9 @@
             android:name=".SearchProvider"
             android:authorities="com.example.SearchProvider" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
