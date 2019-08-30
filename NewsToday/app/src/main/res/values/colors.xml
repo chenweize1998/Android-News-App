@@ -46,4 +46,6 @@
     <color name="catTextColor">#9c9393</color>
     <color name="CollapsingToolbarLayoutScrimColor">#000000</color>
     <color name="pageContentTextColor">#222222</color>
+    <color name="unfinishedBar">#F1B000</color>
+    <color name="finishedBar">#346633</color>
 </resources>

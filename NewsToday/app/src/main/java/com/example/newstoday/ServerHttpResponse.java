@@ -14,8 +14,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 public class ServerHttpResponse {
 
@@ -66,7 +68,7 @@ public class ServerHttpResponse {
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestProperty("Charset", "UTF-8");
             connection.setRequestMethod("GET");
-            connection.setConnectTimeout(200);
+            connection.setConnectTimeout(100);
             connection.connect();
 
             result = new StringBuffer();
@@ -79,7 +81,10 @@ public class ServerHttpResponse {
 
             return result.toString();
 
-        } catch (Exception e) {
+        }catch (SocketException e){
+            return null;
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }finally {
             try {
@@ -146,6 +151,8 @@ public class ServerHttpResponse {
 
             System.out.println(sb.toString());
             return sb.toString();
+        }catch (SocketException e){
+            return null;
         }catch(MalformedURLException e){
             e.printStackTrace();
         }catch(IOException e){

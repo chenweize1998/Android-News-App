@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -51,6 +52,8 @@
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 </com.google.android.material.appbar.AppBarLayout>
+
+
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -122,4 +125,24 @@
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    <com.romainpiel.titanic.library.TitanicTextView-->
+<!--        android:id="@+id/titanic_tv"-->
+<!--        android:text="Sync"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:gravity="center"-->
+<!--        android:textColor="#212121"-->
+<!--        android:textSize="70sp"/>-->
+<!--    <com.github.lzyzsd.circleprogress.DonutProgress-->
+<!--        android:layout_marginLeft="15dp"-->
+<!--        android:id="@+id/donut_progress"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:visibility="gone"-->
+<!--        custom:donut_progress="0"/>-->
+
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

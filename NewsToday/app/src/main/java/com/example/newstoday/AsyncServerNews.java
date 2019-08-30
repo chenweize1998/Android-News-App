@@ -32,11 +32,12 @@ public class AsyncServerNews {
 
     public boolean asyncHistoryNewsFromServer(){
         try{
-            JSONObject jsonData = new JSONObject(serverHttpResponse.getResponse("http://183.172.218.1:8000/history/"));
-
-            if(jsonData == null){
+            String json = serverHttpResponse.getResponse("http://183.172.218.1:8000/history/");
+            if(json == null){
                 return false;
             }
+            JSONObject jsonData = new JSONObject(json);
+
             JSONArray newsArray = jsonData.getJSONArray("data");
             System.out.println("来了"+newsArray.length()+"条数据");
             for(int i = 0; i<newsArray.length(); i++){
@@ -70,11 +71,11 @@ public class AsyncServerNews {
 
     public boolean asyncCollectionNewsFromServer(){
         try {
-            JSONObject jsonData = new JSONObject(serverHttpResponse.getResponse("http://183.172.218.1:8000/collection/"));
-
-            if(jsonData == null){
+            String json = serverHttpResponse.getResponse("http://183.172.218.1:8000/collection/");
+            if(json == null){
                 return false;
             }
+            JSONObject jsonData = new JSONObject(json);
 
 
             JSONArray newsArray = jsonData.getJSONArray("data");
