@@ -4,10 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.app.UiModeManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,49 +13,26 @@ import android.os.Handler;
 import android.util.ArraySet;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.transition.FragmentTransitionSupport;
-
-import com.example.newstoday.Adapter.CatAdapter;
-import com.example.newstoday.News;
-import com.example.newstoday.Adapter.NewsAdapter;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.UserManager;
 import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.WechatShareManager;
-import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-//import com.romainpiel.titanic.library.Titanic;
-//import com.romainpiel.titanic.library.TitanicTextView;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import dmax.dialog.SpotsDialog;
@@ -69,20 +42,9 @@ import static com.example.newstoday.Activity.NewsItem.mAdapterNews;
 public class Table extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
 
-//    private RecyclerView recyclerViewNews;
-//    private NewsAdapter mAdapterNews;
-//    private CatAdapter mAdapterCat;
-//
-//    private ArrayList<News> news;
     private NewsManager newsManager;
-//    private UserManager userManager;
-//    private String currentCategory = "推荐";
 
     private AsyncServerNews asyncServerNews;
-    // private UserManagerOnServer userManagerOnServer;
-//    private Titanic titanic;
-    private DonutProgress donutProgress;
-    private Timer timer;
     private AlertDialog spotsDialog;
 
 
@@ -92,12 +54,9 @@ public class Table extends AppCompatActivity {
     private int identifier = 3;
     private int position = 0;
 
-    private static final int DISMISS_TIMEOUT = 500;
 
-    private final int CAT_REARRANGE = 1;
     private final int LOGIN_REQUEST = 2;
     private final int PICK_IMAGE = 3;
-    private final int LOGOUT_REQUEST = 4;
 
     private final int COLLECTION_IDENTIFIER = 1;
     private final int HISTORY_IDENTIFIER = 2;
@@ -114,6 +73,7 @@ public class Table extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_table);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -131,6 +91,20 @@ public class Table extends AppCompatActivity {
          * Drawer
          */
         buildDrawer(savedInstanceState, this);
+
+        if(savedInstanceState != null) {
+            Intent intent = getIntent();
+            String[] email = intent.getStringArrayExtra("email");
+            String[] name = intent.getStringArrayExtra("name");
+            if (email != null) {
+                for (int i = 0; i < email.length; ++i) {
+                    header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3 + i)
+                            .withEmail(email[i]).withIcon(R.drawable.header));
+                }
+                if (header.getProfiles().size() > 2)
+                    header.setActiveProfile(intent.getLongExtra("Active ID", 1));
+            }
+        }
 
         /**
          * Wechat share
@@ -197,9 +171,28 @@ public class Table extends AppCompatActivity {
                             setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 //                        onSaveInstanceState(savedInstanceState);
-                        Intent intent = getIntent();
+                        Intent intent = new Intent(activity, Table.class);
+                        String[] email = new String[header.getProfiles().size() - 2];
+                        String[] name = new String[header.getProfiles().size() - 2];
+                        int cnt = 0;
+                        for(IProfile profile : header.getProfiles()){
+                            if(profile.getIdentifier() < 3)
+                                continue;
+                            email[cnt] = profile.getEmail().toString();
+                            name[cnt] = profile.getName().toString();
+                            ++cnt;
+                        }
+//                        outState.putStringArray("email", email);
+//                        outState.putStringArray("name", name);
+//                        if(header.getProfiles().size() > 2)
+//                            outState.putLong("Active ID", header.getActiveProfile().getIdentifier());
+                        intent.putExtra("email", email);
+                        intent.putExtra("name", name);
+                        if(header.getProfiles().size() > 2)
+                            intent.putExtra("Active ID", header.getActiveProfile().getIdentifier());
+//                        finish();
+//                        overridePendingTransition(R.xml.slide_no_move, R.xml.fade);
                         finish();
-                        overridePendingTransition(R.xml.slide_no_move, R.xml.fade);
                         startActivity(intent);
 //                        finish();
 //                        recreate();
@@ -267,15 +260,16 @@ public class Table extends AppCompatActivity {
                 })
                 .withTextColor(Color.parseColor("#ababab"))
                 .build();
-        if(savedInstanceState != null){
-            String[] email = savedInstanceState.getStringArray("email");
-            String[] name = savedInstanceState.getStringArray("name");
-            System.out.println(name[0]);
-            for(int i = 0; i < email.length; ++i){
-                header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3+i)
-                                        .withEmail(email[i]));
-            }
-        }
+//        if(savedInstanceState != null){
+//            String[] email = savedInstanceState.getStringArray("email");
+//            String[] name = savedInstanceState.getStringArray("name");
+//            for(int i = 0; i < email.length; ++i){
+//                header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3+i)
+//                                        .withEmail(email[i]).withIcon(R.drawable.header));
+//            }
+//            if(header.getProfiles().size() > 2)
+//                header.setActiveProfile(savedInstanceState.getLong("Active ID"));
+//        }
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(header)
@@ -304,8 +298,6 @@ public class Table extends AppCompatActivity {
                             fragmentTransaction.commit();
 
                         } else if (drawerItem.getIdentifier() == HISTORY_IDENTIFIER) {
-//                            Intent intent = new Intent(getApplicationContext(), HistoryNews.class);
-//                            startActivity(intent);
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             HistoryNews historyNews = new HistoryNews(fragmentManager);
@@ -340,6 +332,7 @@ public class Table extends AppCompatActivity {
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
                             asyncServerNews.asyncCollectionNewsToServer();
                             asyncServerNews.asyncHistoryNewsToServer();
+                            asyncServerNews.asyncWeightMapToServer();
 
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
@@ -365,6 +358,8 @@ public class Table extends AppCompatActivity {
                             asyncServerNews.asyncHistoryNewsFromServer();
                             newsManager.deleteAllCollection();
                             asyncServerNews.asyncCollectionNewsFromServer();
+                            newsManager.resetWeightMap();
+                            asyncServerNews.asyncWeightMapFromServer();
                             mAdapterNews.notifyDataSetChanged();
 
                             spotsDialog = new SpotsDialog.Builder()
@@ -399,27 +394,37 @@ public class Table extends AppCompatActivity {
         newsManager.resetRecommendation();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        String[] email = new String[header.getProfiles().size() - 2];
-        String[] name = new String[header.getProfiles().size() - 2];
-        int cnt = 0;
-        for(IProfile profile : header.getProfiles()){
-            if(profile.getIdentifier() < 3)
-                continue;
-            email[cnt] = profile.getEmail().toString();
-            name[cnt] = profile.getName().toString();
-            ++cnt;
-        }
-        outState.putStringArray("email", email);
-        outState.putStringArray("name", name);
-    }
-
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        String[] email = new String[header.getProfiles().size() - 2];
+//        String[] name = new String[header.getProfiles().size() - 2];
+//        int cnt = 0;
+//        for(IProfile profile : header.getProfiles()){
+//            if(profile.getIdentifier() < 3)
+//                continue;
+//            email[cnt] = profile.getEmail().toString();
+//            name[cnt] = profile.getName().toString();
+//            ++cnt;
+//        }
+//        outState.putStringArray("email", email);
+//        outState.putStringArray("name", name);
+//        if(header.getProfiles().size() > 2)
+//            outState.putLong("Active ID", header.getActiveProfile().getIdentifier());
+//    }
+//
 //    @Override
 //    protected void onNewIntent(Intent intent){
-////        mAdapterNews.notifyDataSetChanged();
-////        drawer.setSelectionAtPosition(-1);
+//        String[] email = intent.getStringArrayExtra("email");
+//        String[] name = intent.getStringArrayExtra("name");
+//        if(email != null) {
+//            for (int i = 0; i < email.length; ++i) {
+//                header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3 + i)
+//                        .withEmail(email[i]).withIcon(R.drawable.header));
+//            }
+//            if (header.getProfiles().size() > 2)
+//                header.setActiveProfile(intent.getLongExtra("Active ID", 1));
+//        }
 //    }
 
     @Override

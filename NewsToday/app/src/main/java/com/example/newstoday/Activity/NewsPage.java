@@ -6,15 +6,9 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -57,11 +51,9 @@ public class NewsPage extends AppCompatActivity {
 
         final ShineButton starButton = findViewById(R.id.page_bottom_star);
         if(newsManager.inCollectionNews(news)){
-//            starButton.setImageResource(R.drawable.star_selected);
             starButton.setChecked(true);
         }
         else {
-//            starButton.setImageResource(R.drawable.not_star);
             starButton.setChecked(false);
         }
 //
