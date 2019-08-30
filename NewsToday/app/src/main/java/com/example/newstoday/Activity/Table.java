@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -125,7 +126,7 @@ public class Table extends AppCompatActivity {
         /**
          * Drawer
          */
-        buildDrawer();
+        buildDrawer(savedInstanceState);
 
         /**
          * Wechat share
@@ -170,7 +171,7 @@ public class Table extends AppCompatActivity {
         }
     }
 
-    private void buildDrawer(){
+    private void buildDrawer(final Bundle savedInstanceState){
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(COLLECTION_IDENTIFIER).withName("我的收藏")
                 .withIcon(R.drawable.ic_star).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(HISTORY_IDENTIFIER).withName("浏览历史")
@@ -190,20 +191,31 @@ public class Table extends AppCompatActivity {
                             setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         else
                             setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+                        ArrayList<String> email = new ArrayList<>();
+                        ArrayList<String> name = new ArrayList<>();
+                        for(IProfile profile : header.getProfiles()){
+                            if(profile.getIdentifier() < 3)
+                                continue;
+                            email.add(profile.getEmail().toString());
+                            name.add(profile.getName().toString());
+                        }
+                        savedInstanceState.putStringArrayList("email", email);
+                        savedInstanceState.putStringArrayList("name", name);
+
                         recreate();
-                        mAdapterNews.updateActivity(Table.this);
                     }
                 });
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             switchDrawerItem.withChecked(true);
         header = new AccountHeaderBuilder()
                 .withActivity(this)
-                .addProfiles(
+//                .addProfiles(
 //                        new ProfileDrawerItem().withName("Weize Chen").withIdentifier(3)
 //                        .withEmail("chenweize@mails.tsinghua.edu.cn").withIcon(R.drawable.chenweize),
 //                        new ProfileDrawerItem().withName("Hao Peng").withIdentifier(4)
 //                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.drawable.penghao)
-                )
+//                )
                 .addProfiles(
                         new ProfileSettingDrawerItem().withName("Add Account")
                                 .withIcon(R.drawable.plus).withIdentifier(LOGIN_IDENTIFIER),
@@ -255,6 +267,15 @@ public class Table extends AppCompatActivity {
                 })
                 .withTextColor(Color.parseColor("#ababab"))
                 .build();
+        if(savedInstanceState != null){
+            String[] email = (String[]) savedInstanceState.getStringArrayList("email").toArray();
+            String[] name = (String[]) savedInstanceState.getStringArrayList("name").toArray();
+            System.out.println(name[0]);
+            for(int i = 0; i < email.length; ++i){
+                header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3+i)
+                                        .withEmail(email[i]));
+            }
+        }
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(header)
@@ -305,37 +326,7 @@ public class Table extends AppCompatActivity {
                             newsManager.deleteAllCollection();
                             asyncServerNews.asyncCollectionNewsFromServer();
                             mAdapterNews.notifyDataSetChanged();
-//                            TitanicTextView myTitanicTextView = findViewById(R.id.titanic_tv);
-//                            titanic = new Titanic();
-////                            myTitanicTextView.setVisibility(View.VISIBLE);
-//                            titanic.start(myTitanicTextView);
 
-
-//                            donutProgress = findViewById(R.id.donut_progress);
-//                            donutProgress.setVisibility(View.VISIBLE);
-//                            donutProgress.setUnfinishedStrokeColor(R.color.unfinishedBar);
-//                            donutProgress.setFinishedStrokeColor(R.color.finishedBar);
-//                            timer = new Timer();
-//                            timer.schedule(new TimerTask() {
-//
-//                                @Override
-//                                public void run() {
-//                                    if (donutProgress.getProgress()>=100){
-//                                        cancel();
-//                                        timer.cancel();
-//                                        donutProgress.setVisibility(View.INVISIBLE);
-//                                    }
-//                                    runOnUiThread(new Runnable() {
-//
-//                                        @Override
-//                                        public void run() {
-//                                            donutProgress.setProgress(donutProgress.getProgress() + 1);
-//
-//                                        }
-//                                    });
-//                                }
-//                            }, 300, 20);
-////                            timer.cancel();
                         spotsDialog = new SpotsDialog.Builder()
                                 .setContext(Table.this)
                                 .setCancelable(false)
