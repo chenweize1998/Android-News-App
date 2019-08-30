@@ -23,6 +23,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.example.newstoday.UserManager;
+import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.WechatShareManager;
