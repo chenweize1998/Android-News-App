@@ -15,12 +15,13 @@ import com.example.newstoday.UserManagerOnServer;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Login extends AppCompatActivity {
-    private UserManagerOnServer userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
+    private UserManagerOnServer userManagerOnServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer(getApplicationContext());
 
         Button materialRippleLayoutSignUp = findViewById(R.id.sign_btn_signup);
 
