@@ -47,7 +47,8 @@ public class Table extends AppCompatActivity {
 
     private AsyncServerNews asyncServerNews;
     private AlertDialog spotsDialog;
-    private UserManagerOnServer userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
+    private UserManagerOnServer userManagerOnServer;
+    private UserManager userManager;
 
     public static Drawer drawer;
     public AccountHeader header;
@@ -84,6 +85,8 @@ public class Table extends AppCompatActivity {
         fragmentTransaction.commit();
 
         newsManager = NewsManager.getNewsManager(getApplicationContext());
+        userManager = UserManager.getUserManager(getApplicationContext());
+        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer(getApplicationContext());
 
         asyncServerNews = AsyncServerNews.getAsyncServerNews(getApplicationContext());
 //        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
@@ -147,7 +150,7 @@ public class Table extends AppCompatActivity {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "更换头像失败", Toast.LENGTH_SHORT);
             }
-        }
+        } /*else if (requestCode == )*/
     }
 
     private void buildDrawer(final Bundle savedInstanceState, final Activity activity){
@@ -253,6 +256,8 @@ public class Table extends AppCompatActivity {
                             newsManager.resetWeightMap();
                             String name = header.getActiveProfile().getName().toString();
                             String email = header.getActiveProfile().getEmail().toString();
+                            String passwd = userManager.getPassword(email);
+                            userManagerOnServer.userSignIn(email, name, passwd);
                         }
                         return true;
                     }
@@ -336,15 +341,13 @@ public class Table extends AppCompatActivity {
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
                             asyncServerNews.asyncCollectionNewsToServer();
                             asyncServerNews.asyncHistoryNewsToServer();
-                            asyncServerNews.asyncWeightMapToServer();
+//                            asyncServerNews.asyncWeightMapToServer();
 
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
                                     .setTheme(R.style.Uploading)
                                     .build();
-                            spotsDialog.show();
-
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -356,22 +359,24 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
+                            spotsDialog.show();
+
 
                         } else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
-                            newsManager.deleteAllHistory();
-                            asyncServerNews.asyncHistoryNewsFromServer();
-                            newsManager.deleteAllCollection();
-                            asyncServerNews.asyncCollectionNewsFromServer();
-                            newsManager.resetWeightMap();
-                            asyncServerNews.asyncWeightMapFromServer();
-                            mAdapterNews.notifyDataSetChanged();
-
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
                                     .setTheme(R.style.Downloading)
                                     .build();
                             spotsDialog.show();
+                            newsManager.deleteAllHistory();
+                            asyncServerNews.asyncHistoryNewsFromServer();
+                            newsManager.deleteAllCollection();
+                            asyncServerNews.asyncCollectionNewsFromServer();
+//                            newsManager.resetWeightMap();
+//                            asyncServerNews.asyncWeightMapFromServer();
+                            mAdapterNews.notifyDataSetChanged();
+
 
                             new Thread(new Runnable() {
                                 @Override
@@ -430,6 +435,12 @@ public class Table extends AppCompatActivity {
 //                header.setActiveProfile(intent.getLongExtra("Active ID", 1));
 //        }
 //    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAdapterNews.notifyDataSetChanged();
+    }
 
     @Override
     public void onBackPressed() {
