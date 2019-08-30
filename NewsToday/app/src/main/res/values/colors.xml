@@ -11,4 +11,6 @@
     <color name="material_drawer_divider">#1FFFFFFF</color>
     <color name="material_drawer_primary_text">#70FFFFFF</color>
     <color name="textInputLayout">#96ffffff</color>
+    <color name="unfinishedBar">#F1B000</color>
+    <color name="finishedBar">#346633</color>
 </resources>

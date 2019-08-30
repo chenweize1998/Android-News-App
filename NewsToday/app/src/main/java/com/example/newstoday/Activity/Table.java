@@ -2,6 +2,7 @@ package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -39,14 +42,19 @@ import com.example.newstoday.R;
 import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.WechatShareManager;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+//import com.romainpiel.titanic.library.Titanic;
+//import com.romainpiel.titanic.library.TitanicTextView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import dmax.dialog.SpotsDialog;
 
 import static com.example.newstoday.Activity.NewsItem.mAdapterNews;
 
@@ -63,6 +71,10 @@ public class Table extends AppCompatActivity {
 
     private AsyncServerNews asyncServerNews;
     private UserManagerOnServer userManagerOnServer;
+//    private Titanic titanic;
+    private DonutProgress donutProgress;
+    private Timer timer;
+    private AlertDialog spotsDialog;
 
     public static Drawer drawer;
     public AccountHeader header;
@@ -415,6 +427,56 @@ public class Table extends AppCompatActivity {
                             newsManager.deleteAllCollection();
                             asyncServerNews.asyncCollectionNewsFromServer();
                             mAdapterNews.notifyDataSetChanged();
+//                            TitanicTextView myTitanicTextView = findViewById(R.id.titanic_tv);
+//                            titanic = new Titanic();
+////                            myTitanicTextView.setVisibility(View.VISIBLE);
+//                            titanic.start(myTitanicTextView);
+
+
+//                            donutProgress = findViewById(R.id.donut_progress);
+//                            donutProgress.setVisibility(View.VISIBLE);
+//                            donutProgress.setUnfinishedStrokeColor(R.color.unfinishedBar);
+//                            donutProgress.setFinishedStrokeColor(R.color.finishedBar);
+//                            timer = new Timer();
+//                            timer.schedule(new TimerTask() {
+//
+//                                @Override
+//                                public void run() {
+//                                    if (donutProgress.getProgress()>=100){
+//                                        cancel();
+//                                        timer.cancel();
+//                                        donutProgress.setVisibility(View.INVISIBLE);
+//                                    }
+//                                    runOnUiThread(new Runnable() {
+//
+//                                        @Override
+//                                        public void run() {
+//                                            donutProgress.setProgress(donutProgress.getProgress() + 1);
+//
+//                                        }
+//                                    });
+//                                }
+//                            }, 300, 20);
+////                            timer.cancel();
+                        spotsDialog = new SpotsDialog.Builder()
+                                .setContext(Table.this)
+                                .setCancelable(false)
+                                .setTheme(R.style.Custom)
+                                .build();
+                        spotsDialog.show();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                }catch (InterruptedException e){
+                                    e.printStackTrace();
+                                }
+                                spotsDialog.dismiss();
+                            }
+                        }).start();
+
                         }
                         return false;
                     }
