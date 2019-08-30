@@ -6,8 +6,6 @@ from newsForApp.models import HistoryNews
 from newsForApp.models import CollectionNews
 # Create your views here.
 
-USERS = {"wei10", "h-peng17"}
-
 class G:
     currentUser = 'null'
 
@@ -17,8 +15,10 @@ def index(request):
 def userSignIn(request):
     if request.method == 'POST':
         email = request.POST.get("email")
+        name = request.POST.get("name")
         password = request.POST.get("password")
         print(email)
+        print(name)
         print(password)
         ##
         #if user is not in user_list
@@ -28,7 +28,7 @@ def userSignIn(request):
         #check password
         userInDB = User.objects.filter(email = email)
         passwordOfUserInDB = userInDB[0].password
-        if passwordOfUserInDB != password:
+        if passwordOfUserInDB != password or userInDB[0].name != name:
             return HttpResponse("Fail")
         G.currentUser = email
         return HttpResponse("Success")
@@ -39,6 +39,8 @@ def userSignUp(request):
         email = request.POST.get("email")
         name = request.POST.get("name")
         password = request.POST.get("password")
+        if email=="" or name == "" or password == "":
+            return HttpResponse("Fail")
         newUser = User(email = email, name = name, password = password)
         newUser.save()
         G.currentUser = email
