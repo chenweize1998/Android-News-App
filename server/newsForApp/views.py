@@ -57,6 +57,7 @@ def history(request):
     if request.method == 'POST':
         if currentUser == 'null':
             return HttpResponse("Fail")
+        HistoryNews.objects.filter(user=currentUser).delete()
         try:
             if len(HistoryNews.objects.filter(newsID = request.POST["newsID"])) != 0:
                 return HttpResponse("Success") 

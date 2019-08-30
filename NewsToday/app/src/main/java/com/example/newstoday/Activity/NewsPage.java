@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.newstoday.Adapter.LoopRecyclerAdapter;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
@@ -128,12 +131,12 @@ public class NewsPage extends AppCompatActivity {
 //
 //        }
 
+        String url = "http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4";
         JZVideoPlayerStandard jzVideoPlayerStandard = (JZVideoPlayerStandard) findViewById(R.id.videoPlayer);
-        jzVideoPlayerStandard.setUp("http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4",
+        jzVideoPlayerStandard.setUp(url,
                 JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL,
                 "饺子闭眼睛");
-//        jzVideoPlayerStandard.thumbImageView.setImage("http://p.qpic.cn/videoyun/0/2449_43b6f696980311e59ed467f22794e792_1/640");
-
+        Glide.with(this).load(url).into(jzVideoPlayerStandard.thumbImageView);
 
         mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);
 
@@ -165,12 +168,14 @@ public class NewsPage extends AppCompatActivity {
 
     }
 
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), Table.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         if (JZVideoPlayerStandard.backPress()) {
+            finish();
             return;
         }
         super.onBackPressed();
