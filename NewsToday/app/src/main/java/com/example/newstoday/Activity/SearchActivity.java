@@ -1,6 +1,7 @@
 package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +40,7 @@ public class SearchActivity extends AppCompatActivity {
     private SwipyRefreshLayout mSwipyRefreshLayout;
     private final String category = "娱乐,军事,教育,文化,健康,财经,体育,汽车,科技,社会";
     private final int DISMISS_TIMEOUT = 2000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class SearchActivity extends AppCompatActivity {
         recyclerViewNews = findViewById(R.id.history_recycler_view);
         layoutManagerNews = new LinearLayoutManager(this);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news, SearchActivity.this);
+        mAdapterNews = new NewsAdapter(news, SearchActivity.this, this.getSupportFragmentManager());
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
     }

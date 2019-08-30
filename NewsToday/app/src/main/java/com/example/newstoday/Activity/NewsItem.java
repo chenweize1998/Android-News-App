@@ -13,7 +13,9 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,14 +39,24 @@ public class NewsItem extends Fragment {
     private RecyclerView recyclerViewNews;
     public static NewsAdapter mAdapterNews;
     private CatAdapter mAdapterCat;
+    private FragmentManager fragmentManager;
 
     private ArrayList<News> news;
     private NewsManager newsManager;
     private String currentCategory = "推荐";
 
+
     private int DISMISS_TIMEOUT = 500;
 
     private final int CAT_REARRANGE = 1;
+
+    NewsItem(){
+
+    }
+
+    NewsItem(FragmentManager fragmentManager){
+        this.fragmentManager = fragmentManager;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -164,7 +176,7 @@ public class NewsItem extends Fragment {
         recyclerViewNews = view.findViewById(R.id.table_recycler_view);
         RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(getContext());
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news, getActivity());
+        mAdapterNews = new NewsAdapter(news, getActivity(), this.fragmentManager);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
         recyclerViewNews.setItemViewCacheSize(100);

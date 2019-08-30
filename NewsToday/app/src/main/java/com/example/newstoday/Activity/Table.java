@@ -81,6 +81,7 @@ public class Table extends AppCompatActivity {
     private Timer timer;
     private AlertDialog spotsDialog;
 
+
     public static Drawer drawer;
     public AccountHeader header;
     private ArraySet<String> account = new ArraySet<>();
@@ -113,7 +114,7 @@ public class Table extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        NewsItem newsItem = new NewsItem();
+        NewsItem newsItem = new NewsItem(this.getSupportFragmentManager());
         fragmentTransaction.add(R.id.table_fragment, newsItem);
         fragmentTransaction.commit();
 
@@ -196,6 +197,7 @@ public class Table extends AppCompatActivity {
                 });
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             switchDrawerItem.withChecked(true);
+        final FragmentManager fragmentManager = this.getSupportFragmentManager();
         header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .addProfiles(
@@ -276,7 +278,7 @@ public class Table extends AppCompatActivity {
                         if(drawerItem.getIdentifier() == COLLECTION_IDENTIFIER) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            CollectionNews collectionNews = new CollectionNews();
+                            CollectionNews collectionNews = new CollectionNews(fragmentManager);
                             fragmentTransaction.replace(R.id.table_fragment, collectionNews);
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
@@ -287,7 +289,7 @@ public class Table extends AppCompatActivity {
 //                            startActivity(intent);
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            HistoryNews historyNews = new HistoryNews();
+                            HistoryNews historyNews = new HistoryNews(fragmentManager);
                             fragmentTransaction.replace(R.id.table_fragment, historyNews);
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
@@ -295,69 +297,75 @@ public class Table extends AppCompatActivity {
                         } else if (drawerItem.getIdentifier() == CLEAR_IDENTIFIER) {
                             newsManager.deleteAllHistory();
                             mAdapterNews.notifyDataSetChanged();
-                            Toast.makeText(getApplicationContext(), "历史记录已清除", Toast.LENGTH_LONG).show();
+
+                            spotsDialog = new SpotsDialog.Builder()
+                                    .setContext(Table.this)
+                                    .setCancelable(false)
+                                    .setTheme(R.style.Clearing)
+                                    .build();
+                            spotsDialog.show();
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(1500);
+                                    }catch (InterruptedException e){
+                                        e.printStackTrace();
+                                    }
+                                    spotsDialog.dismiss();
+//                                    Toast.makeText(getApplicationContext(), "历史记录已清除", Toast.LENGTH_LONG).show();
+                                }
+                            }).start();
+
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
                             asyncServerNews.asyncCollectionNewsToServer();
                             asyncServerNews.asyncHistoryNewsToServer();
+
+                            spotsDialog = new SpotsDialog.Builder()
+                                    .setContext(Table.this)
+                                    .setCancelable(false)
+                                    .setTheme(R.style.Uploading)
+                                    .build();
+                            spotsDialog.show();
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(3000);
+                                    }catch (InterruptedException e){
+                                        e.printStackTrace();
+                                    }
+                                    spotsDialog.dismiss();
+                                }
+                            }).start();
+
                         } else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
                             newsManager.deleteAllHistory();
                             asyncServerNews.asyncHistoryNewsFromServer();
                             newsManager.deleteAllCollection();
                             asyncServerNews.asyncCollectionNewsFromServer();
                             mAdapterNews.notifyDataSetChanged();
-//                            TitanicTextView myTitanicTextView = findViewById(R.id.titanic_tv);
-//                            titanic = new Titanic();
-////                            myTitanicTextView.setVisibility(View.VISIBLE);
-//                            titanic.start(myTitanicTextView);
 
+                            spotsDialog = new SpotsDialog.Builder()
+                                    .setContext(Table.this)
+                                    .setCancelable(false)
+                                    .setTheme(R.style.Downloading)
+                                    .build();
+                            spotsDialog.show();
 
-//                            donutProgress = findViewById(R.id.donut_progress);
-//                            donutProgress.setVisibility(View.VISIBLE);
-//                            donutProgress.setUnfinishedStrokeColor(R.color.unfinishedBar);
-//                            donutProgress.setFinishedStrokeColor(R.color.finishedBar);
-//                            timer = new Timer();
-//                            timer.schedule(new TimerTask() {
-//
-//                                @Override
-//                                public void run() {
-//                                    if (donutProgress.getProgress()>=100){
-//                                        cancel();
-//                                        timer.cancel();
-//                                        donutProgress.setVisibility(View.INVISIBLE);
-//                                    }
-//                                    runOnUiThread(new Runnable() {
-//
-//                                        @Override
-//                                        public void run() {
-//                                            donutProgress.setProgress(donutProgress.getProgress() + 1);
-//
-//                                        }
-//                                    });
-//                                }
-//                            }, 300, 20);
-////                            timer.cancel();
-                        spotsDialog = new SpotsDialog.Builder()
-                                .setContext(Table.this)
-                                .setCancelable(false)
-                                .setTheme(R.style.Custom)
-                                .build();
-                        spotsDialog.show();
-
-
-                        //这个线程没有显式的关闭，不知道会不会有点问题
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(2000);
-                                }catch (InterruptedException e){
-                                    e.printStackTrace();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(2000);
+                                    }catch (InterruptedException e){
+                                        e.printStackTrace();
+                                    }
+                                    spotsDialog.dismiss();
                                 }
-                                spotsDialog.dismiss();
-                            }
-                        }).start();
-
-
+                            }).start();
 
                         }
                         return false;
