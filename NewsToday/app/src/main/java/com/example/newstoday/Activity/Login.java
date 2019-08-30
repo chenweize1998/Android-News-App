@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.Toast;
 
+import com.balysv.materialripple.MaterialRippleLayout;
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.newstoday.R;
 import com.example.newstoday.UserManagerOnServer;
 import com.google.android.material.textfield.TextInputEditText;
@@ -16,15 +19,17 @@ import com.google.android.material.textfield.TextInputEditText;
 public class Login extends AppCompatActivity {
     private UserManagerOnServer userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button btnSignin = findViewById(R.id.sign_btn_signin);
-        Button btnSignup = findViewById(R.id.sign_btn_signup);
-        btnSignup.setOnClickListener(new View.OnClickListener() {
+        MaterialRippleLayout materialRippleLayoutSignUp = findViewById(R.id.signUp_ripple);
+
+        MaterialRippleLayout materialRippleLayoutSignIn = findViewById(R.id.signIn_ripple);
+
+
+        materialRippleLayoutSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TextInputEditText inputEmail = findViewById(R.id.sign_email);
@@ -40,12 +45,15 @@ public class Login extends AppCompatActivity {
                     intent.putExtra("email", email);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
+
+
                 }else{
                     Toast.makeText(getApplicationContext(), "注册失败，邮箱已存在", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        btnSignin.setOnClickListener(new View.OnClickListener() {
+
+        materialRippleLayoutSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TextInputEditText inputEmail = findViewById(R.id.sign_email);
@@ -54,7 +62,7 @@ public class Login extends AppCompatActivity {
                 String email = inputEmail.getText().toString();
                 String passwd = inputPasswd.getText().toString();
                 String name = inputName.getText().toString();
-                if(userManagerOnServer.userSignIn(email, passwd)){
+                if(userManagerOnServer.userSignIn(email, name, passwd)){
 //                    Toast.makeText(getApplicationContext(), "登陆成功！", Toast.LENGTH_SHORT);
                     Intent intent = getIntent();
                     intent.putExtra("name", name);

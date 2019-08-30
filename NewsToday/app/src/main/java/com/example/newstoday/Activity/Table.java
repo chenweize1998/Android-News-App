@@ -465,6 +465,8 @@ public class Table extends AppCompatActivity {
                                 .build();
                         spotsDialog.show();
 
+
+                        //这个线程没有显式的关闭，不知道会不会有点问题
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -476,6 +478,8 @@ public class Table extends AppCompatActivity {
                                 spotsDialog.dismiss();
                             }
                         }).start();
+
+
 
                         }
                         return false;

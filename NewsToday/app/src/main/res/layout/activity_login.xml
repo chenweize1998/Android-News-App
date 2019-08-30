@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -173,18 +174,29 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/signUp_ripple"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/button_shape_whith_bg"
-                android:id="@+id/sign_btn_signup"
-                android:text="Sign up"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:textColor="#96ffffff"
-                android:textSize="18dp" />
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/button_shape_whith_bg"
+                    android:id="@+id/sign_btn_signup"
+                    android:text="Sign up"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textColor="#96ffffff"
+                    android:textSize="18dp" />
+            </com.balysv.materialripple.MaterialRippleLayout>
 
+
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/signIn_ripple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -196,6 +208,41 @@
                 android:textColor="#96ffffff"
                 android:textSize="18dp"
                 android:textStyle="bold" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+<!--            <com.dd.processbutton.iml.ActionProcessButton-->
+<!--                android:id="@+id/btnSignUp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:text="Sign up"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:textSize="18dp"-->
+<!--                custom:pb_colorComplete="@color/green_complete"-->
+<!--                custom:pb_colorNormal="@color/blue_normal"-->
+<!--                custom:pb_colorPressed="@color/blue_pressed"-->
+<!--                custom:pb_colorProgress="@color/purple_progress"-->
+<!--                custom:pb_textComplete="Success"-->
+<!--                custom:pb_textProgress="Loading"-->
+<!--                custom:pb_textError="Error"-->
+<!--                custom:pb_colorError="@color/red_error" />-->
+
+<!--            <com.dd.processbutton.iml.ActionProcessButton-->
+<!--                android:id="@+id/btnSignIn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="16dp"-->
+<!--                android:text="Sign in"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:textSize="18dp"-->
+<!--                custom:pb_colorComplete="@color/green_complete"-->
+<!--                custom:pb_colorNormal="@color/blue_normal"-->
+<!--                custom:pb_colorPressed="@color/blue_pressed"-->
+<!--                custom:pb_colorProgress="@color/purple_progress"-->
+<!--                custom:pb_textComplete="Success"-->
+<!--                custom:pb_textProgress="Loading"-->
+<!--                custom:pb_textError="Error"-->
+<!--                custom:pb_colorError="@color/red_error" />-->
 
 
         </LinearLayout>

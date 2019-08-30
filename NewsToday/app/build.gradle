@@ -78,4 +78,6 @@ dependencies {
 //    implementation files('libs/titanic1.0.0.aar')
     implementation 'com.github.lzyzsd:circleprogress:+'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
+    implementation 'com.balysv:material-ripple:1.0.2'
 }

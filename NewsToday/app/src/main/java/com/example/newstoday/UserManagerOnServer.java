@@ -31,8 +31,8 @@ public class UserManagerOnServer {
         return true;
     }
 
-    public boolean userSignIn(String email, String password){
-        String data = "email="+email+"&password="+password;
+    public boolean userSignIn(String email, String name ,String password){
+        String data = "email="+email+"&name="+name+"&password="+password;
         String res = serverHttpResponse.postResponse("http://183.172.218.1:8000/signIn/", data);
         if(res==null){
             return false;
