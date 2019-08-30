@@ -68,4 +68,6 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.0.0'
 
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.12'
 }
