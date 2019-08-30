@@ -19,11 +19,8 @@ import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.SearchProvider;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +33,6 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManagerNews;
     private ArrayList<News> news;
     private NewsManager newsManager;
-    private SwipyRefreshLayout mSwipyRefreshLayout;
     private final String category = "娱乐,军事,教育,文化,健康,财经,体育,汽车,科技,社会";
     private final int DISMISS_TIMEOUT = 2000;
 

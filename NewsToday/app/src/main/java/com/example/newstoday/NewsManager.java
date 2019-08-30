@@ -3,18 +3,13 @@ package com.example.newstoday;
 
 import org.json.*;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
-import android.renderscript.Float4;
 import android.util.ArrayMap;
 import android.util.ArraySet;
-import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -51,6 +46,10 @@ public class NewsManager {
         for(String key:keywordPage.keySet())
             keywordPage.put(key, 1);
         recommended.clear();
+    }
+
+    public void resetWeightMap(){
+        recommendKeyword.reset();
     }
 
     private void initNewInMem(){
@@ -319,6 +318,10 @@ public class NewsManager {
             if(map.size() != 0)
                 return map.higherEntry(value).getValue();
             return null;
+        }
+
+        public void reset(){
+            map.clear();
         }
     }
 

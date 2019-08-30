@@ -26,8 +26,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Activity.Table"
-            android:launchMode="singleTask" />
+            android:name=".Activity.Table"/>
         <activity
             android:name=".Activity.HistoryNews"
             android:launchMode="singleTop" />
