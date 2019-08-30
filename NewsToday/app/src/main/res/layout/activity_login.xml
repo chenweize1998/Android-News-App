@@ -174,10 +174,10 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/signUp_ripple"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+<!--            <com.balysv.materialripple.MaterialRippleLayout-->
+<!--                android:id="@+id/signUp_ripple"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content">-->
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,15 +188,10 @@
                     android:textAllCaps="false"
                     android:textStyle="bold"
                     android:textColor="#96ffffff"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:textSize="18dp" />
-            </com.balysv.materialripple.MaterialRippleLayout>
+<!--            </com.balysv.materialripple.MaterialRippleLayout>-->
 
-
-
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/signIn_ripple"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -206,9 +201,10 @@
                 android:text="Sign in"
                 android:textAllCaps="false"
                 android:textColor="#96ffffff"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:textSize="18dp"
                 android:textStyle="bold" />
-            </com.balysv.materialripple.MaterialRippleLayout>
+<!--            </com.balysv.materialripple.MaterialRippleLayout>-->
 
 <!--            <com.dd.processbutton.iml.ActionProcessButton-->
 <!--                android:id="@+id/btnSignUp"-->

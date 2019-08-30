@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.Toast;
 
-import com.balysv.materialripple.MaterialRippleLayout;
-import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.newstoday.R;
 import com.example.newstoday.UserManagerOnServer;
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,9 +22,9 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        MaterialRippleLayout materialRippleLayoutSignUp = findViewById(R.id.signUp_ripple);
+        Button materialRippleLayoutSignUp = findViewById(R.id.sign_btn_signup);
 
-        MaterialRippleLayout materialRippleLayoutSignIn = findViewById(R.id.signIn_ripple);
+        Button materialRippleLayoutSignIn = findViewById(R.id.sign_btn_signin);
 
 
         materialRippleLayoutSignUp.setOnClickListener(new View.OnClickListener() {

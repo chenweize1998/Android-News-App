@@ -53,7 +53,6 @@ dependencies {
     implementation 'androidx.transition:transition:1.0.1'
     implementation 'androidx.annotation:annotation:1.0.1'
     implementation "com.mikepenz:materialdrawer:6.1.2"
-    implementation 'com.github.omadahealth:swipy:1.2.3@aar'
     implementation 'me.relex:circleindicator:2.1.4'
     implementation 'me.relex:recyclerpager:1.0.4'
     implementation 'com.sackcentury:shinebutton:1.0.0'
@@ -72,12 +71,5 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.12'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation files('libs/titanic1.0.0.aar')
-    implementation 'com.github.lzyzsd:circleprogress:+'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
-    implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
-    implementation 'com.balysv:material-ripple:1.0.2'
 }
