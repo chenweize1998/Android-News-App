@@ -2,6 +2,7 @@ package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.app.UiModeManager;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -126,7 +128,7 @@ public class Table extends AppCompatActivity {
         /**
          * Drawer
          */
-        buildDrawer();
+        buildDrawer(savedInstanceState, this);
 
         /**
          * Wechat share
@@ -171,7 +173,7 @@ public class Table extends AppCompatActivity {
         }
     }
 
-    private void buildDrawer(){
+    private void buildDrawer(final Bundle savedInstanceState, final Activity activity){
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(COLLECTION_IDENTIFIER).withName("我的收藏")
                 .withIcon(R.drawable.ic_star).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(HISTORY_IDENTIFIER).withName("浏览历史")
@@ -191,8 +193,14 @@ public class Table extends AppCompatActivity {
                             setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         else
                             setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        recreate();
-                        mAdapterNews.updateActivity(Table.this);
+
+//                        onSaveInstanceState(savedInstanceState);
+                        Intent intent = getIntent();
+                        finish();
+                        overridePendingTransition(R.xml.slide_no_move, R.xml.fade);
+                        startActivity(intent);
+//                        finish();
+//                        recreate();
                     }
                 });
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
@@ -200,12 +208,12 @@ public class Table extends AppCompatActivity {
         final FragmentManager fragmentManager = this.getSupportFragmentManager();
         header = new AccountHeaderBuilder()
                 .withActivity(this)
-                .addProfiles(
+//                .addProfiles(
 //                        new ProfileDrawerItem().withName("Weize Chen").withIdentifier(3)
 //                        .withEmail("chenweize@mails.tsinghua.edu.cn").withIcon(R.drawable.chenweize),
 //                        new ProfileDrawerItem().withName("Hao Peng").withIdentifier(4)
 //                                .withEmail("h-peng17@mails.tsinghua.edu.cn").withIcon(R.drawable.penghao)
-                )
+//                )
                 .addProfiles(
                         new ProfileSettingDrawerItem().withName("Add Account")
                                 .withIcon(R.drawable.plus).withIdentifier(LOGIN_IDENTIFIER),
@@ -257,6 +265,15 @@ public class Table extends AppCompatActivity {
                 })
                 .withTextColor(Color.parseColor("#ababab"))
                 .build();
+        if(savedInstanceState != null){
+            String[] email = savedInstanceState.getStringArray("email");
+            String[] name = savedInstanceState.getStringArray("name");
+            System.out.println(name[0]);
+            for(int i = 0; i < email.length; ++i){
+                header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3+i)
+                                        .withEmail(email[i]));
+            }
+        }
         drawer = new DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(header)
@@ -378,6 +395,23 @@ public class Table extends AppCompatActivity {
     protected void onStop (){
         super.onStop();
         newsManager.resetRecommendation();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String[] email = new String[header.getProfiles().size() - 2];
+        String[] name = new String[header.getProfiles().size() - 2];
+        int cnt = 0;
+        for(IProfile profile : header.getProfiles()){
+            if(profile.getIdentifier() < 3)
+                continue;
+            email[cnt] = profile.getEmail().toString();
+            name[cnt] = profile.getName().toString();
+            ++cnt;
+        }
+        outState.putStringArray("email", email);
+        outState.putStringArray("name", name);
     }
 
 //    @Override
