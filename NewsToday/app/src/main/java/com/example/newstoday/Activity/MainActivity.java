@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.newstoday.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity
     protected void onStart()
     {
         super.onStart();
+//        ShimmerFrameLayout container = findViewById(R.id.shimmer_view_container);
+//        container.startShimmer();
         Timer timer = new Timer();
         TimerTask task = new TimerTask()
         {

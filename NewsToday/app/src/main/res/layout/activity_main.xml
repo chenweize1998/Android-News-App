@@ -6,14 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
+<!--    <com.facebook.shimmer.ShimmerFrameLayout-->
+<!--        android:id="@+id/shimmer_view_container"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:shimmer_colored="false"-->
+<!--        app:shimmer_base_alpha="1"-->
+<!--        app:shimmer_highlight_alpha="0.5"-->
+<!--        app:shimmer_duration="3000"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        >-->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/front_page" />
+<!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

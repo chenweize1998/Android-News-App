@@ -29,7 +29,7 @@ public class NewsManager {
     private static NewsRepository historyNews;
     private static NewsRepository collectionNews;
     private static String lastCategory;
-    public  static RandomCollection<String> recommendKeyword;
+    private static RandomCollection<String> recommendKeyword;
     private ArraySet<String> historyNewsInMem;
     private ArraySet<String> collectionNewsInmem;
     private final String allCategory = "娱乐,军事,教育,文化,健康,财经,体育,汽车,科技,社会";
