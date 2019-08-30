@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +32,11 @@ public class HistoryNews extends Fragment {
     private RecyclerView.LayoutManager layoutManagerNews;
     private ArrayList<News> news;
     private NewsManager newsManager;
+    private FragmentManager fragmentManager;
+
+    HistoryNews(FragmentManager fragmentManager){
+        this.fragmentManager = fragmentManager;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,7 @@ public class HistoryNews extends Fragment {
         recyclerViewNews = view.findViewById(R.id.history_recycler_view);
         layoutManagerNews = new LinearLayoutManager(getContext());
         recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news, getActivity());
+        mAdapterNews = new NewsAdapter(news, getActivity(), this.fragmentManager);
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
         return view;

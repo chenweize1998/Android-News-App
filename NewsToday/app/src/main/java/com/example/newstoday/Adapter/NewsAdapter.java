@@ -15,9 +15,12 @@ import android.content.*;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newstoday.Activity.BottomSheetDialog;
 import com.example.newstoday.Activity.Table;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
@@ -31,6 +34,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private OnItemClickListener listener;
     private NewsManager newsManager;
     private Activity activity;
+    private BottomSheetDialog bottomSheetDialog;
+    private FragmentManager fragmentManager;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
@@ -60,10 +65,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         this.listener = listener;
     }
 
-    public NewsAdapter(ArrayList<News> news, Activity activity) {
+    public NewsAdapter(ArrayList<News> news, Activity activity, FragmentManager fragmentManager) {
         this.news = news;
         pat = Pattern.compile("[！？。…~]");
         this.activity = activity;
+        this.fragmentManager = fragmentManager;
     }
 
     public void updateNews(ArrayList<News> news){
@@ -131,10 +137,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             }
         });
 
+        final FragmentManager fragmentManager = this.fragmentManager;
         holder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 //                wsm.shareNews(news.get(position));
+                bottomSheetDialog = new BottomSheetDialog();
+                bottomSheetDialog.show(fragmentManager, "bottomSheet");
             }
         });
 
