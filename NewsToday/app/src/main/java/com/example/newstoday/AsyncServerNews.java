@@ -177,6 +177,7 @@ public class AsyncServerNews {
     public boolean asyncWeightMapToServer(){
         NavigableMap<Double, String> map= newsManager.getMap();
         StringBuffer sb = new StringBuffer();
+        sb.append("data=");
         Iterator iter = map.keySet().iterator();
         while(iter.hasNext()){
             Double key = (Double) iter.next();

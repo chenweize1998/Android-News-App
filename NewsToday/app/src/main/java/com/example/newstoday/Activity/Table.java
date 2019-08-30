@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.AsyncServerNews;
+import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.WechatShareManager;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
@@ -44,7 +45,7 @@ public class Table extends AppCompatActivity {
 
     private AsyncServerNews asyncServerNews;
     private AlertDialog spotsDialog;
-
+    private UserManagerOnServer userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
 
     public static Drawer drawer;
     public AccountHeader header;
@@ -90,19 +91,19 @@ public class Table extends AppCompatActivity {
          */
         buildDrawer(savedInstanceState, this);
 
-        if(savedInstanceState != null) {
-            Intent intent = getIntent();
-            String[] email = intent.getStringArrayExtra("email");
-            String[] name = intent.getStringArrayExtra("name");
-            if (email != null) {
-                for (int i = 0; i < email.length; ++i) {
-                    header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3 + i)
-                            .withEmail(email[i]).withIcon(R.drawable.header));
-                }
-                if (header.getProfiles().size() > 2)
-                    header.setActiveProfile(intent.getLongExtra("Active ID", 1));
+//        if(savedInstanceState != null) {
+        Intent intent = getIntent();
+        String[] email = intent.getStringArrayExtra("email");
+        String[] name = intent.getStringArrayExtra("name");
+        if (email != null) {
+            for (int i = 0; i < email.length; ++i) {
+                header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3 + i)
+                        .withEmail(email[i]).withIcon(R.drawable.header));
             }
+            if (header.getProfiles().size() > 2)
+                header.setActiveProfile(intent.getLongExtra("Active ID", 1));
         }
+//        }
 
         /**
          * Wechat share
@@ -247,6 +248,9 @@ public class Table extends AppCompatActivity {
                             header.setActiveProfile(profile.getIdentifier(), true);
                             newsManager.deleteAllCollection();
                             newsManager.deleteAllHistory();
+                            newsManager.resetWeightMap();
+                            String name = header.getActiveProfile().getName().toString();
+                            String email = header.getActiveProfile().getEmail().toString();
                         }
                         return true;
                     }
