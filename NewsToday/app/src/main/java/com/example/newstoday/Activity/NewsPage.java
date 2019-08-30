@@ -89,11 +89,11 @@ public class NewsPage extends AppCompatActivity {
 //
         TextView pageTitle = findViewById(R.id.page_title);
         pageTitle.setText(news.getTitle());
-        pageTitle.setTextColor(0xFF000000);
+//        pageTitle.setTextColor(0xFF000000);
 
         TextView pagePublisher = findViewById(R.id.page_publisher);
         pagePublisher.setText(news.getPublisher() + "\t" + news.getDate());
-        pagePublisher.setTextColor(0xAA878787);
+//        pagePublisher.setTextColor(0xAA878787);
 
 //        recyclerView = findViewById(R.id.page_recycler_view);
 //        layoutManager = new LinearLayoutManager(this);
@@ -134,8 +134,7 @@ public class NewsPage extends AppCompatActivity {
         String url = "http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4";
         JZVideoPlayerStandard jzVideoPlayerStandard = (JZVideoPlayerStandard) findViewById(R.id.videoPlayer);
         jzVideoPlayerStandard.setUp(url,
-                JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL,
-                "饺子闭眼睛");
+                JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL);
         Glide.with(this).load(url).into(jzVideoPlayerStandard.thumbImageView);
 
         mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);
@@ -164,21 +163,19 @@ public class NewsPage extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), Table.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), Table.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+        super.onBackPressed();
         if (JZVideoPlayerStandard.backPress()) {
             finish();
             return;
         }
-        super.onBackPressed();
         finish();
     }
 

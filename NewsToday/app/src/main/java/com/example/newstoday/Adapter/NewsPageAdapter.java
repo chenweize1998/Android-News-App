@@ -56,10 +56,10 @@ public class NewsPageAdapter extends RecyclerView.Adapter <NewsPageAdapter.MyVie
         }
 
         holder.title.setText(news.getTitle());
-        holder.title.setTextColor(0xFF000000);
+//        holder.title.setTextColor(0xFF000000);
 
         holder.publisher.setText(news.getPublisher());
-        holder.publisher.setTextColor(0xAA878787);
+//        holder.publisher.setTextColor(0xAA878787);
 
         holder.content.setText(news.getContent());
         holder.content.setMovementMethod(new ScrollingMovementMethod());

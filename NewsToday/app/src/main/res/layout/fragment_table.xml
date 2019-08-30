@@ -6,10 +6,9 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Table">
-
-
-    <com.google.android.material.appbar.AppBarLayout android:id="@+id/page_bar"
+    tools:context=".Activity.Table"
+    >
+<com.google.android.material.appbar.AppBarLayout android:id="@+id/page_bar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:fitsSystemWindows="true">
@@ -115,7 +114,7 @@
             android:layout_height="match_parent"
             android:overScrollMode="never"
             android:scrollbars="vertical"
-            android:background="#f6f6f6"
+            android:background="@color/newsRecyclerBgColor"
             />
 
         <com.scwang.smartrefresh.layout.footer.BallPulseFooter

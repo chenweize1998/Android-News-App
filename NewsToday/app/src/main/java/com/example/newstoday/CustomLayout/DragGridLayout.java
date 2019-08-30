@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContentResolverCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.newstoday.R;
 
 import java.util.ArrayList;
@@ -55,7 +58,7 @@ public class DragGridLayout extends GridLayout {
         tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
 //        tv.setBackgroundResource(R.drawable.textview_border);
         tv.setPadding(0, 20, 0, 20);
-        tv.setBackgroundColor(0xAAE8E8E8);
+        tv.setBackgroundColor(ContextCompat.getColor(tv.getContext(), R.color.catArrangeTextBgColor));
         tv.setGravity(Gravity.CENTER);
         if(!isRemain){
             tv.setTextColor(0xFF9c9393);

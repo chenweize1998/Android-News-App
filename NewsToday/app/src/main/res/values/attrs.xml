@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="cardBg" format="reference|color"/>
+    <attr name="cardBgColor" format="reference|color"/>
+    <attr name="tableBgColor" format="reference|color"/>
+    <attr name="titleColor" format="reference|color"/>
+    <attr name="refreshLayoutPrimaryColor" format="reference|color"/>
+    <attr name="refreshLayoutAccentColor" format="reference|color"/>
+    <attr name="abstractColor" format="reference|color"/>
+    <attr name="newsRecyclerBgColor" format="reference|color"/>
+    <attr name="keywordColor" format="reference|color"/>
+    <attr name="bigShineColor" format="reference|color"/>
+    <attr name="smallShineColor" format="reference|color"/>
+    <attr name="drawerItemTextColor" format="reference|color"/>
+    <attr name="catArrangeTitleColor" format="reference|color"/>
+    <attr name="catArrangeHintColor" format="reference|color"/>
+    <attr name="appBarLayoutBgColor" format="reference|color"/>
+    <attr name="catTextColor" format="reference|color"/>
+    <attr name="CollapsingToolbarLayoutScrimColor" format="reference|color"/>
+    <attr name="pageContentTextColor" format="reference|color"/>
+    <attr name="catArrangeBgColor" format="reference|color"/>
+    <attr name="catBgColor" format="reference|color"/>
+</resources>

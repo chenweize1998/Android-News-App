@@ -73,7 +73,7 @@ android:fitsSystemWindows="true">
         android:id="@+id/page_bar"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="#fafafa"
+        android:background="@color/appBarLayoutBgColor"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -81,7 +81,7 @@ android:fitsSystemWindows="true">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="#000000"
+            app:contentScrim="@color/CollapsingToolbarLayoutScrimColor"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -113,6 +113,7 @@ android:fitsSystemWindows="true">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/page_scroll_view"
+        android:background="@color/tableBgColor"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -135,6 +136,7 @@ android:fitsSystemWindows="true">
                 android:textStyle="bold"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="10dp"
+                android:textColor="@color/pageTitleColor"
             />
 
             <LinearLayout
@@ -150,19 +152,19 @@ android:fitsSystemWindows="true">
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/clock"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_history"
                     android:baselineAlignBottom="true"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginRight="5dp"
+                    android:scaleType="centerInside"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/page_publisher"
-
                     android:textSize="15sp"
-
                     android:textAlignment="center"
+                    android:textColor="@color/pagePublisherColor"
                 />
 
             </LinearLayout>
@@ -192,8 +194,9 @@ android:fitsSystemWindows="true">
 
 <!--            </RelativeLayout>-->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_marginBottom="50dp">
 
                 <cn.jzvd.JZVideoPlayerStandard
                     android:id="@+id/videoPlayer"
@@ -216,7 +219,7 @@ android:fitsSystemWindows="true">
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginBottom="50dp"
-                android:textColor="#222222"
+                android:textColor="@color/pageContentColor"
             />
 
 
@@ -233,11 +236,13 @@ android:fitsSystemWindows="true">
         <!--android:layout_margin="10dp"-->
         <!--android:clickable="true"/>-->
     <com.google.android.material.bottomappbar.BottomAppBar
+        style="@style/Widget.MaterialComponents.BottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         app:hideOnScroll="true"
-        style="@style/Widget.MaterialComponents.BottomAppBar">
+        app:backgroundTint="@color/pageBottomBgColor"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -248,8 +253,10 @@ android:fitsSystemWindows="true">
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/textview_rounded"
+                android:backgroundTint="@color/pageBottomEditBgColor"
                 android:hint="@string/commentHint"
-                android:paddingLeft="20dp"/>
+                android:paddingLeft="20dp"
+                android:textColorHint="@color/pageBottomEditTextColor"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -257,7 +264,7 @@ android:fitsSystemWindows="true">
                 android:scaleY="0.8"
                 android:scaleType="centerInside"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/share"
+                android:src="@drawable/ic_share"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="5dp"/>
 <!--            <ImageButton-->
@@ -277,7 +284,7 @@ android:fitsSystemWindows="true">
                 android:scaleY="0.8"
                 android:scaleType="centerInside"
                 android:id="@+id/page_bottom_star"
-                app:btn_color="@android:color/black"
+                app:btn_color="@color/btnItemColor"
                 app:btn_fill_color="@android:color/holo_orange_light"
                 app:allow_random_color="false"
                 app:siShape="@drawable/not_star"
