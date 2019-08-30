@@ -3,6 +3,7 @@ package com.example.newstoday.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.SearchManager;
+import android.app.UiModeManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.ArraySet;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -40,6 +43,7 @@ import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.WechatShareManager;
 import com.mikepenz.materialdrawer.*;
+import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
 import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
@@ -48,6 +52,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import static com.example.newstoday.Activity.NewsItem.mAdapterNews;
 
 public class Table extends AppCompatActivity {
@@ -62,7 +67,6 @@ public class Table extends AppCompatActivity {
 //    private String currentCategory = "推荐";
 
     private AsyncServerNews asyncServerNews;
-    private UserManagerOnServer userManagerOnServer;
 
     public static Drawer drawer;
     public AccountHeader header;
@@ -103,165 +107,25 @@ public class Table extends AppCompatActivity {
         newsManager = NewsManager.getNewsManager(getApplicationContext());
 
         asyncServerNews = AsyncServerNews.getAsyncServerNews(getApplicationContext());
-        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
+//        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
 
         /**
          * Drawer
          */
         buildDrawer();
 
-//        /**
-//         * Category arrangement button
-//         */
-//        ImageButton imgButton = findViewById(R.id.cat_arange);
-//        imgButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), CategoryArrangement.class);
-//                intent.putExtra("cat", mAdapterCat.category);
-//                intent.putExtra("delCat", mAdapterCat.delCategory);
-//                startActivityForResult(intent, CAT_REARRANGE);
-//            }
-//        });
-
-//        /**
-//         * Category click event
-//         */
-//        CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, String category) {
-//                Table.this.currentCategory = category;
-//                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-//                if(newsManager.getLastCategory() != category){
-//                    news = newsManager.getNews(20, "2019-08-09", today, null, currentCategory, false, false);
-//                    mAdapterNews.updateNews(news);
-//                    mAdapterNews.notifyDataSetChanged();
-//                    recyclerViewNews.smoothScrollToPosition(0);
-//                }
-//                else
-//                    recyclerViewNews.smoothScrollToPosition(0);
-//            }
-//        };
-
         /**
          * Wechat share
          */
         final WechatShareManager wsm = WechatShareManager.getInstance(this);
 
-//        /**
-//         * NewsListener
-//         */
-//        NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position, final View v) {
-//                Intent intent = new Intent(getApplicationContext(), NewsPage.class);
-//                intent.putExtra("news", news.get(position));
-//                startActivity(intent);
-//            }
-//        };
 
-        /**
-         * News items
-         */
-//        RefreshLayout refreshLayout = findViewById(R.id.item_refresh_layout);
-//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//            @Override
-//            public void onRefresh(final RefreshLayout refreshlayout) {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Table.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-//                                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-//                                        today, null, currentCategory, true, true);
-//                                mAdapterNews.updateNews(newsTmp);
-//                                refreshlayout.finishRefresh();
-//                                mAdapterNews.notifyDataSetChanged();
-//                                Toast.makeText(getApplicationContext(), "刷新完成", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                }, DISMISS_TIMEOUT);
-//            }
-//        });
-//        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(final RefreshLayout refreshlayout) {
-//                new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Table.this.runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-//                                    ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-//                                            today, null, currentCategory, true, false);
-//                                    mAdapterNews.refreshNews(newsTmp);
-//                                    refreshlayout.finishLoadMore();
-//                                    mAdapterNews.notifyDataSetChanged();
-//                                    Toast.makeText(getApplicationContext(), "新返回"+newsTmp.size()+"条新闻", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//                        }
-//                    }, DISMISS_TIMEOUT);
-//            }
-//        });
-//
-//
-//        /**
-//         * News and Category recycler view
-//         */
-//        newsManager = NewsManager.getNewsManager(this);
-//        newsManager.resetPageCounter();
-//        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-//        ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-//                today, null, currentCategory, true, true);
-//        news = new ArrayList<>();
-//        news.addAll(newsTmp);
-//
-//        recyclerViewNews = findViewById(R.id.table_recycler_view);
-//        RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(this);
-//        recyclerViewNews.setLayoutManager(layoutManagerNews);
-//        mAdapterNews = new NewsAdapter(news, Table.this);
-//        mAdapterNews.setOnItemClickListener(listenerNews);
-//        recyclerViewNews.setAdapter(mAdapterNews);
-//        recyclerViewNews.setItemViewCacheSize(100);
-//
-//        RecyclerView recyclerViewCat = findViewById(R.id.cat_recycler_view);
-//        recyclerViewCat.setHasFixedSize(true);
-//        RecyclerView.LayoutManager layoutManagerCat = new LinearLayoutManager(this);
-//        ((LinearLayoutManager) layoutManagerCat).setOrientation(RecyclerView.HORIZONTAL);
-//        recyclerViewCat.setLayoutManager(layoutManagerCat);
-//        mAdapterCat = new CatAdapter();
-//        mAdapterCat.setOnItemClickListener(listenerCat);
-//        recyclerViewCat.setAdapter(mAdapterCat);
-//        recyclerViewCat.setItemViewCacheSize(5);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (requestCode == CAT_REARRANGE) {
-            if (resultCode == RESULT_OK) {
-                ArrayList<String> category = (ArrayList<String>) (data).getSerializableExtra("cat");
-                ArrayList<String> delCategory = (ArrayList<String>) (data).getSerializableExtra("delCat");
-                currentCategory = category.get(0);
-                mAdapterCat.category = category;
-                mAdapterCat.delCategory = delCategory;
-                mAdapterCat.updateSelection();
-                mAdapterCat.notifyDataSetChanged();
-                newsManager.resetPageCounter();
-                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                        today, null, currentCategory, true, true);
-                news.clear();
-                news.addAll(newsTmp);
-                mAdapterNews.updateNews(news);
-                mAdapterNews.notifyDataSetChanged();
-            }
-        } else */if(requestCode == LOGIN_REQUEST){
+        if(requestCode == LOGIN_REQUEST){
             if(resultCode == RESULT_OK){
                 String email = (String) data.getSerializableExtra("email");
                 if(account.contains(email)){
@@ -305,7 +169,20 @@ public class Table extends AppCompatActivity {
         BaseDrawerItem item5 = new SecondaryDrawerItem().withIdentifier(CLEAR_IDENTIFIER).withName("清除历史")
                 .withIcon(R.drawable.clear).withTextColor(Color.parseColor("#ababab"));
         SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(NIGHT_IDENTIFIER).withName("夜间模式")
-                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab")).withSelectable(false);
+                .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab")).withSelectable(false)
+                .withOnCheckedChangeListener(new OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked)
+                            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        else
+                            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        recreate();
+                        mAdapterNews.updateActivity(Table.this);
+                    }
+                });
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            switchDrawerItem.withChecked(true);
         header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .addProfiles(
@@ -428,11 +305,11 @@ public class Table extends AppCompatActivity {
         newsManager.resetRecommendation();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent){
-//        mAdapterNews.notifyDataSetChanged();
-//        drawer.setSelectionAtPosition(-1);
-    }
+//    @Override
+//    protected void onNewIntent(Intent intent){
+////        mAdapterNews.notifyDataSetChanged();
+////        drawer.setSelectionAtPosition(-1);
+//    }
 
     @Override
     public void onBackPressed() {
@@ -453,7 +330,7 @@ public class Table extends AppCompatActivity {
             }, 2000);
         }
         else {
-            newsManager.resetRecommendation();
+//            newsManager.resetRecommendation();
             getSupportFragmentManager().popBackStack();
             drawer.setSelectionAtPosition(-1);
         }

@@ -88,7 +88,7 @@ public class NewsManager {
             if(recommendJudge && !lastCategory.equals("推荐"))
                 resetRecommendation();
             int cnt = 0;
-            String recommendWord;
+            String recommendWord = null;
             do {
                 JsonDataFromUrl jsonData = new JsonDataFromUrl();
                 recommendWord = recommendKeyword.next();
@@ -102,7 +102,8 @@ public class NewsManager {
                     json = jsonData.execute(String.valueOf(size), startDate, endDate, words,
                             recommendJudge ? allCategory : categories, Integer.toString(pageCounter)).get();
                 }
-                if ((refresh || !lastCategory.equals(categories)) && (!recommendJudge) ) {
+                if (((refresh || !lastCategory.equals(categories)) && (!recommendJudge))
+                        || (recommendJudge && recommendWord == null) ) {
                     ++pageCounter;  // 推荐的在前面 按词更新
                 }
                 lastCategory = categories;
@@ -160,7 +161,8 @@ public class NewsManager {
                                 News.stringConverter(images), publisher, null,
                                 null, keywords.toString(), scores.toString(), url, video));
                         newNews.get(newNewsCounter).setImage(images);
-                        recommended.add(newsID);
+                        if(recommendJudge && recommendWord != null)
+                            recommended.add(newsID);
                         newNewsCounter++;
                     } catch (Exception e) {
                         e.printStackTrace();

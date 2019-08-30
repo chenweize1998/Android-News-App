@@ -68,46 +68,6 @@ public class SearchActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.imageView);
         imageView.setImageResource(R.drawable.search_result_title);
 
-//        mSwipyRefreshLayout = findViewById(R.id.history_refresh_layout);
-//        mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh(SwipyRefreshLayoutDirection direction) {
-//                if(direction == SwipyRefreshLayoutDirection.TOP) {
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            SearchActivity.this.runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    mSwipyRefreshLayout.setRefreshing(false);
-//                                }
-//                            });
-//                        }
-//                    }, DISMISS_TIMEOUT);
-//                }
-//                else if(direction == SwipyRefreshLayoutDirection.BOTTOM){
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            SearchActivity.this.runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-//                                    ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-//                                            today, null, category, true, false);
-//                                    mAdapterNews.refreshNews(newsTmp);
-//                                    mAdapterNews.notifyDataSetChanged();
-//                                    mSwipyRefreshLayout.setRefreshing(false);
-//                                    if(newsTmp != null)
-//                                        recyclerViewNews.smoothScrollToPosition(mAdapterNews.getItemCount() - newsTmp.size());
-//                                }
-//                            });
-//                        }
-//                    }, DISMISS_TIMEOUT);
-//                }
-//            }
-//        });
-
         RefreshLayout refreshLayout = findViewById(R.id.history_refresh_layout);
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override

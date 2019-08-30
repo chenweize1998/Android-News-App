@@ -15,6 +15,7 @@ import android.content.*;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstoday.Activity.Table;
@@ -63,7 +64,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         this.news = news;
         pat = Pattern.compile("[！？。…~]");
         this.activity = activity;
-
     }
 
     public void updateNews(ArrayList<News> news){
@@ -72,6 +72,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public void refreshNews(ArrayList<News> news){
         this.news.addAll(news);
+    }
+
+    public void updateActivity(Activity activity){
+        this.activity = activity;
     }
 
     @Override
@@ -108,10 +112,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             holder.starButton.setChecked(false);
 
         if(newsManager.inHistoryNews(news.get(position))) {
-            holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
+            holder.txtTitle.setTextColor(ContextCompat.getColor(holder.txtTitle.getContext(), R.color.titleItemSelColor));
         }
         else {
-            holder.txtTitle.setTextColor(Color.parseColor("#000000"));
+            holder.txtTitle.setTextColor(ContextCompat.getColor(holder.txtTitle.getContext(), R.color.titleItemUnselColor));
         }
         holder.starButton.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
             @Override
@@ -147,7 +151,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                     newsManager.addWeight(scores[i], keywords[i]);
                 }
                 newsManager.addInHistory(tmp);
-                holder.txtTitle.setTextColor(Color.parseColor("#5d5d5d"));
+                holder.txtTitle.setTextColor(ContextCompat.getColor(activity.getApplicationContext(), R.color.titleItemSelColor));
                 listener.onItemClick(position, v);
             }
         });

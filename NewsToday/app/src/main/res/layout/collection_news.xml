@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Table"
-    android:background="#F5F5F5">
+    android:background="@color/tableBgColor">
 
     <!--<ImageView-->
     <!--android:layout_width="match_parent"-->
@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/white"
-        app:srlPrimaryColor="#000"
-        app:srlAccentColor="#fff"
+        app:srlPrimaryColor="@color/refreshLayoutPrimaryColor"
+        app:srlAccentColor="@color/refreshLayoutAccentColor"
         app:srlEnableLoadMore="true"
         app:srlEnableRefresh="false"
         app:srlEnableHeaderTranslationContent="true"
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:overScrollMode="never"
             android:scrollbars="vertical"
-            android:background="#f6f6f6"
+            android:background="@color/newsRecyclerBgColor"
             />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
