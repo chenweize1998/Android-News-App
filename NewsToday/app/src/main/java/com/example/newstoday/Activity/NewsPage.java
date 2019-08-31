@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -98,7 +99,7 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
 //        final String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
-////        if(!news.getVideo().equals("")) {
+        if(!news.getVideo().equals("")) {
 //        if(true){
 //            RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
 //            relativeLayout.setVisibility(View.VISIBLE);
@@ -107,8 +108,8 @@ public class NewsPage extends AppCompatActivity {
 //            mVideoView.setVideoURI(Uri.parse(url));
 //            mVideoView.seekTo(1);
 //            mVideoView.setVisibility(View.VISIBLE);
-//            final ImageView cover = findViewById(R.id.page_video_cover);
-//            cover.setVisibility(View.VISIBLE);
+////            final ImageView cover = findViewById(R.id.page_video_cover);
+////            cover.setVisibility(View.VISIBLE);
 //
 //
 //            mVideoView.setOnClickListener(new View.OnClickListener() {
@@ -119,15 +120,16 @@ public class NewsPage extends AppCompatActivity {
 ////                    startActivity(intent);
 //                }
 //            });
-//
-//
-//        }
 
-        String url = "http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4";
-        JZVideoPlayerStandard jzVideoPlayerStandard = (JZVideoPlayerStandard) findViewById(R.id.videoPlayer);
-        jzVideoPlayerStandard.setUp(url,
-                JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL);
-        Glide.with(this).load(url).into(jzVideoPlayerStandard.thumbImageView);
+            String url = news.getVideo();
+            findViewById(R.id.page_video_layout).setVisibility(View.VISIBLE);
+//            String url = "http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4";
+            JZVideoPlayerStandard jzVideoPlayerStandard = findViewById(R.id.videoPlayer);
+            jzVideoPlayerStandard.setUp(url,
+                    JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL);
+            Glide.with(this).load(url).into(jzVideoPlayerStandard.thumbImageView);
+        }
+
 
         mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);
 

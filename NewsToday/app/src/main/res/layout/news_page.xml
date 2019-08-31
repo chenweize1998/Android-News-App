@@ -196,7 +196,9 @@ android:fitsSystemWindows="true">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
-                android:layout_marginBottom="50dp">
+                android:layout_marginBottom="50dp"
+                android:id="@+id/page_video_layout"
+                android:visibility="gone">
 
                 <cn.jzvd.JZVideoPlayerStandard
                     android:id="@+id/videoPlayer"

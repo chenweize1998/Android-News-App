@@ -128,7 +128,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/filter_grid_layout"
-        >
+        android:layout_below="@id/filter_title_layout">
     </com.example.newstoday.CustomLayout.DragGridLayout>
 <!--    </ScrollView>-->
 

@@ -44,20 +44,10 @@ public class FilterWord extends AppCompatActivity {
         gridLayout.setItems(words);
         gridLayout.setColumnCount(4);
 
-//        Button btn = findViewById(R.id.filter_btn);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                gridLayout.addGridItem("× " + input.getText().toString());
-//                input.setText("");
-//                newsManager.addFilterWord(input.getText().toString());
-//            }
-//        });
-
         gridLayout.setOnDragItemClickListener(new DragGridLayout.OnDragItemClickListener() {
             @Override
             public void onDragItemClick(TextView tv) {
-                newsManager.deleteFilterWord(tv.getText().toString());
+                newsManager.deleteFilterWord(tv.getText().toString().substring(2));
                 gridLayout.removeView(tv);
             }
         });

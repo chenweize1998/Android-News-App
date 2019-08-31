@@ -222,12 +222,13 @@ public class NewsManager {
         System.out.println("插入一条历史数据");
     }
 
-    public void addInCollection(News... news){
+    public void addInCollection(News... news) {
         collectionNews.insertNews(news);
-        for(News _news: news){
+        for (News _news : news) {
             collectionNewsInmem.add(_news.getNewsID());
         }
         System.out.println("插入一条收藏数据");
+    }
 
     public void addFilterWord(String word){
         filterWords.put(word, word);

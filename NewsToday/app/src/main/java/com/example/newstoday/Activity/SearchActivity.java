@@ -46,13 +46,16 @@ public class SearchActivity extends AppCompatActivity {
         newsManager = NewsManager.getNewsManager(getApplicationContext());
 
         Intent intent = getIntent();
+        String query = null;
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            query = intent.getStringExtra(SearchManager.QUERY);
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     SearchProvider.AUTHORITY, SearchProvider.MODE);
             suggestions.saveRecentQuery(query, null);
-            news = newsManager.getNews(20, null, null, query, category, true, true);
+            String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+            news = newsManager.getNews(20, null, today, query, category, true, true);
         }
+        final String querySaved = query;
 
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
@@ -77,8 +80,8 @@ public class SearchActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-                                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                                        today, null, category, true, false);
+                                ArrayList<News> newsTmp = newsManager.getNews(20, null,
+                                        today, querySaved, category, true, false);
                                 mAdapterNews.refreshNews(newsTmp);
                                 refreshlayout.finishLoadMore();
                                 mAdapterNews.notifyDataSetChanged();

@@ -104,8 +104,8 @@ public class Table extends AppCompatActivity {
         String[] name = intent.getStringArrayExtra("name");
         if (email != null) {
             for (int i = 0; i < email.length; ++i) {
-                header.addProfiles(new ProfileDrawerItem().withName(name[i]).withIdentifier(3 + i)
-                        .withEmail(email[i]).withIcon(R.drawable.header));
+                header.addProfile(new ProfileDrawerItem().withName(name[i]).withIdentifier(3 + i)
+                        .withEmail(email[i]).withIcon(R.drawable.header), i);
             }
             if (header.getProfiles().size() > 2)
                 header.setActiveProfile(intent.getLongExtra("Active ID", 1));
@@ -398,6 +398,7 @@ public class Table extends AppCompatActivity {
                     }
                 })
                 .build();
+//        userManagerOnServer.userSignIn("wei10@mails.tsinghua.edu.cn", "Weize Chen", "123456");
     }
 
     @Override
