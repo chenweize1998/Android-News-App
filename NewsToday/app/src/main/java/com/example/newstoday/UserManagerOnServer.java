@@ -24,7 +24,7 @@ public class UserManagerOnServer {
 
     public boolean userSignUp(String email, String name, String password){
         String data = "email="+email+"&name="+name+"&password="+password;
-        String res = serverHttpResponse.postResponse("http://192.168.0.165:8000/signUp/", data);
+        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signUp/", data);
         if(res==null){
             return false;
         }else{
@@ -38,7 +38,7 @@ public class UserManagerOnServer {
 
     public boolean userSignIn(String email, String name ,String password){
         String data = "email="+email+"&name="+name+"&password="+password;
-        String res = serverHttpResponse.postResponse("http://192.168.0.165:8000/signIn/", data);
+        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signIn/", data);
         if(res==null){
             return false;
         }else{
@@ -50,7 +50,7 @@ public class UserManagerOnServer {
     }
 
     public boolean userSignOut(){
-        String res = serverHttpResponse.getResponse("http://192.168.0.165:8000/signOut/");
+        String res = serverHttpResponse.getResponse("http://166.111.5.239:8000/signOut/");
         if(res==null){
             return false;
         }else{

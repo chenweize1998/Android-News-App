@@ -26,4 +26,5 @@ urlpatterns = [
     path("history/", views.history),
     path("collection/", views.collection),
     path("weightMap/", views.weightMap),
+    path("getAllNews/", views.getAllNews),
 ]

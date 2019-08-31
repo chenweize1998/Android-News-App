@@ -32,7 +32,7 @@ public class AsyncServerNews {
 
     public boolean asyncNewsFromServer(){
         try{
-            String json = serverHttpResponse.getResponse("http://192.168.0.165:8000/getAllNews/");
+            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/getAllNews/");
             if(json == null || json.equals("Fail")){
                 return false;
             }
@@ -88,7 +88,7 @@ public class AsyncServerNews {
 
 //    public boolean asyncCollectionNewsFromServer(){
 //        try {
-//            String json = serverHttpResponse.getResponse("http://192.168.0.165:8000/collection/");
+//            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/collection/");
 //            if(json == null){
 //                return false;
 //            }
@@ -128,7 +128,7 @@ public class AsyncServerNews {
 //    }
 //
 //    public boolean asyncWeightMapFromServer(){
-//        String mapData = serverHttpResponse.getResponse("http://192.168.0.165:8000/weightMap/");
+//        String mapData = serverHttpResponse.getResponse("http://166.111.5.239:8000/weightMap/");
 //        if(mapData == null){
 //            return false;
 //        }else{
@@ -150,7 +150,7 @@ public class AsyncServerNews {
 
     public boolean asyncHistoryNewsToServer(){
         ArrayList<News> allHistoryNewsNews = newsManager.getAllHistoryNews();
-        String url = "http://192.168.0.165:8000/history/";
+        String url = "http://166.111.5.239:8000/history/";
         for(News news:allHistoryNewsNews){
 
             String data = "newsID="+news.getNewsID()+"&title="+news.getTitle()+"&date="+news.getDate()+
@@ -172,7 +172,7 @@ public class AsyncServerNews {
 
     public boolean asyncCollectionNewsToServer(){
         ArrayList<News> allCollectionNews = newsManager.getAllCollectionNews();
-        String url = "http://192.168.0.165:8000/collection/";
+        String url = "http://166.111.5.239:8000/collection/";
         for(News news:allCollectionNews){
 
             String data = "newsID="+news.getNewsID()+"&title="+news.getTitle()+"&date="+news.getDate()+
@@ -203,7 +203,7 @@ public class AsyncServerNews {
             sb.append(key.toString() + "," +value +" ");
         }
         String data = sb.toString();
-        String res = serverHttpResponse.postResponse("http://192.168.0.165:8000/weightMap/", data);
+        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/weightMap/", data);
         if(res == null){
             return false;
         }else{
