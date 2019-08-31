@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from newsForApp.models import User 
 from newsForApp.models import HistoryNews
 from newsForApp.models import CollectionNews
@@ -18,9 +19,7 @@ def userSignIn(request):
         email = request.POST.get("email")
         name = request.POST.get("name")
         password = request.POST.get("password")
-        print(email)
-        print(name)
-        print(password)
+        print("signin: "+email+'  '+name+' '+password)
         ##
         #if user is not in user_list
         if len(User.objects.filter(email=email)) == 0:
@@ -49,6 +48,7 @@ def userSignUp(request):
     return HttpResponse("Fail")
 
 def userSignOut(request):
+    print("sign out")
     if request.method == "GET":
         HistoryNews.objects.filter(user = G.currentUser).delete()
         G.currentUser = "null"
@@ -56,11 +56,9 @@ def userSignOut(request):
     return HttpResponse("Fail")    
 
 def history(request):
-    print(G.currentUser)
     if request.method == 'POST':
         if G.currentUser == 'null':
             return HttpResponse("Fail")
-        HistoryNews.objects.filter(user = G.currentUser).delete()
         try:
             if len(HistoryNews.objects.filter(newsID = request.POST["newsID"])) != 0:
                 return HttpResponse("Success") 
@@ -70,11 +68,13 @@ def history(request):
                                             url = request.POST["url"], oriImage = request.POST["oriImage"], oriKeywords = request.POST["oriKeywords"], 
                                             oriScores =  request.POST["oriScores"], video = request.POST["video"], user = G.currentUser) 
             newHistoryNews.save()
+            print("history post", end='      ')
             print("保存成功")
             return HttpResponse("Success")  
         except KeyError:
             return HttpResponse("Fail")
     if request.method == 'GET':
+        print(G.currentUser)
         if G.currentUser == 'null':
             return HttpResponse("Fail")
         data = []
@@ -98,16 +98,15 @@ def history(request):
             }
             data.append(newsIndata)
         jsonData = {"data":data}
+        print("historynews, get:", end='    ')
         print(jsonData)
-        return HttpResponse(json.dumps(jsonData), content_type = "application/json")
+        return HttpResponse(str(json.dumps(jsonData)))
 
 
 def collection(request):
-    print(G.currentUser)
     if request.method == 'POST':
         if G.currentUser == 'null':
             return HttpResponse("Fail")
-        CollectionNews.objects.filter(user = G.currentUser).delete()
         try:
             if len(CollectionNews.objects.filter(newsID = request.POST["newsID"])) != 0:
                 return HttpResponse("Success") 
@@ -145,22 +144,22 @@ def collection(request):
             }
             data.append(newsIndata)
         jsonData = {"data":data}
-        return HttpResponse(json.dumps(jsonData), content_type = "application/json")
+        return HttpResponse(json.dumps(jsonData))
 
 def weightMap(request):
     if request.method == 'GET':
         if G.currentUser == 'null':
             return HttpResponse("Fail")
         allWeightMap = Map.objects.filter(user = G.currentUser)
-        print(allWeightMap)
-        return HttpResponse(allWeightMap)
+        print(allWeightMap[0].data)
+        return HttpResponse(allWeightMap[0].data)
     if request.method == 'POST':
         if G.currentUser == 'null':
             return HttpResponse("Fail")
         try:
             print("weightMap post:", end='      ')
             print(request.POST)
-            entry = Map.objects.get(user = G.currentUser)
+            entry = Map.objects.filter(user = G.currentUser)
             if len(entry) == 0:
                 newWeightMap = Map(data = request.POST["data"], user = G.currentUser)
                 newWeightMap.save()

@@ -36,6 +36,7 @@ public class AsyncServerNews {
             if(json == null){
                 return false;
             }
+            System.out.println(json);
             JSONObject jsonData = new JSONObject(json);
 
             JSONArray newsArray = jsonData.getJSONArray("data");
@@ -75,6 +76,7 @@ public class AsyncServerNews {
             if(json == null){
                 return false;
             }
+            System.out.println(json);
             JSONObject jsonData = new JSONObject(json);
 
 
@@ -121,8 +123,8 @@ public class AsyncServerNews {
         TreeMap<Double, String> map = new TreeMap<>();
         String[] entries = mapData.split(" ");
         for(String entry:entries){
-            double weight = Double.parseDouble(entry.split(", ")[0]);
-            String newsID = entry.split(", ")[1];
+            double weight = Double.parseDouble(entry.split(",")[0]);
+            String newsID = entry.split(",")[1];
             map.put(weight, newsID);
         }
         newsManager.setMap(map);
