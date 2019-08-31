@@ -47,9 +47,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0-alpha01'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.percentlayout:percentlayout:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
-    implementation 'androidx.vectordrawable:vectordrawable-animated:1.0.0'
     implementation 'androidx.transition:transition:1.0.1'
     implementation 'androidx.annotation:annotation:1.0.1'
     implementation "com.mikepenz:materialdrawer:6.1.2"
@@ -59,6 +56,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
+    implementation 'com.hankcs:aho-corasick-double-array-trie:1.2.1'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'

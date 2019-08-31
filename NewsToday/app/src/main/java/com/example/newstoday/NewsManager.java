@@ -3,13 +3,17 @@ package com.example.newstoday;
 
 import org.json.*;
 
+import java.util.List;
 import java.util.NavigableMap;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 import android.util.ArrayMap;
 import android.util.ArraySet;
+
+import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -31,6 +35,8 @@ public class NewsManager {
     private final int recommendWordCnt = 4;
     private ArraySet<String> recommended = new ArraySet<>();
     private ArrayMap<String, Integer> keywordPage = new ArrayMap<>();
+    private TreeMap<String, String> filterWords = new TreeMap<String, String>();
+    private AhoCorasickDoubleArrayTrie<String> acdat = null;
 
     private NewsManager(Context context){
         newNewsCounter = 0;
@@ -156,6 +162,15 @@ public class NewsManager {
                         //                                                        News.stringConverter(images), publisher, null,
                         //                                                        null, keywords.toString());
                         //                    newNews[newNewsCounter].setImage(images);
+                        StringBuilder builder = new StringBuilder();
+                        builder.append(title);
+                        builder.append(content);
+                        if(acdat != null) {
+                            List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = acdat.parseText(builder.toString());
+                            if (wordList.size() != 0)
+                                continue;
+                        }
+
                         newNews.add(new News(title, date, content, category, organization, newsID,
                                 News.stringConverter(images), publisher, null,
                                 null, keywords.toString(), scores.toString(), url, video));
@@ -195,6 +210,10 @@ public class NewsManager {
 
     private String[] getCollectionNewsID(){return collectionNews.getAllNewsID();}
 
+    public Set<String> getFilterWords(){
+        return filterWords.keySet();
+    }
+
     public void addInHistory(News... news){
         historyNews.insertNews(news);
         for(News _news: news){
@@ -210,6 +229,8 @@ public class NewsManager {
         }
         System.out.println("插入一条收藏数据");
 
+    public void addFilterWord(String word){
+        filterWords.put(word, word);
     }
 
     public void deleteOneHistory(News... news){
@@ -234,6 +255,23 @@ public class NewsManager {
     public void deleteAllCollection(){
         collectionNews.clearNews();
         collectionNewsInmem.clear();
+    }
+
+    public void deleteFilterWord(String word){
+        filterWords.remove(word);
+    }
+
+    public boolean hasFilterWord(String word){
+        return filterWords.containsKey(word);
+    }
+
+    public void buildFilterWords(){
+        if(filterWords.size() == 0)
+            acdat = null;
+        else {
+            acdat = new AhoCorasickDoubleArrayTrie<>();
+            acdat.build(filterWords);
+        }
     }
 
     public int getNewNewsCounter() {

@@ -11,9 +11,10 @@
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        app:shimmer_colored="false"-->
-<!--        app:shimmer_base_alpha="1"-->
-<!--        app:shimmer_highlight_alpha="0.5"-->
+<!--        app:shimmer_base_color="#000000"-->
+<!--        app:shimmer_highlight_color="#000000"-->
 <!--        app:shimmer_duration="3000"-->
+<!--        app:shimmer_repeat_count="1"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        app:layout_constraintStart_toStartOf="parent"-->

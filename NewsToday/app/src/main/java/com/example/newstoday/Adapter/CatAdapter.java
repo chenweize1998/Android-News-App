@@ -67,7 +67,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
     }
 
     private void select(View itemView){
-        itemView.setBackgroundColor(0xFF505050);
+        itemView.setBackgroundColor(0xFF414141);
     }
 
     private void unselect(View itemView){

@@ -63,11 +63,11 @@ public class NewsPage extends AppCompatActivity {
                 News tmp = news;
                 if(newsManager.inCollectionNews(tmp)){
                     newsManager.deleteOneCollection(tmp);
-                    starButton.setImageResource(R.drawable.not_star);
-                    newsManager.deleteOneCollection(tmp);
+//                    starButton.setImageResource(R.drawable.not_star);
+//                    newsManager.deleteOneCollection(tmp);
                 } else{
-                    newsManager.addInCollection(tmp);
-                    starButton.setImageResource(R.drawable.star_selected);
+//                    newsManager.addInCollection(tmp);
+//                    starButton.setImageResource(R.drawable.star_selected);
                     newsManager.addInCollection(tmp);
                 }
             }
