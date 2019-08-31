@@ -364,12 +364,13 @@ public class Table extends AppCompatActivity {
                             asyncServerNews.asyncWeightMapToServer();
 
                         }  else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
+
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
                                     .setTheme(R.style.Downloading)
                                     .build();
-
+                            spotsDialog.show();
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -382,11 +383,11 @@ public class Table extends AppCompatActivity {
                                 }
                             }).start();
 //                            newsManager.deleteAllHistory();
-                            asyncServerNews.asyncHistoryNewsFromServer();
+                            asyncServerNews.asyncNewsFromServer();
 //                            newsManager.deleteAllCollection();
-                            asyncServerNews.asyncCollectionNewsFromServer();
-                            newsManager.resetWeightMap();
-                            asyncServerNews.asyncWeightMapFromServer();
+//                            asyncServerNews.asyncCollectionNewsFromServer();
+//                            newsManager.resetWeightMap();
+//                            asyncServerNews.asyncWeightMapFromServer();
                             mAdapterNews.notifyDataSetChanged();
 
                         }
@@ -473,3 +474,5 @@ public class Table extends AppCompatActivity {
         newsManager.deleteAllHistory();
     }
 }
+
+
