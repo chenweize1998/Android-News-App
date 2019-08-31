@@ -346,6 +346,7 @@ public class Table extends AppCompatActivity {
                                     .setCancelable(false)
                                     .setTheme(R.style.Uploading)
                                     .build();
+                            spotsDialog.show();
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -379,16 +380,14 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
-                            newsManager.deleteAllHistory();
+//                            newsManager.deleteAllHistory();
                             asyncServerNews.asyncHistoryNewsFromServer();
-                            newsManager.deleteAllCollection();
+//                            newsManager.deleteAllCollection();
                             asyncServerNews.asyncCollectionNewsFromServer();
-//                            newsManager.resetWeightMap();
-//                            asyncServerNews.asyncWeightMapFromServer();
+                            newsManager.resetWeightMap();
+                            asyncServerNews.asyncWeightMapFromServer();
                             mAdapterNews.notifyDataSetChanged();
-                        } else if(drawerItem.getIdentifier() == FILTER_IDENTIFIER){
-                            Intent intent = new Intent(getApplicationContext(), FilterWord.class);
-                            startActivity(intent);
+
                         }
                         return false;
                     }
