@@ -4,6 +4,13 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public  class UserManager{
@@ -11,6 +18,7 @@ public  class UserManager{
     private static UserManager INSTANCE;
     private UserDao userDao;
     private UserDB userDB;
+    ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
 
     private UserManager(Context context){
         userDB = UserDB.getUserDB(context, "user");
@@ -43,6 +51,26 @@ public  class UserManager{
             return userDao.getAllUsers();
         }
     }
+
+    public User getUserByEmail(String... email){
+        try{
+            GetUserByEmailTask getUserByEmailTask = new GetUserByEmailTask();
+            return getUserByEmailTask.execute(email).get();
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private class GetUserByEmailTask extends AsyncTask<String, Void, User>{
+        @Override
+        protected User doInBackground(String... email){
+            return userDao.getUserByEmail(email[0]);
+        }
+    }
+
 
     public void addInUser(User... user){
         AddInUserTask addInUserTask = new AddInUserTask();
@@ -101,6 +129,71 @@ public  class UserManager{
             return userDao.getPassword(email);
         }
     }
+
+    public boolean getUserMessage(User... user){
+        try{
+            GetUserMessageTask getUserMessageTask = new GetUserMessageTask();
+            String res = getUserMessageTask.execute(user).get();
+            if(res == null){
+                return false;
+            }
+            user[0].setOriFollowig(res.split("&&&&&")[0]);
+            user[0].setOriMessage(res.split("&&&&&")[1]);
+            return true;
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private class GetUserMessageTask extends AsyncTask<User, Void, String>{
+        @Override
+        protected String doInBackground(User... users){
+            String data = "email="+users[0].getEmail();
+            return serverHttpResponse.postResponse("http://166.111.5.239:8000/getUserMessage/", data);
+        }
+    }
+
+    public boolean postUserMessage(User... users){
+        try{
+            PostUserMessageTask postUserMessageTask = new PostUserMessageTask();
+            String res = postUserMessageTask.execute(users).get();
+            if(res == null){
+                return false;
+            }else {
+                if(res.equals("Fail")){
+                    return false;
+                }
+            }
+            return true;
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private class PostUserMessageTask extends AsyncTask<User, Void, String>{
+        @Override
+        protected String doInBackground(User... users){
+            String data = "email="+users[0].getEmail()+"&oriFollowig="+users[0].getOriFollowig()+"&oriMessage="+users[0].getOriMessage();
+            return serverHttpResponse.postResponse("http://166.111.5.239:8000/postUserMessage/", data);
+        }
+    }
+
+    public HashMap getAllFollowigMessage(User user){
+        String[] followigs = user.getFollowig();
+        HashMap<String, List<String>> allMessages = new HashMap<>();
+        for(String followig:followigs){
+            allMessages.put(followig, Arrays.asList(userDao.getUserByEmail(followig).getMessage()));
+        }
+        return allMessages;
+    }
+
+
 
 }
 

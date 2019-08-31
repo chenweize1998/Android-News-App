@@ -32,6 +32,9 @@ def userSignIn(request):
         if passwordOfUserInDB != password or userInDB[0].name != name:
             return HttpResponse("Fail")
         G.currentUser = email
+        userInDB[0].oriFollowig = request.POST.get("oriFollowig")
+        userInDB[0].oriMessage = request.POST.get("oriMessage")
+        userInDB[0].save()
         return HttpResponse("Success")
     return HttpResponse("Fail")
 
@@ -42,7 +45,7 @@ def userSignUp(request):
         password = request.POST.get("password")
         if email=="" or name == "" or password == "":
             return HttpResponse("Fail")
-        newUser = User(email = email, name = name, password = password)
+        newUser = User(email = email, name = name, password = password, oriFollowig = "", oriMessage = "")
         newUser.save()
         G.currentUser = email
         return HttpResponse("Success")
@@ -55,6 +58,22 @@ def userSignOut(request):
         G.currentUser = "null"
         return HttpResponse("Success")
     return HttpResponse("Fail")    
+
+def postUserMessage(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        user = User.objects.filter(email = email)
+        user[0].oriFollowig = request.POST.get("oriFollowig")
+        user[0].oriMessage = request.POST.get("oriMessage")
+        user[0].save()
+        return HttpResponse("Success")
+    return HttpResponse("Fail")
+
+def getUserMessage(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        user = User.objects.filter(email = email)
+        return HttpResponse(user[0].oriFollowig+"&&&&&"+user[0].oriMessage)
 
 def history(request):
     if request.method == 'POST':

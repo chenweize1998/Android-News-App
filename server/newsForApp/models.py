@@ -5,6 +5,8 @@ class User(models.Model):
     email = models.CharField(max_length=30)
     name = models.CharField(max_length=20)
     password = models.CharField(max_length=20)
+    oriFollowig = models.CharField(max_length=500)
+    oriMessage = models.CharField(max_length=3000)
 
 class HistoryNews(models.Model):
     newsID = models.CharField(max_length = 100)

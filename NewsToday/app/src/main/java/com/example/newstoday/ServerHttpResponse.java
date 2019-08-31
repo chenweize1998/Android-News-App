@@ -158,7 +158,7 @@ public class ServerHttpResponse {
             isr.close();
             in.close();
 
-            System.out.println(sb.toString());
+//            System.out.println(sb.toString());
             return sb.toString();
         }catch (SocketException e){
             return null;

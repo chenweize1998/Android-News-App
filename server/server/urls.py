@@ -28,4 +28,6 @@ urlpatterns = [
     path("weightMap/", views.weightMap),
     path("getAllNews/", views.getAllNews),
     path("filterWordsMap/", views.filterWords),
+    path("getUserMessage/", views.getUserMessage),
+    path("postUserMessage/", views.postUserMessage),
 ]
