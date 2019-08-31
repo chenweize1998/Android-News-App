@@ -229,7 +229,7 @@ public class NewsManager {
         }
         System.out.println("插入一条收藏数据");
     }
-
+    
     public void addFilterWord(String word){
         filterWords.put(word, word);
     }
