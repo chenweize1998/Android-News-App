@@ -36,9 +36,10 @@ public class AsyncServerNews {
             if(json == null || json.equals("Fail")){
                 return false;
             }
-//            System.out.println(json);
+
             JSONObject jsonData = new JSONObject(json);
             String mapData = "";
+            String filterWords = "";
 
             JSONArray newsArray = jsonData.getJSONArray("data");
             System.out.println("来了"+newsArray.length()+"条数据");
@@ -60,6 +61,7 @@ public class AsyncServerNews {
                 String video = news.getString("video");
                 String newsType = news.getString("newsType");
 
+
                 if(newsType.equals("history")) {
                     newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
                             oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
@@ -68,8 +70,13 @@ public class AsyncServerNews {
                             oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
                 }else if(newsType.equals("weight")) {
                     mapData = news.getString("weight");
+                    filterWords = news.getString("filterWords");
                 }
             }
+
+            /**
+             * 得到推荐的参数
+             * */
             TreeMap<Double, String> map = new TreeMap<>();
             String[] entries = mapData.split(" ");
             for(String entry:entries){
@@ -78,6 +85,19 @@ public class AsyncServerNews {
                 map.put(weight, newsID);
             }
             newsManager.setMap(map);
+
+            /**
+             * 得到屏蔽的词语
+             * */
+            TreeMap<String, String> filterWordsMap = new TreeMap<>();
+            String[] filterWordEntries = filterWords.split(" ");
+            for(String entry:filterWordEntries){
+                String weight = entry.split(",")[0];
+                String newsID = entry.split(",")[1];
+                filterWordsMap.put(weight, newsID);
+            }
+            newsManager.setFilterWords(filterWordsMap);
+
             return true;
 
         }catch (JSONException e){
@@ -85,68 +105,6 @@ public class AsyncServerNews {
         }
         return false;
     }
-
-//    public boolean asyncCollectionNewsFromServer(){
-//        try {
-//            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/collection/");
-//            if(json == null){
-//                return false;
-//            }
-//            System.out.println(json);
-//            JSONObject jsonData = new JSONObject(json);
-//
-//
-//            JSONArray newsArray = jsonData.getJSONArray("data");
-//            for(int i = 0; i<newsArray.length(); i++){
-//                JSONObject news = newsArray.getJSONObject(i);
-//                String newsID = news.getString("newsID");
-//                String title = news.getString("title");
-//                String date = news.getString("date");
-//                String content = news.getString("content");
-//                String person = news.getString("person");
-//                String organization = news.getString("organization");
-//                String location = news.getString("location");
-//                String category = news.getString("category");
-//                String publisher = news.getString("publisher");
-//                String url = news.getString("url");
-//                String oriImage = news.getString("oriImage");
-//                String oriKeywords = news.getString("oriKeywords");
-//                String oriScores = news.getString("oriScores");
-//                String video = news.getString("video");
-//
-//                newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
-//                        oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
-//
-//            }
-//            return true;
-//
-//        }catch (JSONException e){
-//            e.printStackTrace();
-//        }
-//        return false;
-//
-//    }
-//
-//    public boolean asyncWeightMapFromServer(){
-//        String mapData = serverHttpResponse.getResponse("http://166.111.5.239:8000/weightMap/");
-//        if(mapData == null){
-//            return false;
-//        }else{
-//            if(mapData.equals("Fail")){
-//                return false;
-//            }
-//        }
-//        TreeMap<Double, String> map = new TreeMap<>();
-//        String[] entries = mapData.split(" ");
-//        for(String entry:entries){
-//            double weight = Double.parseDouble(entry.split(",")[0]);
-//            String newsID = entry.split(",")[1];
-//            map.put(weight, newsID);
-//        }
-//        newsManager.setMap(map);
-//        return true;
-//    }
-
 
     public boolean asyncHistoryNewsToServer(){
         ArrayList<News> allHistoryNewsNews = newsManager.getAllHistoryNews();
@@ -194,6 +152,9 @@ public class AsyncServerNews {
 
     public boolean asyncWeightMapToServer(){
         NavigableMap<Double, String> map= newsManager.getMap();
+        if(map.size() == 0){
+            return true;
+        }
         StringBuffer sb = new StringBuffer();
         sb.append("data=");
         Iterator iter = map.keySet().iterator();
@@ -204,6 +165,31 @@ public class AsyncServerNews {
         }
         String data = sb.toString();
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/weightMap/", data);
+        if(res == null){
+            return false;
+        }else{
+            if(res.equals("Fail")){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean asyncFilterWordsToServer(){
+        TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
+        if(treeMap.size() == 0){
+            return true;
+        }
+        StringBuffer sb = new StringBuffer();
+        sb.append("data=");
+        Iterator iter = treeMap.keySet().iterator();
+        while(iter.hasNext()){
+            String key = (String)iter.next();
+            String value = treeMap.get(key);
+            sb.append(key + "," +value +" ");
+        }
+        String data = sb.toString();
+        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/filterWordsMap/", data);
         if(res == null){
             return false;
         }else{
