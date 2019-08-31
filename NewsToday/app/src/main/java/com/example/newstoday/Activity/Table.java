@@ -388,6 +388,9 @@ public class Table extends AppCompatActivity {
                             asyncServerNews.asyncWeightMapFromServer();
                             mAdapterNews.notifyDataSetChanged();
 
+                        } else if(drawerItem.getIdentifier() == FILTER_IDENTIFIER) {
+                            Intent intent = new Intent(getApplicationContext(), FilterWord.class);
+                            startActivity(intent);
                         }
                         return false;
                     }
