@@ -335,7 +335,6 @@ public class Table extends AppCompatActivity {
 //                                    Toast.makeText(getApplicationContext(), "历史记录已清除", Toast.LENGTH_LONG).show();
                                 }
                             }).start();
-
                             newsManager.deleteAllHistory();
                             mAdapterNews.notifyDataSetChanged();
 
@@ -346,7 +345,6 @@ public class Table extends AppCompatActivity {
                                     .setCancelable(false)
                                     .setTheme(R.style.Uploading)
                                     .build();
-                            spotsDialog.show();
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -358,17 +356,27 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
-
                             asyncServerNews.asyncCollectionNewsToServer();
                             asyncServerNews.asyncHistoryNewsToServer();
                             asyncServerNews.asyncWeightMapToServer();
 
-                        }  else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
+                        } else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
+
+                        } else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
                                     .setTheme(R.style.Downloading)
                                     .build();
+                            spotsDialog.show();
+                            newsManager.deleteAllHistory();
+                            asyncServerNews.asyncHistoryNewsFromServer();
+                            newsManager.deleteAllCollection();
+                            asyncServerNews.asyncCollectionNewsFromServer();
+//                            newsManager.resetWeightMap();
+//                            asyncServerNews.asyncWeightMapFromServer();
+                            mAdapterNews.notifyDataSetChanged();
+
 
                             new Thread(new Runnable() {
                                 @Override
@@ -381,9 +389,9 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
-//                            newsManager.deleteAllHistory();
+                            newsManager.deleteAllHistory();
                             asyncServerNews.asyncHistoryNewsFromServer();
-//                            newsManager.deleteAllCollection();
+                            newsManager.deleteAllCollection();
                             asyncServerNews.asyncCollectionNewsFromServer();
                             newsManager.resetWeightMap();
                             asyncServerNews.asyncWeightMapFromServer();
