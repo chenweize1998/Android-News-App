@@ -361,8 +361,10 @@ public class Table extends AppCompatActivity {
                             spotsDialog.show();
                             asyncServerNews.asyncCollectionNewsToServer();
                             asyncServerNews.asyncHistoryNewsToServer();
-//                            asyncServerNews.asyncWeightMapToServer();
-                        } else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
+                            asyncServerNews.asyncWeightMapToServer();
+
+                        }  else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
+
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
@@ -381,11 +383,11 @@ public class Table extends AppCompatActivity {
                                 }
                             }).start();
 //                            newsManager.deleteAllHistory();
-                            asyncServerNews.asyncHistoryNewsFromServer();
+                            asyncServerNews.asyncNewsFromServer();
 //                            newsManager.deleteAllCollection();
-                            asyncServerNews.asyncCollectionNewsFromServer();
-                            newsManager.resetWeightMap();
-                            asyncServerNews.asyncWeightMapFromServer();
+//                            asyncServerNews.asyncCollectionNewsFromServer();
+//                            newsManager.resetWeightMap();
+//                            asyncServerNews.asyncWeightMapFromServer();
                             mAdapterNews.notifyDataSetChanged();
 
                         } else if(drawerItem.getIdentifier() == FILTER_IDENTIFIER) {
@@ -475,3 +477,5 @@ public class Table extends AppCompatActivity {
         newsManager.deleteAllHistory();
     }
 }
+
+

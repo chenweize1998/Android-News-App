@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -36,7 +37,7 @@ public class ServerHttpResponse {
 
 
 
-    public String getResponse(String oriUrl){
+    public  String getResponse(String oriUrl){
         try {
             GetHttpResponseTask getHttpResponseTask = new GetHttpResponseTask();
             String json = getHttpResponseTask.execute(oriUrl).get();
@@ -50,7 +51,7 @@ public class ServerHttpResponse {
         return null;
     }
 
-    public String postResponse(String oriUrl, String data){
+    public  String postResponse(String oriUrl, String data){
         try{
             PostHttpResponseTask postHttpResponseTask = new PostHttpResponseTask();
             return postHttpResponseTask.execute(oriUrl, data).get();
@@ -69,11 +70,13 @@ public class ServerHttpResponse {
         try {
 
             URL url = new URL(allConfigUrl);
-            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            URLConnection connection = (URLConnection)url.openConnection();
             connection.setRequestProperty("Charset", "UTF-8");
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(500);
+            connection.setDoInput(true);
+            connection.setReadTimeout(2000);
+            connection.setConnectTimeout(2000);
             connection.connect();
+
 
 
 
@@ -120,11 +123,11 @@ public class ServerHttpResponse {
         try{
 
             URL url = new URL(oriUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            URLConnection connection = (URLConnection) url.openConnection();
             connection.addRequestProperty("encoding", "UTF-8");//添加请求属性
             connection.setDoInput(true);//允许输入
             connection.setDoOutput(true);//允许输出
-            connection.setRequestMethod("POST");//POST请求 要在获取输入输出流之前设置  否则报错
+//            connection.setRequestMethod("POST");//POST请求 要在获取输入输出流之前设置  否则报错
             connection.setConnectTimeout(500);
             connection.connect();
 
@@ -174,3 +177,5 @@ public class ServerHttpResponse {
         }
     }
 }
+
+

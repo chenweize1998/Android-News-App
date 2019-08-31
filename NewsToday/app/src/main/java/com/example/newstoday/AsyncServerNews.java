@@ -30,14 +30,15 @@ public class AsyncServerNews {
         return INSTANCE;
     }
 
-    public boolean asyncHistoryNewsFromServer(){
+    public boolean asyncNewsFromServer(){
         try{
-            String json = serverHttpResponse.getResponse("http://183.172.218.1:8000/history/");
-            if(json == null){
+            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/getAllNews/");
+            if(json == null || json.equals("Fail")){
                 return false;
             }
-            System.out.println(json);
+//            System.out.println(json);
             JSONObject jsonData = new JSONObject(json);
+            String mapData = "";
 
             JSONArray newsArray = jsonData.getJSONArray("data");
             System.out.println("来了"+newsArray.length()+"条数据");
@@ -57,11 +58,26 @@ public class AsyncServerNews {
                 String oriKeywords = news.getString("oriKeywords");
                 String oriScores = news.getString("oriScores");
                 String video = news.getString("video");
+                String newsType = news.getString("newsType");
 
-                newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
-                                                    oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
-
+                if(newsType.equals("history")) {
+                    newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
+                            oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
+                }else if(newsType.equals("collection")){
+                    newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
+                            oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
+                }else if(newsType.equals("weight")) {
+                    mapData = news.getString("weight");
+                }
             }
+            TreeMap<Double, String> map = new TreeMap<>();
+            String[] entries = mapData.split(" ");
+            for(String entry:entries){
+                double weight = Double.parseDouble(entry.split(",")[0]);
+                String newsID = entry.split(",")[1];
+                map.put(weight, newsID);
+            }
+            newsManager.setMap(map);
             return true;
 
         }catch (JSONException e){
@@ -70,71 +86,71 @@ public class AsyncServerNews {
         return false;
     }
 
-    public boolean asyncCollectionNewsFromServer(){
-        try {
-            String json = serverHttpResponse.getResponse("http://183.172.218.1:8000/collection/");
-            if(json == null){
-                return false;
-            }
-            System.out.println(json);
-            JSONObject jsonData = new JSONObject(json);
-
-
-            JSONArray newsArray = jsonData.getJSONArray("data");
-            for(int i = 0; i<newsArray.length(); i++){
-                JSONObject news = newsArray.getJSONObject(i);
-                String newsID = news.getString("newsID");
-                String title = news.getString("title");
-                String date = news.getString("date");
-                String content = news.getString("content");
-                String person = news.getString("person");
-                String organization = news.getString("organization");
-                String location = news.getString("location");
-                String category = news.getString("category");
-                String publisher = news.getString("publisher");
-                String url = news.getString("url");
-                String oriImage = news.getString("oriImage");
-                String oriKeywords = news.getString("oriKeywords");
-                String oriScores = news.getString("oriScores");
-                String video = news.getString("video");
-
-                newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
-                        oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
-
-            }
-            return true;
-
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return false;
-
-    }
-
-    public boolean asyncWeightMapFromServer(){
-        String mapData = serverHttpResponse.getResponse("http://183.172.218.1:8000/weightMap/");
-        if(mapData == null){
-            return false;
-        }else{
-            if(mapData.equals("Fail")){
-                return false;
-            }
-        }
-        TreeMap<Double, String> map = new TreeMap<>();
-        String[] entries = mapData.split(" ");
-        for(String entry:entries){
-            double weight = Double.parseDouble(entry.split(",")[0]);
-            String newsID = entry.split(",")[1];
-            map.put(weight, newsID);
-        }
-        newsManager.setMap(map);
-        return true;
-    }
+//    public boolean asyncCollectionNewsFromServer(){
+//        try {
+//            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/collection/");
+//            if(json == null){
+//                return false;
+//            }
+//            System.out.println(json);
+//            JSONObject jsonData = new JSONObject(json);
+//
+//
+//            JSONArray newsArray = jsonData.getJSONArray("data");
+//            for(int i = 0; i<newsArray.length(); i++){
+//                JSONObject news = newsArray.getJSONObject(i);
+//                String newsID = news.getString("newsID");
+//                String title = news.getString("title");
+//                String date = news.getString("date");
+//                String content = news.getString("content");
+//                String person = news.getString("person");
+//                String organization = news.getString("organization");
+//                String location = news.getString("location");
+//                String category = news.getString("category");
+//                String publisher = news.getString("publisher");
+//                String url = news.getString("url");
+//                String oriImage = news.getString("oriImage");
+//                String oriKeywords = news.getString("oriKeywords");
+//                String oriScores = news.getString("oriScores");
+//                String video = news.getString("video");
+//
+//                newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
+//                        oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
+//
+//            }
+//            return true;
+//
+//        }catch (JSONException e){
+//            e.printStackTrace();
+//        }
+//        return false;
+//
+//    }
+//
+//    public boolean asyncWeightMapFromServer(){
+//        String mapData = serverHttpResponse.getResponse("http://166.111.5.239:8000/weightMap/");
+//        if(mapData == null){
+//            return false;
+//        }else{
+//            if(mapData.equals("Fail")){
+//                return false;
+//            }
+//        }
+//        TreeMap<Double, String> map = new TreeMap<>();
+//        String[] entries = mapData.split(" ");
+//        for(String entry:entries){
+//            double weight = Double.parseDouble(entry.split(",")[0]);
+//            String newsID = entry.split(",")[1];
+//            map.put(weight, newsID);
+//        }
+//        newsManager.setMap(map);
+//        return true;
+//    }
 
 
     public boolean asyncHistoryNewsToServer(){
         ArrayList<News> allHistoryNewsNews = newsManager.getAllHistoryNews();
-        String url = "http://183.172.218.1:8000/history/";
+        String url = "http://166.111.5.239:8000/history/";
         for(News news:allHistoryNewsNews){
 
             String data = "newsID="+news.getNewsID()+"&title="+news.getTitle()+"&date="+news.getDate()+
@@ -156,7 +172,7 @@ public class AsyncServerNews {
 
     public boolean asyncCollectionNewsToServer(){
         ArrayList<News> allCollectionNews = newsManager.getAllCollectionNews();
-        String url = "http://183.172.218.1:8000/collection/";
+        String url = "http://166.111.5.239:8000/collection/";
         for(News news:allCollectionNews){
 
             String data = "newsID="+news.getNewsID()+"&title="+news.getTitle()+"&date="+news.getDate()+
@@ -187,7 +203,7 @@ public class AsyncServerNews {
             sb.append(key.toString() + "," +value +" ");
         }
         String data = sb.toString();
-        String res = serverHttpResponse.postResponse("http://183.172.218.1:8000/weightMap/", data);
+        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/weightMap/", data);
         if(res == null){
             return false;
         }else{

@@ -73,34 +73,35 @@ def history(request):
             return HttpResponse("Success")  
         except KeyError:
             return HttpResponse("Fail")
-    if request.method == 'GET':
-        print(G.currentUser)
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        data = []
-        allHistoryNews = HistoryNews.objects.filter(user = G.currentUser) # just return history news for current user
-        for news in allHistoryNews:
-            newsIndata = {
-                "newsID":news.newsID,
-                "title":news.title,
-                "date":news.date,
-                "content":news.content,
-                "person":news.person,
-                "organization":news.organization,
-                "location":news.location,
-                "category":news.category,
-                "publisher":news.publisher,
-                "url":news.url,
-                "oriImage":news.oriImage,
-                "oriKeywords":news.oriKeywords,
-                "oriScores":news.oriScores,
-                "video":news.video
-            }
-            data.append(newsIndata)
-        jsonData = {"data":data}
-        print("historynews, get:", end='    ')
-        print(jsonData)
-        return HttpResponse(str(json.dumps(jsonData)))
+    return HttpResponse("Fail")
+    # if request.method == 'GET':
+    #     print(G.currentUser)
+    #     if G.currentUser == 'null':
+    #         return HttpResponse("Fail")
+    #     data = []
+    #     allHistoryNews = HistoryNews.objects.filter(user = G.currentUser) # just return history news for current user
+    #     for news in allHistoryNews:
+    #         newsIndata = {
+    #             "newsID":news.newsID,
+    #             "title":news.title,
+    #             "date":news.date,
+    #             "content":news.content,
+    #             "person":news.person,
+    #             "organization":news.organization,
+    #             "location":news.location,
+    #             "category":news.category,
+    #             "publisher":news.publisher,
+    #             "url":news.url,
+    #             "oriImage":news.oriImage,
+    #             "oriKeywords":news.oriKeywords,
+    #             "oriScores":news.oriScores,
+    #             "video":news.video
+    #         }
+    #         data.append(newsIndata)
+    #     jsonData = {"data":data}
+    #     print("historynews, get:", end='    ')
+    #     print(jsonData)
+    #     return HttpResponse(str(json.dumps(jsonData)))
 
 
 def collection(request):
@@ -120,10 +121,66 @@ def collection(request):
             return HttpResponse("Success")  
         except KeyError:
             return HttpResponse("Fail")
+    return HttpResponse("Fail")
+    # if request.method == 'GET':
+    #     if G.currentUser == 'null':
+    #         return HttpResponse("Fail")
+    #     data = []
+    #     allCollectionNews = CollectionNews.objects.filter(user = G.currentUser) # just return history news for current user
+    #     for news in allCollectionNews:
+    #         newsIndata = {
+    #             "newsID":news.newsID,
+    #             "title":news.title,
+    #             "date":news.date,
+    #             "content":news.content,
+    #             "person":news.person,
+    #             "organization":news.organization,
+    #             "location":news.location,
+    #             "category":news.category,
+    #             "publisher":news.publisher,
+    #             "url":news.url,
+    #             "oriImage":news.oriImage,
+    #             "oriKeywords":news.oriKeywords,
+    #             "oriScores":news.oriScores,
+    #             "video":news.video
+    #         }
+    #         data.append(newsIndata)
+    #     jsonData = {"data":data}
+    #     return HttpResponse(json.dumps(jsonData))
+
+def weightMap(request):
+    # if request.method == 'GET':
+    #     if G.currentUser == 'null':
+    #         return HttpResponse("Fail")
+    #     allWeightMap = Map.objects.filter(user = G.currentUser)
+    #     print(allWeightMap[0].data)
+    #     return HttpResponse(allWeightMap[0].data)
+    if request.method == 'POST':
+        if G.currentUser == 'null':
+            return HttpResponse("Fail")
+        try:
+            print("weightMap post:", end='      ')
+            print(request.POST)
+            entry = Map.objects.filter(user = G.currentUser)
+            if len(entry) == 0:
+                newWeightMap = Map(data = request.POST["data"], user = G.currentUser)
+                newWeightMap.save()
+            else:
+                entry[0].data = request.POST["data"]
+                entry[0].save()
+            return HttpResponse("Success")
+        except KeyError:
+            return HttpResponse("Fail")
+    return HttpResponse("Fail")
+
+def getAllNews(request):
     if request.method == 'GET':
         if G.currentUser == 'null':
             return HttpResponse("Fail")
+        
         data = []
+        allWeightMap = Map.objects.filter(user = G.currentUser)
+        
         allCollectionNews = CollectionNews.objects.filter(user = G.currentUser) # just return history news for current user
         for news in allCollectionNews:
             newsIndata = {
@@ -140,32 +197,55 @@ def collection(request):
                 "oriImage":news.oriImage,
                 "oriKeywords":news.oriKeywords,
                 "oriScores":news.oriScores,
-                "video":news.video
+                "video":news.video,
+                "newsType":"collection",
+                "weight":allWeightMap[0].data
             }
             data.append(newsIndata)
-        jsonData = {"data":data}
-        return HttpResponse(json.dumps(jsonData))
+        print(len(data))
 
-def weightMap(request):
-    if request.method == 'GET':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        allWeightMap = Map.objects.filter(user = G.currentUser)
-        print(allWeightMap[0].data)
-        return HttpResponse(allWeightMap[0].data)
-    if request.method == 'POST':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        try:
-            print("weightMap post:", end='      ')
-            print(request.POST)
-            entry = Map.objects.filter(user = G.currentUser)
-            if len(entry) == 0:
-                newWeightMap = Map(data = request.POST["data"], user = G.currentUser)
-                newWeightMap.save()
-            else:
-                entry.data = request.POST["data"]
-                entry.save()
-            return HttpResponse("Success")
-        except KeyError:
-            return HttpResponse("Fail")
+        allHistoryNews = HistoryNews.objects.filter(user = G.currentUser) # just return history news for current user
+        for news in allHistoryNews:
+            newsIndata = {
+                "newsID":news.newsID,
+                "title":news.title,
+                "date":news.date,
+                "content":news.content,
+                "person":news.person,
+                "organization":news.organization,
+                "location":news.location,
+                "category":news.category,
+                "publisher":news.publisher,
+                "url":news.url,
+                "oriImage":news.oriImage,
+                "oriKeywords":news.oriKeywords,
+                "oriScores":news.oriScores,
+                "video":news.video,
+                "newsType":"history",
+                "weight":allWeightMap[0].data
+            }
+            data.append(newsIndata)
+        print(len(data))
+        
+        newsIndata = {
+                "newsID":" ",
+                "title":" ",
+                "date":" ",
+                "content":" ",
+                "person":" ",
+                "organization":" ",
+                "location":" ",
+                "category":" ",
+                "publisher":" ",
+                "url":" ",
+                "oriImage":" ",
+                "oriKeywords":" ",
+                "oriScores":" ",
+                "video":" ",
+                "newsType":"weight",
+                "weight":allWeightMap[0].data
+            }
+        data.append(newsIndata)
+        jsonData = {"data":data}
+        # print(jsonData)
+        return HttpResponse(json.dumps(jsonData))
