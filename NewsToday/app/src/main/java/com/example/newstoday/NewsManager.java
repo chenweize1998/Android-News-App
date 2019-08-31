@@ -214,6 +214,14 @@ public class NewsManager {
         return filterWords.keySet();
     }
 
+    public TreeMap<String, String> getFilterWordsForServer(){
+        return filterWords;
+    }
+
+    public void setFilterWords(TreeMap<String, String> filterWords){
+        this.filterWords = filterWords;
+    }
+
     public void addInHistory(News... news){
         historyNews.insertNews(news);
         for(News _news: news){
@@ -257,6 +265,7 @@ public class NewsManager {
         collectionNews.clearNews();
         collectionNewsInmem.clear();
     }
+
 
     public void deleteFilterWord(String word){
         filterWords.remove(word);

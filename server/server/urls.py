@@ -27,4 +27,5 @@ urlpatterns = [
     path("collection/", views.collection),
     path("weightMap/", views.weightMap),
     path("getAllNews/", views.getAllNews),
+    path("filterWordsMap/", views.filterWords),
 ]

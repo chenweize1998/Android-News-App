@@ -43,3 +43,7 @@ class CollectionNews(models.Model):
 class Map(models.Model):
     data = models.CharField(max_length = 5000)
     user = models.CharField(max_length = 200)
+
+class FilterWordsMap(models.Model):
+    data = models.CharField(max_length = 5000)
+    user = models.CharField(max_length = 200)
