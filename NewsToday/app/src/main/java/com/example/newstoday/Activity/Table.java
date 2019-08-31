@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.ArraySet;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Filter;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -66,6 +67,7 @@ public class Table extends AppCompatActivity {
     private final int NIGHT_IDENTIFIER = 4;
     private final int UPLOAD_IDENTIFIER = 5;
     private final int DOWNLOAD_IDENTIFIER = 6;
+    private final int FILTER_IDENTIFIER = 7;
 
     private final int LOGIN_IDENTIFIER = 1;
     private final int LOGOUT_IDENTIFIER = 2;
@@ -94,7 +96,7 @@ public class Table extends AppCompatActivity {
         /**
          * Drawer
          */
-        buildDrawer(savedInstanceState, this);
+        buildDrawer(this);
 
 //        if(savedInstanceState != null) {
         Intent intent = getIntent();
@@ -114,8 +116,6 @@ public class Table extends AppCompatActivity {
          * Wechat share
          */
         final WechatShareManager wsm = WechatShareManager.getInstance(this);
-
-
     }
 
     @Override
@@ -153,7 +153,7 @@ public class Table extends AppCompatActivity {
         } /*else if (requestCode == )*/
     }
 
-    private void buildDrawer(final Bundle savedInstanceState, final Activity activity){
+    private void buildDrawer(final Activity activity){
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(COLLECTION_IDENTIFIER).withName("我的收藏")
                 .withIcon(R.drawable.ic_star).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(HISTORY_IDENTIFIER).withName("浏览历史")
@@ -164,6 +164,8 @@ public class Table extends AppCompatActivity {
                 .withIcon(R.drawable.ic_cloud_download).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item5 = new SecondaryDrawerItem().withIdentifier(CLEAR_IDENTIFIER).withName("清除历史")
                 .withIcon(R.drawable.clear).withTextColor(Color.parseColor("#ababab"));
+        BaseDrawerItem item6 = new SecondaryDrawerItem().withIdentifier(FILTER_IDENTIFIER).withName("设置屏蔽词")
+                .withIcon(R.drawable.ic_filter_list).withTextColor(Color.parseColor("#ababab"));
         SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(NIGHT_IDENTIFIER).withName("夜间模式")
                 .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab")).withSelectable(false)
                 .withOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -204,7 +206,6 @@ public class Table extends AppCompatActivity {
                 });
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             switchDrawerItem.withChecked(true);
-        final FragmentManager fragmentManager = this.getSupportFragmentManager();
         header = new AccountHeaderBuilder()
                 .withActivity(this)
 //                .addProfiles(
@@ -286,6 +287,7 @@ public class Table extends AppCompatActivity {
                 .addDrawerItems(
                         item1,
                         item2,
+                        item6,
                         new DividerDrawerItem(),
                         item3,
                         item4,
@@ -315,9 +317,6 @@ public class Table extends AppCompatActivity {
                                 fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                         } else if (drawerItem.getIdentifier() == CLEAR_IDENTIFIER) {
-                            newsManager.deleteAllHistory();
-                            mAdapterNews.notifyDataSetChanged();
-
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
@@ -329,7 +328,7 @@ public class Table extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     try {
-                                        Thread.sleep(1500);
+                                        Thread.sleep(1000);
                                     }catch (InterruptedException e){
                                         e.printStackTrace();
                                     }
@@ -337,12 +336,11 @@ public class Table extends AppCompatActivity {
 //                                    Toast.makeText(getApplicationContext(), "历史记录已清除", Toast.LENGTH_LONG).show();
                                 }
                             }).start();
+                            newsManager.deleteAllHistory();
+                            mAdapterNews.notifyDataSetChanged();
+
 
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
-                            asyncServerNews.asyncCollectionNewsToServer();
-                            asyncServerNews.asyncHistoryNewsToServer();
-//                            asyncServerNews.asyncWeightMapToServer();
-
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
@@ -360,8 +358,9 @@ public class Table extends AppCompatActivity {
                                 }
                             }).start();
                             spotsDialog.show();
-
-
+                            asyncServerNews.asyncCollectionNewsToServer();
+                            asyncServerNews.asyncHistoryNewsToServer();
+//                            asyncServerNews.asyncWeightMapToServer();
                         } else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
@@ -369,15 +368,6 @@ public class Table extends AppCompatActivity {
                                     .setTheme(R.style.Downloading)
                                     .build();
                             spotsDialog.show();
-                            newsManager.deleteAllHistory();
-                            asyncServerNews.asyncHistoryNewsFromServer();
-                            newsManager.deleteAllCollection();
-                            asyncServerNews.asyncCollectionNewsFromServer();
-//                            newsManager.resetWeightMap();
-//                            asyncServerNews.asyncWeightMapFromServer();
-                            mAdapterNews.notifyDataSetChanged();
-
-
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -389,7 +379,16 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
-
+                            newsManager.deleteAllHistory();
+                            asyncServerNews.asyncHistoryNewsFromServer();
+                            newsManager.deleteAllCollection();
+                            asyncServerNews.asyncCollectionNewsFromServer();
+//                            newsManager.resetWeightMap();
+//                            asyncServerNews.asyncWeightMapFromServer();
+                            mAdapterNews.notifyDataSetChanged();
+                        } else if(drawerItem.getIdentifier() == FILTER_IDENTIFIER){
+                            Intent intent = new Intent(getApplicationContext(), FilterWord.class);
+                            startActivity(intent);
                         }
                         return false;
                     }

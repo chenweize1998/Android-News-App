@@ -175,6 +175,8 @@ public class NewsItem extends Fragment {
 
         recyclerViewNews = view.findViewById(R.id.table_recycler_view);
         RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(getContext());
+        layoutManagerNews.setItemPrefetchEnabled(true);
+        ((LinearLayoutManager) layoutManagerNews).setInitialPrefetchItemCount(20);
         recyclerViewNews.setLayoutManager(layoutManagerNews);
         mAdapterNews = new NewsAdapter(news, getActivity(), this.fragmentManager);
         mAdapterNews.setOnItemClickListener(listenerNews);

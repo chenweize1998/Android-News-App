@@ -21,7 +21,7 @@ import java.util.List;
 public class DragGridLayout extends GridLayout {
     private boolean isRemain;
     private List<String> items;
-    private int margin = 15;
+    private int margin = 30;
 
     private boolean isCanDrag;
     private View dragView;
@@ -72,7 +72,7 @@ public class DragGridLayout extends GridLayout {
         if(!isRemain)
             tv.setText("+"+content);
         else
-            tv.setText(content.substring(content.length()-2));
+            tv.setText(content.replace("+", ""));
 
         addView(tv);
 
@@ -82,15 +82,12 @@ public class DragGridLayout extends GridLayout {
                 @Override
                 public boolean onLongClick(View view) {
                     dragView = view;
-                    // 产生浮动的阴影效果
-                    // 只有第二个参数有用，其他传空即可
                     view.startDrag(null, new View.DragShadowBuilder(view), null, 0);
-                    // true 响应长按事件
+
                     return true;
                 }
             });
         }
-        // 设置条目的点击事件
         tv.setOnClickListener(onClickListener);
     }
 
@@ -120,7 +117,6 @@ public class DragGridLayout extends GridLayout {
                     break;
             }
 
-            // true 响应拖拽事件
             return true;
         }
     };
