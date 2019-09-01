@@ -52,25 +52,26 @@ public class Table extends AppCompatActivity {
     private UserManager userManager;
 
     public static Drawer drawer;
-    public AccountHeader header;
+    public static AccountHeader header;
     private ArraySet<String> account = new ArraySet<>();
     private int identifier = 3;
     private int position = 0;
 
 
-    private final int LOGIN_REQUEST = 2;
-    private final int PICK_IMAGE = 3;
+    public static final int LOGIN_REQUEST = 2;
+    public static final int PICK_IMAGE = 3;
 
-    private final int COLLECTION_IDENTIFIER = 1;
-    private final int HISTORY_IDENTIFIER = 2;
-    private final int CLEAR_IDENTIFIER = 3;
-    private final int NIGHT_IDENTIFIER = 4;
-    private final int UPLOAD_IDENTIFIER = 5;
-    private final int DOWNLOAD_IDENTIFIER = 6;
-    private final int FILTER_IDENTIFIER = 7;
+    public static final int COLLECTION_IDENTIFIER = 1;
+    public static final int HISTORY_IDENTIFIER = 2;
+    public static final int CLEAR_IDENTIFIER = 3;
+    public static final int NIGHT_IDENTIFIER = 4;
+    public static final int UPLOAD_IDENTIFIER = 5;
+    public static final int DOWNLOAD_IDENTIFIER = 6;
+    public static final int FILTER_IDENTIFIER = 7;
+    public static final int SEARCH_IDENTIFIER = 8;
 
-    private final int LOGIN_IDENTIFIER = 1;
-    private final int LOGOUT_IDENTIFIER = 2;
+    public static final int LOGIN_IDENTIFIER = 1;
+    public static final int LOGOUT_IDENTIFIER = 2;
 
 
 
@@ -166,6 +167,8 @@ public class Table extends AppCompatActivity {
                 .withIcon(R.drawable.clear).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item6 = new SecondaryDrawerItem().withIdentifier(FILTER_IDENTIFIER).withName("设置屏蔽词")
                 .withIcon(R.drawable.ic_filter_list).withTextColor(Color.parseColor("#ababab"));
+        BaseDrawerItem item7 = new SecondaryDrawerItem().withIdentifier(SEARCH_IDENTIFIER).withName("查找好友")
+                .withIcon(R.drawable.ic_search).withTextColor(Color.parseColor("#ababab"));
         SwitchDrawerItem switchDrawerItem = new SwitchDrawerItem().withIdentifier(NIGHT_IDENTIFIER).withName("夜间模式")
                 .withIcon(R.drawable.night).withTextColor(Color.parseColor("#ababab")).withSelectable(false)
                 .withOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -288,6 +291,7 @@ public class Table extends AppCompatActivity {
                         item1,
                         item2,
                         item6,
+                        item7,
                         new DividerDrawerItem(),
                         item3,
                         item4,
@@ -338,7 +342,7 @@ public class Table extends AppCompatActivity {
                             }).start();
                             newsManager.deleteAllHistory();
                             mAdapterNews.notifyDataSetChanged();
-
+                            drawer.setSelectionAtPosition(-1);
 
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
@@ -393,6 +397,15 @@ public class Table extends AppCompatActivity {
                         } else if(drawerItem.getIdentifier() == FILTER_IDENTIFIER) {
                             Intent intent = new Intent(getApplicationContext(), FilterWord.class);
                             startActivity(intent);
+                        } else if(drawerItem.getIdentifier() == SEARCH_IDENTIFIER) {
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            FindFriend findFriend = new FindFriend();
+                            fragmentTransaction.replace(R.id.table_fragment, findFriend);
+                            if(fragmentManager.getBackStackEntryCount() == 0 ||
+                                    fragmentManager.getBackStackEntryCount() == 1)
+                                fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
                         }
                         return false;
                     }
@@ -444,6 +457,7 @@ public class Table extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         mAdapterNews.notifyDataSetChanged();
+        drawer.setSelectionAtPosition(-1);
     }
 
     @Override

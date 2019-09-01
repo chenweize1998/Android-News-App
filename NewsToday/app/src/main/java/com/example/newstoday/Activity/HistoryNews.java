@@ -54,9 +54,6 @@ public class HistoryNews extends Fragment {
             _news.setImage(News.stringParse(_news.getOriImage()));
         }
 
-        ImageView imageView = view.findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.history_title);
-
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, final View v) {

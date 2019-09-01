@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public  class UserManager{
+public class UserManager{
 
     private static UserManager INSTANCE;
     private UserDao userDao;
@@ -192,9 +192,6 @@ public  class UserManager{
         }
         return allMessages;
     }
-
-
-
 }
 
 

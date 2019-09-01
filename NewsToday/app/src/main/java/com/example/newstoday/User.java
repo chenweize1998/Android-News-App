@@ -16,7 +16,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 @Entity
-class User {
+public class User {
     @NonNull
     @PrimaryKey
     String email;
@@ -28,9 +28,10 @@ class User {
 
     @Ignore
     String[] followig;
+    @Ignore
     String[] message;
 
-    User(String email, String name, String password, String oriFollowig, String oriMessage){
+    public User(String email, String name, String password, String oriFollowig, String oriMessage){
         this.email = email;
         this.name = name;
         this.password = password;
@@ -38,59 +39,59 @@ class User {
         this.oriMessage = oriMessage;
     }
 
-    String getEmail(){
+    public String getEmail(){
         return this.email;
     }
 
-    String getName(){
+    public String getName(){
         return this.name;
     }
 
-    String getPassword(){
+    public String getPassword(){
         return this.password;
     }
 
-    String getOriFollowig(){
+    public String getOriFollowig(){
         return oriFollowig;
     }
 
-    String[] getFollowig(){
+    public String[] getFollowig(){
         return oriFollowig.split(",");
     }
 
-    String getOriMessage(){
+    public String getOriMessage(){
         return oriMessage;
     }
 
-    String[] getMessage(){
+    public String[] getMessage(){
         return oriMessage.split("#####");
     }
 
-    void setEmail(String email){
+    public void setEmail(String email){
         this.email = email;
     }
 
-    void setName(String name){
+    public void setName(String name){
         this.name = name;
     }
 
-    void setPassword(String password){
+    public void setPassword(String password){
         this.password = password;
     }
 
-    void setOriFollowig(String oriFollowig){
+    public void setOriFollowig(String oriFollowig){
         this.oriFollowig = oriFollowig;
     }
 
-    void setOriMessage(String oriMessage){
+    public void setOriMessage(String oriMessage){
         this.oriMessage = oriMessage;
     }
 
-    void addFollowig(String email){
+    public void addFollowig(String email){
         this.oriFollowig = this.oriFollowig + "," + email;
     }
 
-    void addMessage(String message){
+    public void addMessage(String message){
         this.oriMessage = this.oriMessage + "#####" + message;
     }
 

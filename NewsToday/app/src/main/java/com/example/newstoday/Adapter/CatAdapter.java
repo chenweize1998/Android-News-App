@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
-    public ArrayList<String> category = new ArrayList<>(Arrays.asList("推荐", "娱乐", "军事", "教育", "文化",
+    public ArrayList<String> category = new ArrayList<>(Arrays.asList("推荐", "关注", "娱乐", "军事", "教育", "文化",
             "健康", "财经", "体育", "汽车", "科技", "社会"));
     public ArrayList<String> delCategory = new ArrayList<>();
     private OnItemClickListener listener;

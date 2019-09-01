@@ -103,17 +103,38 @@
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:layout_marginRight="20dp">
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_share"
-            android:background="?android:attr/selectableItemBackground"
-            android:id="@+id/item_share_button"
-            android:layout_toLeftOf="@+id/item_star_button"
-            android:layout_marginRight="25dp"
-            android:layout_marginVertical="5dp"
-            android:scaleType="centerInside"
-            />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:elevation="12dp"
+                android:id="@+id/item_friend_header"
+                app:cardCornerRadius="40dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/item_share_button"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9">
+                <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:id="@+id/friend_header"
+                    android:src="@drawable/chenweize"
+                    android:layout_centerHorizontal="true">
+                </ImageView>
+            </androidx.cardview.widget.CardView>
+
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_share"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/item_share_button"
+                android:layout_toLeftOf="@+id/item_star_button"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="5dp"
+                android:scaleType="centerInside"
+                />
 
     <!--    <ImageButton-->
     <!--        android:layout_width="wrap_content"-->

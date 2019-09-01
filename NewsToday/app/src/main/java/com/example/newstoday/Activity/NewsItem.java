@@ -167,6 +167,7 @@ public class NewsItem extends Fragment {
          */
         newsManager = NewsManager.getNewsManager(getActivity());
         newsManager.resetPageCounter();
+        newsManager.resetRecommendation();
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
         ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
                 today, null, currentCategory, true, true);
