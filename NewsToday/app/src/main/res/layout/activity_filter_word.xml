@@ -16,7 +16,8 @@
             android:id="@+id/filter_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/noise" />
+            android:src="@drawable/noise"
+            android:scaleType="centerCrop"/>
 
     </FrameLayout>
 
@@ -32,22 +33,46 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="20dp"
             android:src="@drawable/ear"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="20dp">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Is it GOOD"
-                android:textColor="#ffffff"
-                android:textSize="37sp" />
+<!--            <FrameLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                >-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/playfair_display_sc"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:text="Is it GOOD"-->
+<!--                android:textColor="#2edc56"-->
+<!--                android:textSize="37sp" />-->
 
-        </LinearLayout>
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/playfair_display_sc"-->
+<!--                    android:text="Is it GOOD"-->
+<!--                    android:textColor="#e22b44"-->
+<!--                    android:layout_marginTop="-5dp"-->
+<!--                    android:textSize="37sp" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/playfair_display_sc"
+                    android:text="Is it GOOD"
+                    android:textColor="#ffffff"
+                    android:textSize="37sp" />
+<!--            </FrameLayout>-->
+
+<!--        </LinearLayout>-->
 
 
 
@@ -56,21 +81,44 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/sign_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/playfair_display_sc"
                 android:text="to turn a deaf ear to "
-                android:textColor="#ffffff"
+                android:textColor="#2edc56"
                 android:textSize="37sp" />
 
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="2dp"-->
-<!--                android:layout_marginTop="2dp"-->
-<!--                android:background="#a7324d" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="@font/playfair_display_sc"
+                    android:text="to turn a deaf ear to "
+                    android:textColor="#e22b44"
+                    android:textSize="37sp" />
+
+                <TextView
+                    android:id="@+id/sign_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/playfair_display_sc"
+                    android:text="to turn a deaf ear to "
+                    android:textColor="#ffffff"
+                    android:textSize="37sp" />
+
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,12 +147,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/playfair_display_sc"
                     android:text=" ?"
-                    android:textSize="37sp"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff"
+                    android:textSize="37sp" />
             </LinearLayout>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/filter_title_layout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/playfair_display_sc"
+        android:text="Filter words:"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"/>
+
     </LinearLayout>
 
 <!--    <Button-->
