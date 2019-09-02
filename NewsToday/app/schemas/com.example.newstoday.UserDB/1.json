@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3b93d1df7dd8cef677a9ca5c6595a9ca",
+    "identityHash": "a0c3bd7485a9d8b3ef25e506383bac6e",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `name` TEXT, `password` TEXT, `oriFollowig` TEXT, `oriMessage` TEXT, PRIMARY KEY(`email`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `name` TEXT, `password` TEXT, `oriFollowig` TEXT, `avatar` BLOB, PRIMARY KEY(`email`))",
         "fields": [
           {
             "fieldPath": "email",
@@ -33,9 +33,9 @@
             "notNull": false
           },
           {
-            "fieldPath": "oriMessage",
-            "columnName": "oriMessage",
-            "affinity": "TEXT",
+            "fieldPath": "avatar",
+            "columnName": "avatar",
+            "affinity": "BLOB",
             "notNull": false
           }
         ],
@@ -51,7 +51,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3b93d1df7dd8cef677a9ca5c6595a9ca\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a0c3bd7485a9d8b3ef25e506383bac6e\")"
     ]
   }
 }

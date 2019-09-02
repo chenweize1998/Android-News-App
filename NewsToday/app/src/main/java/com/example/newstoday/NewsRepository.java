@@ -7,6 +7,13 @@ import java.util.concurrent.ExecutionException;
 
 public class NewsRepository {
 
+    /**
+     * 此类不应该是单例模式
+     * 因为我会用到此类的两个对象
+     * 一个对象操作新闻界面的news
+     * 一个对象操作用户转发的news
+     * */
+
     private final NewsDao newsDao;
     private final AppDB appDB;
 
@@ -55,7 +62,29 @@ public class NewsRepository {
             return newsDao.getAllNews();
         }
     }
-    /****/
+
+
+    /**
+     * get news by email
+     */
+    public ArrayList<News> getNewsByEmail(String... email){
+        try{
+            GetNewsByEmailTask getNewsByEmailTask = new GetNewsByEmailTask();
+            return new ArrayList(Arrays.asList(getNewsByEmailTask.execute(email).get()));
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private class GetNewsByEmailTask extends AsyncTask<String, Void, News[]>{
+        @Override
+        protected News[] doInBackground(String... email){
+            return newsDao.getNewsByEmail(email);
+        }
+    }
 
     /**
      * delete news
@@ -75,6 +104,22 @@ public class NewsRepository {
         }
     }
     /****/
+
+    /**
+     * delte news by email
+     * */
+    public void deleteNewsByEmail(String... email){
+        DeleteNewsByEmailTask deleteNewsByEmailTask = new DeleteNewsByEmailTask();
+        deleteNewsByEmailTask.execute(email);
+    }
+
+    private class DeleteNewsByEmailTask extends AsyncTask<String, Void, Void>{
+        @Override
+        protected Void doInBackground(String... email){
+            newsDao.deleteNewsByEmail(email[0]);
+            return null;
+        }
+    }
 
     /**
      * clear the table
