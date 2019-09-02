@@ -226,6 +226,13 @@ def getAllNews(request):
         data = []
         allWeightMap = Map.objects.filter(user = G.currentUser)
         filterWords = FilterWordsMap.objects.filter(user = G.currentUser)
+        weightMapData = ""
+        filterWordsData = ""
+        if len(allWeightMap) != 0:
+            weightMapData = allWeightMap[0].data
+        if len(filterWords) != 0:
+            filterWordsData = filterWords[0].data
+
         
         allCollectionNews = CollectionNews.objects.filter(user = G.currentUser) # just return history news for current user
         for news in allCollectionNews:
@@ -291,8 +298,8 @@ def getAllNews(request):
                 "oriScores":" ",
                 "video":" ",
                 "newsType":"weight",
-                "weight":allWeightMap[0].data,
-                "filterWords":filterWords[0].data,
+                "weight":weightMapData
+                "filterWords":filterWordsData
             }
         data.append(newsIndata)
         jsonData = {"data":data}
