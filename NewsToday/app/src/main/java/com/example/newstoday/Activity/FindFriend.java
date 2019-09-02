@@ -26,12 +26,6 @@ import com.example.newstoday.UserManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FindFriend.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
 public class FindFriend extends Fragment {
     private UserManager userManager;
 

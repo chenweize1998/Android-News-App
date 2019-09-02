@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/filter_bg"
+            android:contentDescription="@string/imageview_placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/noise"
@@ -33,6 +33,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/imageview_placeholder"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ear"/>
 
@@ -67,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/playfair_display_sc"
-                    android:text="Is it GOOD"
+                    android:text="You SURE"
                     android:textColor="#ffffff"
                     android:textSize="37sp" />
 <!--            </FrameLayout>-->
@@ -81,44 +82,60 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/playfair_display_sc"
-                android:text="to turn a deaf ear to "
-                android:textColor="#2edc56"
-                android:textSize="37sp" />
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="-4dp"
                     android:fontFamily="@font/playfair_display_sc"
-                    android:text="to turn a deaf ear to "
-                    android:textColor="#e22b44"
-                    android:textSize="37sp" />
-
-                <TextView
-                    android:id="@+id/sign_title2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/playfair_display_sc"
-                    android:text="to turn a deaf ear to "
+                    android:text="to "
                     android:textColor="#ffffff"
-                    android:textSize="37sp" />
+                    android:textSize="37sp"/>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/playfair_display_sc"
+                        android:text="turn a deaf ear "
+                        android:textColor="#2edc56"
+                        android:textSize="37sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:fontFamily="@font/playfair_display_sc"
+                        android:text="turn a deaf ear "
+                        android:textColor="#e22b44"
+                        android:textSize="37sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/playfair_display_sc"
+                        android:text="turn a deaf ear "
+                        android:textColor="#ffffff"
+                        android:textSize="37sp" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/playfair_display_sc"
+                    android:text="to"
+                    android:textColor="#ffffff"
+                    android:textSize="37sp"/>
+
+            </LinearLayout>
 
 
-            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,7 +146,6 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:textColorHint="#96ffffff"
-                    android:id="@+id/filter_text_layout"
                     android:theme="@style/EditScreenTextInputLayoutStyle"
                     app:hintEnabled="false">
 

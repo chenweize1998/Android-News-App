@@ -34,7 +34,11 @@ public class HistoryNews extends Fragment {
     private NewsManager newsManager;
     private FragmentManager fragmentManager;
 
-    HistoryNews(FragmentManager fragmentManager){
+    public HistoryNews(){
+        this.fragmentManager = getActivity().getSupportFragmentManager();
+    }
+
+    public HistoryNews(FragmentManager fragmentManager){
         this.fragmentManager = fragmentManager;
     }
 

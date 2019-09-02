@@ -19,7 +19,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/arr_text1"
             android:text="我的频道"
             android:textSize="30sp"
             android:textColor="@color/catArrangeTitleColor"
@@ -63,7 +62,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/arr_text2"
             android:text="隐藏的频道"
             android:textSize="30sp"
             android:textColor="@color/catArrangeTitleColor"

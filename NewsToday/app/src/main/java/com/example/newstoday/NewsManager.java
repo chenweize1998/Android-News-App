@@ -3,6 +3,7 @@ package com.example.newstoday;
 
 import org.json.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.Random;
@@ -61,15 +62,11 @@ public class NewsManager {
     private void initNewInMem(){
         String[] historyNewsID = getHistoryNewsID();
         historyNewsInMem = new ArraySet(historyNewsID.length);
-        for(String ID: historyNewsID){
-            historyNewsInMem.add(ID);
-        }
+        historyNewsInMem.addAll(Arrays.asList(historyNewsID));
 
         String[] collectionNewsID = getCollectionNewsID();
         collectionNewsInmem = new ArraySet(collectionNewsID.length);
-        for(String ID: collectionNewsID){
-            collectionNewsInmem.add(ID);
-        }
+        collectionNewsInmem.addAll(Arrays.asList(collectionNewsID));
     }
 
     public static NewsManager getNewsManager(Context context){
