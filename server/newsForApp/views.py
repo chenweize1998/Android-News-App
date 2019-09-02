@@ -300,8 +300,8 @@ def getAllNews(request):
                 "oriScores":" ",
                 "video":" ",
                 "newsType":"weight",
-                "weight":weightMapData
-                "filterWords":filterWordsData
+                "weight":weightMapData,
+                "filterWords":filterWordsData,
             }
         data.append(newsIndata)
         jsonData = {"data":data}
