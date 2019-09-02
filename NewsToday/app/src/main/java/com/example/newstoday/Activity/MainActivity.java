@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.newstoday.R;
-import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.Timer;
 import java.util.TimerTask;

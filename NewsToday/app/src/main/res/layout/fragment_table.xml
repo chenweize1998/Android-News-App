@@ -8,13 +8,12 @@
     android:layout_height="match_parent"
     tools:context=".Activity.Table"
     >
-<com.google.android.material.appbar.AppBarLayout android:id="@+id/page_bar"
+<com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
-        android:id="@+id/table_collapsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -26,6 +25,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:contentDescription="@string/imageview_placeholder"
             android:scaleType="centerCrop"
             android:fitsSystemWindows="true"
             app:layout_collapseMode="parallax"
@@ -45,7 +45,6 @@
             />
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/table_toolbar"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
@@ -74,6 +73,7 @@
         android:id="@+id/cat_arange"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:contentDescription="@string/imageview_placeholder"
         android:background="#000000"
         android:src="@drawable/cat_list"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +102,6 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.scwang.smartrefresh.header.StoreHouseHeader
-            android:id="@+id/storeHouseHeader"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             app:shhText="News TODAY"
@@ -119,8 +118,7 @@
 
         <com.scwang.smartrefresh.layout.footer.BallPulseFooter
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:id="@+id/table_footer"/>
+            android:layout_height="100dp" />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

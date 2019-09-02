@@ -3,8 +3,6 @@
     <color name="colorPrimary">#2f2f2f</color>
     <color name="colorPrimaryDark">#0f0f0f</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="catBg">#000000</color>
-    <color name="catBgSelected">#0f0f0f</color>
     <color name="black">#000000</color>
     <color name="editText">#777474</color>
     <color name="hint">#545151</color>
@@ -33,11 +31,9 @@
     <color name="keywordColor">#b2b2b2</color>
     <color name="bigShineColor">#ff6666</color>
     <color name="smallShineColor">#cc9999</color>
-    <color name="drawerItemTextColor">#ababab</color>
 
     <color name="catArrangeTitleColor">#e3e3e3</color>
     <color name="catArrangeHintColor">#696969</color>
-    <color name="catArrangeBgColor">#1d1d1d</color>
     <color name="catArrangeTextBgColor">#484848</color>
     <color name="catArrangeDelTextBgColor">#5e5e5e</color>
 
@@ -45,5 +41,4 @@
     <color name="appBarLayoutBgColor">#fafafa</color>
     <color name="catTextColor">#9c9393</color>
     <color name="CollapsingToolbarLayoutScrimColor">#000000</color>
-    <color name="pageContentTextColor">#222222</color>
 </resources>

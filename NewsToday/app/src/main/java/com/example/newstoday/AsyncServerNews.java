@@ -247,8 +247,11 @@ public class AsyncServerNews {
         Iterator iter = map.keySet().iterator();
         while (iter.hasNext()) {
             Double key = (Double) iter.next();
-            String value = (String) map.get(key);
-            sb.append(key.toString() + "," + value + " ");
+            String value = (String)map.get(key);
+            sb.append(key.toString());
+            sb.append(",");
+            sb.append(value);
+            sb.append(" ");
         }
         String data = sb.toString();
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/weightMap/", data);
@@ -273,7 +276,10 @@ public class AsyncServerNews {
         while (iter.hasNext()) {
             String key = (String) iter.next();
             String value = treeMap.get(key);
-            sb.append(key + "," + value + " ");
+            sb.append(key);
+            sb.append(",");
+            sb.append(value);
+            sb.append(" ");
         }
         String data = sb.toString();
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/filterWordsMap/", data);

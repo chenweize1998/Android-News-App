@@ -64,20 +64,17 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
-android:id="@+id/page_main"
-android:layout_width="match_parent"
+    android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/page_bar"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@color/appBarLayoutBgColor"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/page_collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -100,7 +97,6 @@ android:fitsSystemWindows="true">
                 android:layout_marginBottom="48dp"/>
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/page_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -112,7 +108,6 @@ android:fitsSystemWindows="true">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/page_scroll_view"
         android:background="@color/tableBgColor"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -153,6 +148,7 @@ android:fitsSystemWindows="true">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="15dp"
+                    android:contentDescription="@string/imageview_placeholder"
                     android:src="@drawable/ic_history"
                     android:baselineAlignBottom="true"
                     android:layout_marginRight="5dp"
@@ -257,11 +253,13 @@ android:fitsSystemWindows="true">
                 android:background="@drawable/textview_rounded"
                 android:backgroundTint="@color/pageBottomEditBgColor"
                 android:hint="@string/commentHint"
+                android:inputType="text"
                 android:paddingLeft="20dp"
                 android:textColorHint="@color/pageBottomEditTextColor"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/imageview_placeholder"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:scaleType="centerInside"

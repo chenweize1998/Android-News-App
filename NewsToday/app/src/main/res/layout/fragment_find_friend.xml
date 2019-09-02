@@ -17,12 +17,12 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/imageview_placeholder"
             android:src="@drawable/friend"
             android:scaleType="centerCrop"/>
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/friend_title_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -54,11 +54,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/sign_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:fontFamily="@font/playfair_display_sc"
                 android:text="with the world"
                 android:textColor="#32a64d"

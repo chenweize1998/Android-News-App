@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.util.ArraySet;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Filter;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -27,7 +26,6 @@ import com.example.newstoday.R;
 import com.example.newstoday.UserManager;
 import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
-import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.WechatShareManager;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
@@ -51,7 +49,7 @@ public class Table extends AppCompatActivity {
     private UserManagerOnServer userManagerOnServer;
     private UserManager userManager;
 
-    public static Drawer drawer;
+    public Drawer drawer;
     public static AccountHeader header;
     private ArraySet<String> account = new ArraySet<>();
     private int identifier = 3;
@@ -149,7 +147,7 @@ public class Table extends AppCompatActivity {
                 header.updateProfile(header.getActiveProfile());
             } catch (FileNotFoundException e){
                 e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "更换头像失败", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "更换头像失败", Toast.LENGTH_SHORT).show();
             }
         } /*else if (requestCode == )*/
     }

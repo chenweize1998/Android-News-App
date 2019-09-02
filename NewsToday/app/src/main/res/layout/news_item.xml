@@ -13,7 +13,6 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_card_view"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:layout_marginVertical="10dp"
@@ -33,6 +32,7 @@
             android:id="@+id/imgNews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/imageview_placeholder"
             android:maxHeight="300dp"
             android:adjustViewBounds="true"
             android:layout_gravity="center_vertical" />
@@ -108,7 +108,6 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:elevation="12dp"
-                android:id="@+id/item_friend_header"
                 app:cardCornerRadius="40dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/item_share_button"
@@ -118,6 +117,7 @@
                 <ImageView
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
+                    android:contentDescription="@string/imageview_placeholder"
                     android:id="@+id/friend_header"
                     android:src="@drawable/chenweize"
                     android:layout_centerHorizontal="true">
@@ -127,6 +127,7 @@
             <ImageButton
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:contentDescription="@string/imageview_placeholder"
                 android:src="@drawable/ic_share"
                 android:background="?android:attr/selectableItemBackground"
                 android:id="@+id/item_share_button"

@@ -86,13 +86,6 @@ public class NewsPage extends AppCompatActivity {
 
         TextView pagePublisher = findViewById(R.id.page_publisher);
         pagePublisher.setText(news.getPublisher() + "\t" + news.getDate());
-//        pagePublisher.setTextColor(0xAA878787);
-
-//        recyclerView = findViewById(R.id.page_recycler_view);
-//        layoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        mAdapter = new NewsPageAdapter(news, height, width);
-//        recyclerView.setAdapter(mAdapter);
 
         TextView pageContent = findViewById(R.id.page_content);
         pageContent.setText(news.getContent());

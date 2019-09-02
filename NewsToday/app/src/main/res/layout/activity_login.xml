@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/sign_bg"
+            android:contentDescription="@string/imageview_placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -48,11 +48,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/sign_title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:fontFamily="@font/playfair_display_sc"
                 android:text="Know the World"
                 android:textColor="#ffffff"
@@ -72,7 +69,6 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/sign_slogan_layout"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/sign_title_layout"
         android:layout_marginTop="8dp"
@@ -81,8 +77,7 @@
         <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/sign_slogan1"
-        android:gravity="center"
+            android:gravity="center"
         android:text="News are temporary, pride is "
         android:textColor="#70ffffff"
         android:textSize="20sp" />
@@ -184,7 +179,7 @@
                 android:textStyle="bold"
                 android:textColor="#96ffffff"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -196,7 +191,7 @@
                 android:textAllCaps="false"
                 android:textColor="#96ffffff"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

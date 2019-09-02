@@ -16,6 +16,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginVertical="10dp"
+        android:contentDescription="@string/imageview_placeholder"
         android:elevation="12dp"
         android:id="@+id/friend_header_layout"
         app:cardCornerRadius="40dp"
@@ -28,6 +29,7 @@
         <ImageView
             android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:contentDescription="@string/imageview_placeholder"
             android:id="@+id/friend_header"
             android:src="@drawable/chenweize"
             android:layout_alignParentTop="true"

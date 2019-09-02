@@ -18,7 +18,6 @@
     <!--/>-->
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/collection_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/white"
@@ -31,7 +30,6 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.scwang.smartrefresh.header.StoreHouseHeader
-            android:id="@+id/collection_storeHouseHeader"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             app:shhText="News TODAY"
@@ -52,6 +50,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:contentDescription="@string/imageview_placeholder"
         android:scaleType="centerCrop"
         android:src="@drawable/collection_title"
         app:layout_constraintHorizontal_bias="0.5"

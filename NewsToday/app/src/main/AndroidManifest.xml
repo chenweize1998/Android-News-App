@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name=".Activity.FilterWord"></activity>
         <activity android:name=".Activity.Login" />
         <activity android:name=".Activity.SearchActivity">
@@ -54,8 +55,8 @@
 
         <provider
             android:name=".SearchProvider"
-            android:authorities="com.example.SearchProvider" />
+            android:authorities="com.example.SearchProvider"
+            android:exported="false" />
     </application>
-
 
 </manifest>

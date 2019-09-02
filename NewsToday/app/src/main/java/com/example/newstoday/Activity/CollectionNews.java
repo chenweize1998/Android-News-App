@@ -44,8 +44,11 @@ public class CollectionNews extends Fragment {
     private NewsManager newsManager;
     private FragmentManager fragmentManager;
 
+    public CollectionNews(){
+        this.fragmentManager = getActivity().getSupportFragmentManager();
+    }
 
-    CollectionNews(FragmentManager fragmentManager){
+    public CollectionNews(FragmentManager fragmentManager){
         this.fragmentManager = fragmentManager;
     }
 

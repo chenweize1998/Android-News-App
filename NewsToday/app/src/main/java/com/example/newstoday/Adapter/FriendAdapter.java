@@ -1,7 +1,6 @@
 package com.example.newstoday.Adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,6 @@ import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHolder> {
     private User[] users;
