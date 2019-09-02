@@ -106,15 +106,16 @@ public class AsyncServerNews {
             /**
              * 得到屏蔽的词语
              * */
-            TreeMap<String, String> filterWordsMap = new TreeMap<>();
-            String[] filterWordEntries = filterWords.split(" ");
-            for (String entry : filterWordEntries) {
-                String weight = entry.split(",")[0];
-                String newsID = entry.split(",")[1];
-                filterWordsMap.put(weight, newsID);
+            if(!filterWords.equals(" ")) {
+                TreeMap<String, String> filterWordsMap = new TreeMap<>();
+                String[] filterWordEntries = filterWords.split(" ");
+                for (String entry : filterWordEntries) {
+                    String weight = entry.split(",")[0];
+                    String newsID = entry.split(",")[1];
+                    filterWordsMap.put(weight, newsID);
+                }
+                newsManager.setFilterWords(filterWordsMap);
             }
-            newsManager.setFilterWords(filterWordsMap);
-
             return true;
 
         } catch (JSONException e) {

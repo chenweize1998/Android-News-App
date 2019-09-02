@@ -226,8 +226,8 @@ def getAllNews(request):
         data = []
         allWeightMap = Map.objects.filter(user = G.currentUser)
         filterWords = FilterWordsMap.objects.filter(user = G.currentUser)
-        weightMapData = ""
-        filterWordsData = ""
+        weightMapData = " "
+        filterWordsData = " "
         if len(allWeightMap) != 0:
             weightMapData = allWeightMap[0].data
         if len(filterWords) != 0:
@@ -235,6 +235,7 @@ def getAllNews(request):
 
         
         allCollectionNews = CollectionNews.objects.filter(user = G.currentUser) # just return history news for current user
+        print(len(allCollectionNews))
         for news in allCollectionNews:
             newsIndata = {
                 "newsID":news.newsID,
@@ -259,6 +260,7 @@ def getAllNews(request):
         print("收藏的新闻数" + str(len(data)))
 
         allHistoryNews = HistoryNews.objects.filter(user = G.currentUser) # just return history news for current user
+        print(len(allHistoryNews))
         for news in allHistoryNews:
             newsIndata = {
                 "newsID":news.newsID,
