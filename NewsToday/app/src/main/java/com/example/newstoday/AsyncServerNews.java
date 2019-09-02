@@ -47,7 +47,16 @@ public class AsyncServerNews {
                 asyncUserMessageToServer());
     }
 
-    public boolean asyncNewsFromServer() {
+    public boolean deleteUserNewsAndMessageOnServer(String email){
+        String data = "email=" + email;
+        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/deleteNewsAndMessage/", data);
+        if (res == null || res.equals("Fail")) {
+            return false;
+        }
+        return true;
+    }
+
+  public boolean asyncNewsFromServer() {
         try {
             String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/getAllNews/");
             if (json == null || json.equals("Fail")) {

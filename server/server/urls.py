@@ -30,4 +30,5 @@ urlpatterns = [
     path("filterWordsMap/", views.filterWords),
     path("userMessage", views.userMessage),
     path("userForwardingNews", views.forwardingNews),
+    path("deleteNewsAndMessage", views.deleteNewsAndMessage),
 ]

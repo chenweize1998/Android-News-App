@@ -64,7 +64,7 @@ def userMessage(request):
     if request.method == "POST":
         if G.currentUser == 'null':
             return HttpResponse("Fail")
-        userMessage.objects.all().delete()
+        # userMessage.objects.all().delete()
         try:
             messageID = request.POST.get("messageID")
             email = request.POST.get("email")
@@ -98,7 +98,7 @@ def forwardingNews(request):
         if G.currentUser == 'null':
             return HttpResponse("Fail")
         try:
-            ForwardingNews.objects.all().delete()
+            # ForwardingNews.objects.all().delete()
             newForwardingNews = ForwardingNews(newsID = request.POST["newsID"], title = request.POST["title"], date = request.POST["date"], 
                                             content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
                                             location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],
@@ -139,15 +139,23 @@ def forwardingNews(request):
     
 
 
-
-
+def deleteNewsAndMessage(request):
+    if request.method == "POST":
+        if G.currentUser == 'null':
+            return HttpResponse("Fail")
+        UserMessage.objects.filter(email = request.POST.get("email")).delete()
+        # ForwardingNews.objects.filter(email = request.POST.get("email")).delete()
+        HistoryNews.objects.filter(user = request.POST.get("email")).delete()
+        CollectionNews.objects.filter(user = request.POST.get("email")).delete()
+        return HttpResponse("Success")
+    return HttpResponse("Fail")
 
 def history(request):
     if request.method == 'POST':
         if G.currentUser == 'null':
             return HttpResponse("Fail")
         try:
-            HistoryNews.objects.all().delete()
+            # HistoryNews.objects.all().delete()
             newHistoryNews = HistoryNews(newsID = request.POST["newsID"], title = request.POST["title"], date = request.POST["date"], 
                                             content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
                                             location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],
@@ -166,7 +174,7 @@ def collection(request):
         if G.currentUser == 'null':
             return HttpResponse("Fail")
         try:
-            CollectionNews.objects.all().delete()
+            # CollectionNews.objects.all().delete()
             newCollectionNews = CollectionNews(newsID = request.POST["newsID"], title = request.POST["title"], date = request.POST["date"], 
                                             content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
                                             location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],

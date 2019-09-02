@@ -339,6 +339,10 @@ public class Table extends AppCompatActivity {
                                 }
                             }).start();
                             newsManager.deleteAllHistory();
+                            /**
+                             * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
+                             * */
+//                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
                             mAdapterNews.notifyDataSetChanged();
                             drawer.setSelectionAtPosition(-1);
 
