@@ -70,15 +70,16 @@ public class WechatShareManager implements IWXAPIEventHandler{
         Toast.makeText(mContext, result, Toast.LENGTH_SHORT).show();
     }
 
-    public void shareNews(News news) {
-        String text = news.getContent();
+    public void shareNews() {
+//        String text = news.getContent();
+        String text = "hello world!";
         //初始化一个WXTextObject对象
         WXTextObject textObj = new WXTextObject();
         textObj.text = text;
         //用WXTextObject对象初始化一个WXMediaMessage对象
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = textObj;
-        msg.description = text;
+        msg.description = "这是一个微信分享测试";
         //构造一个Req
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         //transaction字段用于唯一标识一个请求

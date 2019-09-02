@@ -3,16 +3,26 @@ package com.example.newstoday;
 import java.io.Serializable;
 import java.util.*;
 import java.text.*;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.room.Dao;
+import androidx.room.Database;
+import androidx.room.Delete;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
+import androidx.room.Query;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 
 @Entity
-public class News implements Serializable {
+public class News implements Serializable{
     /*
      * These are vital properties of News.
      * All fields are private
@@ -235,3 +245,4 @@ public class News implements Serializable {
         this.video = video;
     }
 }
+

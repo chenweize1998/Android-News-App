@@ -360,10 +360,10 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
-                            spotsDialog.show();
-                            asyncServerNews.asyncCollectionNewsToServer();
-                            asyncServerNews.asyncHistoryNewsToServer();
-                            asyncServerNews.asyncWeightMapToServer();
+//                            asyncServerNews.asyncCollectionNewsToServer();
+//                            asyncServerNews.asyncHistoryNewsToServer();
+//                            asyncServerNews.asyncWeightMapToServer();
+                            asyncServerNews.asyncDataToServer();
 
                         }  else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
 
@@ -384,8 +384,10 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
+                            asyncServerNews.asyncDataFromServer();
+
 //                            newsManager.deleteAllHistory();
-                            asyncServerNews.asyncNewsFromServer();
+//                            asyncServerNews.asyncNewsFromServer();
 //                            newsManager.deleteAllCollection();
 //                            asyncServerNews.asyncCollectionNewsFromServer();
 //                            newsManager.resetWeightMap();

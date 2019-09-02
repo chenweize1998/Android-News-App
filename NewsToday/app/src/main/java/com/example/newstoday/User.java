@@ -1,8 +1,12 @@
 package com.example.newstoday;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Database;
 import androidx.room.Delete;
@@ -15,28 +19,40 @@ import androidx.room.Query;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import java.io.ByteArrayOutputStream;
+
 @Entity
 public class User {
+
+    /**
+     * User自己是没有对自己发布消息的存储权的，所以在本类中没有message域
+     * 对于转发的消息也同样如此
+     * */
+
     @NonNull
     @PrimaryKey
-    String email;
+    private String email;
 
-    String name;
-    String password;
-    String oriFollowig;
-    String oriMessage;
+    private String name;
+    private String password;
+    private String oriFollowig;
+
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    private byte[] avatar;
+
 
     @Ignore
-    String[] followig;
-    @Ignore
-    String[] message;
+    private String[] followig;
 
-    public User(String email, String name, String password, String oriFollowig, String oriMessage){
+    @Ignore
+    private Bitmap oriAvatar;
+
+    public User(String email, String name, String password, String oriFollowig, byte[] avatar){
         this.email = email;
         this.name = name;
         this.password = password;
         this.oriFollowig = oriFollowig;
-        this.oriMessage = oriMessage;
+        this.avatar = avatar;
     }
 
     public String getEmail(){
@@ -59,12 +75,12 @@ public class User {
         return oriFollowig.split(",");
     }
 
-    public String getOriMessage(){
-        return oriMessage;
+    public byte[] getAvatar(){
+        return this.avatar;
     }
 
-    public String[] getMessage(){
-        return oriMessage.split("#####");
+    public Bitmap getOriAvatar(){
+        return ImageHandler.bytes2Bitmap(this.avatar);
     }
 
     public void setEmail(String email){
@@ -83,16 +99,19 @@ public class User {
         this.oriFollowig = oriFollowig;
     }
 
-    public void setOriMessage(String oriMessage){
-        this.oriMessage = oriMessage;
-    }
-
     public void addFollowig(String email){
         this.oriFollowig = this.oriFollowig + "," + email;
     }
 
-    public void addMessage(String message){
-        this.oriMessage = this.oriMessage + "#####" + message;
+    public void setAvatar(byte[] bytes){
+        this.avatar = bytes;
+    }
+
+    /**
+     * 必须调用此方法来设置头像
+     * */
+    public void setOriAvatar(Bitmap oriAvatar){
+        this.avatar = ImageHandler.bitmap2Bytes(oriAvatar);
     }
 
 }
@@ -130,4 +149,21 @@ abstract class UserDB extends RoomDatabase {
                 name).build();
     }
 
+}
+
+class ImageHandler{
+
+    public static byte[] bitmap2Bytes(Bitmap bm){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
+
+    public static Bitmap bytes2Bitmap(byte[] b){
+        if (b.length != 0) {
+            return BitmapFactory.decodeByteArray(b, 0, b.length);
+        } else {
+            return null;
+        }
+    }
 }

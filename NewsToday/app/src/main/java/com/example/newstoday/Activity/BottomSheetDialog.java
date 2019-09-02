@@ -40,7 +40,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         RecyclerView recyclerView = v.findViewById(R.id.share_recycler);
         RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManagerNews);
-        ShareAdapter mAdapter = new ShareAdapter();
+        ShareAdapter mAdapter = new ShareAdapter(getContext());
         recyclerView.setAdapter(mAdapter);
 
         return v;

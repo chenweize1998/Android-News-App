@@ -20,7 +20,7 @@ def userSignIn(request):
         email = request.POST.get("email")
         name = request.POST.get("name")
         password = request.POST.get("password")
-        print("signin: "+email+'  '+name+' '+password)
+        print("signin: "+email+'  '+name+' '+password)  
         ##
         #if user is not in user_list
         if len(User.objects.filter(email=email)) == 0:
@@ -33,7 +33,7 @@ def userSignIn(request):
             return HttpResponse("Fail")
         G.currentUser = email
         userInDB[0].oriFollowig = request.POST.get("oriFollowig")
-        userInDB[0].oriMessage = request.POST.get("oriMessage")
+        userInDB[0].avatar = request.POST.get("avatar")
         userInDB[0].save()
         return HttpResponse("Success")
     return HttpResponse("Fail")
@@ -45,7 +45,7 @@ def userSignUp(request):
         password = request.POST.get("password")
         if email=="" or name == "" or password == "":
             return HttpResponse("Fail")
-        newUser = User(email = email, name = name, password = password, oriFollowig = "", oriMessage = "")
+        newUser = User(email = email, name = name, password = password, oriFollowig = "", avatar = "")
         newUser.save()
         G.currentUser = email
         return HttpResponse("Success")
@@ -59,21 +59,88 @@ def userSignOut(request):
         return HttpResponse("Success")
     return HttpResponse("Fail")    
 
-def postUserMessage(request):
-    if request.method == "POST":
-        email = request.POST.get("email")
-        user = User.objects.filter(email = email)
-        user[0].oriFollowig = request.POST.get("oriFollowig")
-        user[0].oriMessage = request.POST.get("oriMessage")
-        user[0].save()
-        return HttpResponse("Success")
-    return HttpResponse("Fail")
 
-def getUserMessage(request):
+def userMessage(request):
     if request.method == "POST":
-        email = request.POST.get("email")
-        user = User.objects.filter(email = email)
-        return HttpResponse(user[0].oriFollowig+"&&&&&"+user[0].oriMessage)
+        if G.currentUser == 'null':
+            return HttpResponse("Fail")
+        userMessage.objects.all().delete()
+        try:
+            messageID = request.POST.get("messageID")
+            email = request.POST.get("email")
+            content = request.POST.get("content")
+            image = request.POST.get("image")
+            newUserMessage = UserMessage(messageID = messageID, email = email, content =content, image = image)
+            newUserMessage.save()
+            print("用户发布消息保存成功")
+            return HttpResponse("Success")
+        except KeyError:
+            return HttpResponse("Fail")
+    if request.method == "GET":
+        if G.currentUser == 'null':
+            return HttpResponse("Fail")
+        allUserMessage = userMessage.objects.all()
+        data = []
+        for userMessage in allUserMessage:
+            data.append(
+                {
+                    "email":userMessage.email,
+                    "messageID":userMessage.messageID,
+                    "content":userMessage.content,
+                    "image":userMessage.image
+                }
+            )
+        jsonData = {"data":data}
+        return HttpResponse(json.dumps(jsonData))
+
+def forwardingNews(request):
+    if request.method == 'POST':
+        if G.currentUser == 'null':
+            return HttpResponse("Fail")
+        try:
+            ForwardingNews.objects.all().delete()
+            newForwardingNews = ForwardingNews(newsID = request.POST["newsID"], title = request.POST["title"], date = request.POST["date"], 
+                                            content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
+                                            location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],
+                                            url = request.POST["url"], oriImage = request.POST["oriImage"], oriKeywords = request.POST["oriKeywords"], 
+                                            oriScores =  request.POST["oriScores"], video = request.POST["video"]) 
+            newForwardingNews.save()
+            print("用户转发消息保存成功")
+            return HttpResponse("Success")  
+        except KeyError:
+            return HttpResponse("Fail")
+
+    if request.method == 'GET':
+        if G.currentUser == 'null':
+            return HttpResponse("Fail")
+        data = []
+        allForwardingnNews = ForwardingNews.objects.all() # just return history news for current user
+        for news in allForwardingnNews:
+            newsIndata = {
+                "newsID":news.newsID,
+                "title":news.title,
+                "date":news.date,
+                "content":news.content,
+                "person":news.person,
+                "organization":news.organization,
+                "location":news.location,
+                "category":news.category,
+                "publisher":news.publisher,
+                "url":news.url,
+                "oriImage":news.oriImage,
+                "oriKeywords":news.oriKeywords,
+                "oriScores":news.oriScores,
+                "video":news.video,
+            }
+            data.append(newsIndata)
+        jsonData = {"data":data}
+        return HttpResponse(json.dumps(jsonData))
+    return HttpResponse("Fail")
+    
+
+
+
+
 
 def history(request):
     if request.method == 'POST':
@@ -158,9 +225,17 @@ def getAllNews(request):
         
         data = []
         allWeightMap = Map.objects.filter(user = G.currentUser)
-        filterWords = FilterWordsMap.filter(user = G.currentUser)
+        filterWords = FilterWordsMap.objects.filter(user = G.currentUser)
+        weightMapData = " "
+        filterWordsData = " "
+        if len(allWeightMap) != 0:
+            weightMapData = allWeightMap[0].data
+        if len(filterWords) != 0:
+            filterWordsData = filterWords[0].data
+
         
         allCollectionNews = CollectionNews.objects.filter(user = G.currentUser) # just return history news for current user
+        print(len(allCollectionNews))
         for news in allCollectionNews:
             newsIndata = {
                 "newsID":news.newsID,
@@ -185,6 +260,7 @@ def getAllNews(request):
         print("收藏的新闻数" + str(len(data)))
 
         allHistoryNews = HistoryNews.objects.filter(user = G.currentUser) # just return history news for current user
+        print(len(allHistoryNews))
         for news in allHistoryNews:
             newsIndata = {
                 "newsID":news.newsID,
@@ -224,8 +300,8 @@ def getAllNews(request):
                 "oriScores":" ",
                 "video":" ",
                 "newsType":"weight",
-                "weight":allWeightMap[0].data,
-                "filterWords":filterWords[0].data,
+                "weight":weightMapData
+                "filterWords":filterWordsData
             }
         data.append(newsIndata)
         jsonData = {"data":data}

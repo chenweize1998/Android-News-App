@@ -32,7 +32,7 @@ public class UserManagerOnServer {
                 return false;
             }
         }
-        userManager.addInUser(new User(email, name, password, "", ""));
+        userManager.addInUser(new User(email, name, password, "", new byte[0]));
         return true;
     }
 
@@ -41,7 +41,8 @@ public class UserManagerOnServer {
         if(user == null){
             return false;
         }
-        String data = "email="+email+"&name="+name+"&password="+password+"&oriFollowig="+user.getOriFollowig()+"&oriMessage="+user.getOriMessage();
+        String avatar = new String(user.getAvatar());
+        String data = "email="+email+"&name="+name+"&password="+password+"&oriFollowig="+user.getOriFollowig()+"&avatar="+avatar;
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signIn/", data);
         if(res==null){
             return false;

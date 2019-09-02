@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.newstoday.Adapter.FriendAdapter;
 import com.example.newstoday.Adapter.NewsAdapter;
-import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.User;
