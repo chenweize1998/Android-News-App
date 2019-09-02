@@ -339,14 +339,14 @@ public class Table extends AppCompatActivity {
                                 }
                             }).start();
                             newsManager.deleteAllHistory();
-                            /**
-                             * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
-                             * */
-//                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
                             mAdapterNews.notifyDataSetChanged();
                             drawer.setSelectionAtPosition(-1);
 
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
+                            /**
+                             * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
+                             * */
+//                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
                             asyncServerNews.asyncDataToServer();
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
@@ -365,9 +365,6 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
-//                            asyncServerNews.asyncCollectionNewsToServer();
-//                            asyncServerNews.asyncHistoryNewsToServer();
-//                            asyncServerNews.asyncWeightMapToServer();
 
                         }  else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
 
