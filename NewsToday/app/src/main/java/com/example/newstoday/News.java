@@ -22,7 +22,7 @@ import androidx.room.RoomDatabase;
 
 
 @Entity
-class News {
+public class News implements Serializable{
     /*
      * These are vital properties of News.
      * All fields are private
@@ -246,40 +246,3 @@ class News {
     }
 }
 
-@Dao
-interface NewsDao {
-
-    @Query("SELECT * FROM News")
-    News[] getAllNews();
-
-    @Query("DELETE FROM News")
-    void clear();
-
-    @Query("SELECT newsID FROM News")
-    String[] getAllNewsID();
-
-    @Query("SELECT * FROM News WHERE publisher in (:email)")
-    News[] getNewsByEmail(String... email);
-
-    @Query("DELETE FROM News WHERE publisher in (:email)")
-    void deleteNewsByEmail(String email);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(News... news);
-
-    @Delete
-    void delete(News... news);
-
-}
-
-@Database(entities = {News.class}, version = 1)
-abstract class AppDB extends RoomDatabase {
-
-    public abstract NewsDao newsDao();
-
-    public static AppDB getAppDB(Context context, String name){
-        return  Room.databaseBuilder(context.getApplicationContext(), AppDB.class,
-                name).build();
-    }
-
-}

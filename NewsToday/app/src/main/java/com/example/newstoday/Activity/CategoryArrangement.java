@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.newstoday.CustomLayout.DragGridLayout;
-import com.example.newstoday.News;
 import com.example.newstoday.R;
 
 import java.lang.reflect.Array;

@@ -20,7 +20,7 @@ def userSignIn(request):
         email = request.POST.get("email")
         name = request.POST.get("name")
         password = request.POST.get("password")
-        print("signin: "+email+'  '+name+' '+password)
+        print("signin: "+email+'  '+name+' '+password)  
         ##
         #if user is not in user_list
         if len(User.objects.filter(email=email)) == 0:
@@ -225,7 +225,7 @@ def getAllNews(request):
         
         data = []
         allWeightMap = Map.objects.filter(user = G.currentUser)
-        filterWords = FilterWordsMap.filter(user = G.currentUser)
+        filterWords = FilterWordsMap.objects.filter(user = G.currentUser)
         
         allCollectionNews = CollectionNews.objects.filter(user = G.currentUser) # just return history news for current user
         for news in allCollectionNews:
