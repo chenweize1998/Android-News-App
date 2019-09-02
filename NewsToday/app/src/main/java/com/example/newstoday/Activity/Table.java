@@ -347,6 +347,7 @@ public class Table extends AppCompatActivity {
                             drawer.setSelectionAtPosition(-1);
 
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
+                            asyncServerNews.asyncDataToServer();
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
@@ -367,7 +368,6 @@ public class Table extends AppCompatActivity {
 //                            asyncServerNews.asyncCollectionNewsToServer();
 //                            asyncServerNews.asyncHistoryNewsToServer();
 //                            asyncServerNews.asyncWeightMapToServer();
-                            asyncServerNews.asyncDataToServer();
 
                         }  else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
 
