@@ -127,6 +127,9 @@ def postAllNews(request):
         filterWords = request.POST["filterWords"].split(",")
 
         length = len(newsID)
+        print(length)
+        print(person)
+        print(organization)
         for i in range(length):
             if newsType[i] == "history":
                 newHistoryNews = HistoryNews(newsID = newsID[i], title = title[i], date =date[i], 

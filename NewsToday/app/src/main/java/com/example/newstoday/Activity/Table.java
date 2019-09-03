@@ -343,11 +343,6 @@ public class Table extends AppCompatActivity {
                             drawer.setSelectionAtPosition(-1);
 
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
-                            /**
-                             * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
-                             * */
-//                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
-                            asyncServerNews.asyncDataToServer();
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
@@ -365,6 +360,11 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
+                            /**
+                             * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
+                             * */
+//                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
+                            asyncServerNews.asyncDataToServer();
 
                         }  else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
 
