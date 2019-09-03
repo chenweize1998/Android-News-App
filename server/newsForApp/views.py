@@ -160,18 +160,18 @@ def postAllNews(request):
             elif newsType[i] == "map":
                 entry = Map.objects.filter(user = G.currentUser)
                 if len(entry) == 0:
-                    newWeightMap = Map(data = mapData, user = G.currentUser)
+                    newWeightMap = Map(data = mapData[i], user = G.currentUser)
                     newWeightMap.save()
                 else:
-                    entry[0].data = mapData
+                    entry[0].data = mapData[i]
                     entry[0].save()
                 
                 entry = FilterWordsMap.objects.filter(user = G.currentUser)
                 if len(entry) == 0:
-                    filterWordsMap = FilterWordsMap(data = filterWords, user = G.currentUser)
+                    filterWordsMap = FilterWordsMap(data = filterWords[i], user = G.currentUser)
                     filterWordsMap.save()
                 else:
-                    entry[0].data = filterWords
+                    entry[0].data = filterWords[i]
                     entry[0].save()
                 print("推荐和屏蔽的关键词保存成功")
         return HttpResponse("Success")

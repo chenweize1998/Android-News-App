@@ -59,8 +59,8 @@ public class AsyncServerNews {
             }
 
             JSONObject jsonData = new JSONObject(json);
-            String mapData = "";
-            String filterWords = "";
+            String mapData = "null";
+            String filterWords = "null";
 
             JSONArray newsArray = jsonData.getJSONArray("data");
             System.out.println("来了" + newsArray.length() + "条数据");
@@ -86,10 +86,10 @@ public class AsyncServerNews {
                 if (newsType.equals("history")) {
                     newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
                             oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
-                }                else if (newsType.equals("collection")) {
+                } else if (newsType.equals("collection")) {
                     newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
                             oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
-                } else if (newsType.equals("weight")) {
+                } else if (newsType.equals("map")) {
                     mapData = news.getString("weight");
                     filterWords = news.getString("filterWords");
                 } else if(newsType.equals("forwardingNews")){
@@ -101,6 +101,8 @@ public class AsyncServerNews {
             /**
              * 得到推荐的参数
              * */
+            System.out.println(mapData);
+            System.out.println(filterWords);
             if(!mapData.equals("null")){
                 TreeMap<Double, String> map = new TreeMap<>();
                 String[] entries = mapData.split(" ");
@@ -265,7 +267,7 @@ public class AsyncServerNews {
 
         String filterWord = "null";
         TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
-        if (treeMap.size() == 0) {
+        if (treeMap.size() != 0) {
             StringBuffer sb = new StringBuffer();
             Iterator iter = treeMap.keySet().iterator();
             while (iter.hasNext()) {
@@ -276,7 +278,7 @@ public class AsyncServerNews {
                 sb.append(value);
                 sb.append(" ");
             }
-            filterWords = sb.toString();
+            filterWord = sb.toString();
         }
 
         newsID += "null";
