@@ -65,7 +65,7 @@ public class CollectionNews extends Fragment {
         newsManager = NewsManager.getNewsManager(getActivity().getApplicationContext());
         news = newsManager.getAllCollectionNews();
         for (News _news : news) {
-            _news.setImage(News.stringParse(_news.getOriImage()));
+            _news.setImage(_news.getImage());
         }
 
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {

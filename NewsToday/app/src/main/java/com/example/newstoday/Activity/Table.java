@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.newstoday.NewsManager;
+import com.example.newstoday.OfflineNewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.UserManager;
 import com.example.newstoday.UserManagerOnServer;
@@ -48,6 +49,7 @@ public class Table extends AppCompatActivity {
     private AlertDialog spotsDialog;
     private UserManagerOnServer userManagerOnServer;
     private UserManager userManager;
+    private OfflineNewsManager offlineNewsManager;
 
     public Drawer drawer;
     public static AccountHeader header;
@@ -88,6 +90,7 @@ public class Table extends AppCompatActivity {
         newsManager = NewsManager.getNewsManager(getApplicationContext());
         userManager = UserManager.getUserManager(getApplicationContext());
         userManagerOnServer = UserManagerOnServer.getUserManagerOnServer(getApplicationContext());
+        offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(getApplicationContext());
 
         asyncServerNews = AsyncServerNews.getAsyncServerNews(getApplicationContext());
 //        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
@@ -342,11 +345,12 @@ public class Table extends AppCompatActivity {
                             mAdapterNews.notifyDataSetChanged();
                             drawer.setSelectionAtPosition(-1);
 
-                        } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
                             /**
-                             * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
-                             * */
-                            asyncServerNews.deleteUserNewsAndMessageOnServer(Table.header.getActiveProfile().getEmail().toString());
+                            * 这行代码之后需要删除
+                            * */
+                            offlineNewsManager.getAllOfflineNews();
+
+                        } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
@@ -364,6 +368,11 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
+                            /**
+                             * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
+                             * */
+//                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
+                            asyncServerNews.asyncDataToServer();
 
                             new Thread(new Runnable() {
                                 @Override

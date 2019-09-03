@@ -35,16 +35,11 @@ public class AsyncServerNews {
     }
 
     public boolean asyncDataFromServer(){
-        return (asyncNewsFromServer() && asyncUserForwardingNewsFromServer() && asyncUserMessageFromServer());
+        return (asyncNewsFromServer() && asyncUserMessageFromServer());
     }
 
     public boolean asyncDataToServer(){
-        return (asyncHistoryNewsToServer() &&
-                asyncCollectionNewsToServer() &&
-                asyncFilterWordsToServer() &&
-                asyncWeightMapToServer() &&
-                asyncUserForwardingNewsToServer() &&
-                asyncUserMessageToServer());
+        return (asyncNewsToServer() && asyncUserMessageToServer());
     }
 
     public boolean deleteUserNewsAndMessageOnServer(String email){
@@ -56,7 +51,7 @@ public class AsyncServerNews {
         return true;
     }
 
-  public boolean asyncNewsFromServer() {
+    public boolean asyncNewsFromServer() {
         try {
             String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/getAllNews/");
             if (json == null || json.equals("Fail")) {
@@ -64,8 +59,8 @@ public class AsyncServerNews {
             }
 
             JSONObject jsonData = new JSONObject(json);
-            String mapData = "";
-            String filterWords = "";
+            String mapData = "null";
+            String filterWords = "null";
 
             JSONArray newsArray = jsonData.getJSONArray("data");
             System.out.println("来了" + newsArray.length() + "条数据");
@@ -90,83 +85,53 @@ public class AsyncServerNews {
 
                 if (newsType.equals("history")) {
                     newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
-                            oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
+                            Converter.fromTimestamp(oriImage), publisher, person, location,
+                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video));
                 } else if (newsType.equals("collection")) {
                     newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
-                            oriImage, publisher, person, location, oriKeywords, oriScores, url, video));
-                } else if (newsType.equals("weight")) {
+                            Converter.fromTimestamp(oriImage), publisher, person, location,
+                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video));
+                } else if (newsType.equals("map")) {
                     mapData = news.getString("weight");
                     filterWords = news.getString("filterWords");
+                } else if(newsType.equals("forwardingNews")){
+                    forwordingNewsManager.addOneForwardingNewsForUser(new News(title, date, content, category, organization, newsID,
+                            Converter.fromTimestamp(oriImage), publisher, person, location,
+                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video), publisher);
                 }
             }
 
             /**
              * 得到推荐的参数
              * */
-            TreeMap<Double, String> map = new TreeMap<>();
-            String[] entries = mapData.split(" ");
-            for (String entry : entries) {
-                double weight = Double.parseDouble(entry.split(",")[0]);
-                String newsID = entry.split(",")[1];
-                map.put(weight, newsID);
+            System.out.println(mapData);
+            System.out.println(filterWords);
+            if(!mapData.equals("null")){
+                TreeMap<Double, String> map = new TreeMap<>();
+                String[] entries = mapData.split(" ");
+                for (String entry : entries) {
+                    double weight = Double.parseDouble(entry.split(":")[0]);
+                    String newsID = entry.split(":")[1];
+                    map.put(weight, newsID);
+                }
+                newsManager.setMap(map);
             }
-            newsManager.setMap(map);
 
             /**
              * 得到屏蔽的词语
              * */
-            if(!filterWords.equals(" ")) {
+            if(!filterWords.equals("null")) {
                 TreeMap<String, String> filterWordsMap = new TreeMap<>();
                 String[] filterWordEntries = filterWords.split(" ");
                 for (String entry : filterWordEntries) {
-                    String weight = entry.split(",")[0];
-                    String newsID = entry.split(",")[1];
+                    String weight = entry.split(":")[0];
+                    String newsID = entry.split(":")[1];
                     filterWordsMap.put(weight, newsID);
                 }
                 newsManager.setFilterWords(filterWordsMap);
             }
+
             return true;
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean asyncUserForwardingNewsFromServer() {
-        try {
-            String json = serverHttpResponse.getResponse("http://http://166.111.5.239:8000/forwardingNews/");
-            if (json == null || json.equals("Fail")) {
-                return false;
-            }
-
-            JSONObject jsonData = new JSONObject(json);
-
-            JSONArray newsArray = jsonData.getJSONArray("data");
-            System.out.println("来了" + newsArray.length() + "条转发数据");
-            for (int i = 0; i < newsArray.length(); i++) {
-                JSONObject news = newsArray.getJSONObject(i);
-                String newsID = news.getString("newsID");
-                String title = news.getString("title");
-                String date = news.getString("date");
-                String content = news.getString("content");
-                String person = news.getString("person");
-                String organization = news.getString("organization");
-                String location = news.getString("location");
-                String category = news.getString("category");
-                String publisher = news.getString("publisher");
-                String url = news.getString("url");
-                String oriImage = news.getString("oriImage");
-                String oriKeywords = news.getString("oriKeywords");
-                String oriScores = news.getString("oriScores");
-                String video = news.getString("video");
-
-                forwordingNewsManager.addOneForwardingNewsForUser(new News(title, date, content, category, organization, newsID,
-                        oriImage, publisher, person, location, oriKeywords, oriScores, url, video), publisher);
-
-
-                return true;
-            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -176,7 +141,7 @@ public class AsyncServerNews {
 
     public boolean asyncUserMessageFromServer() {
         try {
-            String json = serverHttpResponse.getResponse("http://http://166.111.5.239:8000/userMessage/");
+            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/userMessage/");
             if (json == null || json.equals("Fail")) {
                 return false;
             }
@@ -192,7 +157,7 @@ public class AsyncServerNews {
                 String content = message.getString("content");
                 String image = message.getString("image");
                 byte[] bytes = image.getBytes();
-                userMessageManager.addOneUserMessage(new UserMessage(messageID, email, content, bytes));
+                userMessageManager.addOneUserMessage(new UserMessage(messageID, email, content, ImageConverter.fromTimestamp(bytes)));
             }
 
         } catch (JSONException e) {
@@ -202,123 +167,234 @@ public class AsyncServerNews {
 
     }
 
-    public boolean asyncHistoryNewsToServer() {
+    public boolean asyncNewsToServer() {
+        String oriUrl = "http://166.111.5.239:8000/postAllNews/";
+
+        StringBuilder newsID = new StringBuilder();
+        StringBuilder title = new StringBuilder();
+        StringBuilder date = new StringBuilder();
+        StringBuilder content = new StringBuilder();
+        StringBuilder person = new StringBuilder();
+        StringBuilder organization = new StringBuilder();
+        StringBuilder location = new StringBuilder();
+        StringBuilder category = new StringBuilder();
+        StringBuilder publisher = new StringBuilder();
+        StringBuilder url = new StringBuilder();
+        StringBuilder image = new StringBuilder();
+        StringBuilder keywords = new StringBuilder();
+        StringBuilder scores = new StringBuilder();
+        StringBuilder video = new StringBuilder();
+        StringBuilder newsType = new StringBuilder();
+        StringBuilder mapData = new StringBuilder();
+        StringBuilder filterWords = new StringBuilder();
+
         ArrayList<News> allHistoryNewsNews = newsManager.getAllHistoryNews();
-        String url = "http://166.111.5.239:8000/history/";
         for (News news : allHistoryNewsNews) {
-
-            String data = "newsID=" + news.getNewsID() + "&title=" + news.getTitle() + "&date=" + news.getDate() +
-                    "&content=" + news.getContent() + "&person=" + news.getPerson() + "&organization=" + news.getOrganization() +
-                    "&location=" + news.getLocation() + "&category=" + news.getCategory() + "&publisher=" + news.getPublisher() +
-                    "&url=" + news.getUrl() + "&oriImage=" + news.getOriImage() + "&oriKeywords=" + news.getOriKeywords() +
-                    "&oriScores=" + news.getOriScores() + "&video=" + news.getVideo();
-            String res = serverHttpResponse.postResponse(url, data);
-            if (res == null) {
-                return false;
-            } else {
-                if (res.equals("Fail")) {
-                    return false;
-                }
-            }
+            newsID.append(news.getNewsID());
+            newsID.append(",");
+            title.append(news.getTitle());
+            title.append(",");
+            date.append(news.getDate());
+            date.append(",");
+            content.append(news.getContent());
+            content.append(",");
+            person.append(news.getPerson());
+            person.append(",");
+            organization.append(news.getOrganization());
+            organization.append(",");
+            location.append(news.getLocation());
+            location.append(",");
+            category.append(news.getCategory());
+            category.append(",");
+            publisher.append(news.getPublisher());
+            publisher.append(",");
+            url.append(news.getUrl());
+            url.append(",");
+            image.append(Converter.toTimestamp(news.getImage()));
+            image.append(",");
+            keywords.append(Converter.toTimestamp(news.getKeywords()));
+            keywords.append(",");
+            scores.append(Converter.toTimestamp(news.getScores()));
+            scores.append(",");
+            video.append(news.getVideo());
+            video.append(",");
+            newsType.append("history");
+            newsType.append(",");
+            mapData.append("null");
+            mapData.append(",");
+            filterWords.append("null");
+            filterWords.append(",");
         }
-        return true;
-    }
 
-    public boolean asyncCollectionNewsToServer() {
         ArrayList<News> allCollectionNews = newsManager.getAllCollectionNews();
-        String url = "http://166.111.5.239:8000/collection/";
-        for (News news : allCollectionNews) {
+        for(News news : allCollectionNews){
+            newsID.append(news.getNewsID());
+            newsID.append(",");
+            title.append(news.getTitle());
+            title.append(",");
+            date.append(news.getDate());
+            date.append(",");
+            content.append(news.getContent());
+            content.append(",");
+            person.append(news.getPerson());
+            person.append(",");
+            organization.append(news.getOrganization());
+            organization.append(",");
+            location.append(news.getLocation());
+            location.append(",");
+            category.append(news.getCategory());
+            category.append(",");
+            publisher.append(news.getPublisher());
+            publisher.append(",");
+            url.append(news.getUrl());
+            url.append(",");
+            image.append(Converter.toTimestamp(news.getImage()));
+            image.append(",");
+            keywords.append(Converter.toTimestamp(news.getKeywords()));
+            keywords.append(",");
+            scores.append(Converter.toTimestamp(news.getScores()));
+            scores.append(",");
+            video.append(news.getVideo());
+            video.append(",");
+            newsType.append("collection");
+            newsType.append(",");
+            mapData.append("null");
+            mapData.append(",");
+            filterWords.append("null");
+            filterWords.append(",");
+        }
 
-            String data = "newsID=" + news.getNewsID() + "&title=" + news.getTitle() + "&date=" + news.getDate() +
-                    "&content=" + news.getContent() + "&person=" + news.getPerson() + "&organization=" + news.getOrganization() +
-                    "&location=" + news.getLocation() + "&category=" + news.getCategory() + "&publisher=" + news.getPublisher() +
-                    "&url=" + news.getUrl() + "&oriImage=" + news.getOriImage() + "&oriKeywords=" + news.getOriKeywords() +
-                    "&oriScores=" + news.getOriScores() + "&video=" + news.getVideo();
-            String res = serverHttpResponse.postResponse(url, data);
-            if (res == null) {
-                return false;
-            } else {
-                if (res.equals("Fail")) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public boolean asyncWeightMapToServer() {
-        NavigableMap<Double, String> map = newsManager.getMap();
-        if (map.size() == 0) {
-            return true;
-        }
-        StringBuffer sb = new StringBuffer();
-        sb.append("data=");
-        Iterator iter = map.keySet().iterator();
-        while (iter.hasNext()) {
-            Double key = (Double) iter.next();
-            String value = (String)map.get(key);
-            sb.append(key.toString());
-            sb.append(",");
-            sb.append(value);
-            sb.append(" ");
-        }
-        String data = sb.toString();
-        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/weightMap/", data);
-        if (res == null) {
-            return false;
-        } else {
-            if (res.equals("Fail")) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean asyncFilterWordsToServer() {
-        TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
-        if (treeMap.size() == 0) {
-            return true;
-        }
-        StringBuffer sb = new StringBuffer();
-        sb.append("data=");
-        Iterator iter = treeMap.keySet().iterator();
-        while (iter.hasNext()) {
-            String key = (String) iter.next();
-            String value = treeMap.get(key);
-            sb.append(key);
-            sb.append(",");
-            sb.append(value);
-            sb.append(" ");
-        }
-        String data = sb.toString();
-        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/filterWordsMap/", data);
-        if (res == null) {
-            return false;
-        } else {
-            if (res.equals("Fail")) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean asyncUserForwardingNewsToServer() {
         ArrayList<News> allForwardingNews = forwordingNewsManager.getAllForwardingNews();
-        String url = "http://166.111.5.239:8000/forwardingNews/";
-        for (News news : allForwardingNews) {
+        for(News news: allForwardingNews){
+            newsID.append(news.getNewsID());
+            newsID.append(",");
+            title.append(news.getTitle());
+            title.append(",");
+            date.append(news.getDate());
+            date.append(",");
+            content.append(news.getContent());
+            content.append(",");
+            person.append(news.getPerson());
+            person.append(",");
+            organization.append(news.getOrganization());
+            organization.append(",");
+            location.append(news.getLocation());
+            location.append(",");
+            category.append(news.getCategory());
+            category.append(",");
+            publisher.append(news.getPublisher());
+            publisher.append(",");
+            url.append(news.getUrl());
+            url.append(",");
+            image.append(Converter.toTimestamp(news.getImage()));
+            image.append(",");
+            keywords.append(Converter.toTimestamp(news.getKeywords()));
+            keywords.append(",");
+            scores.append(Converter.toTimestamp(news.getScores()));
+            scores.append(",");
+            video.append(news.getVideo());
+            video.append(",");
+            newsType.append("forwardingNews");
+            newsType.append(",");
+            mapData.append("null");
+            mapData.append(",");
+            filterWords.append("null");
+            filterWords.append(",");
+        }
 
-            String data = "newsID=" + news.getNewsID() + "&title=" + news.getTitle() + "&date=" + news.getDate() +
-                    "&content=" + news.getContent() + "&person=" + news.getPerson() + "&organization=" + news.getOrganization() +
-                    "&location=" + news.getLocation() + "&category=" + news.getCategory() + "&publisher=" + news.getPublisher() +
-                    "&url=" + news.getUrl() + "&oriImage=" + news.getOriImage() + "&oriKeywords=" + news.getOriKeywords() +
-                    "&oriScores=" + news.getOriScores() + "&video=" + news.getVideo();
-            String res = serverHttpResponse.postResponse(url, data);
-            if (res == null) {
+        String weightData = "null";
+        NavigableMap<Double, String> map = newsManager.getMap();
+        if (map.size() != 0) {
+            StringBuffer sb = new StringBuffer();
+            Iterator iter = map.keySet().iterator();
+            while (iter.hasNext()) {
+                Double key = (Double) iter.next();
+                String value = (String)map.get(key);
+                sb.append(key.toString());
+                sb.append(":");
+                sb.append(value);
+                sb.append(" ");
+            }
+            weightData = sb.toString();
+        }
+
+        String filterWord = "null";
+        TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
+        if (treeMap.size() != 0) {
+            StringBuffer sb = new StringBuffer();
+            Iterator iter = treeMap.keySet().iterator();
+            while (iter.hasNext()) {
+                String key = (String) iter.next();
+                String value = treeMap.get(key);
+                sb.append(key);
+                sb.append(":");
+                sb.append(value);
+                sb.append(" ");
+            }
+            filterWord = sb.toString();
+        }
+
+        newsID.append("null");
+        title.append("null");
+        date.append("null");
+        content.append("null");
+        person.append("null");
+        organization.append("null");
+        location.append("null");
+        category.append("null");
+        publisher.append("null");
+        url.append("null");
+        image.append("null");
+        keywords.append("null");
+        scores.append("null");
+        video.append("null");
+        newsType.append("map");
+        mapData.append(weightData);
+        filterWords.append(filterWord);
+
+
+
+        StringBuilder data = new StringBuilder();
+        data.append("newsID=");
+        data.append(newsID);
+        data.append("&title=");
+        data.append(title);
+        data.append("&date=");
+        data.append(date);
+        data.append("&content=");
+        data.append(content);
+        data.append("&person=");
+        data.append(person);
+        data.append("&organization=");
+        data.append(organization);
+        data.append("&location=");
+        data.append(location);
+        data.append("&category=");
+        data.append(category);
+        data.append("&publisher=");
+        data.append(publisher);
+        data.append("&url=");
+        data.append(url);
+        data.append("&oriImage=");
+        data.append(image);
+        data.append("&oriKeywords=");
+        data.append(keywords);
+        data.append("&oriScores=");
+        data.append(scores);
+        data.append("&video=" );
+        data.append(video);
+        data.append("&newsType=");
+        data.append(newsType);
+        data.append("&mapData=");
+        data.append(mapData);
+        data.append("&filterWords=");
+        data.append(filterWords);
+        String res = serverHttpResponse.postResponse(oriUrl, data.toString());
+        if (res == null) {
+            return false;
+        } else {
+            if (res.equals("Fail")) {
                 return false;
-            } else {
-                if (res.equals("Fail")) {
-                    return false;
-                }
             }
         }
         return true;
@@ -326,9 +402,9 @@ public class AsyncServerNews {
 
     public boolean asyncUserMessageToServer() {
         ArrayList<UserMessage> allUserMessage = userMessageManager.getAllUserMessage();
-        String url = "http://166.111.5.239:8000/forwardingNews/";
+        String url = "http://166.111.5.239:8000/userMessage/";
         for (UserMessage userMessage : allUserMessage) {
-            String image = new String(userMessage.getImage());
+            String image = new String(ImageConverter.toTimestamp(userMessage.getImage()));
             String data = "messageID=" + userMessage.getMessageID() + "&email=" + userMessage.getEmail() +
                     "&content=" + userMessage.getContent() + "&image=" + image;
             String res = serverHttpResponse.postResponse(url, data);
@@ -342,6 +418,7 @@ public class AsyncServerNews {
         }
         return true;
     }
+
 }
 
 

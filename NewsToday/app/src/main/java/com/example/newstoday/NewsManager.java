@@ -41,6 +41,7 @@ public class NewsManager {
     private AhoCorasickDoubleArrayTrie<String> acdat = null;
     private ForwordingNewsManager forwordingNewsManager;
     private UserManager userManager;
+    private OfflineNewsManager offlineNewsManager;
 
     private NewsManager(Context context){
         newNewsCounter = 0;
@@ -51,6 +52,7 @@ public class NewsManager {
         recommendKeyword = new RandomCollection<>();
         forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(context);
         userManager = UserManager.getUserManager(context);
+        offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(context);
         initNewInMem();
     }
 
@@ -124,75 +126,98 @@ public class NewsManager {
                     ++pageCounter;  // 推荐的在前面 按词更新
                 }
                 lastCategory = categories;
-                if (Integer.parseInt(json.getString("pageSize")) == 0) {
-                    return null;
-                }
 
-                JSONArray newsArray = json.getJSONArray("data");
+                if(json != null){
+                    if (Integer.parseInt(json.getString("pageSize")) == 0) {
+                        return null;
+                    }
+                    JSONArray newsArray = json.getJSONArray("data");
 
-                for (int i = 0; i < newsArray.length(); i++) {
-                    try {
-                        JSONObject news = newsArray.getJSONObject(i);
-                        String newsID = news.getString("newsID");
+                    for (int i = 0; i < newsArray.length(); i++) {
+                        try {
+                            JSONObject news = newsArray.getJSONObject(i);
+                            String newsID = news.getString("newsID");
+                            if(recommendJudge && recommended.contains(newsID))
+                                continue;
+                            String title = news.getString("title");
+                            String date = news.getString("publishTime");
+                            String content = news.getString("content");
+                            String category = news.getString("category");
+                            String image = news.getString("image");
+                            String publisher = news.getString("publisher");
+                            String url = news.getString("url");
+                            String video = news.getString("video");
+                            //                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
+                            String organization = "";
+                            StringBuffer keywords = new StringBuffer();
+                            StringBuffer scores = new StringBuffer();
+                            JSONArray keywordsArray = news.getJSONArray("keywords");
+                            for (int j = 0; j < keywordsArray.length(); j++) {
+                                JSONObject keywordsObject = keywordsArray.getJSONObject(j);
+                                String word = keywordsObject.getString("word");
+                                String score = keywordsObject.getString("score");
+                                keywords.append(word);
+                                scores.append(score);
+                                if (j != keywordsArray.length() - 1) {
+                                    keywords.append(",");
+                                    scores.append(",");
+                                }
+                            }
+                            if (keywords.toString().equals("")) {
+                                keywords.append(category);
+                                scores.append(0);
+                            }
+
+                            //                    Bitmap bimage = new DownLoadImageTask().execute(image).get();
+                            String[] images = image.split(",");
+                            for (int j = 0; j < images.length; ++j)
+                                images[j] = images[j].replace("[", "").replace("]", "").trim();
+
+                            //                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID,
+                            //                                                        News.stringConverter(images), publisher, null,
+                            //                                                        null, keywords.toString());
+                            //                    newNews[newNewsCounter].setImage(images);
+                            StringBuilder builder = new StringBuilder();
+                            builder.append(title);
+                            builder.append(content);
+                            if(acdat != null) {
+                                List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = acdat.parseText(builder.toString());
+                                if (wordList.size() != 0)
+                                    continue;
+                            }
+
+                            newNews.add(new News(title, date, content, category, organization, newsID,
+                                    images, publisher, "","",
+                                    Converter.fromTimestamp(keywords.toString()),
+                                    Converter.fromTimestamp(scores.toString()), url, video));
+                            if(recommendJudge && recommendWord != null)
+                                recommended.add(newsID);
+                            newNewsCounter++;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }else{
+                    ArrayList<News> offlineNews =  offlineNewsManager.getAllOfflineNews();
+                    System.out.println("有"+offlineNews.size()+"条本地新闻");
+                    for(News news:offlineNews){
+                        String newsID = news.getNewsID();
                         if(recommendJudge && recommended.contains(newsID))
                             continue;
-                        String title = news.getString("title");
-                        String date = news.getString("publishTime");
-                        String content = news.getString("content");
-                        String category = news.getString("category");
-                        String image = news.getString("image");
-                        String publisher = news.getString("publisher");
-                        String url = news.getString("url");
-                        String video = news.getString("video");
-                        //                    String organization = news.getJSONArray("organizations").getJSONObject(0).getString("mention");
-                        String organization = "";
-                        StringBuffer keywords = new StringBuffer();
-                        StringBuffer scores = new StringBuffer();
-                        JSONArray keywordsArray = news.getJSONArray("keywords");
-                        for (int j = 0; j < keywordsArray.length(); j++) {
-                            JSONObject keywordsObject = keywordsArray.getJSONObject(j);
-                            String word = keywordsObject.getString("word");
-                            String score = keywordsObject.getString("score");
-                            keywords.append(word);
-                            scores.append(score);
-                            if (j != keywordsArray.length() - 1) {
-                                keywords.append(",");
-                                scores.append(",");
-                            }
-                        }
-                        if (keywords.toString().equals("")) {
-                            keywords.append(category);
-                            scores.append(0);
-                        }
-
-                        //                    Bitmap bimage = new DownLoadImageTask().execute(image).get();
-                        String[] images = image.split(",");
-                        for (int j = 0; j < images.length; ++j)
-                            images[j] = images[j].replace("[", "").replace("]", "").trim();
-
-                        //                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID,
-                        //                                                        News.stringConverter(images), publisher, null,
-                        //                                                        null, keywords.toString());
-                        //                    newNews[newNewsCounter].setImage(images);
                         StringBuilder builder = new StringBuilder();
-                        builder.append(title);
-                        builder.append(content);
+                        builder.append(news.getTitle());
+                        builder.append(news.getContent());
                         if(acdat != null) {
                             List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = acdat.parseText(builder.toString());
                             if (wordList.size() != 0)
                                 continue;
                         }
-
-                        newNews.add(new News(title, date, content, category, organization, newsID,
-                                News.stringConverter(images), publisher, null,
-                                null, keywords.toString(), scores.toString(), url, video));
-                        newNews.get(newNewsCounter).setImage(images);
-                        if(recommendJudge && recommendWord != null)
+                        if(recommendJudge && recommendWord != null) {
                             recommended.add(newsID);
-                        newNewsCounter++;
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        }
                     }
+                    newNewsCounter = offlineNews.size();
+                    return offlineNews;
                 }
             } while (recommendJudge && ++cnt < recommendWordCnt && recommendWord != null);
             if(recommendJudge) {

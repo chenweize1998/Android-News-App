@@ -52,9 +52,7 @@ public class ForwordingNewsManager {
 
     /**此方法得到user所有关注的人的转发的消息*/
     public ArrayList<News> getUserAllFollowigNews(User user){
-        if(user.getOriFollowig() == null)
-            return new ArrayList<News>();
-        String[] followigs = user.getOriFollowig().split(",");
+        String[] followigs = (String[]) user.getFollowig().toArray();
         return newsRepository.getNewsByEmail(followigs);
     }
 

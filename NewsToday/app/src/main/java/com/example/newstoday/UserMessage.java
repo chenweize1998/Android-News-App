@@ -15,24 +15,21 @@ import androidx.room.PrimaryKey;
 import androidx.room.Query;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 @Entity
-public class UserMessage {    @NonNull
-@PrimaryKey
-private String messageID; // 此ID可以通过 email+"&"+System.currentTimeMillis()构造message的唯一标识;
+@TypeConverters({ImageConverter.class})
+public class UserMessage {
+    @NonNull
+    @PrimaryKey
+    private String messageID; // 此ID可以通过 email+"&"+System.currentTimeMillis()构造message的唯一标识;
 
     private String email;
     private String content;
+    private Bitmap image;
 
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    private byte[] image;
-
-
-    @Ignore
-    private Bitmap oriImage;
-
-    UserMessage(String messageID, String email, String content, byte[] image){
-        this.messageID = email+"&"+System.currentTimeMillis();
+    UserMessage(String messageID, String email, String content, Bitmap image){
+        this.messageID = messageID;
         this.email = email;
         this.content = content;
         this.image = image;
@@ -50,12 +47,8 @@ private String messageID; // 此ID可以通过 email+"&"+System.currentTimeMilli
         return this.content;
     }
 
-    public byte[] getImage(){
+    public Bitmap getImage(){
         return this.image;
-    }
-
-    public Bitmap getOriImage(){
-        return ImageHandler.bytes2Bitmap(this.image);
     }
 
     public void setMessageID(String messageID) {
@@ -70,15 +63,9 @@ private String messageID; // 此ID可以通过 email+"&"+System.currentTimeMilli
         this.content = content;
     }
 
-    public void setImage(byte[] image){
+    public void setImage(Bitmap image){
         this.image = image;
     }
-
-    public void setOriImage(Bitmap oriImage){
-        this.image = ImageHandler.bitmap2Bytes(oriImage);
-    }
-
-
 }
 
 @Dao

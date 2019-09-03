@@ -25,6 +25,7 @@ import com.example.newstoday.Activity.BottomSheetDialog;
 import com.example.newstoday.Activity.Table;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
+import com.example.newstoday.OfflineNewsManager;
 import com.example.newstoday.R;
 import com.sackcentury.shinebuttonlib.ShineButton;
 import com.squareup.picasso.Picasso;
@@ -34,6 +35,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private Pattern pat;
     private OnItemClickListener listener;
     private NewsManager newsManager;
+    private OfflineNewsManager offlineNewsManager;
     private Activity activity;
     private BottomSheetDialog bottomSheetDialog;
     private FragmentManager fragmentManager;
@@ -92,6 +94,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 .inflate(R.layout.news_item, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         newsManager = NewsManager.getNewsManager(parent.getContext());
+        offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(parent.getContext());
         return vh;
     }
 
@@ -152,7 +155,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             public void onClick(final View v) {
                 News tmp = news.get(position);
                 String[] keywords = news.get(position).getKeywords();
-                Double[] scores = news.get(position).getScores();
+                Double[] scores = news.get(position).getDoubleScores();
                 for(int i = 0; i < keywords.length; ++i) {
                     if (scores[i] < 0.5 || newsManager.inHistoryNews(tmp)) {
                         break;
@@ -160,6 +163,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                     newsManager.addWeight(scores[i], keywords[i]);
                 }
                 newsManager.addInHistory(tmp);
+                offlineNewsManager.addOneOfflineNews(tmp);
                 holder.txtTitle.setTextColor(ContextCompat.getColor(activity.getApplicationContext(), R.color.titleItemSelColor));
                 listener.onItemClick(position, v);
             }

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ebac8adaf54493ca52abb44166241d94",
+    "identityHash": "2390d5de0dd104590758465b60148f2d",
     "entities": [
       {
         "tableName": "News",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newsID` TEXT NOT NULL, `title` TEXT, `date` TEXT, `content` TEXT, `person` TEXT, `organization` TEXT, `location` TEXT, `category` TEXT, `publisher` TEXT, `url` TEXT, `oriImage` TEXT, `oriKeywords` TEXT, `oriScores` TEXT, `video` TEXT, PRIMARY KEY(`newsID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newsID` TEXT NOT NULL, `title` TEXT, `date` TEXT, `content` TEXT, `person` TEXT, `organization` TEXT, `location` TEXT, `category` TEXT, `publisher` TEXT, `url` TEXT, `video` TEXT, `image` TEXT, `keywords` TEXT, `scores` TEXT, PRIMARY KEY(`newsID`))",
         "fields": [
           {
             "fieldPath": "newsID",
@@ -69,26 +69,26 @@
             "notNull": false
           },
           {
-            "fieldPath": "oriImage",
-            "columnName": "oriImage",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "oriKeywords",
-            "columnName": "oriKeywords",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "oriScores",
-            "columnName": "oriScores",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "video",
             "columnName": "video",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "keywords",
+            "columnName": "keywords",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scores",
+            "columnName": "scores",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -103,9 +103,10 @@
         "foreignKeys": []
       }
     ],
+    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ebac8adaf54493ca52abb44166241d94\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2390d5de0dd104590758465b60148f2d')"
     ]
   }
 }

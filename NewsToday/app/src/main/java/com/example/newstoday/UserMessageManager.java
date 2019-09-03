@@ -100,7 +100,7 @@ public class UserMessageManager {
      * @return
      */
     public ArrayList<UserMessage> getUserAllFollowigMessage(User user){
-        String[] followigs = user.getOriFollowig().split(",");
+        String[] followigs = (String[])user.getFollowig().toArray();
         return getCerternUserMessageByUserEmail(followigs);
     }
 

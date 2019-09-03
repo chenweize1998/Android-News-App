@@ -7,6 +7,8 @@ from newsForApp.models import HistoryNews
 from newsForApp.models import CollectionNews
 from newsForApp.models import Map
 from newsForApp.models import FilterWordsMap
+from newsForApp.models import ForwardingNews
+from newsForApp.models import UserMessage
 # Create your views here.
 
 class G:
@@ -59,6 +61,17 @@ def userSignOut(request):
         return HttpResponse("Success")
     return HttpResponse("Fail")    
 
+def deleteNewsAndMessage(request):
+    if request.method == "POST":
+        if G.currentUser == 'null':
+            return HttpResponse("Fail")
+        UserMessage.objects.filter(email = request.POST.get("email")).delete()
+        # ForwardingNews.objects.filter(email = request.POST.get("email")).delete()
+        HistoryNews.objects.filter(user = request.POST.get("email")).delete()
+        CollectionNews.objects.filter(user = request.POST.get("email")).delete()
+        return HttpResponse("Success")
+    return HttpResponse("Fail")
+
 
 def userMessage(request):
     if request.method == "POST":
@@ -93,138 +106,77 @@ def userMessage(request):
         jsonData = {"data":data}
         return HttpResponse(json.dumps(jsonData))
 
-def forwardingNews(request):
-    if request.method == 'POST':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        try:
-            # ForwardingNews.objects.all().delete()
-            newForwardingNews = ForwardingNews(newsID = request.POST["newsID"], title = request.POST["title"], date = request.POST["date"], 
-                                            content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
-                                            location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],
-                                            url = request.POST["url"], oriImage = request.POST["oriImage"], oriKeywords = request.POST["oriKeywords"], 
-                                            oriScores =  request.POST["oriScores"], video = request.POST["video"]) 
-            newForwardingNews.save()
-            print("用户转发消息保存成功")
-            return HttpResponse("Success")  
-        except KeyError:
-            return HttpResponse("Fail")
-
-    if request.method == 'GET':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        data = []
-        allForwardingnNews = ForwardingNews.objects.all() # just return history news for current user
-        for news in allForwardingnNews:
-            newsIndata = {
-                "newsID":news.newsID,
-                "title":news.title,
-                "date":news.date,
-                "content":news.content,
-                "person":news.person,
-                "organization":news.organization,
-                "location":news.location,
-                "category":news.category,
-                "publisher":news.publisher,
-                "url":news.url,
-                "oriImage":news.oriImage,
-                "oriKeywords":news.oriKeywords,
-                "oriScores":news.oriScores,
-                "video":news.video,
-            }
-            data.append(newsIndata)
-        jsonData = {"data":data}
-        return HttpResponse(json.dumps(jsonData))
-    return HttpResponse("Fail")
-    
-
-
-def deleteNewsAndMessage(request):
+def postAllNews(request):
     if request.method == "POST":
-        if G.currentUser == 'null':
+        if G.currentUser == "null":
             return HttpResponse("Fail")
-        UserMessage.objects.filter(email = request.POST.get("email")).delete()
-        # ForwardingNews.objects.filter(email = request.POST.get("email")).delete()
-        HistoryNews.objects.filter(user = request.POST.get("email")).delete()
-        CollectionNews.objects.filter(user = request.POST.get("email")).delete()
+        newsID = request.POST["newsID"].split(",")
+        title = request.POST["title"].split(",")
+        date = request.POST["date"].split(",")
+        content = request.POST["content"].split(",")
+        person = request.POST["person"].split(",")
+        organization = request.POST["organization"].split(",")
+        location = request.POST["location"].split(",")
+        category = request.POST["category"].split(",")
+        publisher = request.POST["publisher"].split(",")
+        url = request.POST["url"].split(",")
+        oriImage = request.POST["oriImage"].split(",")
+        oriKeywords = request.POST["oriKeywords"].split(",") 
+        oriScores =  request.POST["oriScores"].split(",")
+        video = request.POST["video"].split(",")
+        newsType = request.POST["newsType"].split(",")
+        mapData = request.POST["mapData"].split(",")
+        filterWords = request.POST["filterWords"].split(",")
+
+        length = len(newsID)
+        print(length)
+        print(person)
+        print(organization)
+        for i in range(length):
+            if newsType[i] == "history":
+                newHistoryNews = HistoryNews(newsID = newsID[i], title = title[i], date =date[i], 
+                                content = content[i], person = person[i], organization = organization[i], 
+                                location = location[i], category = category[i], publisher = publisher[i],
+                                url = url[i], oriImage = oriImage[i], oriKeywords = oriKeywords[i], 
+                                oriScores =  oriScores[i], video = video[i], user = G.currentUser) 
+                newHistoryNews.save()
+                print("历史消息保存成功")
+            elif newsType[i] == "collection":
+                newCollectionNews = CollectionNews(newsID = newsID[i], title = title[i], date =date[i], 
+                                content = content[i], person = person[i], organization = organization[i], 
+                                location = location[i], category = category[i], publisher = publisher[i],
+                                url = url[i], oriImage = oriImage[i], oriKeywords = oriKeywords[i], 
+                                oriScores =  oriScores[i], video = video[i], user = G.currentUser) 
+                newCollectionNews.save()
+                print("收藏消息保存成功")
+            elif newsType[i] == "forwardingNews":
+                newForwardingNews = ForwardingNews(newsID = newsID[i], title = title[i], date =date[i], 
+                                content = content[i], person = person[i], organization = organization[i], 
+                                location = location[i], category = category[i], publisher = publisher[i],
+                                url = url[i], oriImage = oriImage[i], oriKeywords = oriKeywords[i], 
+                                oriScores =  oriScores[i], video = video[i]) 
+                newForwardingNews.save()
+                print("转发消息保存成功")
+            elif newsType[i] == "map":
+                entry = Map.objects.filter(user = G.currentUser)
+                if len(entry) == 0:
+                    newWeightMap = Map(data = mapData[i], user = G.currentUser)
+                    newWeightMap.save()
+                else:
+                    entry[0].data = mapData[i]
+                    entry[0].save()
+                
+                entry = FilterWordsMap.objects.filter(user = G.currentUser)
+                if len(entry) == 0:
+                    filterWordsMap = FilterWordsMap(data = filterWords[i], user = G.currentUser)
+                    filterWordsMap.save()
+                else:
+                    entry[0].data = filterWords[i]
+                    entry[0].save()
+                print("推荐和屏蔽的关键词保存成功")
         return HttpResponse("Success")
     return HttpResponse("Fail")
-
-def history(request):
-    if request.method == 'POST':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        try:
-            # HistoryNews.objects.all().delete()
-            newHistoryNews = HistoryNews(newsID = request.POST["newsID"], title = request.POST["title"], date = request.POST["date"], 
-                                            content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
-                                            location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],
-                                            url = request.POST["url"], oriImage = request.POST["oriImage"], oriKeywords = request.POST["oriKeywords"], 
-                                            oriScores =  request.POST["oriScores"], video = request.POST["video"], user = G.currentUser) 
-            newHistoryNews.save()
-            print("历史消息保存成功")
-            return HttpResponse("Success")  
-        except KeyError:
-            return HttpResponse("Fail")
-    return HttpResponse("Fail")
-
-
-def collection(request):
-    if request.method == 'POST':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        try:
-            # CollectionNews.objects.all().delete()
-            newCollectionNews = CollectionNews(newsID = request.POST["newsID"], title = request.POST["title"], date = request.POST["date"], 
-                                            content = request.POST["content"], person = request.POST["person"], organization = request.POST["organization"], 
-                                            location = request.POST["location"], category = request.POST["category"], publisher = request.POST["publisher"],
-                                            url = request.POST["url"], oriImage = request.POST["oriImage"], oriKeywords = request.POST["oriKeywords"], 
-                                            oriScores =  request.POST["oriScores"], video = request.POST["video"], user = G.currentUser) 
-            newCollectionNews.save()
-            print("收藏新闻保存成功")
-            return HttpResponse("Success")  
-        except KeyError:
-            return HttpResponse("Fail")
-    return HttpResponse("Fail")
-
-
-def weightMap(request):
-    if request.method == 'POST':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        try:
-            entry = Map.objects.filter(user = G.currentUser)
-            if len(entry) == 0:
-                newWeightMap = Map(data = request.POST["data"], user = G.currentUser)
-                newWeightMap.save()
-            else:
-                entry[0].data = request.POST["data"]
-                entry[0].save()
-            print("推荐信息保存成功")
-            return HttpResponse("Success")
-        except KeyError:
-            return HttpResponse("Fail")
-    return HttpResponse("Fail")
-
-
-def filterWords(request):
-    if request.method == 'POST':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        try:
-            entry = FilterWordsMap.objects.filter(user = G.currentUser)
-            if len(entry) == 0:
-                filterWordsMap = FilterWordsMap(data = request.POST["data"], user = G.currentUser)
-                filterWordsMap.save()
-            else:
-                entry[0].data = request.POST["data"]
-                entry[0].save()
-            print("关键词屏蔽信息保存成功")
-            return HttpResponse("Success")
-        except KeyError:
-            return HttpResponse("Fail")
-    return HttpResponse("Fail")
-
+        
 
 def getAllNews(request):
     if request.method == 'GET':
@@ -291,7 +243,30 @@ def getAllNews(request):
             }
             data.append(newsIndata)
         print("收藏的新闻数+历史消息数" + str(len(data)))
-        
+
+        allForwardingnNews = ForwardingNews.objects.all() # just return history news for current user
+        for news in allForwardingnNews:
+            newsIndata = {
+                "newsID":news.newsID,
+                "title":news.title,
+                "date":news.date,
+                "content":news.content,
+                "person":news.person,
+                "organization":news.organization,
+                "location":news.location,
+                "category":news.category,
+                "publisher":news.publisher,
+                "url":news.url,
+                "oriImage":news.oriImage,
+                "oriKeywords":news.oriKeywords,
+                "oriScores":news.oriScores,
+                "video":news.video,
+                "newsType":"forwardingNews",
+                "weight":" ",
+                "filterWords":" ",
+            }
+            data.append(newsIndata)
+
         newsIndata = {
                 "newsID":" ",
                 "title":" ",
@@ -307,7 +282,7 @@ def getAllNews(request):
                 "oriKeywords":" ",
                 "oriScores":" ",
                 "video":" ",
-                "newsType":"weight",
+                "newsType":"map",
                 "weight":weightMapData,
                 "filterWords":filterWordsData,
             }

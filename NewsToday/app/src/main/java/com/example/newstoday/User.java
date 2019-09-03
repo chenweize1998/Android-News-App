@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.util.ArraySet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,9 @@ import androidx.room.PrimaryKey;
 import androidx.room.Query;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+import androidx.room.Update;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
@@ -27,6 +31,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 @Entity
+@TypeConverters({ImageConverter.class, SetConverter.class})
 public class User {
 
     /**
@@ -40,23 +45,15 @@ public class User {
 
     private String name;
     private String password;
-    private String oriFollowig;
-
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    private byte[] avatar;
-
-
-    @Ignore
     private ArraySet<String> followig;
+    private Bitmap avatar;
 
-    @Ignore
-    private Bitmap oriAvatar;
 
-    public User(String email, String name, String password, @Nullable String oriFollowig, @Nullable byte[] avatar){
+    public User(String email, String name, String password, ArraySet<String> followig, Bitmap avatar){
         this.email = email;
         this.name = name;
         this.password = password;
-        this.oriFollowig = oriFollowig;
+        this.followig = followig;
         this.avatar = avatar;
         if(oriFollowig != null)
             this.followig = new ArraySet<String>(Arrays.asList(oriFollowig.split(",")));
@@ -76,20 +73,13 @@ public class User {
         return this.password;
     }
 
-    public String getOriFollowig(){
-        return oriFollowig;
-    }
 
     public ArraySet<String> getFollowig(){
-        return this.followig;
+        return followig;
     }
 
-    public byte[] getAvatar(){
+    public Bitmap getAvatar(){
         return this.avatar;
-    }
-
-    public Bitmap getOriAvatar(){
-        return ImageHandler.bytes2Bitmap(this.avatar);
     }
 
     public void setEmail(String email){
@@ -104,28 +94,20 @@ public class User {
         this.password = password;
     }
 
-    public void setOriFollowig(String oriFollowig){
-        this.oriFollowig = oriFollowig;
+    public void setFollowig(ArraySet<String> followig){
+        this.followig = followig;
     }
 
-    /**
-     * 关注的时候调用
-     * @param email
-     */
+    public void setAvatar(Bitmap avatar){
+        this.avatar = avatar;
+    }
+
     public void addFollowig(String email){
-        this.oriFollowig = this.oriFollowig + "," + email;
         this.followig.add(email);
     }
 
-    public void setAvatar(byte[] bytes){
-        this.avatar = bytes;
-    }
-
-    /**
-     * 必须调用此方法来设置头像
-     * */
-    public void setOriAvatar(Bitmap oriAvatar){
-        this.avatar = ImageHandler.bitmap2Bytes(oriAvatar);
+    public void deleteFollowig(String email){
+        this.followig.remove(email);
     }
 }
 
@@ -143,6 +125,9 @@ interface UserDao{
 
     @Query("SELECT password FROM User WHERE email IN (:email)")
     String getPassword(String...email);
+
+    @Update
+    void updateUser(User user);
 
     @Delete
     void delete(User... users);
@@ -164,19 +149,4 @@ abstract class UserDB extends RoomDatabase {
 
 }
 
-class ImageHandler{
 
-    public static byte[] bitmap2Bytes(Bitmap bm){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
-    }
-
-    public static Bitmap bytes2Bitmap(byte[] b){
-        if (b.length != 0) {
-            return BitmapFactory.decodeByteArray(b, 0, b.length);
-        } else {
-            return null;
-        }
-    }
-}
