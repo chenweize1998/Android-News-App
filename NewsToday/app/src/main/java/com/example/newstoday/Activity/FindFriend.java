@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.util.ArraySet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,8 @@ import com.example.newstoday.UserManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.sackcentury.shinebuttonlib.ShineButton;
+
+import java.util.ArrayList;
 
 public class FindFriend extends Fragment {
     private UserManager userManager;
@@ -55,18 +58,15 @@ public class FindFriend extends Fragment {
 //        User[] users = new User[1];
 //        users[0] = new User("wei10@mails.tsinghua.edu.cn", "Weize Chen", "123456",
 //                "Hao Peng", "sadf;ljdfbknwero;i");
-        User[] users = userManager.getAllUsers();
 
 //        String[] following;
-//        if(currentUser == null)
-//            following = new String[0];
-//        else {
-//            if(currentUser.getOriFollowig() != null)
-//                following = currentUser.getOriFollowig().split(",");
-//            else
-//                following = new String[0];
-//        }
-        final FriendAdapter mAdapter = new FriendAdapter(currentUser.getFollowig(), currentUser, getActivity());
+        ArraySet<String> following;
+        if(currentUser == null)
+            following = new ArraySet<>();
+        else {
+            following = currentUser.getFollowig();
+        }
+        final FriendAdapter mAdapter = new FriendAdapter(following, currentUser, getActivity());
         recyclerViewNews.setAdapter(mAdapter);
 
         final TextInputEditText input = view.findViewById(R.id.friend_email);
