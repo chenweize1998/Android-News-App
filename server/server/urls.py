@@ -23,12 +23,8 @@ urlpatterns = [
     path("signIn/", views.userSignIn),
     path("signUp/", views.userSignUp),
     path("signOut/", views.userSignOut),
-    path("history/", views.history),
-    path("collection/", views.collection),
-    path("weightMap/", views.weightMap),
     path("getAllNews/", views.getAllNews),
-    path("filterWordsMap/", views.filterWords),
+    path("postAllNews/", views.postAllNews),
     path("userMessage", views.userMessage),
-    path("userForwardingNews", views.forwardingNews),
     path("deleteNewsAndMessage", views.deleteNewsAndMessage),
 ]
