@@ -7,8 +7,6 @@ import android.media.Image;
 import android.util.ArraySet;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Database;
 import androidx.room.Delete;

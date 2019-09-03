@@ -41,6 +41,7 @@ public class UserManagerOnServer {
         if(users.length == 0){
             return false;
         }
+        User user = users[0];
         String avatar;
         if(users[0].getAvatar()!=null){
             avatar = new String(ImageConverter.toTimestamp(users[0].getAvatar()));

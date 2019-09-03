@@ -46,6 +46,7 @@ public class Login extends AppCompatActivity {
                 if(userManagerOnServer.userSignUp(email, name, passwd)){
                     Toast.makeText(getApplicationContext(), "注册成功！", Toast.LENGTH_SHORT).show();
                     User user = new User(email, name, passwd, null, null);
+//                    user.setOriAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
                     user.setAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
                     userManager.addInUser(user);
                     Intent intent = getIntent();

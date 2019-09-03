@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.util.ArraySet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,8 @@ import com.example.newstoday.UserManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.sackcentury.shinebuttonlib.ShineButton;
+
+import java.util.ArrayList;
 
 public class FindFriend extends Fragment {
     private UserManager userManager;
@@ -55,16 +58,13 @@ public class FindFriend extends Fragment {
 //        User[] users = new User[1];
 //        users[0] = new User("wei10@mails.tsinghua.edu.cn", "Weize Chen", "123456",
 //                "Hao Peng", "sadf;ljdfbknwero;i");
-        User[] users = userManager.getAllUsers();
 
-        String[] following;
+//        String[] following;
+        ArraySet<String> following;
         if(currentUser == null)
-            following = new String[0];
+            following = new ArraySet<>();
         else {
-            if(currentUser.getFollowig() != null)
-                following = (String[])currentUser.getFollowig().toArray();
-            else
-                following = new String[0];
+            following = currentUser.getFollowig();
         }
         final FriendAdapter mAdapter = new FriendAdapter(following, currentUser, getActivity());
         recyclerViewNews.setAdapter(mAdapter);

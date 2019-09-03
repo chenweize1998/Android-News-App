@@ -2,6 +2,7 @@ package com.example.newstoday.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.manager.SupportRequestManagerFragment;
 import com.example.newstoday.Activity.Login;
 import com.example.newstoday.Activity.Table;
 import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHolder> {
     private User[] users;
@@ -39,15 +45,21 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         }
     }
 
-    public FriendAdapter(String[] emails, User currentUser, Activity activity){
+    public FriendAdapter(ArraySet<String> emails, User currentUser, Activity activity){
 //        this.users = users;
         this.currentUser = currentUser;
-        if(emails.length == 0)
-            users = new User[0];
-        else
-            users = userManager.getUserByEmail(emails);
-        this.activity = activity;
+//        if(emails.length == 0)
+//            users = new User[0];
+//        else
+//            users = userManager.getUserByEmail(emails);
         userManager = UserManager.getUserManager(activity.getApplicationContext());
+        if(emails == null) {
+            users = new User[0];
+        }
+        else {
+            users = userManager.getUserByEmail(emails.toArray(new String[emails.size()]));
+        }
+        this.activity = activity;
     }
 
     public void updateUser(User user[]){
@@ -68,16 +80,17 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         holder.name.setText(users[position].getName());
         holder.email.setText(users[position].getEmail());
         holder.header.setImageResource(R.drawable.header);
-        if(currentUser != null && currentUser.getFollowig().contains(users[position].getEmail()))
+        if(currentUser != null && currentUser.getFollowig() != null &&
+                currentUser.getFollowig().contains(users[position].getEmail()))
             holder.follow.setChecked(true);
         holder.follow.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View view, boolean checked) {
                 if(currentUser == null){
                     holder.follow.setChecked(false);
-                    Toast.makeText(activity.getApplicationContext(), "请先登录", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(activity.getApplicationContext(), Login.class);
-                    activity.startActivityForResult(intent, Table.LOGIN_REQUEST);
+                    Toast.makeText(activity.getApplicationContext(), "关注失败，请先登录", Toast.LENGTH_LONG).show();
+//                    Intent intent = new Intent(activity.getApplicationContext(), Login.class);
+//                    activity.startActivityForResult(intent, Table.LOGIN_REQUEST);
                 }
                 else{
                     if(checked)
