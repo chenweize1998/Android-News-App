@@ -107,8 +107,8 @@ public class AsyncServerNews {
                 TreeMap<Double, String> map = new TreeMap<>();
                 String[] entries = mapData.split(" ");
                 for (String entry : entries) {
-                    double weight = Double.parseDouble(entry.split(",")[0]);
-                    String newsID = entry.split(",")[1];
+                    double weight = Double.parseDouble(entry.split(":")[0]);
+                    String newsID = entry.split(":")[1];
                     map.put(weight, newsID);
                 }
                 newsManager.setMap(map);
@@ -121,8 +121,8 @@ public class AsyncServerNews {
                 TreeMap<String, String> filterWordsMap = new TreeMap<>();
                 String[] filterWordEntries = filterWords.split(" ");
                 for (String entry : filterWordEntries) {
-                    String weight = entry.split(",")[0];
-                    String newsID = entry.split(",")[1];
+                    String weight = entry.split(":")[0];
+                    String newsID = entry.split(":")[1];
                     filterWordsMap.put(weight, newsID);
                 }
                 newsManager.setFilterWords(filterWordsMap);
@@ -138,7 +138,7 @@ public class AsyncServerNews {
 
     public boolean asyncUserMessageFromServer() {
         try {
-            String json = serverHttpResponse.getResponse("http://http://166.111.5.239:8000/userMessage/");
+            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/userMessage/");
             if (json == null || json.equals("Fail")) {
                 return false;
             }
@@ -258,7 +258,7 @@ public class AsyncServerNews {
                 Double key = (Double) iter.next();
                 String value = (String)map.get(key);
                 sb.append(key.toString());
-                sb.append(",");
+                sb.append(":");
                 sb.append(value);
                 sb.append(" ");
             }
@@ -274,7 +274,7 @@ public class AsyncServerNews {
                 String key = (String) iter.next();
                 String value = treeMap.get(key);
                 sb.append(key);
-                sb.append(",");
+                sb.append(":");
                 sb.append(value);
                 sb.append(" ");
             }
@@ -321,7 +321,7 @@ public class AsyncServerNews {
 
     public boolean asyncUserMessageToServer() {
         ArrayList<UserMessage> allUserMessage = userMessageManager.getAllUserMessage();
-        String url = "http://166.111.5.239:8000/forwardingNews/";
+        String url = "http://166.111.5.239:8000/userMessage/";
         for (UserMessage userMessage : allUserMessage) {
             String image = new String(userMessage.getImage());
             String data = "messageID=" + userMessage.getMessageID() + "&email=" + userMessage.getEmail() +
