@@ -2,6 +2,7 @@ package com.example.newstoday.Adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHolder> {
     private User[] users;
@@ -39,13 +43,17 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         }
     }
 
-    public FriendAdapter(String[] emails, User currentUser, Activity activity){
+    public FriendAdapter(ArraySet<String> emails, User currentUser, Activity activity){
 //        this.users = users;
         this.currentUser = currentUser;
-        if(emails.length == 0)
+//        if(emails.length == 0)
+//            users = new User[0];
+//        else
+//            users = userManager.getUserByEmail(emails);
+        if(emails.size() == 0)
             users = new User[0];
         else
-            users = userManager.getUserByEmail(emails);
+            users = userManager.getUserByEmail((String[])emails.toArray());
         this.activity = activity;
         userManager = UserManager.getUserManager(activity.getApplicationContext());
     }

@@ -41,6 +41,7 @@ public class UserManagerOnServer {
         if(users.length == 0){
             return false;
         }
+        User user = users[0];
         String avatar = new String(ImageConverter.toTimestamp(user.getAvatar()));
         StringBuilder data = new StringBuilder();
         data.append("email=");

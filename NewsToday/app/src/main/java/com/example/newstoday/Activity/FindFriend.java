@@ -57,16 +57,16 @@ public class FindFriend extends Fragment {
 //                "Hao Peng", "sadf;ljdfbknwero;i");
         User[] users = userManager.getAllUsers();
 
-        String[] following;
-        if(currentUser == null)
-            following = new String[0];
-        else {
-            if(currentUser.getOriFollowig() != null)
-                following = currentUser.getOriFollowig().split(",");
-            else
-                following = new String[0];
-        }
-        final FriendAdapter mAdapter = new FriendAdapter(following, currentUser, getActivity());
+//        String[] following;
+//        if(currentUser == null)
+//            following = new String[0];
+//        else {
+//            if(currentUser.getOriFollowig() != null)
+//                following = currentUser.getOriFollowig().split(",");
+//            else
+//                following = new String[0];
+//        }
+        final FriendAdapter mAdapter = new FriendAdapter(currentUser.getFollowig(), currentUser, getActivity());
         recyclerViewNews.setAdapter(mAdapter);
 
         final TextInputEditText input = view.findViewById(R.id.friend_email);
