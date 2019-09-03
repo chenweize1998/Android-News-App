@@ -35,9 +35,13 @@ public class OfflineNewsManager {
         return INSTANCE;
     }
 
-    public void addOneOfflineNews(News... news){
-        downloadNewsPictureToLocalFile(news[0]);
-        newsRepository.insertNews(news);
+    public void addOneOfflineNews(News news){
+        News newNews = new News(news.getTitle(), news.getDate(), news.getContent(), news.getCategory(),
+                news.getOrganization(), news.getNewsID(), news.getImage(), news.getPublisher(),
+                news.getPerson(),news.getLocation(), news.getKeywords(), news.getScores(),
+                news.getUrl(), news.getVideo());
+        downloadNewsPictureToLocalFile(newNews);
+        newsRepository.insertNews(newNews);
         System.out.println("新闻保存到本地成功");
     }
 
@@ -55,9 +59,9 @@ public class OfflineNewsManager {
         String[] uris = new String[urls.length];
         for(int i = 0; i<urls.length; i++){
             String uri = System.currentTimeMillis() +".jpg";
-            uris[i] = uri;
+            uris[i] = Environment.getExternalStorageDirectory() + "/" + uri;
             downloadPictureFromURLToURITsak.oriUrl = urls[i];
-            downloadPictureFromURLToURITsak.uri = uri;
+            downloadPictureFromURLToURITsak.uri = uris[i];
             Thread thread = new Thread(downloadPictureFromURLToURITsak);
             thread.start();
         }

@@ -45,6 +45,9 @@ def userSignUp(request):
         email = request.POST.get("email")
         name = request.POST.get("name")
         password = request.POST.get("password")
+        if len(User.objects.filter(email=email))!=0:
+            return HttpResponse("Fail")
+
         if email=="" or name == "" or password == "":
             return HttpResponse("Fail")
         newUser = User(email = email, name = name, password = password, oriFollowig = "", avatar = "")
