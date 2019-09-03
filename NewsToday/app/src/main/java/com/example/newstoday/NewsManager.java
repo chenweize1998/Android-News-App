@@ -173,10 +173,6 @@ public class NewsManager {
                             for (int j = 0; j < images.length; ++j)
                                 images[j] = images[j].replace("[", "").replace("]", "").trim();
 
-                            //                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID,
-                            //                                                        News.stringConverter(images), publisher, null,
-                            //                                                        null, keywords.toString());
-                            //                    newNews[newNewsCounter].setImage(images);
                             StringBuilder builder = new StringBuilder();
                             builder.append(title);
                             builder.append(content);
@@ -220,9 +216,9 @@ public class NewsManager {
                     return offlineNews;
                 }
             } while (recommendJudge && ++cnt < recommendWordCnt && recommendWord != null);
-            if(recommendJudge) {
-                Collections.shuffle(newNews);
-            }
+//            if(recommendJudge) {
+//                Collections.shuffle(newNews);
+//            }
             return newNews;
         }catch(JSONException e){
             e.printStackTrace();
