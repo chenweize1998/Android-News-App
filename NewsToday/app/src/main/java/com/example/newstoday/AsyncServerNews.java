@@ -59,8 +59,8 @@ public class AsyncServerNews {
             }
 
             JSONObject jsonData = new JSONObject(json);
-            String mapData = "null";
-            String filterWords = "null";
+            String mapData = null;
+            String filterWords = null;
 
             JSONArray newsArray = jsonData.getJSONArray("data");
             System.out.println("来了" + newsArray.length() + "条数据");
@@ -106,7 +106,7 @@ public class AsyncServerNews {
              * */
             System.out.println(mapData);
             System.out.println(filterWords);
-            if(!mapData.equals("null")){
+            if(mapData != null){
                 TreeMap<Double, String> map = new TreeMap<>();
                 String[] entries = mapData.split(" ");
                 for (String entry : entries) {
@@ -120,7 +120,7 @@ public class AsyncServerNews {
             /**
              * 得到屏蔽的词语
              * */
-            if(!filterWords.equals("null")) {
+            if(filterWords != null) {
                 TreeMap<String, String> filterWordsMap = new TreeMap<>();
                 String[] filterWordEntries = filterWords.split(" ");
                 for (String entry : filterWordEntries) {
@@ -304,7 +304,7 @@ public class AsyncServerNews {
 
         String weightData = "null";
         NavigableMap<Double, String> map = newsManager.getMap();
-        if (map.size() != 0) {
+        if (map!=null && map.size() != 0) {
             StringBuffer sb = new StringBuffer();
             Iterator iter = map.keySet().iterator();
             while (iter.hasNext()) {
@@ -320,7 +320,7 @@ public class AsyncServerNews {
 
         String filterWord = "null";
         TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
-        if (treeMap.size() != 0) {
+        if (treeMap!=null&& treeMap.size() != 0) {
             StringBuffer sb = new StringBuffer();
             Iterator iter = treeMap.keySet().iterator();
             while (iter.hasNext()) {

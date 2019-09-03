@@ -41,8 +41,12 @@ public class UserManagerOnServer {
         if(users.length == 0){
             return false;
         }
-        User user = users[0];
-        String avatar = new String(ImageConverter.toTimestamp(user.getAvatar()));
+        String avatar;
+        if(user.getAvatar()!=null){
+            avatar = new String(ImageConverter.toTimestamp(user.getAvatar()));
+        }else{
+            avatar = "null";
+        }
         StringBuilder data = new StringBuilder();
         data.append("email=");
         data.append(email);
@@ -51,7 +55,11 @@ public class UserManagerOnServer {
         data.append("&password=");
         data.append(password);
         data.append("&oriFollowig=");
-        data.append(SetConverter.toTimestamp(user.getFollowig()));
+        if(user.getFollowig()!=null){
+            data.append(SetConverter.toTimestamp(user.getFollowig()));
+        }else{
+            data.append("null");
+        }
         data.append("&avatar=");
         data.append(avatar);
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signIn/", data.toString());
