@@ -372,7 +372,6 @@ public class Table extends AppCompatActivity {
                              * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
                              * */
 //                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
-                            asyncServerNews.asyncDataToServer();
 
                             new Thread(new Runnable() {
                                 @Override

@@ -107,12 +107,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.txtAbstract.setText(tmp);
         holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
 
-        System.out.println(news.get(position).getImage().length);
         if(news.get(position).getCategory().equals("关注")) {
             holder.imgNews.setImageResource(0);
             holder.header.setVisibility(View.VISIBLE);
         }
-        else if(!news.get(position).getImage()[0].equals("")) {
+        else if(news.get(position).getImage().length!=0 && !news.get(position).getImage()[0].equals("")) {
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
             holder.header.setVisibility(View.GONE);
         }

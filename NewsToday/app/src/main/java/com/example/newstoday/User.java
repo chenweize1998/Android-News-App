@@ -7,6 +7,7 @@ import android.media.Image;
 import android.util.ArraySet;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Dao;
 import androidx.room.Database;
 import androidx.room.Delete;
@@ -42,11 +43,13 @@ public class User {
 
     private String name;
     private String password;
+    @Nullable
     private ArraySet<String> followig;
+    @Nullable
     private Bitmap avatar;
 
 
-    public User(String email, String name, String password, ArraySet<String> followig, Bitmap avatar){
+    public User(String email, String name, String password, @Nullable ArraySet<String> followig, @Nullable Bitmap avatar){
         this.email = email;
         this.name = name;
         this.password = password;

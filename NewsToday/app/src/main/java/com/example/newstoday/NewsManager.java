@@ -68,11 +68,11 @@ public class NewsManager {
 
     private void initNewInMem(){
         String[] historyNewsID = getHistoryNewsID();
-        historyNewsInMem = new ArraySet(historyNewsID.length);
+        historyNewsInMem = new ArraySet();
         historyNewsInMem.addAll(Arrays.asList(historyNewsID));
 
         String[] collectionNewsID = getCollectionNewsID();
-        collectionNewsInmem = new ArraySet(collectionNewsID.length);
+        collectionNewsInmem = new ArraySet();
         collectionNewsInmem.addAll(Arrays.asList(collectionNewsID));
     }
 

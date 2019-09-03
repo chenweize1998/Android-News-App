@@ -25,6 +25,6 @@ urlpatterns = [
     path("signOut/", views.userSignOut),
     path("getAllNews/", views.getAllNews),
     path("postAllNews/", views.postAllNews),
-    path("userMessage", views.userMessage),
-    path("deleteNewsAndMessage", views.deleteNewsAndMessage),
+    path("userMessage/", views.userMessage),
+    path("deleteNewsAndMessage/", views.deleteNewsAndMessage),
 ]

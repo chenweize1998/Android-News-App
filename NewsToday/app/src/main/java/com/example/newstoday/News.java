@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Dao;
 import androidx.room.Database;
 import androidx.room.Delete;
@@ -45,6 +46,7 @@ public class News implements Serializable{
     private String url;
 
     private String video;
+    @NonNull
     private String[] image;
     private String[] keywords;
     private String[] scores;

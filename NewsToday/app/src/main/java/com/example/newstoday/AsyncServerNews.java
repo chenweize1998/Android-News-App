@@ -106,7 +106,7 @@ public class AsyncServerNews {
              * */
             System.out.println(mapData);
             System.out.println(filterWords);
-            if(mapData != null){
+            if(mapData != null && !mapData.equals("null")){
                 TreeMap<Double, String> map = new TreeMap<>();
                 String[] entries = mapData.split(" ");
                 for (String entry : entries) {
@@ -120,7 +120,7 @@ public class AsyncServerNews {
             /**
              * 得到屏蔽的词语
              * */
-            if(filterWords != null) {
+            if(filterWords != null && !filterWords.equals("null")) {
                 TreeMap<String, String> filterWordsMap = new TreeMap<>();
                 String[] filterWordEntries = filterWords.split(" ");
                 for (String entry : filterWordEntries) {
@@ -320,7 +320,7 @@ public class AsyncServerNews {
 
         String filterWord = "null";
         TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
-        if (treeMap!=null&& treeMap.size() != 0) {
+        if (treeMap!=null && treeMap.size() != 0) {
             StringBuffer sb = new StringBuffer();
             Iterator iter = treeMap.keySet().iterator();
             while (iter.hasNext()) {
