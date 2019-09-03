@@ -53,7 +53,10 @@ public class User {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.followig = followig;
+        if(followig == null)
+            this.followig = new ArraySet<>();
+        else
+            this.followig = followig;
         this.avatar = avatar;
     }
 
