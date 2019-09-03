@@ -156,7 +156,12 @@ public class AsyncServerNews {
                 String email = message.getString("email");
                 String content = message.getString("content");
                 String image = message.getString("image");
-                byte[] bytes = image.getBytes();
+                byte[] bytes;
+                if(!image.equals("null")) {
+                    bytes = image.getBytes();
+                }else{
+                    bytes = null;
+                }
                 userMessageManager.addOneUserMessage(new UserMessage(messageID, email, content, ImageConverter.fromTimestamp(bytes)));
             }
 
@@ -404,7 +409,12 @@ public class AsyncServerNews {
         ArrayList<UserMessage> allUserMessage = userMessageManager.getAllUserMessage();
         String url = "http://166.111.5.239:8000/userMessage/";
         for (UserMessage userMessage : allUserMessage) {
-            String image = new String(ImageConverter.toTimestamp(userMessage.getImage()));
+            String image;
+            if(userMessage.getImage()!=null) {
+                image = new String(ImageConverter.toTimestamp(userMessage.getImage()));
+            }else{
+                image = "null";
+            }
             String data = "messageID=" + userMessage.getMessageID() + "&email=" + userMessage.getEmail() +
                     "&content=" + userMessage.getContent() + "&image=" + image;
             String res = serverHttpResponse.postResponse(url, data);

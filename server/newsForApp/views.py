@@ -92,7 +92,7 @@ def userMessage(request):
     if request.method == "GET":
         if G.currentUser == 'null':
             return HttpResponse("Fail")
-        allUserMessage = userMessage.objects.all()
+        allUserMessage =   UserMessage.objects.all()
         data = []
         for userMessage in allUserMessage:
             data.append(
