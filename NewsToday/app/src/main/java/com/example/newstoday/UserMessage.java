@@ -17,10 +17,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 @Entity
-public class UserMessage {
-    @NonNull
-    @PrimaryKey
-    private String messageID; // 此ID可以通过 email+"&"+System.currentTimeMillis()构造message的唯一标识;
+public class UserMessage {    @NonNull
+@PrimaryKey
+private String messageID; // 此ID可以通过 email+"&"+System.currentTimeMillis()构造message的唯一标识;
 
     private String email;
     private String content;
@@ -33,7 +32,7 @@ public class UserMessage {
     private Bitmap oriImage;
 
     UserMessage(String messageID, String email, String content, byte[] image){
-        this.messageID = messageID;
+        this.messageID = email+"&"+System.currentTimeMillis();
         this.email = email;
         this.content = content;
         this.image = image;
@@ -78,6 +77,7 @@ public class UserMessage {
     public void setOriImage(Bitmap oriImage){
         this.image = ImageHandler.bitmap2Bytes(oriImage);
     }
+
 
 }
 

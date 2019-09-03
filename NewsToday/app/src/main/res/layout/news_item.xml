@@ -107,18 +107,20 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:id="@+id/item_header_container"
                 android:elevation="12dp"
                 app:cardCornerRadius="40dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/item_share_button"
                 android:innerRadius="0dp"
                 android:shape="ring"
-                android:thicknessRatio="1.9">
+                android:thicknessRatio="1.9"
+                android:visibility="gone">
                 <ImageView
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:contentDescription="@string/imageview_placeholder"
-                    android:id="@+id/friend_header"
+                    android:id="@+id/item_publisher_header"
                     android:src="@drawable/chenweize"
                     android:layout_centerHorizontal="true">
                 </ImageView>

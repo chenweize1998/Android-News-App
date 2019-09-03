@@ -1,29 +1,45 @@
 package com.example.newstoday.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newstoday.Activity.Login;
+import com.example.newstoday.Activity.Table;
+import com.example.newstoday.ForwordingNewsManager;
+import com.example.newstoday.News;
 import com.example.newstoday.R;
 import com.example.newstoday.WechatShareManager;
 import com.squareup.picasso.Picasso;
 
 public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder> {
-    private String[] text = {"朋友圈", "微信好友", "微博", "QQ", "QQ空间", "复制链接"};
+    private String[] text = {"朋友圈", "微信好友", "微博", "QQ", "QQ空间", "转到动态"};
     private int[] icon = {R.drawable.moment, R.drawable.wechat, R.drawable.weibo,
-                            R.drawable.qq, R.drawable.qzone, R.drawable.copy};
+                            R.drawable.qq, R.drawable.qzone, R.mipmap.ic_launcher_round};
+    private ForwordingNewsManager forwordingNewsManager;
+    private News news;
+//    private Context context;
+    private Activity activity;
 
+    public static final int LOGIN_REQUEST = 2;
 
     WechatShareManager wechatShareManager;
 
-    public ShareAdapter(Context context){
-        wechatShareManager = WechatShareManager.getInstance(context);
+    public ShareAdapter(News news, Activity activity){
+        this.activity = activity;
+//        this.context = context;
+        this.news = news;
+        wechatShareManager = WechatShareManager.getInstance(activity.getApplicationContext());
+        forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(activity.getApplicationContext());
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -35,6 +51,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder
             textView = v.findViewById(R.id.share_text);
         }
     }
+
     @Override
     public ShareAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                            int viewType) {
@@ -53,6 +70,16 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder
             public void onClick(View view) {
                 if(position == 1){
                     wechatShareManager.shareNews();
+                } else if(position == 5){
+                    if(Table.header.getActiveProfile() == null){
+                        Toast.makeText(activity.getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(activity.getApplicationContext(), Login.class);
+                        activity.startActivityForResult(intent, LOGIN_REQUEST);
+                        return;
+                    }
+                    forwordingNewsManager.addOneForwardingNewsForUser(news,
+                            Table.header.getActiveProfile().getEmail().toString());
+                    Toast.makeText(activity.getApplicationContext(), "转发成功", Toast.LENGTH_SHORT).show();
                 }
             }
         });

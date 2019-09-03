@@ -30,18 +30,31 @@ public class ForwordingNewsManager {
         return INSTANCE;
     }
 
+    /**
+     * 点转发就调用
+     * @param news
+     * @param email
+     */
     public void addOneForwardingNewsForUser(News news, String email){
         news.setPublisher(email);
+        news.setCategory("关注");
         newsRepository.insertNews(news);
     }
 
+    /**
+     * 得到一个人转发的所有消息
+     * @param email
+     * @return
+     */
     public ArrayList<News> getForwardingNewsByEmail(String email){
         return newsRepository.getNewsByEmail(email);
     }
 
     /**此方法得到user所有关注的人的转发的消息*/
     public ArrayList<News> getUserAllFollowigNews(User user){
-        String[] followigs = user.getFollowig();
+        if(user.getOriFollowig() == null)
+            return new ArrayList<News>();
+        String[] followigs = user.getOriFollowig().split(",");
         return newsRepository.getNewsByEmail(followigs);
     }
 

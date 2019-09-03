@@ -22,6 +22,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
     private User[] users;
     private UserManager userManager;
     private Activity activity;
+    private User currentUser;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
@@ -38,8 +39,13 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         }
     }
 
-    public FriendAdapter(User[] users, Activity activity){
-        this.users = users;
+    public FriendAdapter(String[] emails, User currentUser, Activity activity){
+//        this.users = users;
+        this.currentUser = currentUser;
+        if(emails.length == 0)
+            users = new User[0];
+        else
+            users = userManager.getUserByEmail(emails);
         this.activity = activity;
         userManager = UserManager.getUserManager(activity.getApplicationContext());
     }
@@ -62,14 +68,23 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         holder.name.setText(users[position].getName());
         holder.email.setText(users[position].getEmail());
         holder.header.setImageResource(R.drawable.header);
+        if(currentUser != null && currentUser.getFollowig().contains(users[position].getEmail()))
+            holder.follow.setChecked(true);
         holder.follow.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View view, boolean checked) {
-                if(Table.header.getProfiles().size() == 2){
+                if(currentUser == null){
                     holder.follow.setChecked(false);
                     Toast.makeText(activity.getApplicationContext(), "请先登录", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(activity.getApplicationContext(), Login.class);
                     activity.startActivityForResult(intent, Table.LOGIN_REQUEST);
+                }
+                else{
+                    if(checked)
+                        currentUser.addFollowig(users[position].getEmail());
+                    else
+                        // TODO: 加一个deleteFollowig的方法来取消关注。
+                        return;
                 }
             }
         });

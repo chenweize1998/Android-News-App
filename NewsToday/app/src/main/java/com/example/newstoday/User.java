@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
 import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Database;
@@ -20,6 +22,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashSet;
 
 @Entity
 public class User {
@@ -42,17 +47,21 @@ public class User {
 
 
     @Ignore
-    private String[] followig;
+    private ArraySet<String> followig;
 
     @Ignore
     private Bitmap oriAvatar;
 
-    public User(String email, String name, String password, String oriFollowig, byte[] avatar){
+    public User(String email, String name, String password, @Nullable String oriFollowig, @Nullable byte[] avatar){
         this.email = email;
         this.name = name;
         this.password = password;
         this.oriFollowig = oriFollowig;
         this.avatar = avatar;
+        if(oriFollowig != null)
+            this.followig = new ArraySet<String>(Arrays.asList(oriFollowig.split(",")));
+        else
+            this.followig = new ArraySet<>();
     }
 
     public String getEmail(){
@@ -71,8 +80,8 @@ public class User {
         return oriFollowig;
     }
 
-    public String[] getFollowig(){
-        return oriFollowig.split(",");
+    public ArraySet<String> getFollowig(){
+        return this.followig;
     }
 
     public byte[] getAvatar(){
@@ -99,8 +108,13 @@ public class User {
         this.oriFollowig = oriFollowig;
     }
 
+    /**
+     * 关注的时候调用
+     * @param email
+     */
     public void addFollowig(String email){
         this.oriFollowig = this.oriFollowig + "," + email;
+        this.followig.add(email);
     }
 
     public void setAvatar(byte[] bytes){
@@ -113,7 +127,6 @@ public class User {
     public void setOriAvatar(Bitmap oriAvatar){
         this.avatar = ImageHandler.bitmap2Bytes(oriAvatar);
     }
-
 }
 
 @Dao
@@ -123,7 +136,7 @@ interface UserDao{
     User[] getAllUsers();
 
     @Query("SELECT * FROM User WHERE email IN (:email)")
-    User getUserByEmail(String... email);
+    User[] getUserByEmail(String... email);
 
     @Query("DELETE FROM User")
     void clear();

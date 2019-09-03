@@ -7,13 +7,14 @@
 
     <ImageButton
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:contentDescription="@string/imageview_placeholder"
         android:id="@+id/share_icon"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:src="@drawable/weibo"
         android:foreground="?android:attr/selectableItemBackground"
+        android:scaleType="centerInside"
         android:background="@null"/>
     <!--        <androidx.appcompat.widget.AppCompatImageButton-->
     <!--            android:layout_width="wrap_content"-->

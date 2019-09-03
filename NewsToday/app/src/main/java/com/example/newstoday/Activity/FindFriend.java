@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +24,14 @@ import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
 import com.google.android.material.textfield.TextInputEditText;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 public class FindFriend extends Fragment {
     private UserManager userManager;
+    private User currentUser;
+
+    public FindFriend(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +40,12 @@ public class FindFriend extends Fragment {
         View view = inflater.inflate(R.layout.fragment_find_friend, container, false);
 
         userManager = UserManager.getUserManager(getActivity().getApplicationContext());
+        IProfile profile = Table.header.getActiveProfile();
+        if(profile != null) {
+            currentUser = userManager.getUserByEmail(profile.getEmail().toString())[0];
+        }
+        else
+            currentUser = null;
 
         RecyclerView recyclerViewNews = view.findViewById(R.id.friend_recycler);
         RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(getContext());
@@ -46,7 +57,16 @@ public class FindFriend extends Fragment {
 //                "Hao Peng", "sadf;ljdfbknwero;i");
         User[] users = userManager.getAllUsers();
 
-        final FriendAdapter mAdapter = new FriendAdapter(userManager.getAllUsers(), getActivity());
+        String[] following;
+        if(currentUser == null)
+            following = new String[0];
+        else {
+            if(currentUser.getOriFollowig() != null)
+                following = currentUser.getOriFollowig().split(",");
+            else
+                following = new String[0];
+        }
+        final FriendAdapter mAdapter = new FriendAdapter(following, currentUser, getActivity());
         recyclerViewNews.setAdapter(mAdapter);
 
         final TextInputEditText input = view.findViewById(R.id.friend_email);
@@ -56,7 +76,7 @@ public class FindFriend extends Fragment {
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN){
                     if(i == KeyEvent.KEYCODE_ENTER){
                         String email = input.getText().toString();
-                        User friend = userManager.getUserByEmail(email);
+                        User friend = userManager.getUserByEmail(email)[0];
                         User[] users = new User[1];
                         users[0] = friend;
                         mAdapter.updateUser(users);
@@ -69,28 +89,4 @@ public class FindFriend extends Fragment {
 
         return view;
     }
-
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
 }

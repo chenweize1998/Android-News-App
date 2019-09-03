@@ -37,10 +37,11 @@ public class UserManagerOnServer {
     }
 
     public boolean userSignIn(String email, String name ,String password){
-        User user = userManager.getUserByEmail(email);
-        if(user == null){
+        User[] users = userManager.getUserByEmail(email);
+        if(users.length == 0){
             return false;
         }
+        User user = users[0];
         String avatar = new String(user.getAvatar());
         String data = "email="+email+"&name="+name+"&password="+password+"&oriFollowig="+user.getOriFollowig()+"&avatar="+avatar;
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signIn/", data);

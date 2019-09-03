@@ -14,6 +14,7 @@ import android.content.Context;
 import android.util.ArrayMap;
 import android.util.ArraySet;
 
+import com.example.newstoday.Activity.Table;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class NewsManager {
     private ArrayMap<String, Integer> keywordPage = new ArrayMap<>();
     private TreeMap<String, String> filterWords = new TreeMap<String, String>();
     private AhoCorasickDoubleArrayTrie<String> acdat = null;
+    private ForwordingNewsManager forwordingNewsManager;
+    private UserManager userManager;
 
     private NewsManager(Context context){
         newNewsCounter = 0;
@@ -46,6 +49,8 @@ public class NewsManager {
         historyNews = new NewsRepository(AppDB.getAppDB(context, "history"));
         collectionNews = new NewsRepository(AppDB.getAppDB(context, "collection"));
         recommendKeyword = new RandomCollection<>();
+        forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(context);
+        userManager = UserManager.getUserManager(context);
         initNewInMem();
     }
 
@@ -82,6 +87,16 @@ public class NewsManager {
         newNewsCounter = 0;
 
         try {
+            if(categories.equals("关注")){
+                lastCategory = categories;
+                if(Table.header.getActiveProfile() != null) {
+                    return forwordingNewsManager.getUserAllFollowigNews(userManager.getUserByEmail(
+                            Table.header.getActiveProfile().getEmail().toString()
+                    )[0]);
+                }
+                else
+                    return new ArrayList<News>();
+            }
             if(reset || !lastCategory.equals(categories))
                 pageCounter = 1;
             JSONObject json;

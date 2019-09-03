@@ -44,7 +44,7 @@ public class UserManager{
         }
     }
 
-    public User getUserByEmail(String... email){
+    public User[] getUserByEmail(String... email){
         try{
             GetUserByEmailTask getUserByEmailTask = new GetUserByEmailTask();
             return getUserByEmailTask.execute(email).get();
@@ -56,14 +56,17 @@ public class UserManager{
         return null;
     }
 
-    private class GetUserByEmailTask extends AsyncTask<String, Void, User>{
+    private class GetUserByEmailTask extends AsyncTask<String, Void, User[]>{
         @Override
-        protected User doInBackground(String... email){
-            return userDao.getUserByEmail(email[0]);
+        protected User[] doInBackground(String... email){
+            return userDao.getUserByEmail(email);
         }
     }
 
-
+    /**
+     * 本地有一个user数据库，sign up调用
+     * @param user
+     */
     public void addInUser(User... user){
         AddInUserTask addInUserTask = new AddInUserTask();
         addInUserTask.execute(user);

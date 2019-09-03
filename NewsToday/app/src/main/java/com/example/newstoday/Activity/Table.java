@@ -346,8 +346,7 @@ public class Table extends AppCompatActivity {
                             /**
                              * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
                              * */
-//                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
-                            asyncServerNews.asyncDataToServer();
+                            asyncServerNews.deleteUserNewsAndMessageOnServer(Table.header.getActiveProfile().getEmail().toString());
                             spotsDialog = new SpotsDialog.Builder()
                                     .setContext(Table.this)
                                     .setCancelable(false)
@@ -363,6 +362,17 @@ public class Table extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
                                     spotsDialog.dismiss();
+                                }
+                            }).start();
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        asyncServerNews.asyncDataToServer();
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                 }
                             }).start();
 
