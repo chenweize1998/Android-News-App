@@ -121,6 +121,26 @@ public class UserManager{
             return userDao.getPassword(email);
         }
     }
+
+    public void addOneFollowigForUser(User user, String email){
+        user.addFollowig(email);
+        UpdateUserInDBTask updateUserInDBTask = new UpdateUserInDBTask();
+        updateUserInDBTask.execute(user);
+    }
+
+    private class UpdateUserInDBTask extends AsyncTask<User, Void, Void>{
+        @Override
+        protected Void doInBackground(User... user){
+            userDao.updateUser(user[0]);
+            return null;
+        }
+    }
+
+    public void deleteOneFollowigForUser(User user, String email){
+        user.deleteFollowig(email);
+        UpdateUserInDBTask updateUserInDBTask = new UpdateUserInDBTask();
+        updateUserInDBTask.execute(user);
+    }
 }
 
 

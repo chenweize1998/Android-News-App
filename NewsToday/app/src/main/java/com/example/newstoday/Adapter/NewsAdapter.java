@@ -156,7 +156,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             public void onClick(final View v) {
                 News tmp = news.get(position);
                 String[] keywords = news.get(position).getKeywords();
-                Double[] scores = news.get(position).getScores();
+                Double[] scores = news.get(position).getDoubleScores();
                 for(int i = 0; i < keywords.length; ++i) {
                     if (scores[i] < 0.5 || newsManager.inHistoryNews(tmp)) {
                         break;

@@ -55,7 +55,7 @@ public class HistoryNews extends Fragment {
         newsManager = NewsManager.getNewsManager(getActivity().getApplicationContext());
         news = newsManager.getAllHistoryNews();
         for (News _news : news) {
-            _news.setImage(News.stringParse(_news.getOriImage()));
+            _news.setImage(_news.getImage());
         }
 
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {

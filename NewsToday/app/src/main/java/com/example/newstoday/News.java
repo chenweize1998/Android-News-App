@@ -19,9 +19,12 @@ import androidx.room.PrimaryKey;
 import androidx.room.Query;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 
 @Entity
+@TypeConverters({Converter.class})
 public class News implements Serializable{
     /*
      * These are vital properties of News.
@@ -41,24 +44,15 @@ public class News implements Serializable{
     private String publisher;
     private String url;
 
-//    private Bitmap image;
-
-    private String oriImage;
-    private String oriKeywords;
-    private String oriScores;
     private String video;
-
-    @Ignore
     private String[] image;
-    @Ignore
     private String[] keywords;
-    @Ignore
     private String[] scores;
 
 
     News(final String title, final String date, final String content, final String category, final String organization,
-         final String newsID, final String oriImage, final String publisher, final String person, final String location,
-         final String oriKeywords, final String oriScores, final String url, final String video){
+         final String newsID, final String[] image, final String publisher, final String person, final String location,
+         final String[] keywords, final String[] scores, final String url, final String video){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -67,25 +61,12 @@ public class News implements Serializable{
         this.category = category;
         this.newsID = newsID;
         this.date = date;
-        this.oriImage = oriImage;
+        this.image = image;
         this.publisher = publisher;
         this.url = url;
-        this.oriKeywords = oriKeywords;
-        this.keywords =stringParse(oriKeywords);
-        this.oriScores = oriScores;
-        this.scores = stringParse(oriScores);
+        this.keywords = keywords;
+        this.scores = scores;
         this.video = video;
-
-        /*
-         * Change string into date
-         * */
-//        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        try {
-//            this.date = ft.parse(date);
-//        } catch (ParseException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
     }
 
     public static String stringConverter(String[] image){
@@ -137,9 +118,6 @@ public class News implements Serializable{
         return newsID;
     }
 
-    public String getOriImage() {
-        return oriImage;
-    }
 
     public String[] getImage(){
         return image;
@@ -153,24 +131,22 @@ public class News implements Serializable{
         return url;
     }
 
-    public String getOriKeywords(){
-        return oriKeywords;
-    }
 
     public String[] getKeywords(){
         return keywords;
     }
 
-    public Double[] getScores(){
+    public String[] getScores(){
+        return scores;
+    }
+
+    public Double[] getDoubleScores(){
         Double[] result = new Double[scores.length];
         for(int i = 0; i < scores.length; ++i)
             result[i] = Double.parseDouble(scores[i]);
         return result;
     }
 
-    public String getOriScores(){
-        return oriScores;
-    }
 
     public String getVideo(){
         return video;
@@ -209,10 +185,6 @@ public class News implements Serializable{
         this.category = category;
     }
 
-    public void setOriImage(String oriImage){
-        this.oriImage = oriImage;
-    }
-
     public void setImage(String[] image){
         this.image = image;
     }
@@ -225,16 +197,8 @@ public class News implements Serializable{
         this.url = url;
     }
 
-    public void setOriKeywords(String oriKeywords){
-        this.oriKeywords = oriKeywords;
-    }
-
     public void setKeywords(String[] keywords){
         this.keywords = keywords;
-    }
-
-    public void setOriScores(String oriScores){
-        this.oriScores = oriScores;
     }
 
     public void setScores(String[] scores){

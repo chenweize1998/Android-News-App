@@ -15,8 +15,10 @@ import androidx.room.PrimaryKey;
 import androidx.room.Query;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 @Entity
+@TypeConverters({ImageConverter.class})
 public class UserMessage {
     @NonNull
     @PrimaryKey
@@ -24,15 +26,9 @@ public class UserMessage {
 
     private String email;
     private String content;
+    private Bitmap image;
 
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    private byte[] image;
-
-
-    @Ignore
-    private Bitmap oriImage;
-
-    UserMessage(String messageID, String email, String content, byte[] image){
+    UserMessage(String messageID, String email, String content, Bitmap image){
         this.messageID = messageID;
         this.email = email;
         this.content = content;
@@ -51,12 +47,8 @@ public class UserMessage {
         return this.content;
     }
 
-    public byte[] getImage(){
+    public Bitmap getImage(){
         return this.image;
-    }
-
-    public Bitmap getOriImage(){
-        return ImageHandler.bytes2Bitmap(this.image);
     }
 
     public void setMessageID(String messageID) {
@@ -71,14 +63,9 @@ public class UserMessage {
         this.content = content;
     }
 
-    public void setImage(byte[] image){
+    public void setImage(Bitmap image){
         this.image = image;
     }
-
-    public void setOriImage(Bitmap oriImage){
-        this.image = ImageHandler.bitmap2Bytes(oriImage);
-    }
-
 }
 
 @Dao

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a0c3bd7485a9d8b3ef25e506383bac6e",
+    "identityHash": "7d891459f69b0a2d99245db59cbc73fb",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `name` TEXT, `password` TEXT, `oriFollowig` TEXT, `avatar` BLOB, PRIMARY KEY(`email`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `name` TEXT, `password` TEXT, `followig` TEXT, `avatar` BLOB, PRIMARY KEY(`email`))",
         "fields": [
           {
             "fieldPath": "email",
@@ -27,8 +27,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "oriFollowig",
-            "columnName": "oriFollowig",
+            "fieldPath": "followig",
+            "columnName": "followig",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -49,9 +49,10 @@
         "foreignKeys": []
       }
     ],
+    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a0c3bd7485a9d8b3ef25e506383bac6e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7d891459f69b0a2d99245db59cbc73fb')"
     ]
   }
 }

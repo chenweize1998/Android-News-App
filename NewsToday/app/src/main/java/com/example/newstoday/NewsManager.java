@@ -172,9 +172,9 @@ public class NewsManager {
                             }
 
                             newNews.add(new News(title, date, content, category, organization, newsID,
-                                    News.stringConverter(images), publisher, "",
-                                    "", keywords.toString(), scores.toString(), url, video));
-                            newNews.get(newNewsCounter).setImage(images);
+                                    images, publisher, "","",
+                                    Converter.fromTimestamp(keywords.toString()),
+                                    Converter.fromTimestamp(scores.toString()), url, video));
                             if(recommendJudge && recommendWord != null)
                                 recommended.add(newsID);
                             newNewsCounter++;
