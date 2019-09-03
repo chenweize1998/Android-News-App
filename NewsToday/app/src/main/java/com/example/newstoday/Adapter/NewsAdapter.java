@@ -113,9 +113,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         }
         else if(news.get(position).getImage().length!=0 && !news.get(position).getImage()[0].equals("")) {
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
-        }else
+            holder.header.setVisibility(View.GONE);
+        }
+        else {
             holder.imgNews.setImageResource(0);
-
+            holder.header.setVisibility(View.GONE);
+        }
         if(newsManager.inCollectionNews(news.get(position)))
             holder.starButton.setChecked(true);
         else
