@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.ArraySet;
 
+import androidx.annotation.Nullable;
 import androidx.room.TypeConverter;
 
 import java.io.ByteArrayOutputStream;
@@ -61,6 +62,7 @@ class ImageConverter{
 class SetConverter{
 
     @TypeConverter
+    @Nullable
     public static ArraySet<String> fromTimestamp(String data){
         if(data==null){
             return null;
@@ -74,6 +76,7 @@ class SetConverter{
     }
 
     @TypeConverter
+    @Nullable
     public static String toTimestamp(ArraySet<String> as){
         StringBuffer sb = new StringBuffer();
         if(as==null){

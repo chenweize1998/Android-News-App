@@ -320,7 +320,7 @@ public class AsyncServerNews {
 
         String filterWord = "null";
         TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
-        if (treeMap!=null&& treeMap.size() != 0) {
+        if (treeMap!=null && treeMap.size() != 0) {
             StringBuffer sb = new StringBuffer();
             Iterator iter = treeMap.keySet().iterator();
             while (iter.hasNext()) {

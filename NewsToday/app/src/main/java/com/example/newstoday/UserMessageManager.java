@@ -3,7 +3,6 @@ package com.example.newstoday;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import androidx.room.Delete;
 
 import java.util.ArrayList;
 import java.util.Arrays;
