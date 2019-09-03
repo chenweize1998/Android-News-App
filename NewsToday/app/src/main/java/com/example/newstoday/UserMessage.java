@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Database;
@@ -26,6 +27,7 @@ public class UserMessage {
 
     private String email;
     private String content;
+    @Nullable
     private Bitmap image;
 
     UserMessage(String messageID, String email, String content, Bitmap image){

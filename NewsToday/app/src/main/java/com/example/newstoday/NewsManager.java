@@ -172,6 +172,9 @@ public class NewsManager {
                             String[] images = image.split(",");
                             for (int j = 0; j < images.length; ++j)
                                 images[j] = images[j].replace("[", "").replace("]", "").trim();
+                            if(images[0].equals("")){
+                                images = null;
+                            }
 
                             //                    newNews[newNewsCounter] = new News(title, date, content, category, organization, newsID,
                             //                                                        News.stringConverter(images), publisher, null,
