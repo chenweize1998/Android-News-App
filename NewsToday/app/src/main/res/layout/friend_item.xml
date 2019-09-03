@@ -69,6 +69,7 @@
         android:layout_alignParentRight="true"
         android:id="@+id/friend_follow_button"
         android:layout_marginVertical="5dp"
+        android:background="@null"
         app:btn_color="@color/btnItemColor"
         app:btn_fill_color="@android:color/holo_orange_light"
         app:allow_random_color="false"

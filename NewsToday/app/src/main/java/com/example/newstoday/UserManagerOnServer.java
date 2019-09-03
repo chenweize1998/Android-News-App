@@ -37,8 +37,8 @@ public class UserManagerOnServer {
     }
 
     public boolean userSignIn(String email, String name ,String password){
-        User user = userManager.getUserByEmail(email);
-        if(user == null){
+        User[] users = userManager.getUserByEmail(email);
+        if(users.length == 0){
             return false;
         }
         String avatar;

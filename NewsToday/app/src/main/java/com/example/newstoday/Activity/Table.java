@@ -374,6 +374,17 @@ public class Table extends AppCompatActivity {
 //                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
                             asyncServerNews.asyncDataToServer();
 
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        asyncServerNews.asyncDataToServer();
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
+
                         }  else if (drawerItem.getIdentifier() == DOWNLOAD_IDENTIFIER) {
 
                             spotsDialog = new SpotsDialog.Builder()

@@ -7,6 +7,8 @@ import android.media.Image;
 import android.util.ArraySet;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
 import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Database;
@@ -24,6 +26,9 @@ import androidx.room.TypeConverters;
 import androidx.room.Update;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashSet;
 
 @Entity
 @TypeConverters({ImageConverter.class, SetConverter.class})
@@ -50,6 +55,10 @@ public class User {
         this.password = password;
         this.followig = followig;
         this.avatar = avatar;
+        if(oriFollowig != null)
+            this.followig = new ArraySet<String>(Arrays.asList(oriFollowig.split(",")));
+        else
+            this.followig = new ArraySet<>();
     }
 
     public String getEmail(){
@@ -109,7 +118,7 @@ interface UserDao{
     User[] getAllUsers();
 
     @Query("SELECT * FROM User WHERE email IN (:email)")
-    User getUserByEmail(String... email);
+    User[] getUserByEmail(String... email);
 
     @Query("DELETE FROM User")
     void clear();

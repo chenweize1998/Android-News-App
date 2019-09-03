@@ -30,11 +30,22 @@ public class ForwordingNewsManager {
         return INSTANCE;
     }
 
+    /**
+     * 点转发就调用
+     * @param news
+     * @param email
+     */
     public void addOneForwardingNewsForUser(News news, String email){
         news.setPublisher(email);
+        news.setCategory("关注");
         newsRepository.insertNews(news);
     }
 
+    /**
+     * 得到一个人转发的所有消息
+     * @param email
+     * @return
+     */
     public ArrayList<News> getForwardingNewsByEmail(String email){
         return newsRepository.getNewsByEmail(email);
     }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,9 +46,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         private ImageView imgNews;
         private TextView txtKeyword;
         private ImageButton shareButton;
-//        private ImageButton starButton;
         private ShineButton starButton;
-        private ImageView cover;
+        private CardView header;
         public MyViewHolder(View v) {
             super(v);
             txtTitle = v.findViewById(R.id.txtTitle);
@@ -56,6 +56,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             txtKeyword = v.findViewById(R.id.item_keyword);
             shareButton = v.findViewById(R.id.item_share_button);
             starButton = v.findViewById(R.id.item_star_button);
+            header = v.findViewById(R.id.item_header_container);
         }
     }
 
@@ -99,18 +100,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-//        Typeface typefaceAbstract = Typeface.createFromAsset(holder.itemView.getContext().getAssets(), "font/siyuanlight.otf");
         holder.txtTitle.setText(news.get(position).getTitle().replace((char)12288+"", ""));
-//        holder.txtTitle.setTypeface(typefaceTitle);
         String tmp = news.get(position).getContent()
                 .replace((char)12288+"", "").replace("\n", "");
         tmp = pat.split(tmp)[0];
         holder.txtAbstract.setText(tmp);
-//        holder.txtAbstract.setTypeface(typefaceAbstract);     # 看看到时候要不要设置字体
         holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
 
-//        System.out.println("现在的position"+position);
-        if(!news.get(position).getImage()[0].equals("")) {
+        if(news.get(position).getCategory().equals("关注")) {
+            holder.imgNews.setImageResource(0);
+            holder.header.setVisibility(View.VISIBLE);
+        }
+        else if(!news.get(position).getImage()[0].equals("")) {
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
         }
         else
@@ -133,10 +134,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 News tmp = news.get(position);
                 if(newsManager.inCollectionNews(tmp)){
                     newsManager.deleteOneCollection(tmp);
-//                    holder.starButton.setImageResource(R.drawable.not_star);
                 } else{
                     newsManager.addInCollection(tmp);
-//                    holder.starButton.setImageResource(R.drawable.star_selected);
                 }
             }
         });
@@ -146,7 +145,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             @Override
             public void onClick(final View v) {
 //                wsm.shareNews(news.get(position));
-                bottomSheetDialog = new BottomSheetDialog();
+                bottomSheetDialog = new BottomSheetDialog(news.get(position));
                 bottomSheetDialog.show(fragmentManager, "bottomSheet");
             }
         });

@@ -21,9 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstoday.Adapter.CatAdapter;
 import com.example.newstoday.Adapter.NewsAdapter;
+import com.example.newstoday.ForwordingNewsManager;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.example.newstoday.UserManager;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -40,6 +42,7 @@ public class NewsItem extends Fragment {
     public static NewsAdapter mAdapterNews;
     private CatAdapter mAdapterCat;
     private FragmentManager fragmentManager;
+    private ForwordingNewsManager forwordingNewsManager;
 
     private ArrayList<News> news;
     private NewsManager newsManager;
@@ -50,9 +53,7 @@ public class NewsItem extends Fragment {
 
     private final int CAT_REARRANGE = 1;
 
-    NewsItem(){
-
-    }
+    NewsItem(){ }
 
     NewsItem(FragmentManager fragmentManager){
         this.fragmentManager = fragmentManager;
@@ -66,6 +67,7 @@ public class NewsItem extends Fragment {
         /**
          * Category click event
          */
+        forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(getContext());
         CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String category) {
@@ -169,8 +171,14 @@ public class NewsItem extends Fragment {
         newsManager.resetPageCounter();
         newsManager.resetRecommendation();
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-        ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
-                today, null, currentCategory, true, true);
+        ArrayList<News> newsTmp;
+        if(currentCategory.equals("关注")){
+            newsTmp = forwordingNewsManager.getAllForwardingNews();
+        }
+        else {
+            newsTmp = newsManager.getNews(20, "2019-08-09",
+                    today, null, currentCategory, true, true);
+        }
         news = new ArrayList<>();
         news.addAll(newsTmp);
         System.out.println("现在有"+news.size()+"新闻可以展示");

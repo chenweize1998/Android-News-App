@@ -34,6 +34,10 @@ public class UserMessageManager {
         return INSTANCE;
     }
 
+    /**
+     * 发布一条message加进数据库，发布就调用
+     * @param userMessage
+     */
     public void addOneUserMessage(UserMessage... userMessage){
         AddOneUserMessageTask addOneUserMessageTask = new AddOneUserMessageTask();
         addOneUserMessageTask.execute(userMessage);
@@ -66,6 +70,11 @@ public class UserMessageManager {
         }
     }
 
+    /**
+     * 得到某个人的所有message
+     * @param email
+     * @return
+     */
     public ArrayList<UserMessage> getCerternUserMessageByUserEmail(String... email){
         try{
             GetCerternUserMessageByUserEmailTask getCerternUserMessageByUserEmail = new GetCerternUserMessageByUserEmailTask();
@@ -85,16 +94,24 @@ public class UserMessageManager {
         }
     }
 
+    /**
+     * 所有关注人的message
+     * @param user
+     * @return
+     */
     public ArrayList<UserMessage> getUserAllFollowigMessage(User user){
         String[] followigs = (String[])user.getFollowig().toArray();
         return getCerternUserMessageByUserEmail(followigs);
     }
 
+    /**
+     * 删除某条
+     */
     public void deleteMessageByMessageID(String... messageID){
         DeleteMessageByMessageIDTask deleteMessageByMessageIDTask = new DeleteMessageByMessageIDTask();
         deleteMessageByMessageIDTask.execute(messageID);
-
     }
+
 
     private class DeleteMessageByMessageIDTask extends AsyncTask<String, Void, Void>{
         @Override
@@ -104,6 +121,10 @@ public class UserMessageManager {
         }
     }
 
+    /**
+     * 删除某个人的所有message
+     * @param email
+     */
     public void deleteMessageByUserEmail(String... email){
         DeleteMessageByUserEmailTask deleteMessageByUserEmailTask = new DeleteMessageByUserEmailTask();
         deleteMessageByUserEmailTask.execute(email);
