@@ -24,6 +24,7 @@ import com.example.newstoday.Activity.BottomSheetDialog;
 import com.example.newstoday.Activity.Table;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
+import com.example.newstoday.OfflineNewsManager;
 import com.example.newstoday.R;
 import com.sackcentury.shinebuttonlib.ShineButton;
 import com.squareup.picasso.Picasso;
@@ -33,6 +34,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private Pattern pat;
     private OnItemClickListener listener;
     private NewsManager newsManager;
+    private OfflineNewsManager offlineNewsManager;
     private Activity activity;
     private BottomSheetDialog bottomSheetDialog;
     private FragmentManager fragmentManager;
@@ -91,6 +93,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 .inflate(R.layout.news_item, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         newsManager = NewsManager.getNewsManager(parent.getContext());
+        offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(parent.getContext());
         return vh;
     }
 
@@ -106,6 +109,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 //        holder.txtAbstract.setTypeface(typefaceAbstract);     # 看看到时候要不要设置字体
         holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
 
+//        System.out.println("现在的position"+position);
         if(!news.get(position).getImage()[0].equals("")) {
             Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
         }
@@ -160,6 +164,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                     newsManager.addWeight(scores[i], keywords[i]);
                 }
                 newsManager.addInHistory(tmp);
+                offlineNewsManager.addOneOfflineNews(tmp);
                 holder.txtTitle.setTextColor(ContextCompat.getColor(activity.getApplicationContext(), R.color.titleItemSelColor));
                 listener.onItemClick(position, v);
             }

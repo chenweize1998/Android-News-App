@@ -246,3 +246,5 @@ public class News implements Serializable{
     }
 }
 
+
+

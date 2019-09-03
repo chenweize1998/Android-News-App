@@ -173,6 +173,7 @@ public class NewsItem extends Fragment {
                 today, null, currentCategory, true, true);
         news = new ArrayList<>();
         news.addAll(newsTmp);
+        System.out.println("现在有"+news.size()+"新闻可以展示");
 
         recyclerViewNews = view.findViewById(R.id.table_recycler_view);
         RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(getContext());

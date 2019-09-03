@@ -3,6 +3,8 @@ import android.os.AsyncTask;
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.TimeoutException;
+
 import org.json.*;
 
 public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
@@ -22,6 +24,9 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
                     + "&categories=" + categoriesUtf8 + "&page=" + pageUtf8;
 //            System.out.println(url);
             String json = getHttpResponse(url);
+            if(json == null){
+                return null;
+            }
             JSONObject jsonObj = new JSONObject(json);
             return jsonObj;
 //            this.jsonObject = jsonObj;
@@ -66,6 +71,7 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
             URL url = new URL(allConfigUrl);
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("Charset", "UTF-8");
+            connection.setConnectTimeout(200);
 
             connection.connect();
 
@@ -79,7 +85,9 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
 
             return result.toString();
 
-        } catch (Exception e) {
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }catch (Exception e) {
             e.printStackTrace();
         }finally {
             try {

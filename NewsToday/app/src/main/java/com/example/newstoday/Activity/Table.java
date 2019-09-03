@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.newstoday.NewsManager;
+import com.example.newstoday.OfflineNewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.UserManager;
 import com.example.newstoday.UserManagerOnServer;
@@ -48,6 +49,7 @@ public class Table extends AppCompatActivity {
     private AlertDialog spotsDialog;
     private UserManagerOnServer userManagerOnServer;
     private UserManager userManager;
+    private OfflineNewsManager offlineNewsManager;
 
     public Drawer drawer;
     public static AccountHeader header;
@@ -88,6 +90,7 @@ public class Table extends AppCompatActivity {
         newsManager = NewsManager.getNewsManager(getApplicationContext());
         userManager = UserManager.getUserManager(getApplicationContext());
         userManagerOnServer = UserManagerOnServer.getUserManagerOnServer(getApplicationContext());
+        offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(getApplicationContext());
 
         asyncServerNews = AsyncServerNews.getAsyncServerNews(getApplicationContext());
 //        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
@@ -341,6 +344,11 @@ public class Table extends AppCompatActivity {
                             newsManager.deleteAllHistory();
                             mAdapterNews.notifyDataSetChanged();
                             drawer.setSelectionAtPosition(-1);
+
+                            /**
+                            * 这行代码之后需要删除
+                            * */
+                            offlineNewsManager.getAllOfflineNews();
 
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
