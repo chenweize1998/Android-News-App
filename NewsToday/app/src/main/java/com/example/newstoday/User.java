@@ -49,7 +49,7 @@ public class User {
     private Bitmap avatar;
 
 
-    public User(String email, String name, String password, ArraySet<String> followig, Bitmap avatar){
+    public User(String email, String name, String password, @Nullable ArraySet<String> followig, @Nullable Bitmap avatar){
         this.email = email;
         this.name = name;
         this.password = password;

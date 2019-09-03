@@ -30,7 +30,7 @@ public class UserMessage {
     @Nullable
     private Bitmap image;
 
-    UserMessage(String messageID, String email, String content, Bitmap image){
+    UserMessage(String messageID, String email, String content, @Nullable Bitmap image){
         this.messageID = messageID;
         this.email = email;
         this.content = content;

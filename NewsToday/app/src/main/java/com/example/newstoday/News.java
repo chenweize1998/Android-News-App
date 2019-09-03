@@ -55,8 +55,8 @@ public class News implements Serializable{
 
 
     News(final String title, final String date, final String content, final String category, final String organization,
-         final String newsID, final String[] image, final String publisher, final String person, final String location,
-         final String[] keywords, final String[] scores, final String url, final String video){
+         final String newsID, @Nullable final String[] image, final String publisher, final String person, final String location,
+         @Nullable final String[] keywords, @Nullable final String[] scores, final String url, final String video){
         this.title = title;
         this.content = content;
         this.person = person;
