@@ -45,6 +45,9 @@ def userSignUp(request):
         email = request.POST.get("email")
         name = request.POST.get("name")
         password = request.POST.get("password")
+        if len(User.objects.filter(email=email))!=0:
+            return HttpResponse("Fail")
+
         if email=="" or name == "" or password == "":
             return HttpResponse("Fail")
         newUser = User(email = email, name = name, password = password, oriFollowig = "", avatar = "")
@@ -92,7 +95,7 @@ def userMessage(request):
     if request.method == "GET":
         if G.currentUser == 'null':
             return HttpResponse("Fail")
-        allUserMessage = userMessage.objects.all()
+        allUserMessage =   UserMessage.objects.all()
         data = []
         for userMessage in allUserMessage:
             data.append(
@@ -110,23 +113,23 @@ def postAllNews(request):
     if request.method == "POST":
         if G.currentUser == "null":
             return HttpResponse("Fail")
-        newsID = request.POST["newsID"].split(",")
-        title = request.POST["title"].split(",")
-        date = request.POST["date"].split(",")
-        content = request.POST["content"].split(",")
-        person = request.POST["person"].split(",")
-        organization = request.POST["organization"].split(",")
-        location = request.POST["location"].split(",")
-        category = request.POST["category"].split(",")
-        publisher = request.POST["publisher"].split(",")
-        url = request.POST["url"].split(",")
-        oriImage = request.POST["oriImage"].split(",")
-        oriKeywords = request.POST["oriKeywords"].split(",") 
-        oriScores =  request.POST["oriScores"].split(",")
-        video = request.POST["video"].split(",")
-        newsType = request.POST["newsType"].split(",")
-        mapData = request.POST["mapData"].split(",")
-        filterWords = request.POST["filterWords"].split(",")
+        newsID = request.POST["newsID"].split("#^#")
+        title = request.POST["title"].split("#^#")
+        date = request.POST["date"].split("#^#")
+        content = request.POST["content"].split("#^#")
+        person = request.POST["person"].split("#^#")
+        organization = request.POST["organization"].split("#^#")
+        location = request.POST["location"].split("#^#")
+        category = request.POST["category"].split("#^#")
+        publisher = request.POST["publisher"].split("#^#")
+        url = request.POST["url"].split("#^#")
+        oriImage = request.POST["oriImage"].split("#^#")
+        oriKeywords = request.POST["oriKeywords"].split("#^#") 
+        oriScores =  request.POST["oriScores"].split("#^#")
+        video = request.POST["video"].split("#^#")
+        newsType = request.POST["newsType"].split("#^#")
+        mapData = request.POST["mapData"].split("#^#")
+        filterWords = request.POST["filterWords"].split("#^#")
 
         length = len(newsID)
         print(length)
