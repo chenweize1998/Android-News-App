@@ -7,6 +7,8 @@ from newsForApp.models import HistoryNews
 from newsForApp.models import CollectionNews
 from newsForApp.models import Map
 from newsForApp.models import FilterWordsMap
+from newsForApp.models import ForwardingNews
+from newsForApp.models import UserMessage
 # Create your views here.
 
 class G:
