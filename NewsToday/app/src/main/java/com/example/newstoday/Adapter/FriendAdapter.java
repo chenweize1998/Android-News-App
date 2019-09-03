@@ -94,7 +94,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
                 }
                 else{
                     if(checked)
-                        currentUser.addFollowig(users[position].getEmail());
+//                        currentUser.addFollowig(users[position].getEmail());
+                        userManager.addOneFollowigForUser(currentUser, users[position].getEmail());
                     else
                         // TODO: 加一个deleteFollowig的方法来取消关注。
                         return;
