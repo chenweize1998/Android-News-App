@@ -107,6 +107,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.txtAbstract.setText(tmp);
         holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
 
+        System.out.println(news.get(position).getImage().length);
         if(news.get(position).getCategory().equals("关注")) {
             holder.imgNews.setImageResource(0);
             holder.header.setVisibility(View.VISIBLE);
@@ -163,7 +164,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                     newsManager.addWeight(scores[i], keywords[i]);
                 }
                 newsManager.addInHistory(tmp);
-                offlineNewsManager.addOneOfflineNews(tmp);
+//                offlineNewsManager.addOneOfflineNews(tmp);
                 holder.txtTitle.setTextColor(ContextCompat.getColor(activity.getApplicationContext(), R.color.titleItemSelColor));
                 listener.onItemClick(position, v);
             }

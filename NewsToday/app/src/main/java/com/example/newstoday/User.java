@@ -8,7 +8,6 @@ import android.util.ArraySet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.collection.ArraySet;
 import androidx.room.ColumnInfo;
 import androidx.room.Dao;
 import androidx.room.Database;
@@ -55,10 +54,6 @@ public class User {
         this.password = password;
         this.followig = followig;
         this.avatar = avatar;
-        if(oriFollowig != null)
-            this.followig = new ArraySet<String>(Arrays.asList(oriFollowig.split(",")));
-        else
-            this.followig = new ArraySet<>();
     }
 
     public String getEmail(){

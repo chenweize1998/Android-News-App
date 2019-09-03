@@ -61,8 +61,8 @@ public class FindFriend extends Fragment {
         if(currentUser == null)
             following = new String[0];
         else {
-            if(currentUser.getOriFollowig() != null)
-                following = currentUser.getOriFollowig().split(",");
+            if(currentUser.getFollowig() != null)
+                following = (String[])currentUser.getFollowig().toArray();
             else
                 following = new String[0];
         }

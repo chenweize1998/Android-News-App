@@ -42,8 +42,8 @@ public class UserManagerOnServer {
             return false;
         }
         String avatar;
-        if(user.getAvatar()!=null){
-            avatar = new String(ImageConverter.toTimestamp(user.getAvatar()));
+        if(users[0].getAvatar()!=null){
+            avatar = new String(ImageConverter.toTimestamp(users[0].getAvatar()));
         }else{
             avatar = "null";
         }
@@ -55,8 +55,8 @@ public class UserManagerOnServer {
         data.append("&password=");
         data.append(password);
         data.append("&oriFollowig=");
-        if(user.getFollowig()!=null){
-            data.append(SetConverter.toTimestamp(user.getFollowig()));
+        if(users[0].getFollowig()!=null){
+            data.append(SetConverter.toTimestamp(users[0].getFollowig()));
         }else{
             data.append("null");
         }
