@@ -42,15 +42,6 @@ public class AsyncServerNews {
         return (asyncNewsToServer() && asyncUserMessageToServer());
     }
 
-    public boolean deleteUserNewsAndMessageOnServer(String email){
-        String data = "email=" + email;
-        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/deleteNewsAndMessage/", data);
-        if (res == null || res.equals("Fail")) {
-            return false;
-        }
-        return true;
-    }
-
     public boolean asyncNewsFromServer() {
         try {
             String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/getAllNews/");
@@ -140,35 +131,35 @@ public class AsyncServerNews {
     }
 
     public boolean asyncUserMessageFromServer() {
-        try {
-            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/userMessage/");
-            if (json == null || json.equals("Fail")) {
-                return false;
-            }
-
-            JSONObject jsonData = new JSONObject(json);
-
-            JSONArray messageArray = jsonData.getJSONArray("data");
-            System.out.println("来了" + messageArray.length() + "条用户发布数据");
-            for (int i = 0; i < messageArray.length(); i++) {
-                JSONObject message = messageArray.getJSONObject(i);
-                String messageID = message.getString("messageID");
-                String email = message.getString("email");
-                String content = message.getString("content");
-                String image = message.getString("image");
-                byte[] bytes;
-                if(!image.equals("null")) {
-                    bytes = image.getBytes();
-                }else{
-                    bytes = null;
-                }
-                userMessageManager.addOneUserMessage(new UserMessage(messageID, email, content, ImageConverter.fromTimestamp(bytes)));
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
+//        try {
+//            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/userMessage/");
+//            if (json == null || json.equals("Fail")) {
+//                return false;
+//            }
+//
+//            JSONObject jsonData = new JSONObject(json);
+//
+//            JSONArray messageArray = jsonData.getJSONArray("data");
+//            System.out.println("来了" + messageArray.length() + "条用户发布数据");
+//            for (int i = 0; i < messageArray.length(); i++) {
+//                JSONObject message = messageArray.getJSONObject(i);
+//                String messageID = message.getString("messageID");
+//                String email = message.getString("email");
+//                String content = message.getString("content");
+//                String image = message.getString("image");
+//                byte[] bytes;
+//                if(!image.equals("null")) {
+//                    bytes = image.getBytes();
+//                }else{
+//                    bytes = null;
+//                }
+//                userMessageManager.addOneUserMessage(new UserMessage(messageID, email, content, ImageConverter.fromTimestamp(bytes)));
+//            }
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+        return true;
 
     }
 
@@ -406,26 +397,26 @@ public class AsyncServerNews {
     }
 
     public boolean asyncUserMessageToServer() {
-        ArrayList<UserMessage> allUserMessage = userMessageManager.getAllUserMessage();
-        String url = "http://166.111.5.239:8000/userMessage/";
-        for (UserMessage userMessage : allUserMessage) {
-            String image;
-            if(userMessage.getImage()!=null) {
-                image = new String(ImageConverter.toTimestamp(userMessage.getImage()));
-            }else{
-                image = "null";
-            }
-            String data = "messageID=" + userMessage.getMessageID() + "&email=" + userMessage.getEmail() +
-                    "&content=" + userMessage.getContent() + "&image=" + image;
-            String res = serverHttpResponse.postResponse(url, data);
-            if (res == null) {
-                return false;
-            } else {
-                if (res.equals("Fail")) {
-                    return false;
-                }
-            }
-        }
+//        ArrayList<UserMessage> allUserMessage = userMessageManager.getAllUserMessage();
+//        String url = "http://166.111.5.239:8000/userMessage/";
+//        for (UserMessage userMessage : allUserMessage) {
+//            String image;
+//            if(userMessage.getImage()!=null) {
+//                image = new String(ImageConverter.toTimestamp(userMessage.getImage()));
+//            }else{
+//                image = "null";
+//            }
+//            String data = "messageID=" + userMessage.getMessageID() + "&email=" + userMessage.getEmail() +
+//                    "&content=" + userMessage.getContent() + "&image=" + image;
+//            String res = serverHttpResponse.postResponse(url, data);
+//            if (res == null) {
+//                return false;
+//            } else {
+//                if (res.equals("Fail")) {
+//                    return false;
+//                }
+//            }
+//        }
         return true;
     }
 

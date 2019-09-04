@@ -5,8 +5,11 @@ class User(models.Model):
     email = models.CharField(max_length=30)
     name = models.CharField(max_length=20)
     password = models.CharField(max_length=20)
-    avatar = models.CharField(max_length = 3000000)
     oriFollowig = models.CharField(max_length=500)
+
+class Image(models.Model):
+    img = models.ImageField(upload_to='img')
+    time = models.DateTimeField(auto_now_add=True)
 
 class HistoryNews(models.Model):
     newsID = models.CharField(max_length = 100)
@@ -62,7 +65,6 @@ class UserMessage(models.Model):
     messageID = models.CharField(max_length = 100)
     email = models.CharField(max_length = 100)
     content = models.CharField(max_length = 1000)
-    image = models.CharField(max_length = 3000000)
 
 
 class Map(models.Model):

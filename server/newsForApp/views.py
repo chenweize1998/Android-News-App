@@ -9,6 +9,7 @@ from newsForApp.models import Map
 from newsForApp.models import FilterWordsMap
 from newsForApp.models import ForwardingNews
 from newsForApp.models import UserMessage
+from newsForApp.models import Image
 # Create your views here.
 
 class G:
@@ -35,7 +36,6 @@ def userSignIn(request):
             return HttpResponse("Fail")
         G.currentUser = email
         userInDB[0].oriFollowig = request.POST.get("oriFollowig")
-        userInDB[0].avatar = request.POST.get("avatar")
         userInDB[0].save()
         return HttpResponse("Success")
     return HttpResponse("Fail")
@@ -50,7 +50,7 @@ def userSignUp(request):
 
         if email=="" or name == "" or password == "":
             return HttpResponse("Fail")
-        newUser = User(email = email, name = name, password = password, oriFollowig = "", avatar = "")
+        newUser = User(email = email, name = name, password = password, oriFollowig = "")
         newUser.save()
         G.currentUser = email
         return HttpResponse("Success")
@@ -63,51 +63,6 @@ def userSignOut(request):
         G.currentUser = "null"
         return HttpResponse("Success")
     return HttpResponse("Fail")    
-
-def deleteNewsAndMessage(request):
-    if request.method == "POST":
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        UserMessage.objects.filter(email = request.POST.get("email")).delete()
-        # ForwardingNews.objects.filter(email = request.POST.get("email")).delete()
-        HistoryNews.objects.filter(user = request.POST.get("email")).delete()
-        CollectionNews.objects.filter(user = request.POST.get("email")).delete()
-        return HttpResponse("Success")
-    return HttpResponse("Fail")
-
-
-def userMessage(request):
-    if request.method == "POST":
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        # userMessage.objects.all().delete()
-        try:
-            messageID = request.POST.get("messageID")
-            email = request.POST.get("email")
-            content = request.POST.get("content")
-            image = request.POST.get("image")
-            newUserMessage = UserMessage(messageID = messageID, email = email, content =content, image = image)
-            newUserMessage.save()
-            print("用户发布消息保存成功")
-            return HttpResponse("Success")
-        except KeyError:
-            return HttpResponse("Fail")
-    if request.method == "GET":
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        allUserMessage =   UserMessage.objects.all()
-        data = []
-        for userMessage in allUserMessage:
-            data.append(
-                {
-                    "email":userMessage.email,
-                    "messageID":userMessage.messageID,
-                    "content":userMessage.content,
-                    "image":userMessage.image
-                }
-            )
-        jsonData = {"data":data}
-        return HttpResponse(json.dumps(jsonData))
 
 def postAllNews(request):
     if request.method == "POST":
@@ -292,3 +247,14 @@ def getAllNews(request):
         data.append(newsIndata)
         jsonData = {"data":data}
         return HttpResponse(json.dumps(jsonData))
+
+
+def uploadImage(request):
+    source = request.FILES.get('image')
+    if source:
+      source.name = request.POST.get("filename")
+      image = Image(img=source)
+      image.save()
+      return HttpResponse("Success")
+    else:
+      return HttpResponse("Fail")

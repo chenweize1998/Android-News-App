@@ -15,15 +15,21 @@ public class UserMessageManager {
      * 此类的作用就是控制管理这个数据库。
      * 此类的方法名比较详实，应该可以看懂对应方法的功能。
      * 此类的功能和ForwordingNewsManager类大致相同。
+     *
+     * 重新写了这个类，userMessage是News类型的，你只需要
+     * 在创建的时候记得把image的url改成本地的uri/改成某个网址(之后再说)
+     * 把newsID改为自己的ID
+     * publisher改成自己
+     * 总之就是这个新闻是自己的
      * */
 
     private static UserMessageManager INSTANCE;
-    private UserMessageDB userMessageDB;
-    private UserMessageDao userMessageDao;
+    private AppDB userMessageDB;
+    private NewsRepository newsRepository;
 
     private UserMessageManager(Context context){
-        userMessageDB = UserMessageDB.getUserMessageDB(context, "userMessage");
-        userMessageDao = userMessageDB.userMessageDao();
+        userMessageDB = AppDB.getAppDB(context, "userMessage");
+        newsRepository = new NewsRepository(userMessageDB);
     }
 
     public static UserMessageManager getUserMessageManager(Context context){
@@ -35,38 +41,14 @@ public class UserMessageManager {
 
     /**
      * 发布一条message加进数据库，发布就调用
-     * @param userMessage
+     * @param news
      */
-    public void addOneUserMessage(UserMessage... userMessage){
-        AddOneUserMessageTask addOneUserMessageTask = new AddOneUserMessageTask();
-        addOneUserMessageTask.execute(userMessage);
+    public void addOneUserMessage(News... news){
+        newsRepository.insertNews(news);
     }
 
-    private class AddOneUserMessageTask extends AsyncTask<UserMessage, Void, Void>{
-        @Override
-        protected Void doInBackground(UserMessage...userMessage){
-            userMessageDao.insert(userMessage[0]);
-            return null;
-        }
-    }
-
-    public ArrayList<UserMessage> getAllUserMessage(){
-        try{
-            GetAllUserMessageTask getAllUserMessageTask = new GetAllUserMessageTask();
-            return new ArrayList(Arrays.asList(getAllUserMessageTask.execute(0).get()));
-        }catch (ExecutionException e){
-            e.printStackTrace();
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private class GetAllUserMessageTask extends AsyncTask<Integer, Void, UserMessage[]>{
-        @Override
-        protected UserMessage[] doInBackground(Integer... params){
-            return userMessageDao.getAllUserMessage();
-        }
+    public ArrayList<News> getAllUserMessage(){
+        return newsRepository.getAllNews();
     }
 
     /**
@@ -74,23 +56,8 @@ public class UserMessageManager {
      * @param email
      * @return
      */
-    public ArrayList<UserMessage> getCerternUserMessageByUserEmail(String... email){
-        try{
-            GetCerternUserMessageByUserEmailTask getCerternUserMessageByUserEmail = new GetCerternUserMessageByUserEmailTask();
-            return new ArrayList(Arrays.asList(getCerternUserMessageByUserEmail.execute(email).get()));
-        }catch (ExecutionException e){
-            e.printStackTrace();
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private class GetCerternUserMessageByUserEmailTask extends AsyncTask<String, Void, UserMessage[]>{
-        @Override
-        protected UserMessage[] doInBackground(String... email){
-            return userMessageDao.getCerternUserMessageByUserEmail(email);
-        }
+    public ArrayList<News> getCerternUserMessageByUserEmail(String... email){
+        return newsRepository.getNewsByEmail(email);
     }
 
     /**
@@ -98,26 +65,17 @@ public class UserMessageManager {
      * @param user
      * @return
      */
-    public ArrayList<UserMessage> getUserAllFollowigMessage(User user){
+    public ArrayList<News> getUserAllFollowigMessage(User user){
+        /**这个地方需要修改*/
         String[] followigs = (String[])user.getFollowig().toArray();
-        return getCerternUserMessageByUserEmail(followigs);
+        return newsRepository.getNewsByEmail(followigs);
     }
 
     /**
      * 删除某条
      */
-    public void deleteMessageByMessageID(String... messageID){
-        DeleteMessageByMessageIDTask deleteMessageByMessageIDTask = new DeleteMessageByMessageIDTask();
-        deleteMessageByMessageIDTask.execute(messageID);
-    }
-
-
-    private class DeleteMessageByMessageIDTask extends AsyncTask<String, Void, Void>{
-        @Override
-        protected Void doInBackground(String... messageID){
-            userMessageDao.deleteMessageByMessageID(messageID);
-            return null;
-        }
+    public void deleteMessageByMessageID(News... news){
+        newsRepository.deleteNews();
     }
 
     /**
@@ -125,20 +83,7 @@ public class UserMessageManager {
      * @param email
      */
     public void deleteMessageByUserEmail(String... email){
-        DeleteMessageByUserEmailTask deleteMessageByUserEmailTask = new DeleteMessageByUserEmailTask();
-        deleteMessageByUserEmailTask.execute(email);
-
+        newsRepository.deleteNewsByEmail(email);
     }
-
-    private class DeleteMessageByUserEmailTask extends AsyncTask<String, Void, Void>{
-        @Override
-        protected Void doInBackground(String... email){
-            userMessageDao.deleteMessageByUserEmail(email[0]);
-            return null;
-        }
-    }
-
-
-
 
 }
