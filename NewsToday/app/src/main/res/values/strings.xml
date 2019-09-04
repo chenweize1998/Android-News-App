@@ -3,4 +3,5 @@
     <string name="queryHint">Type key words you want to query</string>
     <string name="commentHint">Type your comment…</string>
     <string name="imageview_placeholder">ImageView placeholder</string>
+    <string name="error_gif">Error gif</string>
 </resources>

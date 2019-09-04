@@ -41,6 +41,7 @@ public class NewsManager {
     private AhoCorasickDoubleArrayTrie<String> acdat = null;
     private ForwordingNewsManager forwordingNewsManager;
     private UserManager userManager;
+    private UserMessageManager userMessageManager;
     private OfflineNewsManager offlineNewsManager;
 
     private NewsManager(Context context){
@@ -52,6 +53,7 @@ public class NewsManager {
         recommendKeyword = new RandomCollection<>();
         forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(context);
         userManager = UserManager.getUserManager(context);
+        userMessageManager = UserMessageManager.getUserMessageManager(context);
         offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(context);
         initNewInMem();
     }
@@ -95,6 +97,9 @@ public class NewsManager {
                     return forwordingNewsManager.getUserAllFollowigNews(userManager.getUserByEmail(
                             Table.header.getActiveProfile().getEmail().toString()
                     )[0]);
+//                    ArrayList<UserMessage> all = userMessageManager.getUserAllFollowigMessage(
+//                            userManager.getUserByEmail(Table.header.getActiveProfile().getEmail().toString()
+//                    )[0]);
                 }
                 else
                     return new ArrayList<News>();

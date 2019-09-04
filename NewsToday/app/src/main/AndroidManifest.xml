@@ -8,14 +8,15 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".Activity.FilterWord"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.Publish"></activity>
+        <activity android:name=".Activity.FilterWord" />
         <activity android:name=".Activity.Login" />
         <activity android:name=".Activity.SearchActivity">
             <intent-filter>
@@ -58,5 +59,10 @@
             android:authorities="com.example.SearchProvider"
             android:exported="false" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
