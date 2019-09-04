@@ -10,6 +10,8 @@
     <color name="material_drawer_primary_text">#70FFFFFF</color>
     <color name="textInputLayout">#96ffffff</color>
 
+    <color name="appTitleBtnColor">#575454</color>
+
     <color name="cardBgColor">#ffffff</color>
     <color name="tableBgColor">#f5f5f5</color>
 

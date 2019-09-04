@@ -63,9 +63,11 @@ public class Table extends AppCompatActivity {
     private int identifier = 3;
     private int position = 0;
 
-
+    private final int CAT_REARRANGE = 1;
     public static final int LOGIN_REQUEST = 2;
     public static final int PICK_IMAGE = 3;
+    public static final int PUBLISH = 4;
+    public static final int PUBLISH_CHOOSE_IMAGE = 5;
 
     public static final int COLLECTION_IDENTIFIER = 1;
     public static final int HISTORY_IDENTIFIER = 2;
@@ -83,7 +85,8 @@ public class Table extends AppCompatActivity {
     //读写权限
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA};
     //请求状态码
     private static int REQUEST_PERMISSION_CODE = 1;
 
@@ -173,7 +176,9 @@ public class Table extends AppCompatActivity {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "更换头像失败", Toast.LENGTH_SHORT).show();
             }
-        } /*else if (requestCode == )*/
+        } else if (requestCode == PUBLISH){
+            Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void buildDrawer(final Activity activity){

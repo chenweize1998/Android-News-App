@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,14 +23,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstoday.Adapter.CatAdapter;
 import com.example.newstoday.Adapter.NewsAdapter;
+import com.example.newstoday.CustomLayout.GifSizeFilter;
+import com.example.newstoday.CustomLayout.PicassoEngine;
 import com.example.newstoday.ForwordingNewsManager;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.UserManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.filter.Filter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +60,10 @@ public class NewsItem extends Fragment {
     private int DISMISS_TIMEOUT = 500;
 
     private final int CAT_REARRANGE = 1;
+    public static final int LOGIN_REQUEST = 2;
+    public static final int PICK_IMAGE = 3;
+    public static final int PUBLISH = 4;
+    public static final int PUBLISH_CHOOSE_IMAGE = 5;
 
     NewsItem(){ }
 
@@ -164,6 +176,7 @@ public class NewsItem extends Fragment {
         });
 
 
+
         /**
          * News and Category recycler view
          */
@@ -192,6 +205,34 @@ public class NewsItem extends Fragment {
         mAdapterNews.setOnItemClickListener(listenerNews);
         recyclerViewNews.setAdapter(mAdapterNews);
         recyclerViewNews.setItemViewCacheSize(100);
+
+        final FloatingActionButton floatingActionButton = view.findViewById(R.id.table_publishBtn);
+        recyclerViewNews.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
+                    floatingActionButton.hide();
+                } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
+                    floatingActionButton.show();
+                }
+            }
+        });
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Table.header.getActiveProfile() == null){
+                    Toast.makeText(getContext(), "若要发布，请先登录", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), Login.class);
+                    getActivity().startActivityForResult(intent, LOGIN_REQUEST);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), Publish.class);
+                    getActivity().startActivityForResult(intent, PUBLISH);
+                }
+            }
+        });
+
 
         RecyclerView recyclerViewCat = view.findViewById(R.id.cat_recycler_view);
         recyclerViewCat.setHasFixedSize(true);

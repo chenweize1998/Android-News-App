@@ -30,8 +30,12 @@ public class UserMessage {
     @Nullable
     private Bitmap image;
 
-    UserMessage(String messageID, String email, String content, @Nullable Bitmap image){
-        this.messageID = messageID;
+    public UserMessage(String messageID, String email, String content, @Nullable Bitmap image){
+        StringBuilder builder = new StringBuilder();
+        builder.append(email);
+        builder.append("&");
+        builder.append(System.currentTimeMillis());
+        this.messageID = builder.toString();
         this.email = email;
         this.content = content;
         this.image = image;
