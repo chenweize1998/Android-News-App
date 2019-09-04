@@ -142,6 +142,7 @@ public class NewsItem extends Fragment {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
                                         today, null, currentCategory, true, true);
+                                news = newsTmp;
                                 mAdapterNews.updateNews(newsTmp);
                                 refreshlayout.finishRefresh();
                                 mAdapterNews.notifyDataSetChanged();
@@ -164,6 +165,7 @@ public class NewsItem extends Fragment {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
                                         today, null, currentCategory, true, false);
+                                news = newsTmp;
                                 mAdapterNews.refreshNews(newsTmp);
                                 refreshlayout.finishLoadMore();
                                 mAdapterNews.notifyDataSetChanged();
