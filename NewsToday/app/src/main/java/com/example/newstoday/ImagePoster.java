@@ -59,7 +59,7 @@ public class ImagePoster {
         //2.通过RequestBody.create 创建requestBody对象,application/octet-stream 表示文件是任意二进制数据流
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("image", imagePath.substring(imagePath.lastIndexOf("/") + 1), RequestBody.create(file, MediaType.parse("application/octet-stream")))
+                .addFormDataPart("image", imagePath.substring(imagePath.lastIndexOf("/") + 1), RequestBody.create(file, MediaType.parse("image/jpg")))
                 .build();
 
         //3.创建Request对象，设置URL地址，将RequestBody作为post方法的参数传入
@@ -70,10 +70,12 @@ public class ImagePoster {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                System.out.println("Fail");
             }
 
             @Override
             public void onResponse(Call call, Response response) {
+                System.out.println("Success");
             }
         });
         return true;

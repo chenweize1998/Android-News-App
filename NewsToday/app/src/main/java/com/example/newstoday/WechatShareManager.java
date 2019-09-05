@@ -70,7 +70,7 @@ public class WechatShareManager implements IWXAPIEventHandler{
         Toast.makeText(mContext, result, Toast.LENGTH_SHORT).show();
     }
 
-    public void shareNews() {
+    public void shareNews(News news) {
 //        String text = news.getContent();
         String text = "hello world!";
         //初始化一个WXTextObject对象
