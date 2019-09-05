@@ -1,0 +1,145 @@
+package com.example.newstoday;
+
+<<<<<<< HEAD:NewsToday/app/src/main/java/com/example/newstoday/ImagePoster.java
+import android.content.Context;
+=======
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+>>>>>>> d9e1c2656bae33f347af32ce61c11fc39d521aa7:NewsToday/app/src/main/java/com/example/newstoday/PostImage.java
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+import okhttp3.*;
+import top.zibin.luban.CompressionPredicate;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class ImagePoster {
+
+
+    public static ImagePoster INSTANCE = null;
+    public UserManager userManager;
+    public UserMessageManager userMessageManager;
+    private ImagePoster(Context context){
+        userManager = UserManager.getUserManager(context);
+        userMessageManager = UserMessageManager.getUserMessageManager(context);
+    }
+    public static ImagePoster getImagePoster(Context context){
+        if(INSTANCE == null){
+            INSTANCE = new ImagePoster(context);
+        }
+        return INSTANCE;
+    }
+
+    public boolean postAvaterToServer(String imagePath, User user){
+        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
+        boolean res = postImage(imagePath);
+        String url = "http://166.111.5.239:8000/downloadImage/?filename="+filename;
+        userManager.setUserAvatar(user, url);
+        return res;
+    }
+
+    public String postUserImageToServer(String imagePath){
+        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
+        boolean res = postImage(imagePath);
+        return "http://166.111.5.239:8000/downloadImage/?filename="+filename;
+    }
+
+    /**
+     * 这个函数用来上传图片，你只需要传递进来文件的本地路径即可
+     * 之后你就可以通过picasso直接从服务器下载图片
+     * */
+<<<<<<< HEAD:NewsToday/app/src/main/java/com/example/newstoday/ImagePoster.java
+    private boolean postImage(String imagePath){
+=======
+    public static boolean postImage(String imagePath){
+>>>>>>> d9e1c2656bae33f347af32ce61c11fc39d521aa7:NewsToday/app/src/main/java/com/example/newstoday/PostImage.java
+        //1.创建OkHttpClient对象
+        OkHttpClient  okHttpClient = new OkHttpClient();
+        //上传的图片
+        String url = "http://166.111.5.239:8000/uploadImage/";
+        File file = new File(imagePath);
+        //2.通过RequestBody.create 创建requestBody对象,application/octet-stream 表示文件是任意二进制数据流
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", imagePath.substring(imagePath.lastIndexOf("/") + 1), RequestBody.create(file, MediaType.parse("application/octet-stream")))
+                .build();
+
+        //3.创建Request对象，设置URL地址，将RequestBody作为post方法的参数传入
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        //4.创建一个call对象,参数就是Request请求对象
+        Call call = okHttpClient.newCall(request);
+        //5.请求加入调度,重写回调方法
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+            }
+        });
+        return true;
+    }
+
+//    public static ArrayList<Uri> compress(final ArrayList<Uri> uris, final Context context, final AlertDialog spotsDialog){
+//        final ArrayList<Uri> newSelected = new ArrayList<>();
+//        Luban.with(context)
+//                .load(uris)
+//                .ignoreBy(0)
+//                .setTargetDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath())
+//                .filter(new CompressionPredicate() {
+//                    @Override
+//                    public boolean apply(String path) {
+//                        return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+//                    }
+//                })
+//                .setCompressListener(new OnCompressListener() {
+//                    @Override
+//                    public void onStart() {
+//                        // TODO 压缩开始前调用，可以在方法内启动 loading UI
+//                        if(!spotsDialog.isShowing())
+//                            spotsDialog.show();
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(File file) {
+//                        // TODO 压缩成功后调用，返回压缩后的图片文件
+//                        newSelected.add(Uri.parse(file.toURI().toString()));
+//                        if(newSelected.size() == uris.size()){
+//                            spotsDialog.dismiss();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        // TODO 当压缩过程出现问题时调用
+//                        Toast.makeText(context, "图片压缩失败", Toast.LENGTH_SHORT).show();
+//                    }
+//                }).launch();
+//        return newSelected;
+//    }
+
+    public static String getRealPathFromURI(Uri contentURI, ContentResolver resolver) {
+        String result;
+        Cursor cursor = resolver.query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
+}
