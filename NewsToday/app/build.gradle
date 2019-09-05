@@ -58,6 +58,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
     implementation 'com.hankcs:aho-corasick-double-array-trie:1.2.1'
+    implementation 'top.zibin:Luban:1.1.8'
 
     implementation 'com.zhihu.android:matisse:0.5.3-beta2'
 
@@ -71,7 +72,7 @@ dependencies {
 
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.4.3'
 
-    implementation 'cn.jzvd:jiaozivideoplayer:7.0.5'
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.12'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.squareup.okhttp3:okhttp:4.1.0'

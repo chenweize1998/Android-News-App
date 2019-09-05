@@ -4,6 +4,7 @@ package com.example.newstoday;
 import org.json.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.Random;
@@ -94,9 +95,19 @@ public class NewsManager {
             if(categories.equals("关注")){
                 lastCategory = categories;
                 if(Table.header.getActiveProfile() != null) {
-                    return forwordingNewsManager.getUserAllFollowigNews(userManager.getUserByEmail(
-                            Table.header.getActiveProfile().getEmail().toString()
-                    )[0]);
+                    ArrayList<News> forwarding = forwordingNewsManager.getUserAllFollowigNews(userManager.getUserByEmail(
+                            Table.header.getActiveProfile().getEmail().toString())[0]);
+                    ArrayList<News> publish = userMessageManager.getUserAllFollowigMessage(
+                            userManager.getUserByEmail(Table.header.getActiveProfile().getEmail().toString())[0]);
+                    publish.addAll(forwarding);
+//                    Collections.shuffle(publish);
+                    Collections.sort(publish, new Comparator<News>() {
+                        @Override
+                        public int compare(News news, News t1) {
+                            return -news.getDate().compareTo(t1.getDate());
+                        }
+                    });
+                    return publish;
 //                    ArrayList<UserMessage> all = userMessageManager.getUserAllFollowigMessage(
 //                            userManager.getUserByEmail(Table.header.getActiveProfile().getEmail().toString()
 //                    )[0]);

@@ -11,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.manager.SupportRequestManagerFragment;
 import com.example.newstoday.Activity.Login;
+import com.example.newstoday.Activity.PersonalHomepage;
 import com.example.newstoday.Activity.Table;
 import com.example.newstoday.R;
 import com.example.newstoday.User;
@@ -29,6 +31,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
     private UserManager userManager;
     private Activity activity;
     private User currentUser;
+    public FragmentManager fragmentManager;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
@@ -45,9 +48,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         }
     }
 
-    public FriendAdapter(ArraySet<String> emails, User currentUser, Activity activity){
+    public FriendAdapter(ArraySet<String> emails, User currentUser, Activity activity, FragmentManager fragmentManager){
 //        this.users = users;
         this.currentUser = currentUser;
+        this.fragmentManager = fragmentManager;
 //        if(emails.length == 0)
 //            users = new User[0];
 //        else
@@ -96,10 +100,26 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
                     if(checked)
 //                        currentUser.addFollowig(users[position].getEmail());
                         userManager.addOneFollowigForUser(currentUser, users[position].getEmail());
-                    else
-                        // TODO: 加一个deleteFollowig的方法来取消关注。
+                    else {
+                        userManager.deleteOneFollowigForUser(currentUser, users[position].getEmail());
                         return;
+                    }
                 }
+            }
+        });
+
+        holder.header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                PersonalHomepage homepage = new PersonalHomepage(
+                        userManager.getUserByEmail(users[position].getEmail())[0],
+                        fragmentManager
+                );
+                fragmentTransaction.replace(R.id.table_fragment, homepage);
+//                if(fragmentManager.getBackStackEntryCount() == 0)
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }

@@ -92,7 +92,7 @@ public class NewsPage extends AppCompatActivity {
         pageContent.setMovementMethod(new ScrollingMovementMethod());
 
 //        final String url = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
-        if(!news.getVideo().equals("")) {
+        if(news.getVideo() != null && !news.getVideo().equals("")) {
 //        if(true){
 //            RelativeLayout relativeLayout = findViewById(R.id.page_video_layout);
 //            relativeLayout.setVisibility(View.VISIBLE);
@@ -123,7 +123,10 @@ public class NewsPage extends AppCompatActivity {
             Glide.with(this).load(url).into(jzVideoPlayerStandard.thumbImageView);
         }
 
-
+        String[] tmp = new String[1];
+        tmp[0] = "";
+        if(news.getImage().length == 0)
+            news.setImage(tmp);
         mAdapterImg = new LoopRecyclerAdapter(news.getImage().length, NewsPage.this, news);
 
         mIndicator = findViewById(R.id.page_indicator);

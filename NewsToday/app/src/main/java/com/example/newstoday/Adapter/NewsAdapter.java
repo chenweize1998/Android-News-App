@@ -1,32 +1,32 @@
 package com.example.newstoday.Adapter;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
-import android.content.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.newstoday.Activity.BottomSheetDialog;
-import com.example.newstoday.Activity.Table;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.OfflineNewsManager;
 import com.example.newstoday.R;
+import com.example.newstoday.User;
+import com.example.newstoday.UserManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +39,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private Activity activity;
     private BottomSheetDialog bottomSheetDialog;
     private FragmentManager fragmentManager;
+    private UserManager userManager;
+    private boolean isHomePage;
+    private boolean isPersonalHomePage;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle;
@@ -47,7 +50,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         private TextView txtKeyword;
         private ImageButton shareButton;
         private ShineButton starButton;
-        private CardView header;
+        private CardView header_layout;
+        private ImageView header;
         public MyViewHolder(View v) {
             super(v);
             txtTitle = v.findViewById(R.id.txtTitle);
@@ -56,7 +60,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             txtKeyword = v.findViewById(R.id.item_keyword);
             shareButton = v.findViewById(R.id.item_share_button);
             starButton = v.findViewById(R.id.item_star_button);
-            header = v.findViewById(R.id.item_header_container);
+            header_layout = v.findViewById(R.id.item_header_container);
+            header = v.findViewById(R.id.item_publisher_header);
         }
     }
 
@@ -73,6 +78,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         pat = Pattern.compile("[！？。…~]");
         this.activity = activity;
         this.fragmentManager = fragmentManager;
+        this.userManager = UserManager.getUserManager(activity.getApplicationContext());
+    }
+
+    public NewsAdapter(ArrayList<News> news, Activity activity,
+                       FragmentManager fragmentManager, boolean isHomePage, boolean isPersonalHomePage) {
+        this.news = news;
+        pat = Pattern.compile("[！？。…~]");
+        this.activity = activity;
+        this.fragmentManager = fragmentManager;
+        this.userManager = UserManager.getUserManager(activity.getApplicationContext());
+        this.isHomePage = isHomePage;
+        this.isPersonalHomePage = isPersonalHomePage;
     }
 
     public void updateNews(ArrayList<News> news){
@@ -81,10 +98,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public void refreshNews(ArrayList<News> news){
         this.news.addAll(news);
-    }
-
-    public void updateActivity(Activity activity){
-        this.activity = activity;
     }
 
     @Override
@@ -105,19 +118,29 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 .replace((char)12288+"", "").replace("\n", "");
         tmp = pat.split(tmp)[0];
         holder.txtAbstract.setText(tmp);
-        holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
+        if(news.get(position).getKeywords() != null && news.get(position).getKeywords().length != 0)
+            holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
+        else
+            holder.txtKeyword.setVisibility(View.GONE);
 
-        if(news.get(position).getCategory().equals("关注")) {
-            holder.imgNews.setImageResource(0);
-            holder.header.setVisibility(View.VISIBLE);
+        if(news.get(position).getCategory().equals("关注") && !isHomePage) {
+//            holder.imgNews.setImageResource(0);
+            holder.header_layout.setVisibility(View.VISIBLE);
+            User publisher = userManager.getUserByEmail(news.get(position).getPublisher())[0];
+            String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(), publisher.getAvatar(), "Header", null);
+            Picasso.get().load(Uri.parse(path)).into(holder.header);
         }
-        else if(news.get(position).getImage().length!=0 && !news.get(position).getImage()[0].equals("")) {
-            Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
-            holder.header.setVisibility(View.GONE);
+        else
+            holder.header_layout.setVisibility(View.GONE);
+
+        if(news.get(position).getImage().length!=0 && !news.get(position).getImage()[0].equals("")) {
+//            Picasso.get().load(news.get(position).getImage()[0]).into(holder.imgNews);
+//            holder.header_layout.setVisibility(View.GONE);
+            Glide.with(activity).load(news.get(position).getImage()[0]).into(holder.imgNews);
         }
         else {
             holder.imgNews.setImageResource(0);
-            holder.header.setVisibility(View.GONE);
+//            holder.header_layout.setVisibility(View.GONE);
         }
         if(newsManager.inCollectionNews(news.get(position)))
             holder.starButton.setChecked(true);
@@ -156,13 +179,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             @Override
             public void onClick(final View v) {
                 News tmp = news.get(position);
-                String[] keywords = news.get(position).getKeywords();
-                Double[] scores = news.get(position).getDoubleScores();
-                for(int i = 0; i < keywords.length; ++i) {
-                    if (scores[i] < 0.5 || newsManager.inHistoryNews(tmp)) {
-                        break;
+                if(!newsManager.getLastCategory().equals("关注")) {
+                    String[] keywords = news.get(position).getKeywords();
+                    if(keywords != null && keywords.length == 0) {
+                        Double[] scores = news.get(position).getDoubleScores();
+                        for (int i = 0; i < keywords.length; ++i) {
+                            if (scores[i] < 0.5 || newsManager.inHistoryNews(tmp)) {
+                                break;
+                            }
+                            newsManager.addWeight(scores[i], keywords[i]);
+                        }
                     }
-                    newsManager.addWeight(scores[i], keywords[i]);
                 }
                 newsManager.addInHistory(tmp);
                 offlineNewsManager.addOneOfflineNews(tmp);

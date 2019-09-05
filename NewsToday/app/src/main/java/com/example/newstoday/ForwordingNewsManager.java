@@ -3,7 +3,10 @@ package com.example.newstoday;
 import android.content.Context;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ForwordingNewsManager {
     /**
@@ -38,6 +41,8 @@ public class ForwordingNewsManager {
     public void addOneForwardingNewsForUser(News news, String email){
         news.setPublisher(email);
         news.setCategory("关注");
+        String today = new SimpleDateFormat("yyyy-MM-dd\tHH:mm:ss", Locale.CHINA).format(new Date());
+        news.setDate(today);
         newsRepository.insertNews(news);
     }
 

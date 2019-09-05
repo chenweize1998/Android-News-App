@@ -67,7 +67,7 @@ public class UserMessageManager {
      */
     public ArrayList<News> getUserAllFollowigMessage(User user){
         /**这个地方需要修改*/
-        String[] followigs = (String[])user.getFollowig().toArray();
+        String[] followigs = user.getFollowig().toArray(new String[user.getFollowig().size()]);
         return newsRepository.getNewsByEmail(followigs);
     }
 
