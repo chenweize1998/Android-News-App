@@ -43,13 +43,12 @@ public class User {
 
     private String name;
     private String password;
+    private String avatar;
     @Nullable
     private ArraySet<String> followig;
-    @Nullable
-    private Bitmap avatar;
 
 
-    public User(String email, String name, String password, @Nullable ArraySet<String> followig, @Nullable Bitmap avatar){
+    public User(String email, String name, String password, @Nullable ArraySet<String> followig, @Nullable String avatar){
         this.email = email;
         this.name = name;
         this.password = password;
@@ -77,7 +76,7 @@ public class User {
         return followig;
     }
 
-    public Bitmap getAvatar(){
+    public String getAvatar(){
         return this.avatar;
     }
 
@@ -97,7 +96,7 @@ public class User {
         this.followig = followig;
     }
 
-    public void setAvatar(Bitmap avatar){
+    public void setAvatar(String avatar){
         this.avatar = avatar;
     }
 

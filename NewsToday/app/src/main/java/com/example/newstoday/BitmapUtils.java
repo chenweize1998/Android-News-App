@@ -77,7 +77,7 @@ public class BitmapUtils {
      * @return
      */
     private static String saveMyBitmap(String filename, Bitmap bit) {
-        String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/postPicture/";
+        String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/picture/";
         String filePath = baseDir + filename;
         File dir = new File(baseDir);
         if (!dir.exists()) {
@@ -100,12 +100,12 @@ public class BitmapUtils {
     }
 
     /**
-     * 压缩上传路径
-     *
+     * 调用此方法可以把图片存到另一个路径
+     * 然后放回新路径
      * @param path
      * @return
      */
-    public static String compressImageUpload(String path) {
+    public static String saveImageOnLocalDir(String path) {
         String filename = path.substring(path.lastIndexOf("/") + 1);
         Bitmap image = getImage(path);
         return saveMyBitmap(filename, image);

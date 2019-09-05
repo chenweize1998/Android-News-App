@@ -42,12 +42,6 @@ public class UserManagerOnServer {
             return false;
         }
         User user = users[0];
-        String avatar;
-        if(users[0].getAvatar()!=null){
-            avatar = new String(ImageConverter.toTimestamp(users[0].getAvatar()));
-        }else{
-            avatar = "null";
-        }
         StringBuilder data = new StringBuilder();
         data.append("email=");
         data.append(email);
@@ -61,8 +55,6 @@ public class UserManagerOnServer {
         }else{
             data.append("null");
         }
-        data.append("&avatar=");
-        data.append(avatar);
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signIn/", data.toString());
         if(res==null){
             return false;
