@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity
             public void run()
             {
                 startActivity(new Intent(getApplicationContext(), Table.class));
+//                startActivity(new Intent(getApplicationContext(), Test.class));
                 finish();
             }
         };

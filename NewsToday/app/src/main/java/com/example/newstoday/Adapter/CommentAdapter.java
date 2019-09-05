@@ -58,10 +58,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Glide.with(activity).load(users[position].getAvatar()).into(holder.header);
-        holder.email.setText(users[position].getEmail());
-        holder.name.setText(users[position].getName());
-        holder.comment.setText(comments.get(commenter[position]));
+        if(users.length != 0) {
+            Glide.with(activity).load(users[position].getAvatar()).into(holder.header);
+            holder.email.setText(users[position].getEmail());
+            holder.name.setText(users[position].getName());
+            holder.comment.setText(comments.get(commenter[position]));
+        }
     }
 
     @Override

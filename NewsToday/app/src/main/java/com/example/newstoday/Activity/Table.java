@@ -33,9 +33,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.bumptech.glide.Glide;
+import com.example.newstoday.ImagePoster;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.OfflineNewsManager;
-import com.example.newstoday.PostImage;
 import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
@@ -68,6 +70,7 @@ public class Table extends AppCompatActivity {
     private UserManagerOnServer userManagerOnServer;
     private UserManager userManager;
     private OfflineNewsManager offlineNewsManager;
+    private ImagePoster imagePoster;
 
     public Drawer drawer;
     public static AccountHeader header;
@@ -121,12 +124,14 @@ public class Table extends AppCompatActivity {
 
         NewsItem newsItem = new NewsItem(this.getSupportFragmentManager());
         fragmentTransaction.add(R.id.table_fragment, newsItem);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
 
         newsManager = NewsManager.getNewsManager(getApplicationContext());
         userManager = UserManager.getUserManager(getApplicationContext());
         userManagerOnServer = UserManagerOnServer.getUserManagerOnServer(getApplicationContext());
         offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(getApplicationContext());
+        imagePoster = ImagePoster.getImagePoster(getApplicationContext());
 
         asyncServerNews = AsyncServerNews.getAsyncServerNews(getApplicationContext());
 //        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
@@ -180,58 +185,23 @@ public class Table extends AppCompatActivity {
 //            try {
                 if(data == null)
                     return;
-//                Luban.with(getApplicationContext())
-//                        .load(data.getData())
-//                        .ignoreBy(0)
-//                        .setTargetDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath())
-//                        .filter(new CompressionPredicate() {
-//                            @Override
-//                            public boolean apply(String path) {
-//                                return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
-//                            }
-//                        })
-//                        .setCompressListener(new OnCompressListener() {
-//                            @Override
-//                            public void onStart() {
-//                                // TODO 压缩开始前调用，可以在方法内启动 loading UI
-//                                if(!spotsDialog.isShowing())
-//                                    spotsDialog.show();
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(File file) {
-//                                // TODO 压缩成功后调用，返回压缩后的图片文件
-//                                User user = userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0];
-//                                Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
-//                                user.setAvatar(bitmap);
-//                                userManager.updateUser(user);
-//                                header.getActiveProfile().withIcon(bitmap);
-//                                header.updateProfile(header.getActiveProfile());
-//                                System.out.println(getSupportFragmentManager().getFragments().size());
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                // TODO 当压缩过程出现问题时调用
-//                                Toast.makeText(getApplicationContext(), "图片压缩失败", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }).launch();
-                try {
+//                try {
                     User user = userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0];
-                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+//                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 //                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
 //                            Uri.parse(PostImage.getRealPathFromURI(data.getData(), getContentResolver())));
 //                    user.setAvatar(bitmap);
+                    imagePoster.postAvaterToServer(data.getData().toString(), user);
                     userManager.updateUser(user);
-                    header.getActiveProfile().withIcon(bitmap);
+                    header.getActiveProfile().withIcon(data.getData());
                     header.updateProfile(header.getActiveProfile());
                     System.out.println(getSupportFragmentManager().getFragments().size());
-                } catch (FileNotFoundException e){
-                    e.printStackTrace();
-                } /*catch (IOException e){
-                    e.printStackTrace();
-                }*/
+//                } /*catch (FileNotFoundException e){
+//                    e.printStackTrace();
+//                } catch (IOException e){
+//                    e.printStackTrace();
+//                }*/
 
 //            } catch (FileNotFoundException e){
 //                e.printStackTrace();
@@ -348,6 +318,7 @@ public class Table extends AppCompatActivity {
                             fragmentTransaction.replace(R.id.table_fragment, homepage, "Homepage");
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
                             return false;
                         } else {
@@ -407,6 +378,7 @@ public class Table extends AppCompatActivity {
                             fragmentTransaction.replace(R.id.table_fragment, collectionNews);
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
 
                         } else if (drawerItem.getIdentifier() == HISTORY_IDENTIFIER) {
@@ -416,6 +388,7 @@ public class Table extends AppCompatActivity {
                             fragmentTransaction.replace(R.id.table_fragment, historyNews);
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
                         } else if (drawerItem.getIdentifier() == CLEAR_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
@@ -520,6 +493,7 @@ public class Table extends AppCompatActivity {
                             if(fragmentManager.getBackStackEntryCount() == 0 ||
                                     fragmentManager.getBackStackEntryCount() == 1)
                                 fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
                         }
                         return false;

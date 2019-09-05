@@ -35,6 +35,7 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+        maven { url 'https://www.jitpack.io' }
     }
 }
 
@@ -59,6 +60,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
     implementation 'com.hankcs:aho-corasick-double-array-trie:1.2.1'
     implementation 'top.zibin:Luban:1.1.8'
+    implementation 'com.github.elevenetc:textsurface:0.9.1'
 
     implementation 'com.zhihu.android:matisse:0.5.3-beta2'
 

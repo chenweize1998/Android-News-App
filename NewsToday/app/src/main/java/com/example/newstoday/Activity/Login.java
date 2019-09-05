@@ -54,7 +54,6 @@ public class Login extends AppCompatActivity {
                     intent.putExtra("email", email);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
-
                 }else{
                     Toast.makeText(getApplicationContext(), "注册失败，邮箱已存在", Toast.LENGTH_SHORT).show();
                 }

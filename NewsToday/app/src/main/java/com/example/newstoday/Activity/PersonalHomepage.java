@@ -64,15 +64,15 @@ public class PersonalHomepage extends Fragment {
         TextView email = view.findViewById(R.id.homepage_email);
         email.setText(user.getEmail());
         ImageView header = view.findViewById(R.id.homepage_header);
-//        header.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                    Intent intent = new Intent();
-//                    intent.setType("image/*");
-//                    intent.setAction(Intent.ACTION_GET_CONTENT);
-//                    getActivity().startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-//            }
-//        });
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    getActivity().startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+            }
+        });
 
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override

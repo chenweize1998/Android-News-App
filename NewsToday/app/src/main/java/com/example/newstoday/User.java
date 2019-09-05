@@ -71,7 +71,6 @@ public class User {
         return this.password;
     }
 
-
     public ArraySet<String> getFollowig(){
         return followig;
     }
