@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -185,29 +186,40 @@ public class Table extends AppCompatActivity {
 //            try {
                 if(data == null)
                     return;
-//                try {
+                try {
                     User user = userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0];
 //                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
 //                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 //                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
 //                            Uri.parse(PostImage.getRealPathFromURI(data.getData(), getContentResolver())));
 //                    user.setAvatar(bitmap);
-                    imagePoster.postAvaterToServer(data.getData().toString(), user);
+                    Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    imagePoster.postAvaterToServer(image, user);
                     userManager.updateUser(user);
                     header.getActiveProfile().withIcon(data.getData());
                     header.updateProfile(header.getActiveProfile());
                     System.out.println(getSupportFragmentManager().getFragments().size());
-//                } /*catch (FileNotFoundException e){
-//                    e.printStackTrace();
-//                } catch (IOException e){
-//                    e.printStackTrace();
-//                }*/
+                } catch (FileNotFoundException e){
+                    e.printStackTrace();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
 
 //            } catch (FileNotFoundException e){
 //                e.printStackTrace();
 //                Toast.makeText(getApplicationContext(), "更换头像失败", Toast.LENGTH_SHORT).show();
 //            }
         }
+    }
+
+    public String getPath(Uri uri) {
+
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(column_index);
     }
 
     private void buildDrawer(final Activity activity){

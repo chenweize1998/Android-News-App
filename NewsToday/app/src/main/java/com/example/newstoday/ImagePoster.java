@@ -1,6 +1,7 @@
 package com.example.newstoday;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
 
 import okhttp3.*;
@@ -28,8 +29,10 @@ public class ImagePoster {
         return INSTANCE;
     }
 
-    public boolean postAvaterToServer(String imagePath, User user){
-        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
+    public boolean postAvaterToServer(Bitmap bitmap, User user){
+//        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
+        String filename = System.currentTimeMillis() + ".jpg";
+        String imagePath = BitmapUtils.saveMyBitmap(filename, bitmap);
         boolean res = postImage(imagePath);
         String url = "http://166.111.5.239:8000/downloadImage/?filename="+filename;
         userManager.setUserAvatar(user, url);
@@ -57,11 +60,14 @@ public class ImagePoster {
         OkHttpClient  okHttpClient = new OkHttpClient();
         //上传的图片
         String url = "http://166.111.5.239:8000/uploadImage/";
+        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
         File file = new File(imagePath);
         //2.通过RequestBody.create 创建requestBody对象,application/octet-stream 表示文件是任意二进制数据流
+        RequestBody image = RequestBody.create(file, MediaType.parse("image/*"));
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("image", imagePath.substring(imagePath.lastIndexOf("/") + 1), RequestBody.create(file, MediaType.parse("image/jpg")))
+                .addFormDataPart("filename", imagePath)
+                .addFormDataPart("image", "example.png", image)
                 .build();
 
         //3.创建Request对象，设置URL地址，将RequestBody作为post方法的参数传入
