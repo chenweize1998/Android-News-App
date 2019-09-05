@@ -48,13 +48,12 @@ public class Login extends AppCompatActivity {
                     User user = new User(email, name, passwd, null, null);
 //                    user.setOriAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
 //                    user.setAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
-                    userManager.addInUser(user);
+//                    userManager.addInUser(user);
                     Intent intent = getIntent();
                     intent.putExtra("name", name);
                     intent.putExtra("email", email);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
-
                 }else{
                     Toast.makeText(getApplicationContext(), "注册失败，邮箱已存在", Toast.LENGTH_SHORT).show();
                 }

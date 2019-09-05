@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -dontwarn com.bumptech.glide.**
+-keep class su.levenetc.android.textsurface.** { *; }

@@ -33,6 +33,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.bumptech.glide.Glide;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.OfflineNewsManager;
 import com.example.newstoday.PostImage;
@@ -121,6 +123,7 @@ public class Table extends AppCompatActivity {
 
         NewsItem newsItem = new NewsItem(this.getSupportFragmentManager());
         fragmentTransaction.add(R.id.table_fragment, newsItem);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
 
         newsManager = NewsManager.getNewsManager(getApplicationContext());
@@ -348,6 +351,7 @@ public class Table extends AppCompatActivity {
                             fragmentTransaction.replace(R.id.table_fragment, homepage, "Homepage");
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
                             return false;
                         } else {
@@ -407,6 +411,7 @@ public class Table extends AppCompatActivity {
                             fragmentTransaction.replace(R.id.table_fragment, collectionNews);
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
 
                         } else if (drawerItem.getIdentifier() == HISTORY_IDENTIFIER) {
@@ -416,6 +421,7 @@ public class Table extends AppCompatActivity {
                             fragmentTransaction.replace(R.id.table_fragment, historyNews);
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
                         } else if (drawerItem.getIdentifier() == CLEAR_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
@@ -520,6 +526,7 @@ public class Table extends AppCompatActivity {
                             if(fragmentManager.getBackStackEntryCount() == 0 ||
                                     fragmentManager.getBackStackEntryCount() == 1)
                                 fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
                         }
                         return false;

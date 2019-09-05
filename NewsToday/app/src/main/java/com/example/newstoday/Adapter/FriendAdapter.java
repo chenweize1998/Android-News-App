@@ -119,6 +119,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
                 fragmentTransaction.replace(R.id.table_fragment, homepage);
 //                if(fragmentManager.getBackStackEntryCount() == 0)
                 fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 fragmentTransaction.commit();
             }
         });

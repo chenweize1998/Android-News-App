@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run()
             {
-                startActivity(new Intent(getApplicationContext(), Table.class));
+//                startActivity(new Intent(getApplicationContext(), Table.class));
+                startActivity(new Intent(getApplicationContext(), Test.class));
                 finish();
             }
         };
