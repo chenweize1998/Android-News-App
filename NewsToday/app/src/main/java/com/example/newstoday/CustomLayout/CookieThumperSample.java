@@ -1,9 +1,16 @@
 package com.example.newstoday.CustomLayout;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.example.newstoday.Activity.Table;
 
 import su.levenetc.android.textsurface.contants.Align;
 import su.levenetc.android.textsurface.Text;
@@ -23,13 +30,15 @@ import su.levenetc.android.textsurface.animations.TransSurface;
 import su.levenetc.android.textsurface.contants.Direction;
 import su.levenetc.android.textsurface.contants.Pivot;
 import su.levenetc.android.textsurface.contants.Side;
+import su.levenetc.android.textsurface.interfaces.IEndListener;
+import su.levenetc.android.textsurface.interfaces.ISurfaceAnimation;
 
 /**
  * Created by Eugene Levenetc.
  */
 public class CookieThumperSample {
 
-    public static void play(TextSurface textSurface, AssetManager assetManager) {
+    public static void play(TextSurface textSurface, AssetManager assetManager, final Activity activity) {
 
 //        final Typeface robotoBlack = Typeface.createFromAsset(assetManager, "fonts/Roboto-Black.ttf");
         Paint paint = new Paint();
@@ -68,21 +77,21 @@ public class CookieThumperSample {
                 .setColor(Color.RED)
                 .setPosition(Align.BOTTOM_OF, textFokkenGamBra).build();
 
-        Text textDaaiAnies = TextBuilder
-                .create("Daai Anies")
-                .setPaint(paint)
-                .setSize(44)
-                .setAlpha(0)
-                .setColor(Color.WHITE)
-                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textHaai).build();
-
-        Text texThyLamInnie = TextBuilder
-                .create(" hy lam innie mang ja.")
-                .setPaint(paint)
-                .setSize(44)
-                .setAlpha(0)
-                .setColor(Color.WHITE)
-                .setPosition(Align.RIGHT_OF, textDaaiAnies).build();
+//        Text textDaaiAnies = TextBuilder
+//                .create("Daai Anies")
+//                .setPaint(paint)
+//                .setSize(44)
+//                .setAlpha(0)
+//                .setColor(Color.WHITE)
+//                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textHaai).build();
+//
+//        Text texThyLamInnie = TextBuilder
+//                .create(" hy lam innie mang ja.")
+//                .setPaint(paint)
+//                .setSize(44)
+//                .setAlpha(0)
+//                .setColor(Color.WHITE)
+//                .setPosition(Align.RIGHT_OF, textDaaiAnies).build();
 
         Text textThrowDamn = TextBuilder
                 .create("Throw damn")
@@ -90,7 +99,7 @@ public class CookieThumperSample {
                 .setSize(44)
                 .setAlpha(0)
                 .setColor(Color.RED)
-                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, texThyLamInnie).build();
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textHaai).build();
 
         Text textDevilishGang = TextBuilder
                 .create("devilish gang")
@@ -114,11 +123,11 @@ public class CookieThumperSample {
                         new Parallel(ShapeReveal.create(textDaai, 600, SideCut.hide(Side.LEFT), false), new Sequential(Delay.duration(300), ShapeReveal.create(textDaai, 600, SideCut.show(Side.LEFT), false))),
                         new Parallel(new TransSurface(500, textBraAnies, Pivot.CENTER), ShapeReveal.create(textBraAnies, 1300, SideCut.show(Side.LEFT), false)),
                         Delay.duration(500),
-                        new Parallel(new TransSurface(750, textFokkenGamBra, Pivot.CENTER), Slide.showFrom(Side.LEFT, textFokkenGamBra, 750), ChangeColor.to(textFokkenGamBra, 750, Color.WHITE)),
+                        new Parallel(new TransSurface(750, textFokkenGamBra, Pivot.CENTER), Rotate3D.showFromSide(textFokkenGamBra, 750, Pivot.LEFT), ChangeColor.to(textFokkenGamBra, 750, Color.WHITE)),
                         Delay.duration(500),
                         new Parallel(TransSurface.toCenter(textHaai, 500), Rotate3D.showFromSide(textHaai, 750, Pivot.TOP)),
-                        new Parallel(TransSurface.toCenter(textDaaiAnies, 500), Slide.showFrom(Side.TOP, textDaaiAnies, 500)),
-                        new Parallel(TransSurface.toCenter(texThyLamInnie, 750), Slide.showFrom(Side.LEFT, texThyLamInnie, 500)),
+//                        new Parallel(TransSurface.toCenter(textDaaiAnies, 500), Slide.showFrom(Side.TOP, textDaaiAnies, 500)),
+//                        new Parallel(TransSurface.toCenter(texThyLamInnie, 750), Slide.showFrom(Side.LEFT, texThyLamInnie, 500))
                         Delay.duration(500),
                         new Parallel(
                                 new TransSurface(1500, textSignsInTheAir, Pivot.CENTER),
@@ -133,12 +142,41 @@ public class CookieThumperSample {
                                 ShapeReveal.create(textThrowDamn, 1500, SideCut.hide(Side.LEFT), true),
                                 new Sequential(Delay.duration(250), ShapeReveal.create(textDevilishGang, 1500, SideCut.hide(Side.LEFT), true)),
                                 new Sequential(Delay.duration(500), ShapeReveal.create(textSignsInTheAir, 1500, SideCut.hide(Side.LEFT), true)),
-                                Alpha.hide(texThyLamInnie, 1500),
-                                Alpha.hide(textDaaiAnies, 1500)
-                        )
+                                Alpha.hide(textDaai, 1500),
+                                Alpha.hide(textBraAnies, 1500),
+                                Alpha.hide(textHaai, 1500),
+                                Alpha.hide(textFokkenGamBra, 1500)
+                        ),
+                        new Parallel(new ISurfaceAnimation() {
+                            @Override
+                            public void onStart() {
+                                Intent intent = new Intent(activity, Table.class);
+                                activity.startActivity(intent);
+                                activity.finish();
+                            }
+
+                            @Override
+                            public void start(@Nullable IEndListener iEndListener) {
+
+                            }
+
+                            @Override
+                            public void setTextSurface(@NonNull TextSurface textSurface) {
+
+                            }
+
+                            @Override
+                            public long getDuration() {
+                                return 0;
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        })
                 )
         );
-
     }
 
 }

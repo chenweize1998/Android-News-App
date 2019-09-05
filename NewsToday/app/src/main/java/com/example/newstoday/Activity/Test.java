@@ -1,5 +1,6 @@
 package com.example.newstoday.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -49,7 +50,7 @@ public class Test extends AppCompatActivity {
 
     private void show() {
         textSurface.reset();
-        CookieThumperSample.play(textSurface, getAssets());
+        CookieThumperSample.play(textSurface, getAssets(), this);
     }
 
 }
