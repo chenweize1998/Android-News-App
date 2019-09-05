@@ -36,6 +36,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.example.newstoday.ImageFilePath;
 import com.example.newstoday.ImagePoster;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.OfflineNewsManager;
@@ -193,8 +194,7 @@ public class Table extends AppCompatActivity {
 //                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
 //                            Uri.parse(PostImage.getRealPathFromURI(data.getData(), getContentResolver())));
 //                    user.setAvatar(bitmap);
-                    Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    imagePoster.postAvaterToServer(image, user);
+                    imagePoster.postAvaterToServer(ImageFilePath.getPath(this, data.getData()), user);
                     userManager.updateUser(user);
                     header.getActiveProfile().withIcon(data.getData());
                     header.updateProfile(header.getActiveProfile());

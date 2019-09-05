@@ -67,7 +67,7 @@ public class ImagePoster {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("filename", imagePath)
-                .addFormDataPart("image", "example.png", image)
+                .addFormDataPart("image", imagePath.substring(imagePath.lastIndexOf("/") + 1), RequestBody.create(file, MediaType.parse("multipart/form-data")))
                 .build();
 
         //3.创建Request对象，设置URL地址，将RequestBody作为post方法的参数传入
