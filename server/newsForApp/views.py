@@ -18,26 +18,58 @@ class G:
 def index(request):
     return render(request, 'exam.html')
 
+
+def user(request):
+    if request.method == "POST":
+        if G.currentUser == "null":
+            return HttpResponse("Fail")
+        email = request.POST.get("email")
+        name = request.POST.get("name")
+        password = request.get("password")
+        avatar = request.get("avatar")
+        followig = request.get("followig")
+        if G.currentUser != email:
+            return HttpResponse("Fail")
+        user = User.objects.filter(email = email)
+        user[0].avatar = avatar
+        user[0].followig = followig
+        return HttpResponse("Success")
+        
+    if request.method == "GET":
+        data = []
+        users = User.objects.all()
+        for user in users:
+            data.append(
+                {
+                    "email":user.email,
+                    "name":user.name,
+                    "password":user.password,
+                    "avatar":user.avatar,
+                    "followig":user.followig,
+                }
+            )
+        jsonData = {"data":data}
+        return HttpResponse(json.dumps(jsonData))
+        
 def userSignIn(request):
     if request.method == 'POST':
         email = request.POST.get("email")
         name = request.POST.get("name")
         password = request.POST.get("password")
         print("signin: "+email+'  '+name+' '+password)  
-        ##
-        #if user is not in user_list
         if len(User.objects.filter(email=email)) == 0:
             return HttpResponse("Fail")
-        ##
-        #check password
         userInDB = User.objects.filter(email = email)
         passwordOfUserInDB = userInDB[0].password
         if passwordOfUserInDB != password or userInDB[0].name != name:
             return HttpResponse("Fail")
         G.currentUser = email
-        userInDB[0].oriFollowig = request.POST.get("oriFollowig")
-        userInDB[0].save()
-        return HttpResponse("Success")
+
+        data = {
+            "avatar":userInDB[0].avatar,
+            "followig":userInDB[0].followig,
+        }
+        return HttpResponse(json.dumps(data))
     return HttpResponse("Fail")
 
 def userSignUp(request):
@@ -68,6 +100,11 @@ def postAllNews(request):
     if request.method == "POST":
         if G.currentUser == "null":
             return HttpResponse("Fail")
+        HistoryNews.objects.delete()
+        CollectionNews.objects.delete()
+        ForwardingNews.objects.delete()
+        UserMessage.objects.delete()
+
         newsID = request.POST["newsID"].split("#^#")
         title = request.POST["title"].split("#^#")
         date = request.POST["date"].split("#^#")
@@ -115,6 +152,14 @@ def postAllNews(request):
                                 oriScores =  oriScores[i], video = video[i]) 
                 newForwardingNews.save()
                 print("转发消息保存成功")
+            elif newsType[i] == "userMessage":
+                newUserMessage = UserMessage(newsID = newsID[i], title = title[i], date =date[i], 
+                                content = content[i], person = person[i], organization = organization[i], 
+                                location = location[i], category = category[i], publisher = publisher[i],
+                                url = url[i], oriImage = oriImage[i], oriKeywords = oriKeywords[i], 
+                                oriScores =  oriScores[i], video = video[i])
+                newUserMessage.save()
+                print("发布消息保存成功")
             elif newsType[i] == "map":
                 entry = Map.objects.filter(user = G.currentUser)
                 if len(entry) == 0:
@@ -224,6 +269,29 @@ def getAllNews(request):
                 "filterWords":" ",
             }
             data.append(newsIndata)
+        
+        allUserMessage = UserMessage.objects.all()
+        for news in allUserMessage:
+            newsIndata = {
+                "newsID":news.newsID,
+                "title":news.title,
+                "date":news.date,
+                "content":news.content,
+                "person":news.person,
+                "organization":news.organization,
+                "location":news.location,
+                "category":news.category,
+                "publisher":news.publisher,
+                "url":news.url,
+                "oriImage":news.oriImage,
+                "oriKeywords":news.oriKeywords,
+                "oriScores":news.oriScores,
+                "video":news.video,
+                "newsType":"userMessage",
+                "weight":" ",
+                "filterWords":" ",
+            }
+            data.append(newsIndata)
 
         newsIndata = {
                 "newsID":" ",
@@ -252,9 +320,17 @@ def getAllNews(request):
 def uploadImage(request):
     source = request.FILES.get('image')
     if source:
-      source.name = request.POST.get("filename")
-      image = Image(img=source)
+      image = Image(img=source, filename = request.POST.get("filename"))
       image.save()
       return HttpResponse("Success")
     else:
       return HttpResponse("Fail")
+
+def downloadImage(request):
+    data = request.GET 
+    filename = data.get("filename")
+    imagepath = os.path.join("media/", filename)
+    with open(imagepath, "rb") as f:
+        image = f.read()
+    return HttpResponse(image, content_type="image")
+    

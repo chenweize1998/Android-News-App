@@ -23,7 +23,9 @@ urlpatterns = [
     path("signIn/", views.userSignIn),
     path("signUp/", views.userSignUp),
     path("signOut/", views.userSignOut),
+    path("user/", views.user),
     path("getAllNews/", views.getAllNews),
     path("postAllNews/", views.postAllNews),
     path("uploadImage/", views.uploadImage),
+    path("downloadImage/", views.downloadImage),
 ]

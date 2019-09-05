@@ -1,6 +1,8 @@
 package com.example.newstoday;
 
 import android.content.Context;
+import android.util.ArraySet;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ public class AsyncServerNews {
     private NewsManager newsManager;
     private ServerHttpResponse serverHttpResponse;
     private ForwordingNewsManager forwordingNewsManager;
+    private UserManager userManager;
     private UserMessageManager userMessageManager;
     private static AsyncServerNews INSTANCE = null;
 
@@ -23,6 +26,7 @@ public class AsyncServerNews {
     private AsyncServerNews(Context context) {
         newsManager = NewsManager.getNewsManager(context);
         forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(context);
+        userManager = UserManager.getUserManager(context);
         userMessageManager = UserMessageManager.getUserMessageManager(context);
         serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     }
@@ -35,11 +39,11 @@ public class AsyncServerNews {
     }
 
     public boolean asyncDataFromServer(){
-        return (asyncNewsFromServer() && asyncUserMessageFromServer());
+        return (asyncNewsFromServer() && asyncUserFromServer());
     }
 
     public boolean asyncDataToServer(){
-        return (asyncNewsToServer() && asyncUserMessageToServer());
+        return (asyncNewsToServer() && asyncUserToServer());
     }
 
     public boolean asyncNewsFromServer() {
@@ -89,6 +93,10 @@ public class AsyncServerNews {
                     forwordingNewsManager.addOneForwardingNewsForUser(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
                             Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video), publisher);
+                }else if(newsType.equals("userMessage")){
+                    userMessageManager.addOneUserMessage(new News(title, date, content, category, organization, newsID,
+                            Converter.fromTimestamp(oriImage), publisher, person, location,
+                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video));
                 }
             }
 
@@ -130,37 +138,42 @@ public class AsyncServerNews {
         return false;
     }
 
-    public boolean asyncUserMessageFromServer() {
-//        try {
-//            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/userMessage/");
-//            if (json == null || json.equals("Fail")) {
-//                return false;
-//            }
-//
-//            JSONObject jsonData = new JSONObject(json);
-//
-//            JSONArray messageArray = jsonData.getJSONArray("data");
-//            System.out.println("来了" + messageArray.length() + "条用户发布数据");
-//            for (int i = 0; i < messageArray.length(); i++) {
-//                JSONObject message = messageArray.getJSONObject(i);
-//                String messageID = message.getString("messageID");
-//                String email = message.getString("email");
-//                String content = message.getString("content");
-//                String image = message.getString("image");
-//                byte[] bytes;
-//                if(!image.equals("null")) {
-//                    bytes = image.getBytes();
-//                }else{
-//                    bytes = null;
-//                }
-//                userMessageManager.addOneUserMessage(new UserMessage(messageID, email, content, ImageConverter.fromTimestamp(bytes)));
-//            }
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-        return true;
+    public boolean asyncUserFromServer() {
+        try {
+            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/user/");
+            if (json == null || json.equals("Fail")) {
+                return false;
+            }
 
+            JSONObject jsonData = new JSONObject(json);
+
+            JSONArray messageArray = jsonData.getJSONArray("data");
+            System.out.println("来了" + messageArray.length() + "条用户数据");
+            for (int i = 0; i < messageArray.length(); i++) {
+                JSONObject message = messageArray.getJSONObject(i);
+                String email = message.getString("email");
+                String name = message.getString("name");
+                String password = message.getString("password");
+                String avatar = message.getString("avatar");
+                String followig = message.getString("followig");
+
+                if (followig != "null") {
+                    ArraySet<String> as = new ArraySet<>();
+                    String[] followigs = followig.split(",");
+                    for (String _followig : followigs) {
+                        as.add(_followig);
+                    }
+                    userManager.addInUser(new User(email, name, password, as, avatar));
+                }else{
+                    userManager.addInUser(new User(email, name, password, null, avatar));
+                }
+            }
+            return true;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean asyncNewsToServer() {
@@ -298,6 +311,44 @@ public class AsyncServerNews {
             filterWords.append("#^#");
         }
 
+        ArrayList<News> allUserMessage = userMessageManager.getAllUserMessage();
+        for(News news: allUserMessage){
+            newsID.append(news.getNewsID());
+            newsID.append("#^#");
+            title.append(news.getTitle());
+            title.append("#^#");
+            date.append(news.getDate());
+            date.append("#^#");
+            content.append(news.getContent());
+            content.append("#^#");
+            person.append(news.getPerson());
+            person.append("#^#");
+            organization.append(news.getOrganization());
+            organization.append("#^#");
+            location.append(news.getLocation());
+            location.append("#^#");
+            category.append(news.getCategory());
+            category.append("#^#");
+            publisher.append(news.getPublisher());
+            publisher.append("#^#");
+            url.append(news.getUrl());
+            url.append("#^#");
+            image.append(Converter.toTimestamp(news.getImage()));
+            image.append("#^#");
+            keywords.append(Converter.toTimestamp(news.getKeywords()));
+            keywords.append("#^#");
+            scores.append(Converter.toTimestamp(news.getScores()));
+            scores.append("#^#");
+            video.append(news.getVideo());
+            video.append("#^#");
+            newsType.append("userMessage");
+            newsType.append("#^#");
+            mapData.append("null");
+            mapData.append("#^#");
+            filterWords.append("null");
+            filterWords.append("#^#");
+        }
+
         String weightData = "null";
         NavigableMap<Double, String> map = newsManager.getMap();
         if (map!=null && map.size() != 0) {
@@ -396,27 +447,42 @@ public class AsyncServerNews {
         return true;
     }
 
-    public boolean asyncUserMessageToServer() {
-//        ArrayList<UserMessage> allUserMessage = userMessageManager.getAllUserMessage();
-//        String url = "http://166.111.5.239:8000/userMessage/";
-//        for (UserMessage userMessage : allUserMessage) {
-//            String image;
-//            if(userMessage.getImage()!=null) {
-//                image = new String(ImageConverter.toTimestamp(userMessage.getImage()));
-//            }else{
-//                image = "null";
-//            }
-//            String data = "messageID=" + userMessage.getMessageID() + "&email=" + userMessage.getEmail() +
-//                    "&content=" + userMessage.getContent() + "&image=" + image;
-//            String res = serverHttpResponse.postResponse(url, data);
-//            if (res == null) {
-//                return false;
-//            } else {
-//                if (res.equals("Fail")) {
-//                    return false;
-//                }
-//            }
-//        }
+    public boolean asyncUserToServer() {
+        User user = null;
+        String url = "http://166.111.5.239:8000/user/";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("email=");
+        sb.append(user.getEmail());
+        sb.append("&name=");
+        sb.append(user.getName());
+        sb.append("&password=");
+        sb.append(user.getPassword());
+        sb.append("&followig=");
+        if (user.getFollowig().size() != 0) {
+            StringBuilder sber = new StringBuilder();
+            ArraySet<String> followigs = user.getFollowig();
+            for(String followig:followigs){
+                sber.append(followig);
+                sber.append(",");
+            }
+            sber.delete(sber.length()-1, sber.length());
+            sb.append(sber);
+        }else{
+            sb.append("null");
+        }
+        sb.append("&avatar=");
+        sb.append(user.getAvatar());
+
+        String res = serverHttpResponse.postResponse(url, sb.toString());
+        if (res == null) {
+            return false;
+        } else {
+            if (res.equals("Fail")) {
+                return false;
+            }
+        }
+
         return true;
     }
 

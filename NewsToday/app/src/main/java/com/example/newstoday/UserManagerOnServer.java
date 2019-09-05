@@ -2,6 +2,10 @@ package com.example.newstoday;
 
 
 import android.content.Context;
+import android.util.ArraySet;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UserManagerOnServer {
 
@@ -32,16 +36,12 @@ public class UserManagerOnServer {
                 return false;
             }
         }
-        userManager.addInUser(new User(email, name, password, null, null));
+        User user = new User(email, name, password, null, "");
+        userManager.addInUser(user);
         return true;
     }
 
     public boolean userSignIn(String email, String name ,String password){
-        User[] users = userManager.getUserByEmail(email);
-        if(users.length == 0){
-            return false;
-        }
-        User user = users[0];
         StringBuilder data = new StringBuilder();
         data.append("email=");
         data.append(email);
@@ -49,12 +49,6 @@ public class UserManagerOnServer {
         data.append(name);
         data.append("&password=");
         data.append(password);
-        data.append("&oriFollowig=");
-        if(users[0].getFollowig()!=null){
-            data.append(SetConverter.toTimestamp(users[0].getFollowig()));
-        }else{
-            data.append("null");
-        }
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signIn/", data.toString());
         if(res==null){
             return false;
@@ -63,7 +57,28 @@ public class UserManagerOnServer {
                 return false;
             }
         }
-        return true;
+        try {
+            JSONObject json = new JSONObject(res);
+            User user = new User(email, name, password, null, "");
+            String followig = json.getString("followig");
+            String avatar = json.getString("avatar");
+
+            if(followig.equals("null")){
+            }else{
+                ArraySet<String> as = new ArraySet<>();
+                String[] followigs = followig.split(",");
+                for(String _followig:followigs){
+                    as.add(_followig);
+                }
+                user.setFollowig(as);
+            }
+            user.setAvatar(avatar);
+            userManager.addInUser(user);
+            return true;
+        }catch (JSONException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean userSignOut(){
@@ -77,8 +92,5 @@ public class UserManagerOnServer {
         }
         return true;
     }
-
-
-
 
 }
