@@ -48,7 +48,7 @@ public class User {
     private ArraySet<String> followig;
 
 
-    public User(String email, String name, String password, @Nullable ArraySet<String> followig, @Nullable String avatar){
+    public User(String email, String name, String password, @Nullable ArraySet<String> followig, @NonNull String avatar){
         this.email = email;
         this.name = name;
         this.password = password;

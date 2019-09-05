@@ -45,10 +45,10 @@ public class Login extends AppCompatActivity {
                 String name = inputName.getText().toString();
                 if(userManagerOnServer.userSignUp(email, name, passwd)){
                     Toast.makeText(getApplicationContext(), "注册成功！", Toast.LENGTH_SHORT).show();
-                    User user = new User(email, name, passwd, null, null);
+//                    User user = new User(email, name, passwd, null, "");
 //                    user.setOriAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
-                    user.setAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
-                    userManager.addInUser(user);
+//                    user.setAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
+//                    userManager.addInUser(user);
                     Intent intent = getIntent();
                     intent.putExtra("name", name);
                     intent.putExtra("email", email);
