@@ -15,10 +15,12 @@ public class ImagePoster {
     public static ImagePoster INSTANCE = null;
     public UserManager userManager;
     public UserMessageManager userMessageManager;
+
     private ImagePoster(Context context){
         userManager = UserManager.getUserManager(context);
         userMessageManager = UserMessageManager.getUserMessageManager(context);
     }
+
     public static ImagePoster getImagePoster(Context context){
         if(INSTANCE == null){
             INSTANCE = new ImagePoster(context);
