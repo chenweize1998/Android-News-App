@@ -127,8 +127,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 //            holder.imgNews.setImageResource(0);
             holder.header_layout.setVisibility(View.VISIBLE);
             User publisher = userManager.getUserByEmail(news.get(position).getPublisher())[0];
-            String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(), publisher.getAvatar(), "Header", null);
-            Picasso.get().load(Uri.parse(path)).into(holder.header);
+//            String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(), publisher.getAvatar(), "Header", null);
+//            Picasso.get().load(Uri.parse(path)).into(holder.header);
         }
         else
             holder.header_layout.setVisibility(View.GONE);

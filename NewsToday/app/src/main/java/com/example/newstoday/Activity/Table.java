@@ -222,7 +222,7 @@ public class Table extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 //                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
 //                            Uri.parse(PostImage.getRealPathFromURI(data.getData(), getContentResolver())));
-                    user.setAvatar(bitmap);
+//                    user.setAvatar(bitmap);
                     userManager.updateUser(user);
                     header.getActiveProfile().withIcon(bitmap);
                     header.updateProfile(header.getActiveProfile());

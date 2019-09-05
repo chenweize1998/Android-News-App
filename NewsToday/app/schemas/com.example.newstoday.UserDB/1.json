@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7d891459f69b0a2d99245db59cbc73fb",
+    "identityHash": "4dfad38de54eff7b71a89d66be07ee28",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `name` TEXT, `password` TEXT, `followig` TEXT, `avatar` BLOB, PRIMARY KEY(`email`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT NOT NULL, `name` TEXT, `password` TEXT, `avatar` TEXT, `followig` TEXT, PRIMARY KEY(`email`))",
         "fields": [
           {
             "fieldPath": "email",
@@ -27,15 +27,15 @@
             "notNull": false
           },
           {
-            "fieldPath": "followig",
-            "columnName": "followig",
+            "fieldPath": "avatar",
+            "columnName": "avatar",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "avatar",
-            "columnName": "avatar",
-            "affinity": "BLOB",
+            "fieldPath": "followig",
+            "columnName": "followig",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
@@ -52,7 +52,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7d891459f69b0a2d99245db59cbc73fb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4dfad38de54eff7b71a89d66be07ee28')"
     ]
   }
 }

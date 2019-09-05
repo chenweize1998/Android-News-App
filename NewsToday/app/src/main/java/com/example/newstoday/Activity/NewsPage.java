@@ -9,10 +9,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.newstoday.Adapter.CommentAdapter;
 import com.example.newstoday.Adapter.LoopRecyclerAdapter;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
@@ -25,6 +27,8 @@ import me.relex.recyclerpager.SnapPageScrollListener;
 
 import android.util.DisplayMetrics;
 import android.widget.VideoView;
+
+import java.util.HashMap;
 
 public class NewsPage extends AppCompatActivity {
     private LoopRecyclerAdapter mAdapterImg;
@@ -153,6 +157,12 @@ public class NewsPage extends AppCompatActivity {
                 }
             }
         });
+
+        final RecyclerView commentRecycler = findViewById(R.id.page_comment_recycler);
+        CommentAdapter commentAdapter = new CommentAdapter(new ArrayMap<String, String>(), this);
+        LinearLayoutManager commentLayoutManager = new LinearLayoutManager(getApplicationContext());
+        commentRecycler.setLayoutManager(commentLayoutManager);
+        commentRecycler.setAdapter(commentAdapter);
     }
 
 

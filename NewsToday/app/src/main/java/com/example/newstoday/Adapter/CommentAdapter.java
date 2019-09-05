@@ -2,25 +2,27 @@ package com.example.newstoday.Adapter;
 
 
 import android.app.Activity;
+import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.newstoday.R;
+import com.example.newstoday.User;
+import com.example.newstoday.UserManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {
-    private ArrayList<String> comments;
+    private ArrayMap<String, String> comments;
+    private String[] commenter;
+    private User[] users;
     private Activity activity;
+    private UserManager userManager;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView header;
@@ -36,9 +38,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         }
     }
 
-    public CommentAdapter(ArrayList<String> comments, Activity activity){
+    public CommentAdapter(ArrayMap<String, String> comments, Activity activity){
         this.comments = comments;
+        this.comments.put("test", "小编SB");
         this.activity = activity;
+        this.commenter = comments.keySet().toArray(new String[comments.keySet().size()]);
+        userManager = UserManager.getUserManager(activity.getApplicationContext());
+        users = userManager.getUserByEmail(commenter);
     }
 
     @Override
@@ -52,6 +58,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        Glide.with(activity).load(users[position].getAvatar()).into(holder.header);
+        holder.email.setText(users[position].getEmail());
+        holder.name.setText(users[position].getName());
+        holder.comment.setText(comments.get(commenter[position]));
     }
 
     @Override

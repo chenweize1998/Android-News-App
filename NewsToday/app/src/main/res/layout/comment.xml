@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="30dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="70dp"
@@ -14,7 +15,6 @@
         android:id="@+id/page_comment_header_layout"
         app:cardCornerRadius="40dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="30dp"
         android:layout_centerVertical="true"
         android:innerRadius="0dp"
         android:shape="ring"
@@ -44,21 +44,25 @@
             android:layout_height="wrap_content"
             android:id="@+id/page_comment_name"
             android:textSize="20sp"
-            android:textColor="@color/titleItemUnselColor"/>
+            android:textStyle="bold"
+            android:textColor="@color/pageTitleColor"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/page_comment_email"
             android:textSize="17sp"
-            android:textColor="@color/titleItemUnselColor"/>
+            android:textColor="@color/pageTitleColor"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/page_comment"
-        android:layout_below="@id/page_comment_info_layout"
+        android:layout_below="@id/page_comment_header_layout"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/pageContentColor"
         android:textSize="20sp"/>
 
     <com.sackcentury.shinebuttonlib.ShineButton
@@ -74,7 +78,7 @@
         app:btn_color="@color/btnItemColor"
         app:btn_fill_color="@android:color/holo_orange_light"
         app:allow_random_color="false"
-        app:siShape="@drawable/follow"
+        app:siShape="@drawable/ic_thumb_up"
         app:enable_flashing="true"
         app:big_shine_color="@color/bigShineColor"
         app:click_animation_duration="200"
