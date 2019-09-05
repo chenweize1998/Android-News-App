@@ -58,6 +58,10 @@ public class PublishImageAdapter extends RecyclerView.Adapter<PublishImageAdapte
         height = width;
     }
 
+    public boolean isAdd(){
+        return add;
+    }
+
     public void updateImages(ArrayList<Uri> images){
         if(images.size() < 9) {
             images.add(ADD_PIC);

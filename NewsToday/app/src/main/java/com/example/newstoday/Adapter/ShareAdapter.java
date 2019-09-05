@@ -21,6 +21,10 @@ import com.example.newstoday.R;
 import com.example.newstoday.WechatShareManager;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder> {
     private String[] text = {"朋友圈", "微信好友", "微博", "QQ", "QQ空间", "转到动态"};
     private int[] icon = {R.drawable.moment, R.drawable.wechat, R.drawable.weibo,
@@ -79,6 +83,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder
                     }
                     forwordingNewsManager.addOneForwardingNewsForUser(news,
                             Table.header.getActiveProfile().getEmail().toString());
+                    activity.finish();
                     Toast.makeText(activity.getApplicationContext(), "转发成功", Toast.LENGTH_SHORT).show();
                 }
             }

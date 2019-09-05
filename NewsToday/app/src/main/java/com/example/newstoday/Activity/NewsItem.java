@@ -31,6 +31,7 @@ import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.UserManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -51,6 +52,7 @@ public class NewsItem extends Fragment {
     private CatAdapter mAdapterCat;
     private FragmentManager fragmentManager;
     private ForwordingNewsManager forwordingNewsManager;
+    private RefreshLayout refreshLayout;
 
     private ArrayList<News> news;
     private NewsManager newsManager;
@@ -90,6 +92,12 @@ public class NewsItem extends Fragment {
                     mAdapterNews.updateNews(news);
                     mAdapterNews.notifyDataSetChanged();
                     recyclerViewNews.smoothScrollToPosition(0);
+//                    RefreshLayout smartRefreshLayout = findViewById(R.id.item_refresh_layout);
+                    if(currentCategory.equals("关注"))
+                        refreshLayout.setEnableLoadMore(false);
+                    else
+                        refreshLayout.setEnableLoadMore(true);
+
                 } else
                     recyclerViewNews.smoothScrollToPosition(0);
             }
@@ -129,7 +137,7 @@ public class NewsItem extends Fragment {
             }
         });
 
-        RefreshLayout refreshLayout = view.findViewById(R.id.item_refresh_layout);
+        refreshLayout = view.findViewById(R.id.item_refresh_layout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(final RefreshLayout refreshlayout) {

@@ -52,7 +52,7 @@ public class News implements Serializable{
     private String[] scores;
 
 
-    News(final String title, final String date, final String content, final String category, final String organization,
+    public News(final String title, final String date, final String content, final String category, final String organization,
          final String newsID, final String[] image, final String publisher, final String person, final String location,
          final String[] keywords, final String[] scores, final String url, final String video){
         this.title = title;

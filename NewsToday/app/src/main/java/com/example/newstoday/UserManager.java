@@ -127,6 +127,10 @@ public class UserManager{
 
     public void addOneFollowigForUser(User user, String email){
         user.addFollowig(email);
+        updateUser(user);
+    }
+
+    public void updateUser(User user){
         UpdateUserInDBTask updateUserInDBTask = new UpdateUserInDBTask();
         updateUserInDBTask.execute(user);
     }
@@ -155,8 +159,7 @@ public class UserManager{
 
     public void deleteOneFollowigForUser(User user, String email){
         user.deleteFollowig(email);
-        UpdateUserInDBTask updateUserInDBTask = new UpdateUserInDBTask();
-        updateUserInDBTask.execute(user);
+        updateUser(user);
     }
 }
 

@@ -216,12 +216,23 @@ android:fitsSystemWindows="true">
                 android:lineSpacingExtra="3dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginBottom="50dp"
                 android:textColor="@color/pageContentColor"
             />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/pageContentColor"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_marginBottom="50dp"
+                android:id="@+id/page_comment_recycler"/>
         </LinearLayout>
+
+
 
     </androidx.core.widget.NestedScrollView>
 

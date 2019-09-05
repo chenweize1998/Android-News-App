@@ -7,6 +7,7 @@ import okhttp3.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ImagePoster {
 
@@ -33,10 +34,16 @@ public class ImagePoster {
         return res;
     }
 
-    public String postUserImageToServer(String imagePath){
-        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
-        boolean res = postImage(imagePath);
-        return "http://166.111.5.239:8000/downloadImage/?filename="+filename;
+    public String[] postUserImageToServer(String[] imagePaths){
+        String[] urls = new String[imagePaths.length];
+        for(int i = 0; i<imagePaths.length; i++){
+            String filename = imagePaths[i].substring(imagePaths[i].lastIndexOf("/") + 1);
+            if(!postImage(imagePaths[i])) {
+                return null;
+            }
+            urls[i] = "http://166.111.5.239:8000/downloadImage/?filename="+filename;
+        }
+        return urls;
     }
 
     /**

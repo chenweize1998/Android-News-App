@@ -11,16 +11,22 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.ArraySet;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -29,7 +35,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.OfflineNewsManager;
+import com.example.newstoday.PostImage;
 import com.example.newstoday.R;
+import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
 import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
@@ -43,6 +51,10 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import dmax.dialog.SpotsDialog;
+import top.zibin.luban.CompressionPredicate;
+import top.zibin.luban.InputStreamProvider;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 import static com.example.newstoday.Activity.NewsItem.mAdapterNews;
 
@@ -165,19 +177,66 @@ public class Table extends AppCompatActivity {
                 ++position;
             }
         } else if(requestCode == PICK_IMAGE){
-            try {
+//            try {
                 if(data == null)
                     return;
-                InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                header.getActiveProfile().withIcon(bitmap);
-                header.updateProfile(header.getActiveProfile());
-            } catch (FileNotFoundException e){
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "更换头像失败", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == PUBLISH){
-            Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_SHORT).show();
+//                Luban.with(getApplicationContext())
+//                        .load(data.getData())
+//                        .ignoreBy(0)
+//                        .setTargetDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath())
+//                        .filter(new CompressionPredicate() {
+//                            @Override
+//                            public boolean apply(String path) {
+//                                return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+//                            }
+//                        })
+//                        .setCompressListener(new OnCompressListener() {
+//                            @Override
+//                            public void onStart() {
+//                                // TODO 压缩开始前调用，可以在方法内启动 loading UI
+//                                if(!spotsDialog.isShowing())
+//                                    spotsDialog.show();
+//                            }
+//
+//                            @Override
+//                            public void onSuccess(File file) {
+//                                // TODO 压缩成功后调用，返回压缩后的图片文件
+//                                User user = userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0];
+//                                Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
+//                                user.setAvatar(bitmap);
+//                                userManager.updateUser(user);
+//                                header.getActiveProfile().withIcon(bitmap);
+//                                header.updateProfile(header.getActiveProfile());
+//                                System.out.println(getSupportFragmentManager().getFragments().size());
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                // TODO 当压缩过程出现问题时调用
+//                                Toast.makeText(getApplicationContext(), "图片压缩失败", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }).launch();
+                try {
+                    User user = userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0];
+                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
+//                            Uri.parse(PostImage.getRealPathFromURI(data.getData(), getContentResolver())));
+//                    user.setAvatar(bitmap);
+                    userManager.updateUser(user);
+                    header.getActiveProfile().withIcon(bitmap);
+                    header.updateProfile(header.getActiveProfile());
+                    System.out.println(getSupportFragmentManager().getFragments().size());
+                } catch (FileNotFoundException e){
+                    e.printStackTrace();
+                } /*catch (IOException e){
+                    e.printStackTrace();
+                }*/
+
+//            } catch (FileNotFoundException e){
+//                e.printStackTrace();
+//                Toast.makeText(getApplicationContext(), "更换头像失败", Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 
@@ -276,10 +335,21 @@ public class Table extends AppCompatActivity {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
                         if(header.getActiveProfile() == profile) {
-                            Intent intent = new Intent();
-                            intent.setType("image/*");
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+//                            Intent intent = new Intent();
+//                            intent.setType("image/*");
+//                            intent.setAction(Intent.ACTION_GET_CONTENT);
+//                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            PersonalHomepage homepage = new PersonalHomepage(
+                                    userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0],
+                                    fragmentManager
+                            );
+                            fragmentTransaction.replace(R.id.table_fragment, homepage, "Homepage");
+                            if(fragmentManager.getBackStackEntryCount() == 0)
+                                fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            return false;
                         } else {
                             header.setActiveProfile(profile.getIdentifier(), true);
                             newsManager.deleteAllCollection();
@@ -445,7 +515,7 @@ public class Table extends AppCompatActivity {
                         } else if(drawerItem.getIdentifier() == SEARCH_IDENTIFIER) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            FindFriend findFriend = new FindFriend();
+                            FindFriend findFriend = new FindFriend(getSupportFragmentManager());
                             fragmentTransaction.replace(R.id.table_fragment, findFriend);
                             if(fragmentManager.getBackStackEntryCount() == 0 ||
                                     fragmentManager.getBackStackEntryCount() == 1)

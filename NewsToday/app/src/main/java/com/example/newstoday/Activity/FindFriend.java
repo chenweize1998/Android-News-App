@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,8 +36,13 @@ import java.util.ArrayList;
 public class FindFriend extends Fragment {
     private UserManager userManager;
     private User currentUser;
+    private FragmentManager fragmentManager;
 
     public FindFriend(){}
+
+    public FindFriend(FragmentManager fragmentManager){
+        this.fragmentManager = fragmentManager;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +74,7 @@ public class FindFriend extends Fragment {
         else {
             following = currentUser.getFollowig();
         }
-        final FriendAdapter mAdapter = new FriendAdapter(following, currentUser, getActivity());
+        final FriendAdapter mAdapter = new FriendAdapter(following, currentUser, getActivity(), fragmentManager);
         recyclerViewNews.setAdapter(mAdapter);
 
         final TextInputEditText input = view.findViewById(R.id.friend_email);
@@ -81,6 +89,8 @@ public class FindFriend extends Fragment {
                         users[0] = friend;
                         mAdapter.updateUser(users);
                         mAdapter.notifyDataSetChanged();
+                        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     }
                 }
                 return false;
