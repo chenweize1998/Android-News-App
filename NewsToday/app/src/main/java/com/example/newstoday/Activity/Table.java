@@ -191,7 +191,7 @@ public class Table extends AppCompatActivity {
                         .withEmail(email).withIdentifier(identifier)
                         .withIcon(R.drawable.header), position);
                     user.setAvatar("http://166.111.5.239:8000/downloadImage/?filename=header.jpg");
-                    userManager.updateUser(user);
+                    userManager.updateUser(user);//如果还没有头像就设置一个新的并且更新到数据库和服务器
                     asyncServerNews.asyncUserToServer(user);
                 }
                 else {
@@ -199,9 +199,11 @@ public class Table extends AppCompatActivity {
                             .withEmail(email).withIdentifier(identifier)
                             .withIcon(user.getAvatar()), position);
                 }
+                newsManager.deleteAllHistory();//先把本地的历史删除
+                newsManager.deleteAllCollection();//再把本地的收藏删除
                 header.setActiveProfile(identifier, true);
                 header.updateProfile(header.getProfiles().get(identifier - 1));
-                asyncServerNews.asyncDataFromServer();
+                asyncServerNews.asyncDataFromServer();//从服务器直接下拉数据
                 ++identifier;
                 ++position;
             }
@@ -221,7 +223,8 @@ public class Table extends AppCompatActivity {
                     header.getActiveProfile().withIcon(data.getData());
                     header.updateProfile(header.getActiveProfile());
 
-                    asyncServerNews.asyncUserToServer(user);
+                    userManager.updateUser(user);//更新到数据库
+                    asyncServerNews.asyncUserToServer(user);//更新到服务器
 //                    System.out.println(getSupportFragmentManager().getFragments().size());
 //                } /*catch (FileNotFoundException e){
 //                    e.printStackTrace();

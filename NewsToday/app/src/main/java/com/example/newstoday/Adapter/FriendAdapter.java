@@ -104,13 +104,13 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
                 else{
                     if(checked) {
 //                        currentUser.addFollowig(users[position].getEmail());
-                        userManager.addOneFollowigForUser(currentUser, users[position].getEmail());
+                        currentUser.addFollowig(users[position].getEmail());
                     }
                     else {
-                        userManager.deleteOneFollowigForUser(currentUser, users[position].getEmail());
+                        currentUser.deleteFollowig(users[position].getEmail());
                     }
-                    userManager.updateUser(currentUser);
-                    asyncServerNews.asyncUserToServer(currentUser);
+                    userManager.updateUser(currentUser);//更新到数据库
+                    asyncServerNews.asyncUserToServer(currentUser);//更新到服务器
                 }
             }
         });

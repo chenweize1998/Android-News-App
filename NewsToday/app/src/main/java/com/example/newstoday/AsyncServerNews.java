@@ -211,8 +211,8 @@ public class AsyncServerNews {
                 newsData.put("emails", ListConverter.toTimestamp(news.getEmails()));
                 newsData.put("comments", ListConverter.toTimestamp(news.getComments()));
                 newsData.put("newsType", "history");
-                newsData.put("mapData", "null");
-                newsData.put("filterWords", "null");
+                newsData.put("mapData", "");
+                newsData.put("filterWords", "");
                 newsData.put("video", news.getVideo());
                 dataArray.put(newsData);
             }
@@ -236,8 +236,8 @@ public class AsyncServerNews {
                 newsData.put("emails", ListConverter.toTimestamp(news.getEmails()));
                 newsData.put("comments", ListConverter.toTimestamp(news.getComments()));
                 newsData.put("newsType", "collection");
-                newsData.put("mapData", "null");
-                newsData.put("filterWords", "null");
+                newsData.put("mapData", "");
+                newsData.put("filterWords", "");
                 newsData.put("video", news.getVideo());
                 dataArray.put(newsData);
             }
@@ -261,8 +261,8 @@ public class AsyncServerNews {
                 newsData.put("emails", ListConverter.toTimestamp(news.getEmails()));
                 newsData.put("comments", ListConverter.toTimestamp(news.getComments()));
                 newsData.put("newsType", "forwardingNews");
-                newsData.put("mapData", "null");
-                newsData.put("filterWords", "null");
+                newsData.put("mapData", "");
+                newsData.put("filterWords", "");
                 newsData.put("video", news.getVideo());
                 dataArray.put(newsData);
             }
@@ -286,8 +286,8 @@ public class AsyncServerNews {
                 newsData.put("emails", ListConverter.toTimestamp(news.getEmails()));
                 newsData.put("comments", ListConverter.toTimestamp(news.getComments()));
                 newsData.put("newsType", "userMessage");
-                newsData.put("mapData", "null");
-                newsData.put("filterWords", "null");
+                newsData.put("mapData", "");
+                newsData.put("filterWords", "");
                 newsData.put("video", news.getVideo());
                 dataArray.put(newsData);
             }
@@ -325,25 +325,25 @@ public class AsyncServerNews {
             }
 
             JSONObject newsData = new JSONObject();
-            newsData.put("newsID", "null");
-            newsData.put("title", "null");
-            newsData.put("date", "null");
-            newsData.put("content", "null");
-            newsData.put("person", "null");
-            newsData.put("organization", "null");
-            newsData.put("location", "null");
-            newsData.put("category", "null");
-            newsData.put("publisher", "null");
-            newsData.put("url", "null");
-            newsData.put("image", "null");
-            newsData.put("keywords", "null");
-            newsData.put("scores", "null");
-            newsData.put("emails", "null");
-            newsData.put("comments", "null");
+            newsData.put("newsID", "");
+            newsData.put("title", "");
+            newsData.put("date", "");
+            newsData.put("content", "");
+            newsData.put("person", "");
+            newsData.put("organization", "");
+            newsData.put("location", "");
+            newsData.put("category", "");
+            newsData.put("publisher", "");
+            newsData.put("url", "");
+            newsData.put("image", "");
+            newsData.put("keywords", "");
+            newsData.put("scores", "");
+            newsData.put("emails", "");
+            newsData.put("comments", "");
             newsData.put("newsType", "map");
             newsData.put("mapData", weightData);
             newsData.put("filterWords", filterWord);
-            newsData.put("video", "null");
+            newsData.put("video", "");
             dataArray.put(newsData);
 
             data.put("data", dataArray);
