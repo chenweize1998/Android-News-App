@@ -108,4 +108,10 @@ public class SearchActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAdapterNews.notifyDataSetChanged();
+    }
 }

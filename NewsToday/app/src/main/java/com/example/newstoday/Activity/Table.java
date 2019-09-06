@@ -156,10 +156,13 @@ public class Table extends AppCompatActivity {
         Intent intent = getIntent();
         String[] email = intent.getStringArrayExtra("email");
         String[] name = intent.getStringArrayExtra("name");
+        String[] avatar = intent.getStringArrayExtra("avatar");
         if (email != null) {
+            identifier = intent.getIntExtra("identifier", 3);
+            position = intent.getIntExtra("position", 0);
             for (int i = 0; i < email.length; ++i) {
                 header.addProfile(new ProfileDrawerItem().withName(name[i]).withIdentifier(3 + i)
-                        .withEmail(email[i]).withIcon(R.drawable.header), i);
+                        .withEmail(email[i]).withIcon(avatar[i]), i);
             }
             if (header.getProfiles().size() > 2)
                 header.setActiveProfile(intent.getLongExtra("Active ID", 1));
@@ -299,12 +302,14 @@ public class Table extends AppCompatActivity {
                         Intent intent = new Intent(activity, Table.class);
                         String[] email = new String[header.getProfiles().size() - 2];
                         String[] name = new String[header.getProfiles().size() - 2];
+                        String[] avatar = new String[header.getProfiles().size() - 2];
                         int cnt = 0;
                         for(IProfile profile : header.getProfiles()){
                             if(profile.getIdentifier() < 3)
                                 continue;
                             email[cnt] = profile.getEmail().toString();
                             name[cnt] = profile.getName().toString();
+                            avatar[cnt] = userManager.getUserByEmail(profile.getEmail().toString())[0].getAvatar();
                             ++cnt;
                         }
 //                        outState.putStringArray("email", email);
@@ -313,6 +318,9 @@ public class Table extends AppCompatActivity {
 //                            outState.putLong("Active ID", header.getActiveProfile().getIdentifier());
                         intent.putExtra("email", email);
                         intent.putExtra("name", name);
+                        intent.putExtra("avatar", avatar);
+                        intent.putExtra("identifier", identifier);
+                        intent.putExtra("position", position);
                         if(header.getProfiles().size() > 2)
                             intent.putExtra("Active ID", header.getActiveProfile().getIdentifier());
 //                        finish();

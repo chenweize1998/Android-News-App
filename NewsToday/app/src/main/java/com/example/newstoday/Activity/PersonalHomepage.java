@@ -17,7 +17,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.newstoday.Adapter.NewsAdapter;
+import com.example.newstoday.ForwordingNewsManager;
 import com.example.newstoday.News;
+import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
@@ -34,6 +36,7 @@ public class PersonalHomepage extends Fragment {
     private UserMessageManager userMessageManager;
     private ArrayList<News> news;
     private View view;
+    private ForwordingNewsManager forwordingNewsManager;
 
     public PersonalHomepage() {}
 
@@ -44,6 +47,7 @@ public class PersonalHomepage extends Fragment {
     public PersonalHomepage(User user, FragmentManager fragmentManager){
         this.user = user;
         this.fragmentManager = fragmentManager;
+        forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(getActivity());
     }
 
     public void updateHeader(Uri uri){
@@ -94,6 +98,7 @@ public class PersonalHomepage extends Fragment {
         };
 
         news = userMessageManager.getCerternUserMessageByUserEmail(user.getEmail());
+        news.addAll(forwordingNewsManager.getForwardingNewsByEmail(user.getEmail()));
         RecyclerView recyclerView = view.findViewById(R.id.homepage_content_recycler);
         LinearLayoutManager layoutManagerNews = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManagerNews);

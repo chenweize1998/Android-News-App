@@ -2,6 +2,8 @@ package com.example.newstoday;
 
 import android.content.Context;
 
+import com.example.newstoday.Activity.Table;
+
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,6 +81,8 @@ public class ForwordingNewsManager {
      * 每次对转发的新闻评论之后，就要用这个方法更新数据库
      * */
     public void updataForwardingNews(News...news){
+        news[0].setPublisher(Table.header.getActiveProfile().getEmail().toString());
+        news[0].setCategory("关注");
         newsRepository.updateNews(news);
     }
 

@@ -100,6 +100,7 @@ public class NewsManager {
         try {
             if(categories.equals("关注")){
                 lastCategory = categories;
+                NewsItem.refreshLayout.setEnableLoadMore(false);
                 if(Table.header.getActiveProfile() != null) {
                     ArrayList<News> forwarding = forwordingNewsManager.getUserAllFollowigNews(userManager.getUserByEmail(
                             Table.header.getActiveProfile().getEmail().toString())[0]);

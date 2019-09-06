@@ -91,16 +91,18 @@ public class NewsItem extends Fragment {
                     System.out.println("Enter");
                     news = newsManager.getNews(20, "2019-08-09", today, null, currentCategory, false, false);
                     if(mAdapterNews != null) {
-                        mAdapterNews.updateNews(news);
+                        ArrayList<News> newsTmp = new ArrayList<News>();
+                        newsTmp.addAll(news);
+                        mAdapterNews.updateNews(newsTmp);
                         mAdapterNews.notifyDataSetChanged();
                         if(mAdapterNews.getItemCount() != 0)
                             recyclerViewNews.smoothScrollToPosition(0);
                     }
 //                    RefreshLayout smartRefreshLayout = findViewById(R.id.item_refresh_layout);
-                    if(currentCategory.equals("关注"))
-                        refreshLayout.setEnableLoadMore(false);
-                    else
-                        refreshLayout.setEnableLoadMore(true);
+//                    if(currentCategory.equals("关注"))
+//                        refreshLayout.setEnableLoadMore(false);
+//                    else
+//                        refreshLayout.setEnableLoadMore(true);
 
                 } else if(mAdapterNews != null && mAdapterNews.getItemCount() != 0)
                     recyclerViewNews.smoothScrollToPosition(0);
@@ -159,7 +161,8 @@ public class NewsItem extends Fragment {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
                                         today, null, currentCategory, true, true);
-                                news = newsTmp;
+                                news.clear();
+                                news.addAll(newsTmp);
                                 mAdapterNews.updateNews(newsTmp);
                                 refreshlayout.finishRefresh();
                                 mAdapterNews.notifyDataSetChanged();
@@ -182,7 +185,7 @@ public class NewsItem extends Fragment {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                                 ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
                                         today, null, currentCategory, true, false);
-                                news = newsTmp;
+                                news.addAll(newsTmp);
                                 mAdapterNews.refreshNews(newsTmp);
                                 refreshlayout.finishLoadMore();
                                 mAdapterNews.notifyDataSetChanged();

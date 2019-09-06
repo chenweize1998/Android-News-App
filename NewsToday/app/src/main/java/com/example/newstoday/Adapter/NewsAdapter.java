@@ -90,6 +90,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         this.activity = activity;
         this.fragmentManager = fragmentManager;
         this.userManager = UserManager.getUserManager(activity.getApplicationContext());
+        this.newsManager = NewsManager.getNewsManager(activity.getApplicationContext());
+        offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(activity.getApplicationContext());
         this.isHomePage = isHomePage;
         this.isPersonalHomePage = isPersonalHomePage;
     }

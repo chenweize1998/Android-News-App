@@ -23,6 +23,7 @@ import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,7 +87,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
     public void onBindViewHolder(final FriendAdapter.MyViewHolder holder, final int position) {
         holder.name.setText(users[position].getName());
         holder.email.setText(users[position].getEmail());
-        holder.header.setImageResource(R.drawable.header);
+        Picasso.get().load(userManager.getUserByEmail(users[position].getEmail())[0].getAvatar())
+                .into(holder.header);
         if(currentUser != null && currentUser.getFollowig() != null &&
                 currentUser.getFollowig().contains(users[position].getEmail()))
             holder.follow.setChecked(true);
