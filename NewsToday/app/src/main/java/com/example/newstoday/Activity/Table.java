@@ -103,8 +103,7 @@ public class Table extends AppCompatActivity {
     //读写权限
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
     //请求状态码
     private static int REQUEST_PERMISSION_CODE = 1;
 
@@ -114,7 +113,6 @@ public class Table extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_table);
-
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -561,7 +559,8 @@ public class Table extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        mAdapterNews.notifyDataSetChanged();
+        if(mAdapterNews != null)
+            mAdapterNews.notifyDataSetChanged();
         drawer.setSelectionAtPosition(-1);
     }
 

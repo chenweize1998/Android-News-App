@@ -108,6 +108,9 @@ public class BaseRecyclerAdapter
                                 ViewGroup.LayoutParams.MATCH_PARENT));
                         builder.show();
 //                        builder.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                        int width = (int)(context.getResources().getDisplayMetrics().widthPixels);
+                        int height = (int)(context.getResources().getDisplayMetrics().heightPixels*0.5);
+                        builder.getWindow().setLayout(width, height);
                         builder.setCanceledOnTouchOutside(true);
                     }
                 });

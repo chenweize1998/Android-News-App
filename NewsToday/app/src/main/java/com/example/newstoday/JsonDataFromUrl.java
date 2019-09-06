@@ -71,9 +71,11 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
             URL url = new URL(allConfigUrl);
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("Charset", "UTF-8");
-            connection.setConnectTimeout(200);
-
+            connection.setConnectTimeout(500);
+            connection.setReadTimeout(500);
+//            System.out.println("Before connect");
             connection.connect();
+//            System.out.println("After connect");
 
             result = new StringBuffer();
             in = new BufferedReader(new InputStreamReader(

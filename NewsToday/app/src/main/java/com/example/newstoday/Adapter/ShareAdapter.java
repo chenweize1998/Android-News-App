@@ -29,7 +29,7 @@ import java.util.Locale;
 public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder> {
     private String[] text = {"朋友圈", "微信好友", "微博", "QQ", "QQ空间", "转到动态"};
     private int[] icon = {R.drawable.moment, R.drawable.wechat, R.drawable.weibo,
-                            R.drawable.qq, R.drawable.qzone, R.mipmap.ic_launcher_round};
+                            R.drawable.qq, R.drawable.qzone, R.drawable.round_icon};
     private ForwordingNewsManager forwordingNewsManager;
     private News news;
 //    private Context context;
@@ -42,7 +42,6 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder
 
     public ShareAdapter(News news, Activity activity, BottomSheetDialog parent){
         this.activity = activity;
-//        this.context = context;
         this.news = news;
         this.parent = parent;
         wechatShareManager = WechatShareManager.getInstance(activity.getApplicationContext());

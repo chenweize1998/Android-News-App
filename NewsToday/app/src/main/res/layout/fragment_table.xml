@@ -61,6 +61,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="@color/black"
         app:fabSize="auto"
+        app:borderWidth="0dp"
         app:srcCompat="@drawable/ic_add" />
 
 <androidx.constraintlayout.widget.ConstraintLayout

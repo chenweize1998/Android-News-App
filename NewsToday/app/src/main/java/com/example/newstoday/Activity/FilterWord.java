@@ -76,5 +76,6 @@ public class FilterWord extends AppCompatActivity {
         super.onBackPressed();
         newsManager.buildFilterWords();
         finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

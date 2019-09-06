@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run()
             {
-//                if(firstRun) {
-//                    settings.edit().putBoolean("my_first_time", false).commit();
-                startActivity(new Intent(getApplicationContext(), OpeningAnimation.class));
-//                }
-//                else
-//                startActivity(new Intent(getApplicationContext(), Table.class));
+                if(firstRun) {
+                    settings.edit().putBoolean("my_first_time", false).commit();
+                    startActivity(new Intent(getApplicationContext(), OpeningAnimation.class));
+                }
+                else
+                    startActivity(new Intent(getApplicationContext(), Table.class));
                 finish();
-//                overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
+                overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
             }
         };
         timer.schedule(task, 3000);

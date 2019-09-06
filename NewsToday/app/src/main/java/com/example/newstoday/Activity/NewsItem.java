@@ -48,7 +48,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class NewsItem extends Fragment {
     private RecyclerView recyclerViewNews;
-    public static NewsAdapter mAdapterNews;
+    public static NewsAdapter mAdapterNews = null;
     private CatAdapter mAdapterCat;
     private FragmentManager fragmentManager;
     private ForwordingNewsManager forwordingNewsManager;
@@ -76,7 +76,7 @@ public class NewsItem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_table, container, false);
+        final View view = inflater.inflate(R.layout.fragment_table, container, false);
         /**
          * Category click event
          */
@@ -89,16 +89,19 @@ public class NewsItem extends Fragment {
                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                 if (!newsManager.getLastCategory().equals(category)) {
                     news = newsManager.getNews(20, "2019-08-09", today, null, currentCategory, false, false);
-                    mAdapterNews.updateNews(news);
-                    mAdapterNews.notifyDataSetChanged();
-                    recyclerViewNews.smoothScrollToPosition(0);
+                    if(mAdapterNews != null) {
+                        mAdapterNews.updateNews(news);
+                        mAdapterNews.notifyDataSetChanged();
+                        if(mAdapterNews.getItemCount() != 0)
+                            recyclerViewNews.smoothScrollToPosition(0);
+                    }
 //                    RefreshLayout smartRefreshLayout = findViewById(R.id.item_refresh_layout);
                     if(currentCategory.equals("关注"))
                         refreshLayout.setEnableLoadMore(false);
                     else
                         refreshLayout.setEnableLoadMore(true);
 
-                } else
+                } else if(mAdapterNews != null && mAdapterNews.getItemCount() != 0)
                     recyclerViewNews.smoothScrollToPosition(0);
             }
         };
@@ -106,12 +109,13 @@ public class NewsItem extends Fragment {
         /**
          * News Listener
          */
-        NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
+        final NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, final View v) {
                 Intent intent = new Intent(getActivity(), NewsPage.class);
                 intent.putExtra("news", news.get(position));
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
             }
         };
 
@@ -194,55 +198,65 @@ public class NewsItem extends Fragment {
         newsManager.resetCategory();
         newsManager.resetPageCounter();
         newsManager.resetRecommendation();
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-        ArrayList<News> newsTmp;
-        if(currentCategory.equals("关注")){
-            newsTmp = forwordingNewsManager.getAllForwardingNews();
-        }
-        else {
-            newsTmp = newsManager.getNews(20, "2019-08-09",
-                    today, null, currentCategory, true, true);
-        }
-        news = new ArrayList<>();
-        news.addAll(newsTmp);
-        System.out.println("现在有"+news.size()+"新闻可以展示");
-
-        recyclerViewNews = view.findViewById(R.id.table_recycler_view);
-        RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(getContext());
-        layoutManagerNews.setItemPrefetchEnabled(true);
-        ((LinearLayoutManager) layoutManagerNews).setInitialPrefetchItemCount(20);
-        recyclerViewNews.setLayoutManager(layoutManagerNews);
-        mAdapterNews = new NewsAdapter(news, getActivity(), this.fragmentManager);
-        mAdapterNews.setOnItemClickListener(listenerNews);
-        recyclerViewNews.setAdapter(mAdapterNews);
-        recyclerViewNews.setItemViewCacheSize(100);
-
-        final FloatingActionButton floatingActionButton = view.findViewById(R.id.table_publishBtn);
-        recyclerViewNews.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
-                    floatingActionButton.hide();
-                } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
-                    floatingActionButton.show();
-                }
-            }
-        });
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(Table.header.getActiveProfile() == null){
-                    Toast.makeText(getContext(), "若要发布，请先登录", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getActivity(), Login.class);
-                    getActivity().startActivityForResult(intent, LOGIN_REQUEST);
+            public void run() {
+                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+                ArrayList<News> newsTmp;
+                if(currentCategory.equals("关注")){
+                    newsTmp = forwordingNewsManager.getAllForwardingNews();
                 }
                 else {
-                    Intent intent = new Intent(getActivity(), Publish.class);
-                    getActivity().startActivityForResult(intent, PUBLISH);
+                    newsTmp = newsManager.getNews(20, "2019-08-09",
+                            today, null, currentCategory, true, true);
                 }
+                news = new ArrayList<>();
+                news.addAll(newsTmp);
+                System.out.println("现在有"+news.size()+"新闻可以展示");
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerViewNews = view.findViewById(R.id.table_recycler_view);
+                        RecyclerView.LayoutManager layoutManagerNews = new LinearLayoutManager(getContext());
+                        layoutManagerNews.setItemPrefetchEnabled(true);
+                        ((LinearLayoutManager) layoutManagerNews).setInitialPrefetchItemCount(20);
+                        recyclerViewNews.setLayoutManager(layoutManagerNews);
+                        mAdapterNews = new NewsAdapter(news, getActivity(), fragmentManager);
+                        mAdapterNews.setOnItemClickListener(listenerNews);
+                        recyclerViewNews.setAdapter(mAdapterNews);
+                        recyclerViewNews.setItemViewCacheSize(100);
+
+                        final FloatingActionButton floatingActionButton = view.findViewById(R.id.table_publishBtn);
+                        recyclerViewNews.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                            @Override
+                            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                                super.onScrolled(recyclerView, dx, dy);
+                                if (dy > 0 && floatingActionButton.getVisibility() == View.VISIBLE) {
+                                    floatingActionButton.hide();
+                                } else if (dy < 0 && floatingActionButton.getVisibility() != View.VISIBLE) {
+                                    floatingActionButton.show();
+                                }
+                            }
+                        });
+                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(Table.header.getActiveProfile() == null){
+                                    Toast.makeText(getContext(), "若要发布，请先登录", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getActivity(), Login.class);
+                                    getActivity().startActivityForResult(intent, LOGIN_REQUEST);
+                                }
+                                else {
+                                    Intent intent = new Intent(getActivity(), Publish.class);
+                                    getActivity().startActivityForResult(intent, PUBLISH);
+                                }
+                            }
+                        });
+                    }
+                });
             }
-        });
+        }).start();
 
 
         RecyclerView recyclerViewCat = view.findViewById(R.id.cat_recycler_view);

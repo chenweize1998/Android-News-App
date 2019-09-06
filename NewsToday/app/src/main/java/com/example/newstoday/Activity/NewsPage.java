@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.ArrayMap;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -158,6 +160,15 @@ public class NewsPage extends AppCompatActivity {
             }
         });
 
+        ImageButton shareButton = findViewById(R.id.page_bottom_share);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(news);
+                bottomSheetDialog.show(getSupportFragmentManager(), "bottomSheet");
+            }
+        });
+
         final RecyclerView commentRecycler = findViewById(R.id.page_comment_recycler);
         CommentAdapter commentAdapter = new CommentAdapter(new ArrayMap<String, String>(), this);
         LinearLayoutManager commentLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -177,6 +188,7 @@ public class NewsPage extends AppCompatActivity {
             return;
         }
         finish();
+        overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
     }
 
     @Override

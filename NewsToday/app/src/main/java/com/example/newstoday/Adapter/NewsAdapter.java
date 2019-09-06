@@ -169,7 +169,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-//                wsm.shareNews(news.get(position));
                 bottomSheetDialog = new BottomSheetDialog(news.get(position));
                 bottomSheetDialog.show(fragmentManager, "bottomSheet");
             }
