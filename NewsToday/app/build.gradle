@@ -78,4 +78,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.squareup.okhttp3:okhttp:4.1.0'
+    implementation 'com.github.gungoronline:Photto:0.3.0'
 }

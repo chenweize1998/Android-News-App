@@ -505,7 +505,7 @@ public class Table extends AppCompatActivity {
                                     fragmentManager.getBackStackEntryCount() == 1)
                                 fragmentTransaction.addToBackStack(null);
 //                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+                            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                             fragmentTransaction.commit();
                         }
                         return false;

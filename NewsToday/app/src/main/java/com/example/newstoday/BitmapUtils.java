@@ -72,7 +72,7 @@ public class BitmapUtils {
      * @param bit
      * @return
      */
-    private static String saveMyBitmap(String filename, Bitmap bit) {
+    public static String saveMyBitmap(String filename, Bitmap bit) {
         String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/picture/";
         String filePath = baseDir + filename;
         File dir = new File(baseDir);
