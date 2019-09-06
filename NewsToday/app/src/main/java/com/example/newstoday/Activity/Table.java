@@ -178,7 +178,7 @@ public class Table extends AppCompatActivity {
                 String name = (String) data.getSerializableExtra("name");
                 header.addProfile(new ProfileDrawerItem().withName(name)
                         .withEmail(email).withIdentifier(identifier)
-                        .withIcon(Uri.parse(user.getAvatar())), position);
+                        .withIcon(user.getAvatar()), position);
                 header.setActiveProfile(identifier, true);
                 header.updateProfile(header.getProfiles().get(identifier - 1));
                 ++identifier;
