@@ -99,87 +99,64 @@ def postAllNews(request):
     if request.method == "POST":
         if G.currentUser == "null":
             return HttpResponse("Fail")
-        HistoryNews.objects.delete()
-        CollectionNews.objects.delete()
-        ForwardingNews.objects.delete()
-        UserMessage.objects.delete()
-
-        newsID = request.POST["newsID"].split("#^#")
-        title = request.POST["title"].split("#^#")
-        date = request.POST["date"].split("#^#")
-        content = request.POST["content"].split("#^#")
-        person = request.POST["person"].split("#^#")
-        organization = request.POST["organization"].split("#^#")
-        location = request.POST["location"].split("#^#")
-        category = request.POST["category"].split("#^#")
-        publisher = request.POST["publisher"].split("#^#")
-        url = request.POST["url"].split("#^#")
-        oriImage = request.POST["oriImage"].split("#^#")
-        oriKeywords = request.POST["oriKeywords"].split("#^#") 
-        oriScores =  request.POST["oriScores"].split("#^#")
-        video = request.POST["video"].split("#^#")
-        newsType = request.POST["newsType"].split("#^#")
-        mapData = request.POST["mapData"].split("#^#")
-        filterWords = request.POST["filterWords"].split("#^#")
-
-        length = len(newsID)
-        print(length)
-        print(person)
-        print(organization)
-        for i in range(length):
-            if newsType[i] == "history":
-                newHistoryNews = HistoryNews(newsID = newsID[i], title = title[i], date =date[i], 
-                                content = content[i], person = person[i], organization = organization[i], 
-                                location = location[i], category = category[i], publisher = publisher[i],
-                                url = url[i], oriImage = oriImage[i], oriKeywords = oriKeywords[i], 
-                                oriScores =  oriScores[i], video = video[i], user = G.currentUser) 
+        HistoryNews.objects.filter(user = G.currentUser).delete()
+        CollectionNews.objects.filter(user = G.currentUser).delete()
+        ForwardingNews.objects.filter(user = G.currentUser).delete()
+        UserMessage.objects.filter(user = G.currentUser).delete()
+        jsonData = json.loads(request.body)
+        for data in jsonData["data"]:
+            if data["newsType"] == "history":
+                newHistoryNews = HistoryNews(newsID = data["newsID"], title = data["title"], date =data["date"], 
+                                content = data["content"], person = data["person"], organization =  data["organization"], 
+                                location = data["location"], category = data["category"], publisher = data["publisher"],
+                                url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
+                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"], user = G.currentUser) 
                 newHistoryNews.save()
                 print("历史消息保存成功")
-            elif newsType[i] == "collection":
-                newCollectionNews = CollectionNews(newsID = newsID[i], title = title[i], date =date[i], 
-                                content = content[i], person = person[i], organization = organization[i], 
-                                location = location[i], category = category[i], publisher = publisher[i],
-                                url = url[i], oriImage = oriImage[i], oriKeywords = oriKeywords[i], 
-                                oriScores =  oriScores[i], video = video[i], user = G.currentUser) 
+            elif data["newsType"] == "collection":
+                 newCollectionNews = CollectionNews(newsID = data["newsID"], title = data["title"], date =data["date"], 
+                                content = data["content"], person = data["person"], organization =  data["organization"], 
+                                location = data["location"], category = data["category"], publisher = data["publisher"],
+                                url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
+                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = G.currentUser) 
                 newCollectionNews.save()
                 print("收藏消息保存成功")
-            elif newsType[i] == "forwardingNews":
-                newForwardingNews = ForwardingNews(newsID = newsID[i], title = title[i], date =date[i], 
-                                content = content[i], person = person[i], organization = organization[i], 
-                                location = location[i], category = category[i], publisher = publisher[i],
-                                url = url[i], oriImage = oriImage[i], oriKeywords = oriKeywords[i], 
-                                oriScores =  oriScores[i], video = video[i]) 
+            elif data["newsType"] == "forwardingNews":
+                              newForwardingNews = ForwardingNews(newsID = data["newsID"], title = data["title"], date =data["date"], 
+                                content = data["content"], person = data["person"], organization =  data["organization"], 
+                                location = data["location"], category = data["category"], publisher = data["publisher"],
+                                url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
+                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = G.currentUser) 
                 newForwardingNews.save()
                 print("转发消息保存成功")
-            elif newsType[i] == "userMessage":
-                newUserMessage = UserMessage(newsID = newsID[i], title = title[i], date =date[i], 
-                                content = content[i], person = person[i], organization = organization[i], 
-                                location = location[i], category = category[i], publisher = publisher[i],
-                                url = url[i], oriImage = oriImage[i], oriKeywords = oriKeywords[i], 
-                                oriScores =  oriScores[i], video = video[i])
+            elif data["newsType"] == "userMessage":
+                                newUserMessage = UserMessage(newsID = data["newsID"], title = data["title"], date =data["date"], 
+                                content = data["content"], person = data["person"], organization =  data["organization"], 
+                                location = data["location"], category = data["category"], publisher = data["publisher"],
+                                url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
+                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = G.currentUser) 
                 newUserMessage.save()
                 print("发布消息保存成功")
-            elif newsType[i] == "map":
+            elif data["newsType"] == "map":
                 entry = Map.objects.filter(user = G.currentUser)
                 if len(entry) == 0:
-                    newWeightMap = Map(data = mapData[i], user = G.currentUser)
+                    newWeightMap = Map(data = data["mapData"], user = G.currentUser)
                     newWeightMap.save()
                 else:
-                    entry[0].data = mapData[i]
+                    entry[0].data = data["mapData"]
                     entry[0].save()
                 
                 entry = FilterWordsMap.objects.filter(user = G.currentUser)
                 if len(entry) == 0:
-                    filterWordsMap = FilterWordsMap(data = filterWords[i], user = G.currentUser)
+                    filterWordsMap = FilterWordsMap(data = data["filterWords"], user = G.currentUser)
                     filterWordsMap.save()
                 else:
-                    entry[0].data = filterWords[i]
+                    entry[0].data = data["filterWords"]
                     entry[0].save()
                 print("推荐和屏蔽的关键词保存成功")
         return HttpResponse("Success")
     return HttpResponse("Fail")
         
-
 def getAllNews(request):
     if request.method == 'GET':
         if G.currentUser == 'null':
@@ -213,6 +190,8 @@ def getAllNews(request):
                 "oriImage":news.oriImage,
                 "oriKeywords":news.oriKeywords,
                 "oriScores":news.oriScores,
+                "emails":news.emails,
+                "comments":news.comments,
                 "video":news.video,
                 "newsType":"collection",
                 "weight":" ",
@@ -238,6 +217,8 @@ def getAllNews(request):
                 "oriImage":news.oriImage,
                 "oriKeywords":news.oriKeywords,
                 "oriScores":news.oriScores,
+                "emails":news.emails,
+                "comments":news.comments,
                 "video":news.video,
                 "newsType":"history",
                 "weight":" ",
@@ -262,6 +243,8 @@ def getAllNews(request):
                 "oriImage":news.oriImage,
                 "oriKeywords":news.oriKeywords,
                 "oriScores":news.oriScores,
+                "emails":news.emails,
+                "comments":news.comments,
                 "video":news.video,
                 "newsType":"forwardingNews",
                 "weight":" ",
@@ -285,6 +268,8 @@ def getAllNews(request):
                 "oriImage":news.oriImage,
                 "oriKeywords":news.oriKeywords,
                 "oriScores":news.oriScores,
+                "emails":news.emails,
+                "comments":news.comments,
                 "video":news.video,
                 "newsType":"userMessage",
                 "weight":" ",
@@ -293,20 +278,22 @@ def getAllNews(request):
             data.append(newsIndata)
 
         newsIndata = {
-                "newsID":" ",
-                "title":" ",
-                "date":" ",
-                "content":" ",
-                "person":" ",
-                "organization":" ",
-                "location":" ",
-                "category":" ",
-                "publisher":" ",
-                "url":" ",
-                "oriImage":" ",
-                "oriKeywords":" ",
-                "oriScores":" ",
-                "video":" ",
+                "newsID":"",
+                "title":"",
+                "date":"",
+                "content":"",
+                "person":"",
+                "organization":"",
+                "location":"",
+                "category":"",
+                "publisher":"",
+                "url":"",
+                "oriImage":"",
+                "oriKeywords":"",
+                "oriScores":"",
+                "emails":"",
+                "comments":"",
+                "video":"",
                 "newsType":"map",
                 "weight":weightMapData,
                 "filterWords":filterWordsData,
@@ -314,7 +301,6 @@ def getAllNews(request):
         data.append(newsIndata)
         jsonData = {"data":data}
         return HttpResponse(json.dumps(jsonData))
-
 
 def uploadImage(request):
     source = request.FILES.get('image')

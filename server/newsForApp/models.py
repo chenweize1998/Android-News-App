@@ -27,6 +27,8 @@ class HistoryNews(models.Model):
     oriImage = models.CharField(max_length = 1000)
     oriKeywords = models.CharField(max_length = 200)
     oriScores = models.CharField(max_length = 1000)
+    emails = models.CharField(max_length = 500)
+    comments = models.CharField(max_length = 2000)
     user = models.CharField(max_length = 200)
     video = models.CharField(max_length = 200)
 
@@ -44,6 +46,8 @@ class CollectionNews(models.Model):
     oriImage = models.CharField(max_length = 1000)
     oriKeywords = models.CharField(max_length = 200)
     oriScores = models.CharField(max_length = 1000)
+    emails = models.CharField(max_length = 500)
+    comments = models.CharField(max_length = 2000)
     user = models.CharField(max_length = 200)
     video = models.CharField(max_length = 200)
 
@@ -61,6 +65,8 @@ class ForwardingNews(models.Model):
     oriImage = models.CharField(max_length = 1000)
     oriKeywords = models.CharField(max_length = 200)
     oriScores = models.CharField(max_length = 1000)
+    emails = models.CharField(max_length = 500)
+    comments = models.CharField(max_length = 2000)
     video = models.CharField(max_length = 200)
 
 class UserMessage(models.Model):
@@ -77,6 +83,8 @@ class UserMessage(models.Model):
     oriImage = models.CharField(max_length = 1000)
     oriKeywords = models.CharField(max_length = 200)
     oriScores = models.CharField(max_length = 1000)
+    emails = models.CharField(max_length = 500)
+    comments = models.CharField(max_length = 2000)
     video = models.CharField(max_length = 200)
 
 
