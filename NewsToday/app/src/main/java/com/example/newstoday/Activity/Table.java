@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -179,13 +180,16 @@ public class Table extends AppCompatActivity {
                     return;
                 }
                 account.add(email);
-                asyncServerNews.asyncDataFromServer();
                 User user = userManager.getUserByEmail(email)[0];
                 String name = (String) data.getSerializableExtra("name");
-                if(user.getAvatar().equals(""))
+                if(user.getAvatar().equals("")) {
                     header.addProfile(new ProfileDrawerItem().withName(name)
                         .withEmail(email).withIdentifier(identifier)
                         .withIcon(R.drawable.header), position);
+                    user.setAvatar("http://166.111.5.239:8000/downloadImage/?filename=header.jpg");
+                    userManager.updateUser(user);
+                    asyncServerNews.asyncUserToServer(user);
+                }
                 else {
                     header.addProfile(new ProfileDrawerItem().withName(name)
                             .withEmail(email).withIdentifier(identifier)
@@ -193,6 +197,7 @@ public class Table extends AppCompatActivity {
                 }
                 header.setActiveProfile(identifier, true);
                 header.updateProfile(header.getProfiles().get(identifier - 1));
+                asyncServerNews.asyncDataFromServer();
                 ++identifier;
                 ++position;
             }
@@ -341,6 +346,7 @@ public class Table extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "当前没有用户登录", Toast.LENGTH_SHORT).show();
                                 return false;
                             }
+                            userManagerOnServer.userSignOut();
                             account.remove(header.getActiveProfile().getEmail().toString());
                             header.removeProfileByIdentifier(header.getActiveProfile().getIdentifier());
                             --identifier;

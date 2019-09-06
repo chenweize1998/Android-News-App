@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.Toast;
 
+import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
@@ -21,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 public class Login extends AppCompatActivity {
     private UserManagerOnServer userManagerOnServer;
     private UserManager userManager;
+    private AsyncServerNews asyncServerNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         userManagerOnServer = UserManagerOnServer.getUserManagerOnServer(getApplicationContext());
         userManager = UserManager.getUserManager(getApplicationContext());
+        asyncServerNews = AsyncServerNews.getAsyncServerNews(getApplicationContext());
 
         Button materialRippleLayoutSignUp = findViewById(R.id.sign_btn_signup);
 
@@ -49,6 +52,7 @@ public class Login extends AppCompatActivity {
 //                    user.setOriAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
 //                    user.setAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
 //                    userManager.addInUser(user);
+                    asyncServerNews.asyncUserFromServer();
                     Intent intent = getIntent();
                     intent.putExtra("name", name);
                     intent.putExtra("email", email);

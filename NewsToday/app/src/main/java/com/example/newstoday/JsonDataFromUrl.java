@@ -65,7 +65,6 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
         BufferedReader in = null;
         StringBuffer result = null;
         try {
-
             URL url = new URL(allConfigUrl);
             URLConnection connection = url.openConnection();
             connection.setRequestProperty("Charset", "UTF-8");

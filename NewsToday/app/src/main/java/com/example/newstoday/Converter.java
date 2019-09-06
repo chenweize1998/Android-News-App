@@ -42,8 +42,8 @@ class SetConverter{
     @TypeConverter
     @Nullable
     public static ArraySet<String> fromTimestamp(String data){
-        if(data==null){
-            return null;
+        if(data==null || data.length() == 0){
+            return new ArraySet<>();
         }
         String[] da = data.split("#\\^#");
         ArraySet as = new ArraySet();
@@ -57,7 +57,7 @@ class SetConverter{
     @Nullable
     public static String toTimestamp(ArraySet<String> as){
         StringBuffer sb = new StringBuffer();
-        if(as==null){
+        if(as==null || as.size() == 0){
             return null;
         }
         for(String a:as){
@@ -72,8 +72,8 @@ class ListConverter{
     @TypeConverter
     @Nullable
     public static ArrayList<String> fromTimestamp(String data){
-        if(data==null){
-            return null;
+        if(data==null || data.length() == 0){
+            return new ArrayList<>();
         }
         String[] da = data.split("#\\^#");
         ArrayList al = new ArrayList();
@@ -87,7 +87,7 @@ class ListConverter{
     @Nullable
     public static String toTimestamp(ArrayList<String> al){
         StringBuffer sb = new StringBuffer();
-        if(al==null){
+        if(al==null || al.size() == 0){
             return null;
         }
         for(String a:al){

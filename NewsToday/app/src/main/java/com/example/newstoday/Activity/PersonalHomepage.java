@@ -71,7 +71,7 @@ public class PersonalHomepage extends Fragment {
         TextView email = view.findViewById(R.id.homepage_email);
         email.setText(user.getEmail());
         ImageView header = view.findViewById(R.id.homepage_header);
-        Glide.with(getActivity().getApplicationContext()).load(Uri.parse(user.getAvatar())).into(header);
+        Glide.with(getActivity().getApplicationContext()).load(user.getAvatar()).into(header);
         if(currentUser != null && currentUser.getEmail().equals(user.getEmail())) {
             header.setOnClickListener(new View.OnClickListener() {
                 @Override

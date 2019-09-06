@@ -205,10 +205,13 @@ public class NewsPage extends AppCompatActivity {
         });
 
         final RecyclerView commentRecycler = findViewById(R.id.page_comment_recycler);
-        CommentAdapter commentAdapter = new CommentAdapter(news.getEmails(), news.getComments(), this);
-        LinearLayoutManager commentLayoutManager = new LinearLayoutManager(getApplicationContext());
-        commentRecycler.setLayoutManager(commentLayoutManager);
-        commentRecycler.setAdapter(commentAdapter);
+//        News newsDb = newsManager.getNewsByNewsID(news.getNewsID());
+//        if(newsDb != null) {
+            CommentAdapter commentAdapter = new CommentAdapter(news.getEmails(), news.getComments(), this);
+            LinearLayoutManager commentLayoutManager = new LinearLayoutManager(getApplicationContext());
+            commentRecycler.setLayoutManager(commentLayoutManager);
+            commentRecycler.setAdapter(commentAdapter);
+//        }
     }
 
 

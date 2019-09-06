@@ -60,6 +60,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        if(users.length != comments.size()){
+            users = new User[emails.size()];
+            for(int i = 0; i < emails.size(); ++i){
+                users[i] = userManager.getUserByEmail(emails.get(i))[0];
+            }
+        }
         if(users.length != 0) {
             Glide.with(activity).load(users[position].getAvatar()).into(holder.header);
             holder.email.setText(users[position].getEmail());

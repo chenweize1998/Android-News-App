@@ -192,7 +192,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                         }
                     }
                 }
-                newsManager.addInHistory(tmp);
+                if(newsManager.getNewsByNewsID(tmp.getNewsID()) == null)
+                    newsManager.addInHistory(tmp);
                 offlineNewsManager.addOneOfflineNews(tmp);
                 holder.txtTitle.setTextColor(ContextCompat.getColor(activity.getApplicationContext(), R.color.titleItemSelColor));
                 listener.onItemClick(position, v);

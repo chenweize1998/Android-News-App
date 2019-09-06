@@ -174,21 +174,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/filter_divide_layout"
         android:layout_below="@id/filter_title_layout">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="5dp"
-        android:fontFamily="@font/playfair_display_sc"
-        android:text="Filter words:"
-        android:textColor="#ffffff"
-        android:textSize="20sp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#ffffff"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/playfair_display_sc"
+            android:text="Filter words:"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            android:id="@+id/filter_divide"/>
 
     </LinearLayout>
 
@@ -209,11 +211,12 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent"-->
 <!--        android:layout_below="@id/filter_title_layout">-->
+
     <com.example.newstoday.CustomLayout.DragGridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/filter_grid_layout"
-        android:layout_below="@id/filter_title_layout">
+        android:layout_below="@id/filter_divide_layout">
     </com.example.newstoday.CustomLayout.DragGridLayout>
 <!--    </ScrollView>-->
 

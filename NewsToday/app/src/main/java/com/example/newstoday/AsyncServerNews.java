@@ -213,6 +213,7 @@ public class AsyncServerNews {
                 newsData.put("newsType", "history");
                 newsData.put("mapData", "null");
                 newsData.put("filterWords", "null");
+                newsData.put("video", news.getVideo());
                 dataArray.put(newsData);
             }
 
@@ -237,6 +238,7 @@ public class AsyncServerNews {
                 newsData.put("newsType", "collection");
                 newsData.put("mapData", "null");
                 newsData.put("filterWords", "null");
+                newsData.put("video", news.getVideo());
                 dataArray.put(newsData);
             }
 
@@ -261,6 +263,7 @@ public class AsyncServerNews {
                 newsData.put("newsType", "forwardingNews");
                 newsData.put("mapData", "null");
                 newsData.put("filterWords", "null");
+                newsData.put("video", news.getVideo());
                 dataArray.put(newsData);
             }
 
@@ -285,6 +288,7 @@ public class AsyncServerNews {
                 newsData.put("newsType", "userMessage");
                 newsData.put("mapData", "null");
                 newsData.put("filterWords", "null");
+                newsData.put("video", news.getVideo());
                 dataArray.put(newsData);
             }
 
@@ -339,6 +343,7 @@ public class AsyncServerNews {
             newsData.put("newsType", "map");
             newsData.put("mapData", weightData);
             newsData.put("filterWords", filterWord);
+            newsData.put("video", "null");
             dataArray.put(newsData);
 
             data.put("data", dataArray);

@@ -13,11 +13,13 @@ public class UserManagerOnServer {
 
     private ServerHttpResponse serverHttpResponse;
     private UserManager userManager;
+    private AsyncServerNews asyncServerNews;
     private static UserManagerOnServer INSTANCE = null;
 
     private UserManagerOnServer(Context context){
         serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
         userManager = UserManager.getUserManager(context);
+        asyncServerNews = AsyncServerNews.getAsyncServerNews(context);
     }
 
     public static UserManagerOnServer getUserManagerOnServer(Context context){
@@ -93,6 +95,8 @@ public class UserManagerOnServer {
                 return false;
             }
         }
+        asyncServerNews.asyncDataToServer();
+        asyncServerNews.asyncUserToServer(userManager.getUserByEmail(Table.header.getActiveProfile().getEmail().toString())[0]);
         return true;
     }
 

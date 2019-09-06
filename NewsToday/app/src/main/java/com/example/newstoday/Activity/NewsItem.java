@@ -113,7 +113,11 @@ public class NewsItem extends Fragment {
             @Override
             public void onItemClick(int position, final View v) {
                 Intent intent = new Intent(getActivity(), NewsPage.class);
-                intent.putExtra("news", news.get(position));
+                News newsDb = newsManager.getNewsByNewsID(news.get(position).getNewsID());
+                if(newsDb != null)
+                    intent.putExtra("news", newsDb);
+                else
+                    intent.putExtra("news", news.get(position));
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
             }

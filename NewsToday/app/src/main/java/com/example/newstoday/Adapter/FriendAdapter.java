@@ -18,6 +18,7 @@ import com.bumptech.glide.manager.SupportRequestManagerFragment;
 import com.example.newstoday.Activity.Login;
 import com.example.newstoday.Activity.PersonalHomepage;
 import com.example.newstoday.Activity.Table;
+import com.example.newstoday.AsyncServerNews;
 import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
@@ -31,6 +32,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
     private UserManager userManager;
     private Activity activity;
     private User currentUser;
+    private AsyncServerNews asyncServerNews;
     public FragmentManager fragmentManager;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -64,6 +66,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
             users = userManager.getUserByEmail(emails.toArray(new String[emails.size()]));
         }
         this.activity = activity;
+        asyncServerNews = AsyncServerNews.getAsyncServerNews(activity.getApplicationContext());
     }
 
     public void updateUser(User user[]){
@@ -87,6 +90,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
         if(currentUser != null && currentUser.getFollowig() != null &&
                 currentUser.getFollowig().contains(users[position].getEmail()))
             holder.follow.setChecked(true);
+        else
+            holder.follow.setChecked(false);
         holder.follow.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View view, boolean checked) {
@@ -105,6 +110,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
                         userManager.deleteOneFollowigForUser(currentUser, users[position].getEmail());
                     }
                     userManager.updateUser(currentUser);
+                    asyncServerNews.asyncUserToServer(currentUser);
                 }
             }
         });
