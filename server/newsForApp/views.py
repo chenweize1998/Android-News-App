@@ -13,24 +13,19 @@ from newsForApp.models import Image
 import os
 # Create your views here.
 
-class G:
-    currentUser = 'null'
-
 def index(request):
     return render(request, 'exam.html')
 
+class G:
+    users = set()
 
 def user(request):
     if request.method == "POST":
-        if G.currentUser == "null":
-            return HttpResponse("Fail")
         email = request.POST.get("email")
         name = request.POST.get("name")
         password = request.POST.get("password")
         avatar = request.POST.get("avatar")
         followig = request.POST.get("followig")
-        if G.currentUser != email:
-            return HttpResponse("Fail")
         User.objects.filter(email = email).update(avatar = avatar, followig = followig)
         return HttpResponse("Success")
         
@@ -62,7 +57,9 @@ def userSignIn(request):
         passwordOfUserInDB = userInDB[0].password
         if passwordOfUserInDB != password or userInDB[0].name != name:
             return HttpResponse("Fail")
-        G.currentUser = email
+        if email in G.users:
+            return HttpResponse("Fail")
+        G.users.add(email)
 
         data = {
             "avatar":userInDB[0].avatar,
@@ -83,26 +80,25 @@ def userSignUp(request):
             return HttpResponse("Fail")
         newUser = User(email = email, name = name, password = password, followig = "")
         newUser.save()
-        G.currentUser = email
+        G.users.add(email)
         return HttpResponse("Success")
     return HttpResponse("Fail")
 
 def userSignOut(request):
     print("sign out")
-    if request.method == "GET":
+    if request.method == "POST":
         HistoryNews.objects.filter(user = G.currentUser).delete()
-        G.currentUser = "null"
+        G.users.remove(request.POST.get("user"))
         return HttpResponse("Success")
     return HttpResponse("Fail")    
 
 def postAllNews(request):
     if request.method == "POST":
-        if G.currentUser == "null":
-            return HttpResponse("Fail")
-        HistoryNews.objects.filter(user = G.currentUser).delete()
-        CollectionNews.objects.filter(user = G.currentUser).delete()
-        ForwardingNews.objects.filter(user = G.currentUser).delete()
-        UserMessage.objects.filter(user = G.currentUser).delete()
+        currentUser = request.GET.get("user")
+        HistoryNews.objects.filter(user = currentUser).delete()
+        CollectionNews.objects.filter(user = currentUser).delete()
+        ForwardingNews.objects.filter(user = currentUser).delete()
+        UserMessage.objects.filter(user = currentUser).delete()
         jsonData = json.loads(request.body)
         for data in jsonData["data"]:
             if data["newsType"] == "history":
@@ -110,7 +106,7 @@ def postAllNews(request):
                                 content = data["content"], person = data["person"], organization =  data["organization"], 
                                 location = data["location"], category = data["category"], publisher = data["publisher"],
                                 url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
-                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"], user = G.currentUser) 
+                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"], user = currentUser) 
                 newHistoryNews.save()
                 print("历史消息保存成功")
             elif data["newsType"] == "collection":
@@ -118,7 +114,7 @@ def postAllNews(request):
                                 content = data["content"], person = data["person"], organization =  data["organization"], 
                                 location = data["location"], category = data["category"], publisher = data["publisher"],
                                 url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
-                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = G.currentUser) 
+                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = currentUser) 
                 newCollectionNews.save()
                 print("收藏消息保存成功")
             elif data["newsType"] == "forwardingNews":
@@ -126,7 +122,7 @@ def postAllNews(request):
                                 content = data["content"], person = data["person"], organization =  data["organization"], 
                                 location = data["location"], category = data["category"], publisher = data["publisher"],
                                 url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
-                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = G.currentUser) 
+                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = currentUser) 
                 newForwardingNews.save()
                 print("转发消息保存成功")
             elif data["newsType"] == "userMessage":
@@ -134,21 +130,21 @@ def postAllNews(request):
                                 content = data["content"], person = data["person"], organization =  data["organization"], 
                                 location = data["location"], category = data["category"], publisher = data["publisher"],
                                 url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
-                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = G.currentUser) 
+                                oriScores =  data["scores"], video = data["video"], emails = data["emails"], comments = data["comments"],user = currentUser) 
                 newUserMessage.save()
                 print("发布消息保存成功")
             elif data["newsType"] == "map":
-                entry = Map.objects.filter(user = G.currentUser)
+                entry = Map.objects.filter(user = currentUser)
                 if len(entry) == 0:
-                    newWeightMap = Map(data = data["mapData"], user = G.currentUser)
+                    newWeightMap = Map(data = data["mapData"], user = currentUser)
                     newWeightMap.save()
                 else:
                     entry[0].data = data["mapData"]
                     entry[0].save()
                 
-                entry = FilterWordsMap.objects.filter(user = G.currentUser)
+                entry = FilterWordsMap.objects.filter(user = currentUser)
                 if len(entry) == 0:
-                    filterWordsMap = FilterWordsMap(data = data["filterWords"], user = G.currentUser)
+                    filterWordsMap = FilterWordsMap(data = data["filterWords"], user = currentUser)
                     filterWordsMap.save()
                 else:
                     entry[0].data = data["filterWords"]
@@ -159,12 +155,10 @@ def postAllNews(request):
         
 def getAllNews(request):
     if request.method == 'GET':
-        if G.currentUser == 'null':
-            return HttpResponse("Fail")
-        
+        currentUser = request.GET.get("user")
         data = []
-        allWeightMap = Map.objects.filter(user = G.currentUser)
-        filterWords = FilterWordsMap.objects.filter(user = G.currentUser)
+        allWeightMap = Map.objects.filter(user = currentUser)
+        filterWords = FilterWordsMap.objects.filter(user = currentUser)
         weightMapData = " "
         filterWordsData = " "
         if len(allWeightMap) != 0:
@@ -173,7 +167,7 @@ def getAllNews(request):
             filterWordsData = filterWords[0].data
 
         
-        allCollectionNews = CollectionNews.objects.filter(user = G.currentUser) # just return history news for current user
+        allCollectionNews = CollectionNews.objects.filter(user = currentUser) # just return history news for current user
         print(len(allCollectionNews))
         for news in allCollectionNews:
             newsIndata = {
@@ -200,7 +194,7 @@ def getAllNews(request):
             data.append(newsIndata)
         print("收藏的新闻数" + str(len(data)))
 
-        allHistoryNews = HistoryNews.objects.filter(user = G.currentUser) # just return history news for current user
+        allHistoryNews = HistoryNews.objects.filter(user = currentUser) # just return history news for current user
         print(len(allHistoryNews))
         for news in allHistoryNews:
             newsIndata = {
