@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Build;
@@ -23,6 +25,7 @@ import android.util.ArraySet;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -52,6 +55,9 @@ import com.mikepenz.materialdrawer.model.*;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 
 import static androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode;
 import dmax.dialog.SpotsDialog;
@@ -176,9 +182,15 @@ public class Table extends AppCompatActivity {
                 asyncServerNews.asyncDataFromServer();
                 User user = userManager.getUserByEmail(email)[0];
                 String name = (String) data.getSerializableExtra("name");
-                header.addProfile(new ProfileDrawerItem().withName(name)
+                if(user.getAvatar().equals(""))
+                    header.addProfile(new ProfileDrawerItem().withName(name)
                         .withEmail(email).withIdentifier(identifier)
-                        .withIcon(user.getAvatar()), position);
+                        .withIcon(R.drawable.header), position);
+                else {
+                    header.addProfile(new ProfileDrawerItem().withName(name)
+                            .withEmail(email).withIdentifier(identifier)
+                            .withIcon(user.getAvatar()), position);
+                }
                 header.setActiveProfile(identifier, true);
                 header.updateProfile(header.getProfiles().get(identifier - 1));
                 ++identifier;
@@ -215,7 +227,38 @@ public class Table extends AppCompatActivity {
         }
     }
 
+    private void overrideDrawerImageLoaderPicasso(){
+        //initialize and create the image loader logic
+        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.get().load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder, String tag) {
+                super.set(imageView, uri, placeholder, tag);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.get().cancelRequest(imageView);
+            }
+
+            @Override
+            public Drawable placeholder(Context ctx) {
+                return super.placeholder(ctx);
+            }
+
+            @Override
+            public Drawable placeholder(Context ctx, String tag) {
+                return super.placeholder(ctx, tag);
+            }
+        });
+    }
+
     private void buildDrawer(final Activity activity){
+        overrideDrawerImageLoaderPicasso();
         BaseDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(COLLECTION_IDENTIFIER).withName("我的收藏")
                 .withIcon(R.drawable.ic_star).withTextColor(Color.parseColor("#ababab"));
         BaseDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(HISTORY_IDENTIFIER).withName("浏览历史")
@@ -271,6 +314,9 @@ public class Table extends AppCompatActivity {
                 });
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             switchDrawerItem.withChecked(true);
+
+
+
         header = new AccountHeaderBuilder()
                 .withActivity(this)
 //                .addProfiles(

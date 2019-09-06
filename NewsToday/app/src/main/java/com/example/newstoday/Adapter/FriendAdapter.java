@@ -97,13 +97,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
 //                    activity.startActivityForResult(intent, Table.LOGIN_REQUEST);
                 }
                 else{
-                    if(checked)
+                    if(checked) {
 //                        currentUser.addFollowig(users[position].getEmail());
                         userManager.addOneFollowigForUser(currentUser, users[position].getEmail());
+                    }
                     else {
                         userManager.deleteOneFollowigForUser(currentUser, users[position].getEmail());
-                        return;
                     }
+                    userManager.updateUser(currentUser);
                 }
             }
         });
