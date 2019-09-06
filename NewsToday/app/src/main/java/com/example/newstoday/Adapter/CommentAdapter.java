@@ -3,6 +3,7 @@ package com.example.newstoday.Adapter;
 
 import android.app.Activity;
 import android.util.ArrayMap;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import com.example.newstoday.R;
 import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
 
+import java.util.ArrayList;
+
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {
-    private ArrayMap<String, String> comments;
-    private String[] commenter;
+    private ArrayList<String> emails;
+    private ArrayList<String> comments;
     private User[] users;
     private Activity activity;
     private UserManager userManager;
@@ -38,13 +41,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         }
     }
 
-    public CommentAdapter(ArrayMap<String, String> comments, Activity activity){
+    public CommentAdapter(ArrayList<String> emails, ArrayList<String> comments, Activity activity){
+        this.emails = emails;
         this.comments = comments;
-        this.comments.put("test", "小编SB");
         this.activity = activity;
-        this.commenter = comments.keySet().toArray(new String[comments.keySet().size()]);
         userManager = UserManager.getUserManager(activity.getApplicationContext());
-        users = userManager.getUserByEmail(commenter);
+        users = userManager.getUserByEmail(emails.toArray(new String[emails.size()]));
     }
 
     @Override
@@ -62,7 +64,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
             Glide.with(activity).load(users[position].getAvatar()).into(holder.header);
             holder.email.setText(users[position].getEmail());
             holder.name.setText(users[position].getName());
-            holder.comment.setText(comments.get(commenter[position]));
+            holder.comment.setText(comments.get(position));
         }
     }
 
