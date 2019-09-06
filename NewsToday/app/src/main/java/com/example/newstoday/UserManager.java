@@ -130,6 +130,10 @@ public class UserManager{
         updateUser(user);
     }
 
+
+    /**
+     * 在每次更改了内存中的user之后，也就是换头像，或者修改关注，就必须update到数据库里面
+     * */
     public void updateUser(User user){
         UpdateUserInDBTask updateUserInDBTask = new UpdateUserInDBTask();
         updateUserInDBTask.execute(user);

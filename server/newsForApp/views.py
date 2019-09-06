@@ -31,10 +31,7 @@ def user(request):
         followig = request.POST.get("followig")
         if G.currentUser != email:
             return HttpResponse("Fail")
-        user = User.objects.filter(email = email)
-        user[0].avatar = avatar
-        user[0].followig = followig
-        user[0].save()
+        User.objects.filter(email = email).update(avatar = avatar, followig = followig)
         return HttpResponse("Success")
         
     if request.method == "GET":
@@ -84,7 +81,7 @@ def userSignUp(request):
 
         if email=="" or name == "" or password == "":
             return HttpResponse("Fail")
-        newUser = User(email = email, name = name, password = password, oriFollowig = "")
+        newUser = User(email = email, name = name, password = password, followig = "")
         newUser.save()
         G.currentUser = email
         return HttpResponse("Success")

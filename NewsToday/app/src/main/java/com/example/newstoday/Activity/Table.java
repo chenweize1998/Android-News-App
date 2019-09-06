@@ -452,7 +452,7 @@ public class Table extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     try {
-                                        asyncServerNews.asyncDataToServer(header.getActiveProfile().getEmail().toString());
+                                        asyncServerNews.asyncDataToServer();
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }

@@ -42,8 +42,8 @@ public class AsyncServerNews {
         return (asyncNewsFromServer() && asyncUserFromServer());
     }
 
-    public boolean asyncDataToServer(String email){
-        return (asyncNewsToServer() && asyncUserToServer(userManager.getUserByEmail(email)[0]));
+    public boolean asyncDataToServer(){
+        return (asyncNewsToServer());
     }
 
     public boolean asyncNewsFromServer() {
@@ -447,6 +447,11 @@ public class AsyncServerNews {
         return true;
     }
 
+
+    /**
+     * 这个函数被 *单独* 拎出来调用的时候，只有修改头像和修改关注者之后
+     * 这个函数只能被单独拎出来调用
+     */
     public boolean asyncUserToServer(User user) {
 //        User user = null;
         String url = "http://166.111.5.239:8000/user/";
