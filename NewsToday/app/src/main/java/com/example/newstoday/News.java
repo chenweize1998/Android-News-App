@@ -6,12 +6,14 @@ import java.text.*;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.ArraySet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Dao;
 import androidx.room.Database;
 import androidx.room.Delete;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Insert;
@@ -24,8 +26,9 @@ import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 
+
 @Entity
-@TypeConverters({Converter.class})
+@TypeConverters({Converter.class, SetConverter.class})
 public class News implements Serializable{
     /*
      * These are vital properties of News.
@@ -50,11 +53,14 @@ public class News implements Serializable{
     private String[] image;
     private String[] keywords;
     private String[] scores;
+    private ArraySet<String> emails;
+    private ArraySet<String> comments;
 
 
     public News(final String title, final String date, final String content, final String category, final String organization,
          final String newsID, final String[] image, final String publisher, final String person, final String location,
-         final String[] keywords, final String[] scores, final String url, final String video){
+         final String[] keywords, final String[] scores, final String url, final String video, final ArraySet emails,
+         final ArraySet comments){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -69,6 +75,16 @@ public class News implements Serializable{
         this.keywords = keywords;
         this.scores = scores;
         this.video = video;
+        if(emails==null){
+            this.emails = new ArraySet<>();
+        }else{
+            this.emails = emails;
+        }
+        if(comments==null){
+            this.comments = new ArraySet<>();
+        }else{
+            this.comments = comments;
+        }
     }
 
     public static String stringConverter(String[] image){
@@ -154,6 +170,14 @@ public class News implements Serializable{
         return video;
     }
 
+    public ArraySet getEmails(){
+        return emails;
+    }
+
+    public ArraySet getComments(){
+        return comments;
+    }
+
     /*setter*/
     public void setNewsID(String newsID){
         this.newsID = newsID;
@@ -210,6 +234,24 @@ public class News implements Serializable{
     public void setVideo(String video){
         this.video = video;
     }
+
+    public void setEmails(ArraySet emails){
+        this.emails = emails;
+    }
+
+    public void setComments(ArraySet comments){
+        this.comments = comments;
+    }
+
+    /**
+     * TODO
+     * 给新闻加comment, 只需要传进来评论人的email和评论的内容
+     * */
+    public void addComment(String email, String comment){
+        this.emails.add(email);
+        this.comments.add(comment);
+    }
+
 }
 
 

@@ -1,6 +1,8 @@
 package com.example.newstoday;
 import android.os.AsyncTask;
 
+import androidx.room.Update;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -157,5 +159,21 @@ public class NewsRepository {
     private class GetAllNewsIDTask extends AsyncTask<Integer, Void, String[]>{
         @Override
         protected String[] doInBackground(Integer... params){return newsDao.getAllNewsID();}
+    }
+
+    /**
+     * Update news
+     * */
+    public void updateNews(News...news){
+        UpdateNewsTask updateNewsTask = new UpdateNewsTask();
+        updateNewsTask.execute(news);
+    }
+
+    private class UpdateNewsTask extends AsyncTask<News, Void, Void>{
+        @Override
+        protected Void doInBackground(News...news){
+            newsDao.update(news);
+            return null;
+        }
     }
 }

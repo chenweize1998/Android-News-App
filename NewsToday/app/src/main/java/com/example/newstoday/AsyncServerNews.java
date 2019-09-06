@@ -1,6 +1,7 @@
 package com.example.newstoday;
 
 import android.content.Context;
+import android.se.omapi.SEService;
 import android.util.ArraySet;
 
 import org.json.JSONArray;
@@ -74,29 +75,36 @@ public class AsyncServerNews {
                 String oriImage = news.getString("oriImage");
                 String oriKeywords = news.getString("oriKeywords");
                 String oriScores = news.getString("oriScores");
+                String emails = news.getString("emails");
+                String comments = news.getString("comments");
                 String video = news.getString("video");
                 String newsType = news.getString("newsType");
+
 
 
                 if (newsType.equals("history")) {
                     newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
-                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video));
+                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video,
+                            SetConverter.fromTimestamp(emails), SetConverter.fromTimestamp(comments)));
                 } else if (newsType.equals("collection")) {
                     newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
-                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video));
+                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video,
+                            SetConverter.fromTimestamp(emails), SetConverter.fromTimestamp(comments)));
                 } else if (newsType.equals("map")) {
                     mapData = news.getString("weight");
                     filterWords = news.getString("filterWords");
                 } else if(newsType.equals("forwardingNews")){
                     forwordingNewsManager.addOneForwardingNewsForUser(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
-                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video), publisher);
+                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video,
+                            SetConverter.fromTimestamp(emails), SetConverter.fromTimestamp(comments)), publisher);
                 }else if(newsType.equals("userMessage")){
                     userMessageManager.addOneUserMessage(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
-                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video));
+                            Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video,
+                            SetConverter.fromTimestamp(emails), SetConverter.fromTimestamp(comments)));
                 }
             }
 
@@ -178,275 +186,175 @@ public class AsyncServerNews {
 
     public boolean asyncNewsToServer() {
         String oriUrl = "http://166.111.5.239:8000/postAllNews/";
+        JSONObject data = new JSONObject();
+        JSONArray  dataArray = new JSONArray();
 
-        StringBuilder newsID = new StringBuilder();
-        StringBuilder title = new StringBuilder();
-        StringBuilder date = new StringBuilder();
-        StringBuilder content = new StringBuilder();
-        StringBuilder person = new StringBuilder();
-        StringBuilder organization = new StringBuilder();
-        StringBuilder location = new StringBuilder();
-        StringBuilder category = new StringBuilder();
-        StringBuilder publisher = new StringBuilder();
-        StringBuilder url = new StringBuilder();
-        StringBuilder image = new StringBuilder();
-        StringBuilder keywords = new StringBuilder();
-        StringBuilder scores = new StringBuilder();
-        StringBuilder video = new StringBuilder();
-        StringBuilder newsType = new StringBuilder();
-        StringBuilder mapData = new StringBuilder();
-        StringBuilder filterWords = new StringBuilder();
-
-        ArrayList<News> allHistoryNewsNews = newsManager.getAllHistoryNews();
-        for (News news : allHistoryNewsNews) {
-            newsID.append(news.getNewsID());
-            newsID.append("#^#");
-            title.append(news.getTitle());
-            title.append("#^#");
-            date.append(news.getDate());
-            date.append("#^#");
-            content.append(news.getContent());
-            content.append("#^#");
-            person.append(news.getPerson());
-            person.append("#^#");
-            organization.append(news.getOrganization());
-            organization.append("#^#");
-            location.append(news.getLocation());
-            location.append("#^#");
-            category.append(news.getCategory());
-            category.append("#^#");
-            publisher.append(news.getPublisher());
-            publisher.append("#^#");
-            url.append(news.getUrl());
-            url.append("#^#");
-            image.append(Converter.toTimestamp(news.getImage()));
-            image.append("#^#");
-            keywords.append(Converter.toTimestamp(news.getKeywords()));
-            keywords.append("#^#");
-            scores.append(Converter.toTimestamp(news.getScores()));
-            scores.append("#^#");
-            video.append(news.getVideo());
-            video.append("#^#");
-            newsType.append("history");
-            newsType.append("#^#");
-            mapData.append("null");
-            mapData.append("#^#");
-            filterWords.append("null");
-            filterWords.append("#^#");
-        }
-
-        ArrayList<News> allCollectionNews = newsManager.getAllCollectionNews();
-        for(News news : allCollectionNews){
-            newsID.append(news.getNewsID());
-            newsID.append("#^#");
-            title.append(news.getTitle());
-            title.append("#^#");
-            date.append(news.getDate());
-            date.append("#^#");
-            content.append(news.getContent());
-            content.append("#^#");
-            person.append(news.getPerson());
-            person.append("#^#");
-            organization.append(news.getOrganization());
-            organization.append("#^#");
-            location.append(news.getLocation());
-            location.append("#^#");
-            category.append(news.getCategory());
-            category.append("#^#");
-            publisher.append(news.getPublisher());
-            publisher.append("#^#");
-            url.append(news.getUrl());
-            url.append("#^#");
-            image.append(Converter.toTimestamp(news.getImage()));
-            image.append("#^#");
-            keywords.append(Converter.toTimestamp(news.getKeywords()));
-            keywords.append("#^#");
-            scores.append(Converter.toTimestamp(news.getScores()));
-            scores.append("#^#");
-            video.append(news.getVideo());
-            video.append("#^#");
-            newsType.append("collection");
-            newsType.append("#^#");
-            mapData.append("null");
-            mapData.append("#^#");
-            filterWords.append("null");
-            filterWords.append("#^#");
-        }
-
-        ArrayList<News> allForwardingNews = forwordingNewsManager.getAllForwardingNews();
-        for(News news: allForwardingNews){
-            newsID.append(news.getNewsID());
-            newsID.append("#^#");
-            title.append(news.getTitle());
-            title.append("#^#");
-            date.append(news.getDate());
-            date.append("#^#");
-            content.append(news.getContent());
-            content.append("#^#");
-            person.append(news.getPerson());
-            person.append("#^#");
-            organization.append(news.getOrganization());
-            organization.append("#^#");
-            location.append(news.getLocation());
-            location.append("#^#");
-            category.append(news.getCategory());
-            category.append("#^#");
-            publisher.append(news.getPublisher());
-            publisher.append("#^#");
-            url.append(news.getUrl());
-            url.append("#^#");
-            image.append(Converter.toTimestamp(news.getImage()));
-            image.append("#^#");
-            keywords.append(Converter.toTimestamp(news.getKeywords()));
-            keywords.append("#^#");
-            scores.append(Converter.toTimestamp(news.getScores()));
-            scores.append("#^#");
-            video.append(news.getVideo());
-            video.append("#^#");
-            newsType.append("forwardingNews");
-            newsType.append("#^#");
-            mapData.append("null");
-            mapData.append("#^#");
-            filterWords.append("null");
-            filterWords.append("#^#");
-        }
-
-        ArrayList<News> allUserMessage = userMessageManager.getAllUserMessage();
-        for(News news: allUserMessage){
-            newsID.append(news.getNewsID());
-            newsID.append("#^#");
-            title.append(news.getTitle());
-            title.append("#^#");
-            date.append(news.getDate());
-            date.append("#^#");
-            content.append(news.getContent());
-            content.append("#^#");
-            person.append(news.getPerson());
-            person.append("#^#");
-            organization.append(news.getOrganization());
-            organization.append("#^#");
-            location.append(news.getLocation());
-            location.append("#^#");
-            category.append(news.getCategory());
-            category.append("#^#");
-            publisher.append(news.getPublisher());
-            publisher.append("#^#");
-            url.append(news.getUrl());
-            url.append("#^#");
-            image.append(Converter.toTimestamp(news.getImage()));
-            image.append("#^#");
-            keywords.append(Converter.toTimestamp(news.getKeywords()));
-            keywords.append("#^#");
-            scores.append(Converter.toTimestamp(news.getScores()));
-            scores.append("#^#");
-            video.append(news.getVideo());
-            video.append("#^#");
-            newsType.append("userMessage");
-            newsType.append("#^#");
-            mapData.append("null");
-            mapData.append("#^#");
-            filterWords.append("null");
-            filterWords.append("#^#");
-        }
-
-        String weightData = "null";
-        NavigableMap<Double, String> map = newsManager.getMap();
-        if (map!=null && map.size() != 0) {
-            StringBuffer sb = new StringBuffer();
-            Iterator iter = map.keySet().iterator();
-            while (iter.hasNext()) {
-                Double key = (Double) iter.next();
-                String value = (String)map.get(key);
-                sb.append(key.toString());
-                sb.append(":");
-                sb.append(value);
-                sb.append(" ");
+        try {
+            ArrayList<News> allHistoryNewsNews = newsManager.getAllHistoryNews();
+            for (News news : allHistoryNewsNews) {
+                JSONObject newsData = new JSONObject();
+                newsData.put("newsID", news.getNewsID());
+                newsData.put("title", news.getTitle());
+                newsData.put("date", news.getDate());
+                newsData.put("content", news.getContent());
+                newsData.put("person", news.getPerson());
+                newsData.put("organization", news.getOrganization());
+                newsData.put("location", news.getLocation());
+                newsData.put("category", news.getCategory());
+                newsData.put("publisher", news.getPublisher());
+                newsData.put("url", news.getUrl());
+                newsData.put("image", Converter.toTimestamp(news.getImage()));
+                newsData.put("keywords", Converter.toTimestamp(news.getKeywords()));
+                newsData.put("scores", Converter.toTimestamp(news.getScores()));
+                newsData.put("emails", SetConverter.toTimestamp(news.getEmails()));
+                newsData.put("comments", SetConverter.toTimestamp(news.getComments()));
+                newsData.put("newsType", "history");
+                newsData.put("mapData", "null");
+                newsData.put("filterWords", "null");
+                dataArray.put(newsData);
             }
-            weightData = sb.toString();
-        }
 
-        String filterWord = "null";
-        TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
-        if (treeMap!=null && treeMap.size() != 0) {
-            StringBuffer sb = new StringBuffer();
-            Iterator iter = treeMap.keySet().iterator();
-            while (iter.hasNext()) {
-                String key = (String) iter.next();
-                String value = treeMap.get(key);
-                sb.append(key);
-                sb.append(":");
-                sb.append(value);
-                sb.append(" ");
+            ArrayList<News> allCollectionNews = newsManager.getAllCollectionNews();
+            for (News news : allCollectionNews) {
+                JSONObject newsData = new JSONObject();
+                newsData.put("newsID", news.getNewsID());
+                newsData.put("title", news.getTitle());
+                newsData.put("date", news.getDate());
+                newsData.put("content", news.getContent());
+                newsData.put("person", news.getPerson());
+                newsData.put("organization", news.getOrganization());
+                newsData.put("location", news.getLocation());
+                newsData.put("category", news.getCategory());
+                newsData.put("publisher", news.getPublisher());
+                newsData.put("url", news.getUrl());
+                newsData.put("image", Converter.toTimestamp(news.getImage()));
+                newsData.put("keywords", Converter.toTimestamp(news.getKeywords()));
+                newsData.put("scores", Converter.toTimestamp(news.getScores()));
+                newsData.put("emails", SetConverter.toTimestamp(news.getEmails()));
+                newsData.put("comments", SetConverter.toTimestamp(news.getComments()));
+                newsData.put("newsType", "collection");
+                newsData.put("mapData", "null");
+                newsData.put("filterWords", "null");
+                dataArray.put(newsData);
             }
-            filterWord = sb.toString();
-        }
 
-        newsID.append("null");
-        title.append("null");
-        date.append("null");
-        content.append("null");
-        person.append("null");
-        organization.append("null");
-        location.append("null");
-        category.append("null");
-        publisher.append("null");
-        url.append("null");
-        image.append("null");
-        keywords.append("null");
-        scores.append("null");
-        video.append("null");
-        newsType.append("map");
-        mapData.append(weightData);
-        filterWords.append(filterWord);
+            ArrayList<News> allForwardingNews = forwordingNewsManager.getAllForwardingNews();
+            for (News news : allForwardingNews) {
+                JSONObject newsData = new JSONObject();
+                newsData.put("newsID", news.getNewsID());
+                newsData.put("title", news.getTitle());
+                newsData.put("date", news.getDate());
+                newsData.put("content", news.getContent());
+                newsData.put("person", news.getPerson());
+                newsData.put("organization", news.getOrganization());
+                newsData.put("location", news.getLocation());
+                newsData.put("category", news.getCategory());
+                newsData.put("publisher", news.getPublisher());
+                newsData.put("url", news.getUrl());
+                newsData.put("image", Converter.toTimestamp(news.getImage()));
+                newsData.put("keywords", Converter.toTimestamp(news.getKeywords()));
+                newsData.put("scores", Converter.toTimestamp(news.getScores()));
+                newsData.put("emails", SetConverter.toTimestamp(news.getEmails()));
+                newsData.put("comments", SetConverter.toTimestamp(news.getComments()));
+                newsData.put("newsType", "forwardingNews");
+                newsData.put("mapData", "null");
+                newsData.put("filterWords", "null");
+                dataArray.put(newsData);
+            }
 
+            ArrayList<News> allUserMessage = userMessageManager.getAllUserMessage();
+            for (News news : allUserMessage) {
+                JSONObject newsData = new JSONObject();
+                newsData.put("newsID", news.getNewsID());
+                newsData.put("title", news.getTitle());
+                newsData.put("date", news.getDate());
+                newsData.put("content", news.getContent());
+                newsData.put("person", news.getPerson());
+                newsData.put("organization", news.getOrganization());
+                newsData.put("location", news.getLocation());
+                newsData.put("category", news.getCategory());
+                newsData.put("publisher", news.getPublisher());
+                newsData.put("url", news.getUrl());
+                newsData.put("image", Converter.toTimestamp(news.getImage()));
+                newsData.put("keywords", Converter.toTimestamp(news.getKeywords()));
+                newsData.put("scores", Converter.toTimestamp(news.getScores()));
+                newsData.put("emails", SetConverter.toTimestamp(news.getEmails()));
+                newsData.put("comments", SetConverter.toTimestamp(news.getComments()));
+                newsData.put("newsType", "userMessage");
+                newsData.put("mapData", "null");
+                newsData.put("filterWords", "null");
+                dataArray.put(newsData);
+            }
 
+            String weightData = "null";
+            NavigableMap<Double, String> map = newsManager.getMap();
+            if (map != null && map.size() != 0) {
+                StringBuffer sb = new StringBuffer();
+                Iterator iter = map.keySet().iterator();
+                while (iter.hasNext()) {
+                    Double key = (Double) iter.next();
+                    String value = (String) map.get(key);
+                    sb.append(key.toString());
+                    sb.append(":");
+                    sb.append(value);
+                    sb.append(" ");
+                }
+                weightData = sb.toString();
+            }
 
-        StringBuilder data = new StringBuilder();
-        data.append("newsID=");
-        data.append(newsID);
-        data.append("&title=");
-        data.append(title);
-        data.append("&date=");
-        data.append(date);
-        data.append("&content=");
-        data.append(content);
-        data.append("&person=");
-        data.append(person);
-        data.append("&organization=");
-        data.append(organization);
-        data.append("&location=");
-        data.append(location);
-        data.append("&category=");
-        data.append(category);
-        data.append("&publisher=");
-        data.append(publisher);
-        data.append("&url=");
-        data.append(url);
-        data.append("&oriImage=");
-        data.append(image);
-        data.append("&oriKeywords=");
-        data.append(keywords);
-        data.append("&oriScores=");
-        data.append(scores);
-        data.append("&video=" );
-        data.append(video);
-        data.append("&newsType=");
-        data.append(newsType);
-        data.append("&mapData=");
-        data.append(mapData);
-        data.append("&filterWords=");
-        data.append(filterWords);
-        String res = serverHttpResponse.postResponse(oriUrl, data.toString());
-        if (res == null) {
-            return false;
-        } else {
-            if (res.equals("Fail")) {
+            String filterWord = "null";
+            TreeMap<String, String> treeMap = newsManager.getFilterWordsForServer();
+            if (treeMap != null && treeMap.size() != 0) {
+                StringBuffer sb = new StringBuffer();
+                Iterator iter = treeMap.keySet().iterator();
+                while (iter.hasNext()) {
+                    String key = (String) iter.next();
+                    String value = treeMap.get(key);
+                    sb.append(key);
+                    sb.append(":");
+                    sb.append(value);
+                    sb.append(" ");
+                }
+                filterWord = sb.toString();
+            }
+
+            JSONObject newsData = new JSONObject();
+            newsData.put("newsID", "null");
+            newsData.put("title", "null");
+            newsData.put("date", "null");
+            newsData.put("content", "null");
+            newsData.put("person", "null");
+            newsData.put("organization", "null");
+            newsData.put("location", "null");
+            newsData.put("category", "null");
+            newsData.put("publisher", "null");
+            newsData.put("url", "null");
+            newsData.put("image", "null");
+            newsData.put("keywords", "null");
+            newsData.put("scores", "null");
+            newsData.put("emails", "null");
+            newsData.put("comments", "null");
+            newsData.put("newsType", "map");
+            newsData.put("mapData", weightData);
+            newsData.put("filterWords", filterWord);
+            dataArray.put(newsData);
+
+            data.put("data", dataArray);
+
+            String res = serverHttpResponse.postResponse(oriUrl, data.toString());
+            if (res == null) {
                 return false;
+            } else {
+                if (res.equals("Fail")) {
+                    return false;
+                }
             }
+            return true;
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;
     }
-
 
     /**
      * 这个函数被 *单独* 拎出来调用的时候，只有修改头像和修改关注者之后

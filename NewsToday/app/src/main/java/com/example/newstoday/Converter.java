@@ -2,6 +2,7 @@ package com.example.newstoday;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.ArrayMap;
 import android.util.ArraySet;
 
 import androidx.annotation.Nullable;
@@ -17,7 +18,7 @@ class Converter {
         if(data == null){
             return null;
         }
-        return data.split(",");
+        return data.split("#^#");
     }
 
     @TypeConverter
@@ -28,34 +29,9 @@ class Converter {
         StringBuffer sb = new StringBuffer();
         for(String d:data){
             sb.append(d);
-            sb.append(",");
+            sb.append("#^#");
         }
         return sb.toString();
-    }
-}
-
-class ImageConverter{
-
-    @TypeConverter
-    public static Bitmap fromTimestamp(byte[] bytes){
-        if(bytes == null){
-            return null;
-        }
-        if (bytes.length != 0) {
-            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        } else {
-            return null;
-        }
-    }
-
-    @TypeConverter
-    public static byte[] toTimestamp(Bitmap bitmap){
-        if(bitmap == null){
-            return null;
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
     }
 }
 
@@ -67,7 +43,7 @@ class SetConverter{
         if(data==null){
             return null;
         }
-        String[] da = data.split(",");
+        String[] da = data.split("#^#");
         ArraySet as = new ArraySet();
         for(String d:da) {
             as.add(d);
@@ -84,8 +60,9 @@ class SetConverter{
         }
         for(String a:as){
             sb.append(a);
-            sb.append(",");
+            sb.append("#^#");
         }
         return sb.toString();
     }
 }
+

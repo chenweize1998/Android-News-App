@@ -71,23 +71,35 @@ public class WechatShareManager implements IWXAPIEventHandler{
     }
 
     public void shareNews(News news) {
-//        String text = news.getContent();
-        String text = "hello world!";
-        //初始化一个WXTextObject对象
-        WXTextObject textObj = new WXTextObject();
-        textObj.text = text;
-        //用WXTextObject对象初始化一个WXMediaMessage对象
-        WXMediaMessage msg = new WXMediaMessage();
-        msg.mediaObject = textObj;
-        msg.description = "这是一个微信分享测试";
-        //构造一个Req
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        //transaction字段用于唯一标识一个请求
-        req.transaction = System.currentTimeMillis() + "";
-        req.message = msg;
-        //发送的目标场景， 可以选择发送到会话 WXSceneSession 或者朋友圈 WXSceneTimeline。 默认发送到会话。
-        req.scene = WXSceneSession;
-        mWxapi.sendReq(req);
+////        String text = news.getContent();
+//        String text = "hello world!";
+//        //初始化一个WXTextObject对象
+//        WXTextObject textObj = new WXTextObject();
+//        textObj.text = text;
+//        //用WXTextObject对象初始化一个WXMediaMessage对象
+//        WXMediaMessage msg = new WXMediaMessage();
+//        msg.mediaObject = textObj;
+//        msg.description = "这是一个微信分享测试";
+//        //构造一个Req
+//        SendMessageToWX.Req req = new SendMessageToWX.Req();
+//        //transaction字段用于唯一标识一个请求
+//        req.transaction = System.currentTimeMillis() + "";
+//        req.message = msg;
+//        //发送的目标场景， 可以选择发送到会话 WXSceneSession 或者朋友圈 WXSceneTimeline。 默认发送到会话。
+//        req.scene = WXSceneSession;
+//        mWxapi.sendReq(req);
+        String url = news.getUrl();//收到分享的好友点击信息会跳转到这个地址去
+        WXWebpageObject localWXWebpageObject = new WXWebpageObject();
+        localWXWebpageObject.webpageUrl = url;
+        WXMediaMessage localWXMediaMessage = new WXMediaMessage(
+                localWXWebpageObject);
+        localWXMediaMessage.title = "newsToday";//不能太长，否则微信会提示出错。不过博主没验证过具体能输入多长。
+        localWXMediaMessage.description = news.getTitle();
+//        localWXMediaMessage.thumbData = getBitmapBytes(bmp, false);
+        SendMessageToWX.Req localReq = new SendMessageToWX.Req();
+        localReq.transaction = System.currentTimeMillis() + "";
+        localReq.message = localWXMediaMessage;
+        mWxapi.sendReq(localReq);
     }
 
     // 需要对图片进行处理，否则微信会在log中输出thumbData检查错误

@@ -86,4 +86,12 @@ public class UserMessageManager {
         newsRepository.deleteNewsByEmail(email);
     }
 
+    /**
+     * TODO
+     * 每次对发布的新闻进行评论后，都要调用这个方法进行更新数据库
+     * */
+    public void updateNews(News...news){
+        newsRepository.updateNews(news);
+    }
+
 }

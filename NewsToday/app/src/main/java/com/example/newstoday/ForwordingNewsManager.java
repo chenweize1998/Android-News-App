@@ -73,5 +73,13 @@ public class ForwordingNewsManager {
         newsRepository.deleteNewsByEmail(email);
     }
 
+    /**
+     * TODO
+     * 更新数据库中的news
+     * 每次对转发的新闻评论之后，就要用这个方法更新数据库
+     * */
+    public void updataForwardingNews(News...news){
+        newsRepository.updateNews(news);
+    }
 
 }

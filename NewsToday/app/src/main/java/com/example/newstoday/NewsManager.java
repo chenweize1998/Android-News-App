@@ -205,7 +205,7 @@ public class NewsManager {
                             newNews.add(new News(title, date, content, category, organization, newsID,
                                     images, publisher, "","",
                                     Converter.fromTimestamp(keywords.toString()),
-                                    Converter.fromTimestamp(scores.toString()), url, video));
+                                    Converter.fromTimestamp(scores.toString()), url, video, null, null));
                             if(recommendJudge && recommendWord != null)
                                 recommended.add(newsID);
                             newNewsCounter++;
@@ -361,6 +361,18 @@ public class NewsManager {
         return collectionNewsInmem.contains(news.getNewsID());
     }
 
+    /**
+     * TODO
+     * 更新数据库中的新闻
+     * 这个新闻有可能在数据库里，也有可能不在数据库里面
+     * 每次更新了内存里面的news之后，就需要调用这个函数更新数据库里的
+     * */
+    public void updateNews(News news){
+        historyNews.updateNews(news);
+        collectionNews.updateNews(news);
+    }
+
+
     public void addWeight(double weight, String result){
         recommendKeyword.add(weight, result);
     }
@@ -426,6 +438,7 @@ public class NewsManager {
             map.clear();
         }
     }
+
 
 }
 
