@@ -7,8 +7,10 @@ import android.util.ArraySet;
 
 import androidx.annotation.Nullable;
 import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -64,5 +66,36 @@ class SetConverter{
         }
         return sb.toString();
     }
+}
+
+class ListConverter{
+    @TypeConverter
+    @Nullable
+    public static ArrayList<String> fromTimestamp(String data){
+        if(data==null){
+            return null;
+        }
+        String[] da = data.split("#^#");
+        ArrayList al = new ArrayList();
+        for(String d:da) {
+            al.add(d);
+        }
+        return al;
+    }
+
+    @TypeConverter
+    @Nullable
+    public static String toTimestamp(ArrayList<String> al){
+        StringBuffer sb = new StringBuffer();
+        if(al==null){
+            return null;
+        }
+        for(String a:al){
+            sb.append(a);
+            sb.append("#^#");
+        }
+        return sb.toString();
+    }
+
 }
 

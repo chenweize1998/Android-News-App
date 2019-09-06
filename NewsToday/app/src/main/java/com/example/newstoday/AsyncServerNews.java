@@ -86,12 +86,12 @@ public class AsyncServerNews {
                     newsManager.addInHistory(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
                             Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video,
-                            SetConverter.fromTimestamp(emails), SetConverter.fromTimestamp(comments)));
+                            ListConverter.fromTimestamp(emails), ListConverter.fromTimestamp(comments)));
                 } else if (newsType.equals("collection")) {
                     newsManager.addInCollection(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
                             Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video,
-                            SetConverter.fromTimestamp(emails), SetConverter.fromTimestamp(comments)));
+                            ListConverter.fromTimestamp(emails), ListConverter.fromTimestamp(comments)));
                 } else if (newsType.equals("map")) {
                     mapData = news.getString("weight");
                     filterWords = news.getString("filterWords");
@@ -99,12 +99,12 @@ public class AsyncServerNews {
                     forwordingNewsManager.addOneForwardingNewsForUser(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
                             Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video,
-                            SetConverter.fromTimestamp(emails), SetConverter.fromTimestamp(comments)), publisher);
+                            ListConverter.fromTimestamp(emails), ListConverter.fromTimestamp(comments)), publisher);
                 }else if(newsType.equals("userMessage")){
                     userMessageManager.addOneUserMessage(new News(title, date, content, category, organization, newsID,
                             Converter.fromTimestamp(oriImage), publisher, person, location,
                             Converter.fromTimestamp(oriKeywords), Converter.fromTimestamp(oriScores), url, video,
-                            SetConverter.fromTimestamp(emails), SetConverter.fromTimestamp(comments)));
+                            ListConverter.fromTimestamp(emails), ListConverter.fromTimestamp(comments)));
                 }
             }
 
@@ -206,8 +206,8 @@ public class AsyncServerNews {
                 newsData.put("image", Converter.toTimestamp(news.getImage()));
                 newsData.put("keywords", Converter.toTimestamp(news.getKeywords()));
                 newsData.put("scores", Converter.toTimestamp(news.getScores()));
-                newsData.put("emails", SetConverter.toTimestamp(news.getEmails()));
-                newsData.put("comments", SetConverter.toTimestamp(news.getComments()));
+                newsData.put("emails", ListConverter.toTimestamp(news.getEmails()));
+                newsData.put("comments", ListConverter.toTimestamp(news.getComments()));
                 newsData.put("newsType", "history");
                 newsData.put("mapData", "null");
                 newsData.put("filterWords", "null");
@@ -230,8 +230,8 @@ public class AsyncServerNews {
                 newsData.put("image", Converter.toTimestamp(news.getImage()));
                 newsData.put("keywords", Converter.toTimestamp(news.getKeywords()));
                 newsData.put("scores", Converter.toTimestamp(news.getScores()));
-                newsData.put("emails", SetConverter.toTimestamp(news.getEmails()));
-                newsData.put("comments", SetConverter.toTimestamp(news.getComments()));
+                newsData.put("emails", ListConverter.toTimestamp(news.getEmails()));
+                newsData.put("comments", ListConverter.toTimestamp(news.getComments()));
                 newsData.put("newsType", "collection");
                 newsData.put("mapData", "null");
                 newsData.put("filterWords", "null");
@@ -254,8 +254,8 @@ public class AsyncServerNews {
                 newsData.put("image", Converter.toTimestamp(news.getImage()));
                 newsData.put("keywords", Converter.toTimestamp(news.getKeywords()));
                 newsData.put("scores", Converter.toTimestamp(news.getScores()));
-                newsData.put("emails", SetConverter.toTimestamp(news.getEmails()));
-                newsData.put("comments", SetConverter.toTimestamp(news.getComments()));
+                newsData.put("emails", ListConverter.toTimestamp(news.getEmails()));
+                newsData.put("comments", ListConverter.toTimestamp(news.getComments()));
                 newsData.put("newsType", "forwardingNews");
                 newsData.put("mapData", "null");
                 newsData.put("filterWords", "null");
@@ -278,8 +278,8 @@ public class AsyncServerNews {
                 newsData.put("image", Converter.toTimestamp(news.getImage()));
                 newsData.put("keywords", Converter.toTimestamp(news.getKeywords()));
                 newsData.put("scores", Converter.toTimestamp(news.getScores()));
-                newsData.put("emails", SetConverter.toTimestamp(news.getEmails()));
-                newsData.put("comments", SetConverter.toTimestamp(news.getComments()));
+                newsData.put("emails", ListConverter.toTimestamp(news.getEmails()));
+                newsData.put("comments", ListConverter.toTimestamp(news.getComments()));
                 newsData.put("newsType", "userMessage");
                 newsData.put("mapData", "null");
                 newsData.put("filterWords", "null");

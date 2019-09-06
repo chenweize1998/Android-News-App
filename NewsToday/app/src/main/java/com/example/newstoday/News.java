@@ -28,7 +28,7 @@ import androidx.room.TypeConverters;
 
 
 @Entity
-@TypeConverters({Converter.class, SetConverter.class})
+@TypeConverters({Converter.class, ListConverter.class})
 public class News implements Serializable{
     /*
      * These are vital properties of News.
@@ -53,14 +53,14 @@ public class News implements Serializable{
     private String[] image;
     private String[] keywords;
     private String[] scores;
-    private ArraySet<String> emails;
-    private ArraySet<String> comments;
+    private ArrayList<String> emails;
+    private ArrayList<String> comments;
 
 
     public News(final String title, final String date, final String content, final String category, final String organization,
          final String newsID, final String[] image, final String publisher, final String person, final String location,
-         final String[] keywords, final String[] scores, final String url, final String video, final ArraySet emails,
-         final ArraySet comments){
+         final String[] keywords, final String[] scores, final String url, final String video, final ArrayList emails,
+         final ArrayList comments){
         this.title = title;
         this.content = content;
         this.person = person;
@@ -76,12 +76,12 @@ public class News implements Serializable{
         this.scores = scores;
         this.video = video;
         if(emails==null){
-            this.emails = new ArraySet<>();
+            this.emails = new ArrayList<>();
         }else{
             this.emails = emails;
         }
         if(comments==null){
-            this.comments = new ArraySet<>();
+            this.comments = new ArrayList<>();
         }else{
             this.comments = comments;
         }
@@ -170,11 +170,11 @@ public class News implements Serializable{
         return video;
     }
 
-    public ArraySet getEmails(){
+    public ArrayList<String> getEmails(){
         return emails;
     }
 
-    public ArraySet getComments(){
+    public ArrayList<String> getComments(){
         return comments;
     }
 
@@ -235,11 +235,11 @@ public class News implements Serializable{
         this.video = video;
     }
 
-    public void setEmails(ArraySet emails){
+    public void setEmails(ArrayList emails){
         this.emails = emails;
     }
 
-    public void setComments(ArraySet comments){
+    public void setComments(ArrayList comments){
         this.comments = comments;
     }
 
