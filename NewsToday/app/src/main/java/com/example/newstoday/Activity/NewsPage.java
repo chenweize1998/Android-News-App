@@ -187,7 +187,10 @@ public class NewsPage extends AppCompatActivity {
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN){
                     if(i == KeyEvent.KEYCODE_ENTER){
-                        // TODO: 加上传评论的函数
+                        if(Table.header.getActiveProfile() == null){
+                            Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
                         news.addComment(Table.header.getActiveProfile().getEmail().toString(),
                                 editText.getText().toString());
                         newsManager.updateNews(news);
