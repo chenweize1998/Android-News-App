@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:contentDescription="@string/imageview_placeholder"
             android:id="@+id/page_comment_header"
-            android:src="@drawable/chenweize"
+            android:src="@drawable/header"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true">
         </ImageView>
@@ -60,8 +60,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/page_comment"
         android:layout_below="@id/page_comment_header_layout"
+        android:layout_alignStart="@id/page_comment_info_layout"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
         android:textColor="@color/pageContentColor"
         android:textSize="20sp"/>
 
