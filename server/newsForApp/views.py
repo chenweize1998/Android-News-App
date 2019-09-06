@@ -10,6 +10,7 @@ from newsForApp.models import FilterWordsMap
 from newsForApp.models import ForwardingNews
 from newsForApp.models import UserMessage
 from newsForApp.models import Image
+import os
 # Create your views here.
 
 class G:
@@ -25,9 +26,9 @@ def user(request):
             return HttpResponse("Fail")
         email = request.POST.get("email")
         name = request.POST.get("name")
-        password = request.get("password")
-        avatar = request.get("avatar")
-        followig = request.get("followig")
+        password = request.POST.get("password")
+        avatar = request.POST.get("avatar")
+        followig = request.POST.get("followig")
         if G.currentUser != email:
             return HttpResponse("Fail")
         user = User.objects.filter(email = email)
@@ -329,7 +330,7 @@ def uploadImage(request):
 def downloadImage(request):
     data = request.GET 
     filename = data.get("filename")
-    imagepath = os.path.join("media/", filename)
+    imagepath = os.path.join("media/img/", filename)
     with open(imagepath, "rb") as f:
         image = f.read()
     return HttpResponse(image, content_type="image")
