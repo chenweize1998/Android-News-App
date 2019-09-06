@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newstoday.Activity.BottomSheetDialog;
 import com.example.newstoday.Activity.Login;
 import com.example.newstoday.Activity.Table;
 import com.example.newstoday.ForwordingNewsManager;
@@ -33,15 +34,17 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder
     private News news;
 //    private Context context;
     private Activity activity;
+    private BottomSheetDialog parent;
 
     public static final int LOGIN_REQUEST = 2;
 
     WechatShareManager wechatShareManager;
 
-    public ShareAdapter(News news, Activity activity){
+    public ShareAdapter(News news, Activity activity, BottomSheetDialog parent){
         this.activity = activity;
 //        this.context = context;
         this.news = news;
+        this.parent = parent;
         wechatShareManager = WechatShareManager.getInstance(activity.getApplicationContext());
         forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(activity.getApplicationContext());
     }
@@ -83,7 +86,7 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder
                     }
                     forwordingNewsManager.addOneForwardingNewsForUser(news,
                             Table.header.getActiveProfile().getEmail().toString());
-                    activity.finish();
+                    parent.dismiss();
                     Toast.makeText(activity.getApplicationContext(), "转发成功", Toast.LENGTH_SHORT).show();
                 }
             }

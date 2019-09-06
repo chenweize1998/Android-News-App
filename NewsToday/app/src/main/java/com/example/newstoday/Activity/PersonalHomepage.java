@@ -1,6 +1,7 @@
 package com.example.newstoday.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -32,6 +33,7 @@ public class PersonalHomepage extends Fragment {
     private UserManager userManager;
     private UserMessageManager userMessageManager;
     private ArrayList<News> news;
+    private View view;
 
     public PersonalHomepage() {}
 
@@ -44,6 +46,11 @@ public class PersonalHomepage extends Fragment {
         this.fragmentManager = fragmentManager;
     }
 
+    public void updateHeader(Uri uri){
+        ImageView header = view.findViewById(R.id.homepage_header);
+        Glide.with(getActivity()).load(uri).into(header);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +59,7 @@ public class PersonalHomepage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_personal_homepage, container, false);
+        view = inflater.inflate(R.layout.fragment_personal_homepage, container, false);
         userManager = UserManager.getUserManager(getActivity().getApplicationContext());
         userMessageManager = UserMessageManager.getUserMessageManager(getActivity().getApplicationContext());
         User currentUser = null;
@@ -64,15 +71,18 @@ public class PersonalHomepage extends Fragment {
         TextView email = view.findViewById(R.id.homepage_email);
         email.setText(user.getEmail());
         ImageView header = view.findViewById(R.id.homepage_header);
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        Glide.with(getActivity().getApplicationContext()).load(Uri.parse(user.getAvatar())).into(header);
+        if(currentUser != null && currentUser.getEmail().equals(user.getEmail())) {
+            header.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     getActivity().startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-            }
-        });
+                }
+            });
+        }
 
         NewsAdapter.OnItemClickListener listenerNews = new NewsAdapter.OnItemClickListener() {
             @Override

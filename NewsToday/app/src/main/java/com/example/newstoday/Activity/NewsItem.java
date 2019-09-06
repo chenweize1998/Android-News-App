@@ -58,7 +58,6 @@ public class NewsItem extends Fragment {
     private NewsManager newsManager;
     private String currentCategory = "推荐";
 
-
     private int DISMISS_TIMEOUT = 500;
 
     private final int CAT_REARRANGE = 1;
@@ -81,6 +80,7 @@ public class NewsItem extends Fragment {
         /**
          * Category click event
          */
+        currentCategory = "推荐";
         forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(getContext());
         CatAdapter.OnItemClickListener listenerCat = new CatAdapter.OnItemClickListener() {
             @Override
@@ -191,6 +191,7 @@ public class NewsItem extends Fragment {
          * News and Category recycler view
          */
         newsManager = NewsManager.getNewsManager(getActivity());
+        newsManager.resetCategory();
         newsManager.resetPageCounter();
         newsManager.resetRecommendation();
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());

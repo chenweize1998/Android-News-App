@@ -46,7 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Test"/>
+        <activity android:name=".Activity.OpeningAnimation"/>
 
         <meta-data
             android:name="com.google.android.actions"

@@ -17,7 +17,7 @@ import su.levenetc.android.textsurface.TextSurface;
 /**
  * Created by Eugene Levenetc.
  */
-public class Test extends AppCompatActivity {
+public class OpeningAnimation extends AppCompatActivity {
 
     private TextSurface textSurface;
 
@@ -50,7 +50,7 @@ public class Test extends AppCompatActivity {
 
     private void show() {
         textSurface.reset();
-        CookieThumperSample.play(textSurface, getAssets(), this);
+        CookieThumperSample.play(textSurface, getApplicationContext(), this);
     }
 
 }

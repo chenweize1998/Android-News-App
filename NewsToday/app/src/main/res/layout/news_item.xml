@@ -121,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:contentDescription="@string/imageview_placeholder"
                     android:id="@+id/item_publisher_header"
-                    android:src="@drawable/chenweize"
+                    android:src="@drawable/header"
                     android:layout_centerHorizontal="true">
                 </ImageView>
             </androidx.cardview.widget.CardView>

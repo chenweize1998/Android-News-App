@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -72,6 +73,7 @@ public class Table extends AppCompatActivity {
     private UserManager userManager;
     private OfflineNewsManager offlineNewsManager;
     private ImagePoster imagePoster;
+    private PersonalHomepage homepage;
 
     public Drawer drawer;
     public static AccountHeader header;
@@ -173,10 +175,12 @@ public class Table extends AppCompatActivity {
                     return;
                 }
                 account.add(email);
+                asyncServerNews.asyncDataFromServer();
+                User user = userManager.getUserByEmail(email)[0];
                 String name = (String) data.getSerializableExtra("name");
                 header.addProfile(new ProfileDrawerItem().withName(name)
                         .withEmail(email).withIdentifier(identifier)
-                        .withIcon(R.drawable.header), position);
+                        .withIcon(Uri.parse(user.getAvatar())), position);
                 header.setActiveProfile(identifier, true);
                 header.updateProfile(header.getProfiles().get(identifier - 1));
                 ++identifier;
@@ -194,10 +198,13 @@ public class Table extends AppCompatActivity {
 //                            Uri.parse(PostImage.getRealPathFromURI(data.getData(), getContentResolver())));
 //                    user.setAvatar(bitmap);
                     imagePoster.postAvaterToServer(ImageFilePath.getPath(this, data.getData()), user);
+                    user.setAvatar(data.getData().toString());
                     userManager.updateUser(user);
+                    homepage.updateHeader(data.getData());
                     header.getActiveProfile().withIcon(data.getData());
                     header.updateProfile(header.getActiveProfile());
-                    System.out.println(getSupportFragmentManager().getFragments().size());
+                    asyncServerNews.asyncUserToServer(user.getEmail());
+//                    System.out.println(getSupportFragmentManager().getFragments().size());
 //                } /*catch (FileNotFoundException e){
 //                    e.printStackTrace();
 //                } catch (IOException e){
@@ -260,6 +267,7 @@ public class Table extends AppCompatActivity {
 //                        overridePendingTransition(R.xml.slide_no_move, R.xml.fade);
                         finish();
                         startActivity(intent);
+                        overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
 //                        finish();
 //                        recreate();
                     }
@@ -312,7 +320,7 @@ public class Table extends AppCompatActivity {
 //                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            PersonalHomepage homepage = new PersonalHomepage(
+                            homepage = new PersonalHomepage(
                                     userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0],
                                     fragmentManager
                             );
@@ -331,6 +339,7 @@ public class Table extends AppCompatActivity {
                             String email = header.getActiveProfile().getEmail().toString();
                             String passwd = userManager.getPassword(email);
                             userManagerOnServer.userSignIn(email, name, passwd);
+                            asyncServerNews.asyncUserFromServer();
                         }
                         return true;
                     }
@@ -447,7 +456,7 @@ public class Table extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     try {
-                                        asyncServerNews.asyncDataToServer();
+                                        asyncServerNews.asyncDataToServer(header.getActiveProfile().getEmail().toString());
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
@@ -486,6 +495,7 @@ public class Table extends AppCompatActivity {
                         } else if(drawerItem.getIdentifier() == FILTER_IDENTIFIER) {
                             Intent intent = new Intent(getApplicationContext(), FilterWord.class);
                             startActivity(intent);
+                            overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
                         } else if(drawerItem.getIdentifier() == SEARCH_IDENTIFIER) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -494,7 +504,8 @@ public class Table extends AppCompatActivity {
                             if(fragmentManager.getBackStackEntryCount() == 0 ||
                                     fragmentManager.getBackStackEntryCount() == 1)
                                 fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                             fragmentTransaction.commit();
                         }
                         return false;

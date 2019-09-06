@@ -1,16 +1,21 @@
 package com.example.newstoday.CustomLayout;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.newstoday.Activity.Table;
+import com.example.newstoday.News;
+import com.example.newstoday.R;
 
 import su.levenetc.android.textsurface.contants.Align;
 import su.levenetc.android.textsurface.Text;
@@ -38,44 +43,52 @@ import su.levenetc.android.textsurface.interfaces.ISurfaceAnimation;
  */
 public class CookieThumperSample {
 
-    public static void play(TextSurface textSurface, AssetManager assetManager, final Activity activity) {
-
-//        final Typeface robotoBlack = Typeface.createFromAsset(assetManager, "fonts/Roboto-Black.ttf");
+    public static void play(TextSurface textSurface, Context context, final Activity activity) {
+//        final Typeface robotoBlack = Typeface.createFromFile(resources, "font/playfair_display_sc.ttf");
+        Typeface typeface = ResourcesCompat.getFont(context, R.font.playfair_display_sc);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-//        paint.setTypeface(robotoBlack);
+        paint.setTypeface(typeface);
 
-        Text textDaai = TextBuilder
-                .create("Daai")
+        Text textNewsToday = TextBuilder
+                .create("News Today")
                 .setPaint(paint)
                 .setSize(64)
                 .setAlpha(0)
                 .setColor(Color.WHITE)
                 .setPosition(Align.SURFACE_CENTER).build();
 
-        Text textBraAnies = TextBuilder
-                .create("bra Anies")
+        Text textCodedBy = TextBuilder
+                .create("Coded by")
+                .setPaint(paint)
+                .setSize(44)
+                .setAlpha(0)
+                .setColor(Color.CYAN)
+                .setPosition(Align.BOTTOM_OF, textNewsToday).build();
+
+        Text textWeize = TextBuilder
+                .create(" Weize Chen")
                 .setPaint(paint)
                 .setSize(44)
                 .setAlpha(0)
                 .setColor(Color.RED)
-                .setPosition(Align.BOTTOM_OF, textDaai).build();
+                .setPosition(Align.RIGHT_OF, textCodedBy).build();
 
-        Text textFokkenGamBra = TextBuilder
-                .create(" hy's n fokken gam bra.")
+        Text textPengHao = TextBuilder
+                .create(" & Hao Peng")
                 .setPaint(paint)
                 .setSize(44)
                 .setAlpha(0)
                 .setColor(Color.RED)
-                .setPosition(Align.RIGHT_OF, textBraAnies).build();
+                .setPosition(Align.BOTTOM_OF, textWeize).build();
 
-        Text textHaai = TextBuilder
-                .create("Haai!!")
+        Text textThreeWeeks = TextBuilder
+                .create("Three Weeks")
                 .setPaint(paint)
-                .setSize(74)
+                .setSize(50)
                 .setAlpha(0)
                 .setColor(Color.RED)
-                .setPosition(Align.BOTTOM_OF, textFokkenGamBra).build();
+                .setPosition(Align.BOTTOM_OF, textPengHao).build();
 
 //        Text textDaaiAnies = TextBuilder
 //                .create("Daai Anies")
@@ -93,66 +106,69 @@ public class CookieThumperSample {
 //                .setColor(Color.WHITE)
 //                .setPosition(Align.RIGHT_OF, textDaaiAnies).build();
 
-        Text textThrowDamn = TextBuilder
-                .create("Throw damn")
+        Text textJava = TextBuilder
+                .create("Android JAVA Project")
                 .setPaint(paint)
                 .setSize(44)
                 .setAlpha(0)
-                .setColor(Color.RED)
-                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textHaai).build();
+                .setColor(Color.WHITE)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textThreeWeeks).build();
 
-        Text textDevilishGang = TextBuilder
-                .create("devilish gang")
+        Text textHope = TextBuilder
+                .create("Enjoy it :)")
                 .setPaint(paint)
                 .setSize(44)
                 .setAlpha(0)
-                .setColor(Color.RED)
-                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textThrowDamn).build();
-
-        Text textSignsInTheAir = TextBuilder
-                .create("signs in the air.")
-                .setPaint(paint)
-                .setSize(44)
-                .setAlpha(0)
-                .setColor(Color.RED)
-                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textDevilishGang).build();
+                .setColor(Color.CYAN)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textJava).build();
+//
+//        Text textSignsInTheAir = TextBuilder
+//                .create("signs in the air.")
+//                .setPaint(paint)
+//                .setSize(44)
+//                .setAlpha(0)
+//                .setColor(Color.RED)
+//                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textHope).build();
 
         textSurface.play(
                 new Sequential(
-                        ShapeReveal.create(textDaai, 750, SideCut.show(Side.LEFT), false),
-                        new Parallel(ShapeReveal.create(textDaai, 600, SideCut.hide(Side.LEFT), false), new Sequential(Delay.duration(300), ShapeReveal.create(textDaai, 600, SideCut.show(Side.LEFT), false))),
-                        new Parallel(new TransSurface(500, textBraAnies, Pivot.CENTER), ShapeReveal.create(textBraAnies, 1300, SideCut.show(Side.LEFT), false)),
+                        ShapeReveal.create(textNewsToday, 750, SideCut.show(Side.LEFT), false),
+                        new Parallel(ShapeReveal.create(textNewsToday, 600, SideCut.hide(Side.LEFT), false), new Sequential(Delay.duration(300), ShapeReveal.create(textNewsToday, 600, SideCut.show(Side.LEFT), false))),
+                        new Parallel(new TransSurface(500, textCodedBy, Pivot.CENTER), ShapeReveal.create(textCodedBy, 1300, SideCut.show(Side.LEFT), false)),
                         Delay.duration(500),
-                        new Parallel(new TransSurface(750, textFokkenGamBra, Pivot.CENTER), Rotate3D.showFromSide(textFokkenGamBra, 750, Pivot.LEFT), ChangeColor.to(textFokkenGamBra, 750, Color.WHITE)),
+                        new Parallel(new TransSurface(750, textWeize, Pivot.CENTER), Rotate3D.showFromSide(textWeize, 750, Pivot.LEFT), ChangeColor.to(textWeize, 750, Color.WHITE)),
+                        new Parallel(new TransSurface(750, textPengHao, Pivot.CENTER), Rotate3D.showFromSide(textPengHao, 750, Pivot.LEFT), ChangeColor.to(textPengHao, 750, Color.WHITE)),
                         Delay.duration(500),
-                        new Parallel(TransSurface.toCenter(textHaai, 500), Rotate3D.showFromSide(textHaai, 750, Pivot.TOP)),
+                        new Parallel(TransSurface.toCenter(textThreeWeeks, 500), Rotate3D.showFromSide(textThreeWeeks, 750, Pivot.TOP)),
 //                        new Parallel(TransSurface.toCenter(textDaaiAnies, 500), Slide.showFrom(Side.TOP, textDaaiAnies, 500)),
 //                        new Parallel(TransSurface.toCenter(texThyLamInnie, 750), Slide.showFrom(Side.LEFT, texThyLamInnie, 500))
                         Delay.duration(500),
                         new Parallel(
-                                new TransSurface(1500, textSignsInTheAir, Pivot.CENTER),
+//                                new TransSurface(1500, textSignsInTheAir, Pivot.CENTER),
                                 new Sequential(
-                                        new Sequential(ShapeReveal.create(textThrowDamn, 500, Circle.show(Side.CENTER, Direction.OUT), false)),
-                                        new Sequential(ShapeReveal.create(textDevilishGang, 500, Circle.show(Side.CENTER, Direction.OUT), false)),
-                                        new Sequential(ShapeReveal.create(textSignsInTheAir, 500, Circle.show(Side.CENTER, Direction.OUT), false))
+                                        new Sequential(ShapeReveal.create(textJava, 500, Circle.show(Side.CENTER, Direction.OUT), false)),
+                                        new Sequential(ShapeReveal.create(textHope, 500, Circle.show(Side.CENTER, Direction.OUT), false))
+//                                        new Sequential(ShapeReveal.create(textSignsInTheAir, 500, Circle.show(Side.CENTER, Direction.OUT), false))
                                 )
                         ),
-                        Delay.duration(200),
+                        Delay.duration(500),
                         new Parallel(
-                                ShapeReveal.create(textThrowDamn, 1500, SideCut.hide(Side.LEFT), true),
-                                new Sequential(Delay.duration(250), ShapeReveal.create(textDevilishGang, 1500, SideCut.hide(Side.LEFT), true)),
-                                new Sequential(Delay.duration(500), ShapeReveal.create(textSignsInTheAir, 1500, SideCut.hide(Side.LEFT), true)),
-                                Alpha.hide(textDaai, 1500),
-                                Alpha.hide(textBraAnies, 1500),
-                                Alpha.hide(textHaai, 1500),
-                                Alpha.hide(textFokkenGamBra, 1500)
+                                ShapeReveal.create(textJava, 1500, SideCut.hide(Side.LEFT), true),
+                                new Sequential(Delay.duration(250), ShapeReveal.create(textHope, 1500, SideCut.hide(Side.LEFT), true)),
+//                                new Sequential(Delay.duration(500), ShapeReveal.create(textSignsInTheAir, 1500, SideCut.hide(Side.LEFT), true)),
+                                Alpha.hide(textNewsToday, 1500),
+                                Alpha.hide(textCodedBy, 1500),
+                                Alpha.hide(textWeize, 1500),
+                                Alpha.hide(textPengHao, 1500),
+                                Alpha.hide(textThreeWeeks, 1500)
                         ),
                         new Parallel(new ISurfaceAnimation() {
                             @Override
                             public void onStart() {
                                 Intent intent = new Intent(activity, Table.class);
-                                activity.startActivity(intent);
                                 activity.finish();
+                                activity.startActivity(intent);
+                                activity.overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
                             }
 
                             @Override

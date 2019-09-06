@@ -2,7 +2,9 @@ package com.example.newstoday.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.newstoday.R;
@@ -12,7 +14,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
 {
-
+    final String PREFS_NAME = "MyPrefsFile";
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity
     protected void onStart()
     {
         super.onStart();
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        final boolean firstRun = settings.getBoolean("my_first_time", true);
 //        ShimmerFrameLayout container = findViewById(R.id.shimmer_view_container);
 //        container.startShimmer();
         Timer timer = new Timer();
@@ -32,12 +36,16 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run()
             {
+//                if(firstRun) {
+//                    settings.edit().putBoolean("my_first_time", false).commit();
+                startActivity(new Intent(getApplicationContext(), OpeningAnimation.class));
+//                }
+//                else
 //                startActivity(new Intent(getApplicationContext(), Table.class));
-                startActivity(new Intent(getApplicationContext(), Test.class));
                 finish();
+//                overridePendingTransition(R.xml.fade_in, R.xml.fade_out);
             }
         };
         timer.schedule(task, 3000);
     }
-
 }

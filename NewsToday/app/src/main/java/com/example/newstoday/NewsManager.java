@@ -48,7 +48,7 @@ public class NewsManager {
     private NewsManager(Context context){
         newNewsCounter = 0;
         pageCounter = 1;
-        lastCategory = "娱乐";
+        lastCategory = "推荐";
         historyNews = new NewsRepository(AppDB.getAppDB(context, "history"));
         collectionNews = new NewsRepository(AppDB.getAppDB(context, "collection"));
         recommendKeyword = new RandomCollection<>();
@@ -67,6 +67,10 @@ public class NewsManager {
 
     public void resetWeightMap(){
         recommendKeyword.reset();
+    }
+
+    public void resetCategory(){
+        lastCategory = "推荐";
     }
 
     private void initNewInMem(){
