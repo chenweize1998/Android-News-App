@@ -372,6 +372,10 @@ public class NewsManager {
         collectionNews.updateNews(news);
     }
 
+    public News getNewsByNewsID(String...newsID){
+        return historyNews.getNewsByNewsID(newsID);
+    }
+
 
     public void addWeight(double weight, String result){
         recommendKeyword.add(weight, result);
