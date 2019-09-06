@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.newstoday.Adapter.PublishImageAdapter;
+import com.example.newstoday.ImagePoster;
 import com.example.newstoday.News;
 import com.example.newstoday.R;
 import com.example.newstoday.UserMessageManager;
@@ -47,6 +48,7 @@ public class Publish extends AppCompatActivity {
     private ArrayList<Uri> mSelected = new ArrayList<>();
     private UserMessageManager userMessageManager;
     private AlertDialog spotsDialog;
+    private ImagePoster imagePoster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,8 @@ public class Publish extends AppCompatActivity {
                 .build();
 
         userMessageManager = UserMessageManager.getUserMessageManager(getApplicationContext());
-        ImageButton imageButton = findViewById(R.id.publish_check_btn);
+        imagePoster = ImagePoster.getImagePoster(getApplicationContext());
+        final ImageButton imageButton = findViewById(R.id.publish_check_btn);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,9 +88,10 @@ public class Publish extends AppCompatActivity {
                     pics[n] = uri.toString();
                     ++n;
                 }
+                String[] picsNew = imagePoster.postUserImageToServer(pics);
                 userMessageManager.addOneUserMessage(
                         new News(title.getText().toString(), today, content.getText().toString(), "关注", "",
-                        email + System.currentTimeMillis(), pics, email, "",
+                        email + System.currentTimeMillis(), picsNew, email, "",
                                 "", new String[0], new String[0], "", "", null, null));
                 Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_SHORT).show();
                 finish();
