@@ -29,10 +29,8 @@ public class ImagePoster {
         return INSTANCE;
     }
 
-    public boolean postAvaterToServer(Bitmap bitmap, User user){
-//        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
-        String filename = System.currentTimeMillis() + ".jpg";
-        String imagePath = BitmapUtils.saveMyBitmap(filename, bitmap);
+    public boolean postAvaterToServer(String imagePath, User user){
+        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
         boolean res = postImage(imagePath);
         String url = "http://166.111.5.239:8000/downloadImage/?filename="+filename;
         userManager.setUserAvatar(user, url);
@@ -60,10 +58,8 @@ public class ImagePoster {
         OkHttpClient  okHttpClient = new OkHttpClient();
         //上传的图片
         String url = "http://166.111.5.239:8000/uploadImage/";
-        String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
         File file = new File(imagePath);
         //2.通过RequestBody.create 创建requestBody对象,application/octet-stream 表示文件是任意二进制数据流
-        RequestBody image = RequestBody.create(file, MediaType.parse("image/*"));
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("filename", imagePath)
