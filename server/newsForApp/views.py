@@ -87,7 +87,6 @@ def userSignUp(request):
 def userSignOut(request):
     print("sign out")
     if request.method == "POST":
-        HistoryNews.objects.filter(user = G.currentUser).delete()
         G.users.remove(request.POST.get("user"))
         return HttpResponse("Success")
     return HttpResponse("Fail")    
