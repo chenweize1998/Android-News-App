@@ -22,10 +22,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.newstoday.Adapter.CommentAdapter;
 import com.example.newstoday.Adapter.LoopRecyclerAdapter;
+import com.example.newstoday.ForwordingNewsManager;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
 import com.example.newstoday.User;
+import com.example.newstoday.UserMessageManager;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import cn.jzvd.JZVideoPlayerStandard;
@@ -42,6 +44,8 @@ public class NewsPage extends AppCompatActivity {
     private NewsManager newsManager;
     private VideoView mVideoView;
     private CircleIndicator2 mIndicator;
+    private ForwordingNewsManager forwordingNewsManager;
+    private UserMessageManager userMessageManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,6 +57,8 @@ public class NewsPage extends AppCompatActivity {
         final News news = (News) ((Intent) intent).getSerializableExtra("news");
 
         newsManager = NewsManager.getNewsManager(getApplicationContext());
+        forwordingNewsManager = ForwordingNewsManager.getForwordingNewsManager(getApplicationContext());
+        userMessageManager = UserMessageManager.getUserMessageManager(getApplicationContext());
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -174,13 +180,18 @@ public class NewsPage extends AppCompatActivity {
             }
         });
 
-        EditText editText = findViewById(R.id.page_bottom_comment);
+        final EditText editText = findViewById(R.id.page_bottom_comment);
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN){
                     if(i == KeyEvent.KEYCODE_ENTER){
                         // TODO: 加上传评论的函数
+                        news.addComment(Table.header.getActiveProfile().getEmail().toString(),
+                                editText.getText().toString());
+                        newsManager.updateNews(news);
+                        forwordingNewsManager.updataForwardingNews(news);
+                        userMessageManager.updateNews(news);
                         return false;
                     }
                 }
@@ -189,7 +200,7 @@ public class NewsPage extends AppCompatActivity {
         });
 
         final RecyclerView commentRecycler = findViewById(R.id.page_comment_recycler);
-        CommentAdapter commentAdapter = new CommentAdapter(new ArrayMap<String, String>(), this);
+        CommentAdapter commentAdapter = new CommentAdapter(news.getEmails(), news.getComments(), this);
         LinearLayoutManager commentLayoutManager = new LinearLayoutManager(getApplicationContext());
         commentRecycler.setLayoutManager(commentLayoutManager);
         commentRecycler.setAdapter(commentAdapter);
