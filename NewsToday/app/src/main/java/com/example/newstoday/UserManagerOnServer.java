@@ -4,6 +4,8 @@ package com.example.newstoday;
 import android.content.Context;
 import android.util.ArraySet;
 
+import com.example.newstoday.Activity.Table;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -82,7 +84,8 @@ public class UserManagerOnServer {
     }
 
     public boolean userSignOut(){
-        String res = serverHttpResponse.getResponse("http://166.111.5.239:8000/signOut/");
+        String data = "user="+ Table.header.getActiveProfile().getEmail().toString();
+        String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signOut/", data);
         if(res==null){
             return false;
         }else{

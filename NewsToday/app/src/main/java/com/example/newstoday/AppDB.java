@@ -28,6 +28,9 @@ interface NewsDao {
     @Query("SELECT * FROM News WHERE publisher in (:email)")
     News[] getNewsByEmail(String... email);
 
+    @Query("SELECT * FROM News WHERE newsID in (:newsIDs)")
+    News[] getNewsByNewsID(String... newsIDs);
+
     @Query("DELETE FROM News WHERE publisher in (:email)")
     void deleteNewsByEmail(String email);
 

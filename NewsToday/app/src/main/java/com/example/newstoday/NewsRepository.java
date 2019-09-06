@@ -176,4 +176,30 @@ public class NewsRepository {
             return null;
         }
     }
+
+    /**
+     *
+     * */
+    public News getNewsByNewsID(String...newsID){
+        try{
+            GetNewsByNewsID getNewsByNewsID = new GetNewsByNewsID();
+            News[] _news = getNewsByNewsID.execute(newsID).get();
+            if(_news==null || _news.length == 0){
+                return null;
+            }
+            return _news[0];
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private class GetNewsByNewsID extends AsyncTask<String, Void, News[]>{
+        @Override
+        protected News[] doInBackground(String...newsID){
+            return newsDao.getNewsByNewsID(newsID);
+        }
+    }
 }

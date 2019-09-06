@@ -4,6 +4,8 @@ import android.content.Context;
 import android.se.omapi.SEService;
 import android.util.ArraySet;
 
+import com.example.newstoday.Activity.Table;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +51,7 @@ public class AsyncServerNews {
 
     public boolean asyncNewsFromServer() {
         try {
-            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/getAllNews/");
+            String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/getAllNews/?user="+Table.header.getActiveProfile().getEmail().toString());
             if (json == null || json.equals("Fail")) {
                 return false;
             }
@@ -185,7 +187,7 @@ public class AsyncServerNews {
     }
 
     public boolean asyncNewsToServer() {
-        String oriUrl = "http://166.111.5.239:8000/postAllNews/";
+        String oriUrl = "http://166.111.5.239:8000/postAllNews/?user="+ Table.header.getActiveProfile().getEmail().toString();
         JSONObject data = new JSONObject();
         JSONArray  dataArray = new JSONArray();
 
