@@ -79,6 +79,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         this.activity = activity;
         this.fragmentManager = fragmentManager;
         this.userManager = UserManager.getUserManager(activity.getApplicationContext());
+        newsManager = NewsManager.getNewsManager(activity.getApplicationContext());
+        offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(activity.getApplicationContext());
     }
 
     public NewsAdapter(ArrayList<News> news, Activity activity,
@@ -106,8 +108,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.news_item, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
-        newsManager = NewsManager.getNewsManager(parent.getContext());
-        offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(parent.getContext());
         return vh;
     }
 
