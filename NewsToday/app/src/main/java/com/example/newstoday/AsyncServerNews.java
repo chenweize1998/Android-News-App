@@ -51,6 +51,8 @@ public class AsyncServerNews {
 
     public boolean asyncNewsFromServer() {
         try {
+            if(Table.header.getActiveProfile()==null)
+                return false;
             String json = serverHttpResponse.getResponse("http://166.111.5.239:8000/getAllNews/?user="+Table.header.getActiveProfile().getEmail().toString());
             if (json == null || json.equals("Fail")) {
                 return false;

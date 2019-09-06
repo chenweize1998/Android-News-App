@@ -52,7 +52,8 @@ public class Login extends AppCompatActivity {
 //                    user.setOriAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
 //                    user.setAvatar(BitmapFactory.decodeResource(getResources(), R.drawable.header));
 //                    userManager.addInUser(user);
-                    asyncServerNews.asyncUserFromServer();
+
+//                    asyncServerNews.asyncUserFromServer();
                     Intent intent = getIntent();
                     intent.putExtra("name", name);
                     intent.putExtra("email", email);
