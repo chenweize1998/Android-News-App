@@ -17,16 +17,16 @@ import java.util.Set;
 class Converter {
     @TypeConverter
     public static String[] fromTimestamp(String data){
-        if(data == null){
-            return null;
+        if(data == null || data.equals("")){
+            return new String[0];
         }
         return data.split("#\\^#");
     }
 
     @TypeConverter
     public static String toTimestamp(String[] data){
-        if(data == null){
-            return null;
+        if(data == null || data.length==0){
+            return "";
         }
         StringBuffer sb = new StringBuffer();
         for(String d:data){
