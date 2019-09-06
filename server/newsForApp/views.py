@@ -34,7 +34,7 @@ def user(request):
         user = User.objects.filter(email = email)
         user[0].avatar = avatar
         user[0].followig = followig
-        user.save()
+        user[0].save()
         return HttpResponse("Success")
         
     if request.method == "GET":

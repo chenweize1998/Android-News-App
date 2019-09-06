@@ -31,9 +31,10 @@ public class ImagePoster {
 
     public boolean postAvaterToServer(String imagePath, User user){
         String filename = imagePath.substring(imagePath.lastIndexOf("/") + 1);
-        boolean res = postImage(imagePath);
         String url = "http://166.111.5.239:8000/downloadImage/?filename="+filename;
-        userManager.setUserAvatar(user, url);
+        user.setAvatar(url);
+        userManager.updateUser(user);
+        boolean res = postImage(imagePath);
         return res;
     }
 

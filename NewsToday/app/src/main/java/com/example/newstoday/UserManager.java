@@ -135,21 +135,7 @@ public class UserManager{
         updateUserInDBTask.execute(user);
     }
 
-    public void setUserAvatar(User user, String avatar){
-        user.setAvatar(avatar);
-        UpdateUserInDBTask2 updateUserInDBTask2 = new UpdateUserInDBTask2();
-        updateUserInDBTask2.execute(user);
-    }
-
     private class UpdateUserInDBTask extends AsyncTask<User, Void, Void>{
-        @Override
-        protected Void doInBackground(User... user){
-            userDao.updateUser(user[0]);
-            return null;
-        }
-    }
-
-    private class UpdateUserInDBTask2 extends AsyncTask<User, Void, Void>{
         @Override
         protected Void doInBackground(User... user){
             userDao.updateUser(user[0]);

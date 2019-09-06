@@ -43,7 +43,7 @@ public class AsyncServerNews {
     }
 
     public boolean asyncDataToServer(String email){
-        return (asyncNewsToServer() && asyncUserToServer(email));
+        return (asyncNewsToServer() && asyncUserToServer(userManager.getUserByEmail(email)[0]));
     }
 
     public boolean asyncNewsFromServer() {
@@ -447,9 +447,8 @@ public class AsyncServerNews {
         return true;
     }
 
-    public boolean asyncUserToServer(String email) {
+    public boolean asyncUserToServer(User user) {
 //        User user = null;
-        User user = userManager.getUserByEmail(email)[0];
         String url = "http://166.111.5.239:8000/user/";
 
         StringBuilder sb = new StringBuilder();
@@ -474,6 +473,7 @@ public class AsyncServerNews {
         }
         sb.append("&avatar=");
         sb.append(user.getAvatar());
+        System.out.println(user.getAvatar());
 
         String res = serverHttpResponse.postResponse(url, sb.toString());
         if (res == null) {

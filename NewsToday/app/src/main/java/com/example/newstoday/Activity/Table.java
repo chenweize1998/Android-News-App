@@ -196,12 +196,11 @@ public class Table extends AppCompatActivity {
 //                            Uri.parse(PostImage.getRealPathFromURI(data.getData(), getContentResolver())));
 //                    user.setAvatar(bitmap);
                     imagePoster.postAvaterToServer(ImageFilePath.getPath(this, data.getData()), user);
-                    user.setAvatar(data.getData().toString());
-                    userManager.updateUser(user);
                     homepage.updateHeader(data.getData());
                     header.getActiveProfile().withIcon(data.getData());
                     header.updateProfile(header.getActiveProfile());
-                    asyncServerNews.asyncUserToServer(user.getEmail());
+
+                    asyncServerNews.asyncUserToServer(user);
 //                    System.out.println(getSupportFragmentManager().getFragments().size());
 //                } /*catch (FileNotFoundException e){
 //                    e.printStackTrace();
@@ -448,10 +447,6 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
-                            /**
-                             * 这个地方需要传入当前用户的email才能删除服务器上该用户的数据
-                             * */
-//                            asyncServerNews.deleteUserNewsAndMessageOnServer(email);
 
                             new Thread(new Runnable() {
                                 @Override
