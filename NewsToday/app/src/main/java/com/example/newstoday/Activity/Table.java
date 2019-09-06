@@ -639,8 +639,8 @@ public class Table extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        newsManager.deleteAllCollection();
-        newsManager.deleteAllHistory();
+//        newsManager.deleteAllCollection();
+//        newsManager.deleteAllHistory();
     }
 
     @Override
