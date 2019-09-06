@@ -112,6 +112,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
             @Override
             public void onClick(View view) {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                 PersonalHomepage homepage = new PersonalHomepage(
                         userManager.getUserByEmail(users[position].getEmail())[0],
                         fragmentManager
@@ -119,7 +120,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHold
                 fragmentTransaction.replace(R.id.table_fragment, homepage);
 //                if(fragmentManager.getBackStackEntryCount() == 0)
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 fragmentTransaction.commit();
             }
         });

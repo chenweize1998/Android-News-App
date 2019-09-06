@@ -124,10 +124,10 @@ public class Table extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
+        fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
         NewsItem newsItem = new NewsItem(this.getSupportFragmentManager());
         fragmentTransaction.add(R.id.table_fragment, newsItem);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
 
         newsManager = NewsManager.getNewsManager(getApplicationContext());
@@ -320,6 +320,7 @@ public class Table extends AppCompatActivity {
 //                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                             homepage = new PersonalHomepage(
                                     userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0],
                                     fragmentManager
@@ -327,7 +328,7 @@ public class Table extends AppCompatActivity {
                             fragmentTransaction.replace(R.id.table_fragment, homepage, "Homepage");
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
                             return false;
                         } else {
@@ -384,21 +385,23 @@ public class Table extends AppCompatActivity {
                         if(drawerItem.getIdentifier() == COLLECTION_IDENTIFIER) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                             CollectionNews collectionNews = new CollectionNews(fragmentManager);
                             fragmentTransaction.replace(R.id.table_fragment, collectionNews);
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
 
                         } else if (drawerItem.getIdentifier() == HISTORY_IDENTIFIER) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                             HistoryNews historyNews = new HistoryNews(fragmentManager);
                             fragmentTransaction.replace(R.id.table_fragment, historyNews);
                             if(fragmentManager.getBackStackEntryCount() == 0)
                                 fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             fragmentTransaction.commit();
                         } else if (drawerItem.getIdentifier() == CLEAR_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
@@ -499,13 +502,14 @@ public class Table extends AppCompatActivity {
                         } else if(drawerItem.getIdentifier() == SEARCH_IDENTIFIER) {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                             FindFriend findFriend = new FindFriend(getSupportFragmentManager());
                             fragmentTransaction.replace(R.id.table_fragment, findFriend);
                             if(fragmentManager.getBackStackEntryCount() == 0 ||
-                                    fragmentManager.getBackStackEntryCount() == 1)
+                                    fragmentManager.getBackStackEntryCount() == 1) {
                                 fragmentTransaction.addToBackStack(null);
+                            }
 //                            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
                             fragmentTransaction.commit();
                         }
                         return false;
