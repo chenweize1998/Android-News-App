@@ -39,7 +39,7 @@ public class OfflineNewsManager {
         News newNews = new News(news.getTitle(), news.getDate(), news.getContent(), news.getCategory(),
                 news.getOrganization(), news.getNewsID(), news.getImage(), news.getPublisher(),
                 news.getPerson(),news.getLocation(), news.getKeywords(), news.getScores(),
-                news.getUrl(), news.getVideo());
+                news.getUrl(), news.getVideo(), null, null);
         downloadNewsPictureToLocalFile(newNews);
         newsRepository.insertNews(newNews);
         System.out.println("新闻保存到本地成功");

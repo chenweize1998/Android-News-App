@@ -266,7 +266,7 @@ android:fitsSystemWindows="true">
                 android:backgroundTint="@color/pageBottomEditBgColor"
                 android:hint="@string/commentHint"
                 android:inputType="text"
-                android:paddingLeft="20dp"
+                android:imeOptions="actionGo"
                 android:textColorHint="@color/pageBottomEditTextColor"/>
             <ImageButton
                 android:layout_width="wrap_content"
