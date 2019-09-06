@@ -85,7 +85,7 @@ public class Publish extends AppCompatActivity {
                 for(Uri uri : mSelected){
                     if(n == pics.length)
                         break;
-                    pics[n] = uri.toString();
+                    pics[n] = uri.getPath();
                     ++n;
                 }
                 String[] picsNew = imagePoster.postUserImageToServer(pics);
