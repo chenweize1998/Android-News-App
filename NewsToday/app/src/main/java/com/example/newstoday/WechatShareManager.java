@@ -4,11 +4,16 @@ package com.example.newstoday;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -18,6 +23,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import static com.tencent.mm.opensdk.modelmsg.SendMessageToWX.Req.WXSceneSession;
+import static com.tencent.mm.opensdk.modelmsg.SendMessageToWX.Req.WXSceneTimeline;
 
 
 public class WechatShareManager implements IWXAPIEventHandler{
@@ -70,7 +76,7 @@ public class WechatShareManager implements IWXAPIEventHandler{
         Toast.makeText(mContext, result, Toast.LENGTH_SHORT).show();
     }
 
-    public void shareNews(News news) {
+    public void shareNews(News news, int id) {
 ////        String text = news.getContent();
 //        String text = "hello world!";
 //        //初始化一个WXTextObject对象
@@ -95,10 +101,30 @@ public class WechatShareManager implements IWXAPIEventHandler{
                 localWXWebpageObject);
         localWXMediaMessage.title = "newsToday";//不能太长，否则微信会提示出错。不过博主没验证过具体能输入多长。
         localWXMediaMessage.description = news.getTitle();
-//        localWXMediaMessage.thumbData = getBitmapBytes(bmp, false);
+        if(news.getImage() != null && news.getImage().length != 0 &&
+            !news.getImage()[0].equals("")) {
+            try {
+                URL imgUrl = new URL(news.getImage()[0]);
+                DownloadImageAsyncTask downloadImageAsyncTask = new DownloadImageAsyncTask();
+                Bitmap bitmap = downloadImageAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,imgUrl).get();
+                if(bitmap!=null){
+                    localWXMediaMessage.thumbData = getBitmapBytes(bitmap, false);
+                }
+            } catch (MalformedURLException e){
+                e.printStackTrace();
+            }catch (ExecutionException e){
+                e.printStackTrace();
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
         SendMessageToWX.Req localReq = new SendMessageToWX.Req();
         localReq.transaction = System.currentTimeMillis() + "";
         localReq.message = localWXMediaMessage;
+        if(id == 1)
+            localReq.scene = WXSceneSession;
+        else if(id == 0)
+            localReq.scene = WXSceneTimeline;
         mWxapi.sendReq(localReq);
     }
 
@@ -137,5 +163,18 @@ public class WechatShareManager implements IWXAPIEventHandler{
         }
     }
 
+}
+
+class DownloadImageAsyncTask extends AsyncTask<URL, Void, Bitmap>{
+    @Override
+    protected Bitmap doInBackground(URL... url){
+        try {
+            Bitmap image = BitmapFactory.decodeStream(url[0].openStream());
+            return image;
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

@@ -40,7 +40,7 @@ public class ServerHttpResponse {
     public  String getResponse(String oriUrl){
         try {
             GetHttpResponseTask getHttpResponseTask = new GetHttpResponseTask();
-            String json = getHttpResponseTask.execute(oriUrl).get();
+            String json = getHttpResponseTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,oriUrl).get();
             return json;
 
         } catch (ExecutionException e){
@@ -54,7 +54,7 @@ public class ServerHttpResponse {
     public  String postResponse(String oriUrl, String data){
         try{
             PostHttpResponseTask postHttpResponseTask = new PostHttpResponseTask();
-            return postHttpResponseTask.execute(oriUrl, data).get();
+            return postHttpResponseTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,oriUrl, data).get();
         }catch (ExecutionException e){
             e.printStackTrace();
         }catch (InterruptedException e){

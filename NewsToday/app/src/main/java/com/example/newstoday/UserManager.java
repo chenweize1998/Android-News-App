@@ -27,7 +27,7 @@ public class UserManager{
     public User[] getAllUsers(){
         try{
             GetAllUsersTask getAllUsersTask = new GetAllUsersTask();
-            return getAllUsersTask.execute(0).get();
+            return getAllUsersTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0).get();
 
         }catch (ExecutionException e){
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class UserManager{
     public User[] getUserByEmail(String... email){
         try{
             GetUserByEmailTask getUserByEmailTask = new GetUserByEmailTask();
-            return getUserByEmailTask.execute(email).get();
+            return getUserByEmailTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,email).get();
         }catch (ExecutionException e){
             e.printStackTrace();
         }catch (InterruptedException e){
@@ -69,7 +69,7 @@ public class UserManager{
      */
     public void addInUser(User... user){
         AddInUserTask addInUserTask = new AddInUserTask();
-        addInUserTask.execute(user);
+        addInUserTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,user);
     }
 
     private class AddInUserTask extends AsyncTask<User, Void, Void>{
@@ -82,7 +82,7 @@ public class UserManager{
 
     public void deleteOneUser(User... user){
         DeleteOneUserTask deleteOneUserTask = new DeleteOneUserTask();
-        deleteOneUserTask.execute(user);
+        deleteOneUserTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,user);
     }
 
     private class DeleteOneUserTask extends AsyncTask<User, Void, Void>{
@@ -95,7 +95,7 @@ public class UserManager{
 
     public void deleteAllUsers(){
         DeleteAllUsersTask deleteAllUsersTask = new DeleteAllUsersTask();
-        deleteAllUsersTask.execute(0);
+        deleteAllUsersTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0);
     }
 
     private class DeleteAllUsersTask extends AsyncTask<Integer, Void, Void>{
@@ -109,7 +109,7 @@ public class UserManager{
     public String getPassword(String...email){
         try{
             GetPasswordTask getPasswordTask = new GetPasswordTask();
-            return getPasswordTask.execute(email).get();
+            return getPasswordTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,email).get();
         }catch (ExecutionException e){
             e.printStackTrace();
         }catch (InterruptedException e){
@@ -136,7 +136,7 @@ public class UserManager{
      * */
     public void updateUser(User user){
         UpdateUserInDBTask updateUserInDBTask = new UpdateUserInDBTask();
-        updateUserInDBTask.execute(user);
+        updateUserInDBTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,user);
     }
 
     private class UpdateUserInDBTask extends AsyncTask<User, Void, Void>{

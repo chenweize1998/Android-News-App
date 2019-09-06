@@ -120,7 +120,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         if(tmp.length() > 90)
             tmp = tmp.substring(0, 90) + "…";
         holder.txtAbstract.setText(tmp);
-        if(news.get(position).getKeywords() != null && news.get(position).getKeywords().length != 0)
+        if(news.get(position).getKeywords() != null && news.get(position).getKeywords().length != 0 &&
+        !news.get(position).getKeywords()[0].equals(""))
             holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
         else
             holder.txtKeyword.setVisibility(View.GONE);
@@ -182,13 +183,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 News tmp = news.get(position);
                 if(!newsManager.getLastCategory().equals("关注")) {
                     String[] keywords = news.get(position).getKeywords();
-                    if(keywords != null && keywords.length == 0) {
-                        Double[] scores = news.get(position).getDoubleScores();
-                        for (int i = 0; i < keywords.length; ++i) {
-                            if (scores[i] < 0.5 || newsManager.inHistoryNews(tmp)) {
-                                break;
+                    if(keywords != null && keywords.length != 0) {
+                        if(news.get(position).getScores() != null && news.get(position).getScores().length != 0
+                        && !news.get(position).getScores()[0].equals("")) {
+                            Double[] scores = news.get(position).getDoubleScores();
+                            for (int i = 0; i < keywords.length; ++i) {
+                                if (scores[i] < 0.5 || newsManager.inHistoryNews(tmp)) {
+                                    break;
+                                }
+                                newsManager.addWeight(scores[i], keywords[i]);
                             }
-                            newsManager.addWeight(scores[i], keywords[i]);
                         }
                     }
                 }

@@ -80,7 +80,7 @@ public class SearchActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-                                ArrayList<News> newsTmp = newsManager.getNews(20, null,
+                                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
                                         today, querySaved, category, true, false);
                                 mAdapterNews.refreshNews(newsTmp);
                                 refreshlayout.finishLoadMore();

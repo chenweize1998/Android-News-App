@@ -13,6 +13,7 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
     @Override
     protected JSONObject doInBackground(String... strings){
         try {
+            System.out.println("Json");
             String sizeUtf8 = (strings[0] == null)? "":URLEncoder.encode(strings[0], "utf-8");
             String startDateUtf8 = (strings[1] == null)? "":URLEncoder.encode(strings[1], "utf-8");
             String endDateUtf8 = (strings[2] == null)? "":URLEncoder.encode(strings[2], "utf-8");

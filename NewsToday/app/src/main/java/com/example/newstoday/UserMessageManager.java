@@ -39,6 +39,10 @@ public class UserMessageManager {
         return INSTANCE;
     }
 
+    public void clear(){
+        newsRepository.clearNews();
+    }
+
     /**
      * 发布一条message加进数据库，发布就调用
      * @param news

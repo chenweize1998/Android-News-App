@@ -49,6 +49,7 @@ import com.example.newstoday.User;
 import com.example.newstoday.UserManager;
 import com.example.newstoday.UserManagerOnServer;
 import com.example.newstoday.AsyncServerNews;
+import com.example.newstoday.UserMessageManager;
 import com.example.newstoday.WechatShareManager;
 import com.mikepenz.materialdrawer.*;
 import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
@@ -77,6 +78,7 @@ public class Table extends AppCompatActivity {
     private AsyncServerNews asyncServerNews;
     private AlertDialog spotsDialog;
     private UserManagerOnServer userManagerOnServer;
+    private UserMessageManager userMessageManager;
     private UserManager userManager;
     private OfflineNewsManager offlineNewsManager;
     private ImagePoster imagePoster;
@@ -140,6 +142,7 @@ public class Table extends AppCompatActivity {
         userManagerOnServer = UserManagerOnServer.getUserManagerOnServer(getApplicationContext());
         offlineNewsManager = OfflineNewsManager.getOfflineNewsManager(getApplicationContext());
         imagePoster = ImagePoster.getImagePoster(getApplicationContext());
+        userMessageManager = UserMessageManager.getUserMessageManager(getApplicationContext());
 
         asyncServerNews = AsyncServerNews.getAsyncServerNews(getApplicationContext());
 //        userManagerOnServer = UserManagerOnServer.getUserManagerOnServer();
@@ -167,6 +170,7 @@ public class Table extends AppCompatActivity {
          * Wechat share
          */
         final WechatShareManager wsm = WechatShareManager.getInstance(this);
+//        userMessageManager.clear();
     }
 
     @Override

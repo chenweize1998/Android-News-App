@@ -52,7 +52,7 @@ public class NewsItem extends Fragment {
     private CatAdapter mAdapterCat;
     private FragmentManager fragmentManager;
     private ForwordingNewsManager forwordingNewsManager;
-    private RefreshLayout refreshLayout;
+    public static RefreshLayout refreshLayout;
 
     private ArrayList<News> news;
     private NewsManager newsManager;
@@ -88,6 +88,7 @@ public class NewsItem extends Fragment {
                 currentCategory = category;
                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                 if (!newsManager.getLastCategory().equals(category)) {
+                    System.out.println("Enter");
                     news = newsManager.getNews(20, "2019-08-09", today, null, currentCategory, false, false);
                     if(mAdapterNews != null) {
                         mAdapterNews.updateNews(news);

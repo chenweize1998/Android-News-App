@@ -58,7 +58,7 @@ class SetConverter{
     public static String toTimestamp(ArraySet<String> as){
         StringBuffer sb = new StringBuffer();
         if(as==null || as.size() == 0){
-            return null;
+            return "";
         }
         for(String a:as){
             sb.append(a);
@@ -88,7 +88,7 @@ class ListConverter{
     public static String toTimestamp(ArrayList<String> al){
         StringBuffer sb = new StringBuffer();
         if(al==null || al.size() == 0){
-            return null;
+            return "";
         }
         for(String a:al){
             sb.append(a);

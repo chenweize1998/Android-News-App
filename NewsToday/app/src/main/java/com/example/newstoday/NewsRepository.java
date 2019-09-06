@@ -29,7 +29,7 @@ public class NewsRepository {
      * */
     public void insertNews(News... news){
         InsertNewsTask insertNewsTask = new InsertNewsTask();
-        insertNewsTask.execute(news);
+        insertNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
     }
 
     private class InsertNewsTask extends AsyncTask<News, Void, Void>{
@@ -48,7 +48,7 @@ public class NewsRepository {
     public ArrayList<News> getAllNews(){
         try {
             GetAllNewsTask getAllNewsTask = new GetAllNewsTask();
-            return new ArrayList<News>(Arrays.asList(getAllNewsTask.execute(0).get()));
+            return new ArrayList<News>(Arrays.asList(getAllNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0).get()));
         }catch(ExecutionException e){
             e.printStackTrace();
         }catch(InterruptedException e){
@@ -72,7 +72,7 @@ public class NewsRepository {
     public ArrayList<News> getNewsByEmail(String... email){
         try{
             GetNewsByEmailTask getNewsByEmailTask = new GetNewsByEmailTask();
-            return new ArrayList(Arrays.asList(getNewsByEmailTask.execute(email).get()));
+            return new ArrayList(Arrays.asList(getNewsByEmailTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,email).get()));
         }catch (ExecutionException e){
             e.printStackTrace();
         }catch (InterruptedException e){
@@ -93,7 +93,7 @@ public class NewsRepository {
      * */
     public void deleteNews(News... news){
         DeleteNewsTask deleteNewsTask = new DeleteNewsTask();
-        deleteNewsTask.execute(news);
+        deleteNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
 
     }
 
@@ -112,7 +112,7 @@ public class NewsRepository {
      * */
     public void deleteNewsByEmail(String... email){
         DeleteNewsByEmailTask deleteNewsByEmailTask = new DeleteNewsByEmailTask();
-        deleteNewsByEmailTask.execute(email);
+        deleteNewsByEmailTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,email);
     }
 
     private class DeleteNewsByEmailTask extends AsyncTask<String, Void, Void>{
@@ -128,7 +128,7 @@ public class NewsRepository {
      */
     public void clearNews(){
         ClearNewsTask clearNewsTask = new ClearNewsTask();
-        clearNewsTask.execute(0);
+        clearNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0);
     }
 
     private class ClearNewsTask extends AsyncTask<Integer, Void, Void>{
@@ -147,7 +147,7 @@ public class NewsRepository {
     public String[] getAllNewsID(){
         try{
             GetAllNewsIDTask getAllNewsIDTask = new GetAllNewsIDTask();
-            return getAllNewsIDTask.execute(0).get();
+            return getAllNewsIDTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,0).get();
         }catch(ExecutionException e){
             e.printStackTrace();
         }catch(InterruptedException e){
@@ -166,7 +166,7 @@ public class NewsRepository {
      * */
     public void updateNews(News...news){
         UpdateNewsTask updateNewsTask = new UpdateNewsTask();
-        updateNewsTask.execute(news);
+        updateNewsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,news);
     }
 
     private class UpdateNewsTask extends AsyncTask<News, Void, Void>{
@@ -183,7 +183,7 @@ public class NewsRepository {
     public News getNewsByNewsID(String...newsID){
         try{
             GetNewsByNewsID getNewsByNewsID = new GetNewsByNewsID();
-            News[] _news = getNewsByNewsID.execute(newsID).get();
+            News[] _news = getNewsByNewsID.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,newsID).get();
             if(_news==null || _news.length == 0){
                 return null;
             }

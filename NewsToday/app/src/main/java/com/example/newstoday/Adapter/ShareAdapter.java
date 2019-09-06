@@ -74,8 +74,11 @@ public class ShareAdapter extends RecyclerView.Adapter<ShareAdapter.MyViewHolder
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(position == 1){
-                    wechatShareManager.shareNews(news);
+                if(position == 0){
+                    wechatShareManager.shareNews(news, 0);
+                }
+                else if(position == 1){
+                    wechatShareManager.shareNews(news, 1);
                 } else if(position == 5){
                     if(Table.header.getActiveProfile() == null){
                         Toast.makeText(activity.getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();

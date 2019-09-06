@@ -12,9 +12,11 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.ArrayMap;
 import android.util.ArraySet;
 
+import com.example.newstoday.Activity.NewsItem;
 import com.example.newstoday.Activity.Table;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 
@@ -133,12 +135,13 @@ public class NewsManager {
                 recommendWord = recommendKeyword.next();
 //                System.out.println(recommendWord);
                 if(recommendJudge && recommendWord != null) {
-                    json = jsonData.execute(String.valueOf(size / recommendWordCnt), startDate, endDate,
+                    json = jsonData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, String.valueOf(size / recommendWordCnt), startDate, endDate,
                             recommendWord, allCategory, Integer.toString(keywordPage.getOrDefault(recommendWord, 1))).get();
                     keywordPage.put(recommendWord, keywordPage.getOrDefault(recommendWord, 1) + 1);
 //                    System.out.println(keywordPage.get(recommendWord));
                 } else {
-                    json = jsonData.execute(String.valueOf(size), startDate, endDate, words,
+                    System.out.println("Execute");
+                    json = jsonData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,String.valueOf(size), startDate, endDate, words,
                             recommendJudge ? allCategory : categories, Integer.toString(pageCounter)).get();
                 }
                 if (((refresh || !lastCategory.equals(categories)) && (!recommendJudge))
@@ -188,7 +191,7 @@ public class NewsManager {
                                 scores.append(0);
                             }
 
-                            //                    Bitmap bimage = new DownLoadImageTask().execute(image).get();
+                            //                    Bitmap bimage = new DownLoadImageTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,image).get();
                             String[] images = image.split(",");
                             for (int j = 0; j < images.length; ++j)
                                 images[j] = images[j].replace("[", "").replace("]", "").trim();
@@ -233,12 +236,16 @@ public class NewsManager {
                         }
                     }
                     newNewsCounter = offlineNews.size();
+                    NewsItem.refreshLayout.setEnableLoadMore(false);
+                    NewsItem.refreshLayout.setEnableRefresh(false);
                     return offlineNews;
                 }
             } while (recommendJudge && ++cnt < recommendWordCnt && recommendWord != null);
 //            if(recommendJudge) {
 //                Collections.shuffle(newNews);
 //            }
+            NewsItem.refreshLayout.setEnableLoadMore(true);
+            NewsItem.refreshLayout.setEnableRefresh(true);
             return newNews;
         }catch(JSONException e){
             e.printStackTrace();
