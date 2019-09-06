@@ -86,7 +86,7 @@ public class BaseRecyclerAdapter
 //            TextView textView = (TextView) itemView;
 //            textView.setText(String.valueOf(position + 1));
 //            textView.setBackgroundColor(0xff000000 | random.nextInt(0x00ffffff));
-            if(news.getImage()[0] != "") {
+            if(!news.getImage()[0].equals("")) {
                 Picasso.get().load(news.getImage()[position]).fit().centerCrop().into(image);
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override

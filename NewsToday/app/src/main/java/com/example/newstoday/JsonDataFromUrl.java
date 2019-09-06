@@ -32,7 +32,6 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
 //            this.jsonObject = jsonObj;
 
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (JSONException e){
             e.printStackTrace();
@@ -54,7 +53,6 @@ public class JsonDataFromUrl extends AsyncTask<String, Void, JSONObject> {
 //            return jsonObj;
 //
 //        } catch (UnsupportedEncodingException e) {
-//            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        } catch (JSONException e){
 //            e.printStackTrace();

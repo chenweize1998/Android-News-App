@@ -116,14 +116,12 @@ public class Publish extends AppCompatActivity {
                     .setCompressListener(new OnCompressListener() {
                         @Override
                         public void onStart() {
-                            // TODO 压缩开始前调用，可以在方法内启动 loading UI
                             if(!spotsDialog.isShowing())
                                 spotsDialog.show();
                         }
 
                         @Override
                         public void onSuccess(File file) {
-                            // TODO 压缩成功后调用，返回压缩后的图片文件
                             newSelected.add(Uri.parse(file.toURI().toString()));
                             if(newSelected.size() == mSelected.size()){
                                 spotsDialog.dismiss();
@@ -135,7 +133,6 @@ public class Publish extends AppCompatActivity {
 
                         @Override
                         public void onError(Throwable e) {
-                            // TODO 当压缩过程出现问题时调用
                             Toast.makeText(getApplicationContext(), "图片压缩失败", Toast.LENGTH_SHORT).show();
                         }
                     }).launch();

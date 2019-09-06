@@ -117,6 +117,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         String tmp = news.get(position).getContent()
                 .replace((char)12288+"", "").replace("\n", "");
         tmp = pat.split(tmp)[0];
+        if(tmp.length() > 90)
+            tmp = tmp.substring(0, 90) + "…";
         holder.txtAbstract.setText(tmp);
         if(news.get(position).getKeywords() != null && news.get(position).getKeywords().length != 0)
             holder.txtKeyword.setText(news.get(position).getKeywords()[0]);
@@ -128,7 +130,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             holder.header_layout.setVisibility(View.VISIBLE);
             User publisher = userManager.getUserByEmail(news.get(position).getPublisher())[0];
 //            String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(), publisher.getAvatar(), "Header", null);
-//            Picasso.get().load(Uri.parse(path)).into(holder.header);
+            Picasso.get().load(publisher.getAvatar()).into(holder.header);
         }
         else
             holder.header_layout.setVisibility(View.GONE);

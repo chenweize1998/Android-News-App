@@ -5,13 +5,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.ArrayMap;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -21,6 +25,7 @@ import com.example.newstoday.Adapter.LoopRecyclerAdapter;
 import com.example.newstoday.News;
 import com.example.newstoday.NewsManager;
 import com.example.newstoday.R;
+import com.example.newstoday.User;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import cn.jzvd.JZVideoPlayerStandard;
@@ -166,6 +171,20 @@ public class NewsPage extends AppCompatActivity {
             public void onClick(final View v) {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(news);
                 bottomSheetDialog.show(getSupportFragmentManager(), "bottomSheet");
+            }
+        });
+
+        EditText editText = findViewById(R.id.page_bottom_comment);
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN){
+                    if(i == KeyEvent.KEYCODE_ENTER){
+                        // TODO: 加上传评论的函数
+                        return false;
+                    }
+                }
+                return false;
             }
         });
 
