@@ -480,10 +480,6 @@ public class Table extends AppCompatActivity {
                             mAdapterNews.notifyDataSetChanged();
                             drawer.setSelectionAtPosition(-1);
 
-                            /**
-                            * 这行代码之后需要删除
-                            * */
-                            offlineNewsManager.getAllOfflineNews();
 
                         } else if (drawerItem.getIdentifier() == UPLOAD_IDENTIFIER) {
                             spotsDialog = new SpotsDialog.Builder()
