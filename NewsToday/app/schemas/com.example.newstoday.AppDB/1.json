@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ea4a05ac2692986c5ace609ffa1344c1",
+    "identityHash": "5df3a5c2c59f54489c799210ab53b1fc",
     "entities": [
       {
         "tableName": "News",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newsID` TEXT NOT NULL, `title` TEXT, `date` TEXT, `content` TEXT, `person` TEXT, `organization` TEXT, `location` TEXT, `category` TEXT, `publisher` TEXT, `url` TEXT, `video` TEXT, `image` TEXT NOT NULL, `keywords` TEXT, `scores` TEXT, PRIMARY KEY(`newsID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`newsID` TEXT NOT NULL, `title` TEXT, `date` TEXT, `content` TEXT, `person` TEXT, `organization` TEXT, `location` TEXT, `category` TEXT, `publisher` TEXT, `url` TEXT, `video` TEXT, `image` TEXT NOT NULL, `keywords` TEXT, `scores` TEXT, `emails` TEXT, `comments` TEXT, PRIMARY KEY(`newsID`))",
         "fields": [
           {
             "fieldPath": "newsID",
@@ -91,6 +91,18 @@
             "columnName": "scores",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "emails",
+            "columnName": "emails",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "comments",
+            "columnName": "comments",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -106,7 +118,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea4a05ac2692986c5ace609ffa1344c1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5df3a5c2c59f54489c799210ab53b1fc')"
     ]
   }
 }

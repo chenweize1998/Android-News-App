@@ -179,8 +179,8 @@ public class NewsManager {
                                 keywords.append(word);
                                 scores.append(score);
                                 if (j != keywordsArray.length() - 1) {
-                                    keywords.append(",");
-                                    scores.append(",");
+                                    keywords.append("#^#");
+                                    scores.append("#^#");
                                 }
                             }
                             if (keywords.toString().equals("")) {

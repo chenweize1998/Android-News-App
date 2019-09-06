@@ -20,7 +20,7 @@ class Converter {
         if(data == null){
             return null;
         }
-        return data.split("#^#");
+        return data.split("#\\^#");
     }
 
     @TypeConverter
@@ -45,7 +45,7 @@ class SetConverter{
         if(data==null){
             return null;
         }
-        String[] da = data.split("#^#");
+        String[] da = data.split("#\\^#");
         ArraySet as = new ArraySet();
         for(String d:da) {
             as.add(d);
@@ -75,7 +75,7 @@ class ListConverter{
         if(data==null){
             return null;
         }
-        String[] da = data.split("#^#");
+        String[] da = data.split("#\\^#");
         ArrayList al = new ArrayList();
         for(String d:da) {
             al.add(d);

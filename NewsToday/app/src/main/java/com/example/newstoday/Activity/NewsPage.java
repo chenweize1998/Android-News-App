@@ -35,6 +35,7 @@ import me.relex.circleindicator.CircleIndicator2;
 import me.relex.recyclerpager.SnapPageScrollListener;
 
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.util.HashMap;
@@ -192,6 +193,10 @@ public class NewsPage extends AppCompatActivity {
                         newsManager.updateNews(news);
                         forwordingNewsManager.updataForwardingNews(news);
                         userMessageManager.updateNews(news);
+                        InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        editText.setText("");
+                        Toast.makeText(getApplicationContext(), "评论成功", Toast.LENGTH_SHORT).show();
                         return false;
                     }
                 }

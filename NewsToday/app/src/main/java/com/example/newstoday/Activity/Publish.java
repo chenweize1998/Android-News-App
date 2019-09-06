@@ -88,7 +88,7 @@ public class Publish extends AppCompatActivity {
                 userMessageManager.addOneUserMessage(
                         new News(title.getText().toString(), today, content.getText().toString(), "关注", null,
                         email + System.currentTimeMillis(), pics, email, null,
-                                null, null, null, null, null));
+                                null, null, null, null, null, null, null));
                 Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
