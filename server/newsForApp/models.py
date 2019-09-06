@@ -68,6 +68,7 @@ class ForwardingNews(models.Model):
     emails = models.CharField(max_length = 500)
     comments = models.CharField(max_length = 2000)
     video = models.CharField(max_length = 200)
+    user = models.CharField(max_length = 200)
 
 class UserMessage(models.Model):
     newsID = models.CharField(max_length = 100)
@@ -86,6 +87,7 @@ class UserMessage(models.Model):
     emails = models.CharField(max_length = 500)
     comments = models.CharField(max_length = 2000)
     video = models.CharField(max_length = 200)
+    user = models.CharField(max_length = 200)
 
 
 class Map(models.Model):
