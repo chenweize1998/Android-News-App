@@ -110,7 +110,7 @@ def postAllNews(request):
                 newHistoryNews.save()
                 print("历史消息保存成功")
             elif data["newsType"] == "collection":
-                 newCollectionNews = CollectionNews(newsID = data["newsID"], title = data["title"], date =data["date"], 
+                newCollectionNews = CollectionNews(newsID = data["newsID"], title = data["title"], date =data["date"], 
                                 content = data["content"], person = data["person"], organization =  data["organization"], 
                                 location = data["location"], category = data["category"], publisher = data["publisher"],
                                 url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
@@ -118,7 +118,7 @@ def postAllNews(request):
                 newCollectionNews.save()
                 print("收藏消息保存成功")
             elif data["newsType"] == "forwardingNews":
-                              newForwardingNews = ForwardingNews(newsID = data["newsID"], title = data["title"], date =data["date"], 
+                newForwardingNews = ForwardingNews(newsID = data["newsID"], title = data["title"], date =data["date"], 
                                 content = data["content"], person = data["person"], organization =  data["organization"], 
                                 location = data["location"], category = data["category"], publisher = data["publisher"],
                                 url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
@@ -126,7 +126,7 @@ def postAllNews(request):
                 newForwardingNews.save()
                 print("转发消息保存成功")
             elif data["newsType"] == "userMessage":
-                                newUserMessage = UserMessage(newsID = data["newsID"], title = data["title"], date =data["date"], 
+                newUserMessage = UserMessage(newsID = data["newsID"], title = data["title"], date =data["date"], 
                                 content = data["content"], person = data["person"], organization =  data["organization"], 
                                 location = data["location"], category = data["category"], publisher = data["publisher"],
                                 url = data["url"], oriImage = data["image"], oriKeywords = data["image"], 
