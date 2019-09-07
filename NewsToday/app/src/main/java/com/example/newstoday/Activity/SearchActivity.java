@@ -53,7 +53,7 @@ public class SearchActivity extends AppCompatActivity {
                     SearchProvider.AUTHORITY, SearchProvider.MODE);
             suggestions.saveRecentQuery(query, null);
             String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-            news = newsManager.getNews(20, "2019-08-09", today, query, category, true, true);
+            news = newsManager.getNews(20, null, today, query, category, true, true);
         }
         final String querySaved = query;
 
@@ -80,7 +80,7 @@ public class SearchActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-                                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                                ArrayList<News> newsTmp = newsManager.getNews(20, null,
                                         today, querySaved, category, true, false);
                                 mAdapterNews.refreshNews(newsTmp);
                                 refreshlayout.finishLoadMore();

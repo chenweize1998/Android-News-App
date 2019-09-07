@@ -96,10 +96,11 @@ public class WechatShareManager implements IWXAPIEventHandler{
 //        mWxapi.sendReq(req);
         String url = news.getUrl();//收到分享的好友点击信息会跳转到这个地址去
         WXWebpageObject localWXWebpageObject = new WXWebpageObject();
-        localWXWebpageObject.webpageUrl = url;
+        if(!url.equals(""))
+            localWXWebpageObject.webpageUrl = url;
         WXMediaMessage localWXMediaMessage = new WXMediaMessage(
                 localWXWebpageObject);
-        localWXMediaMessage.title = "newsToday";//不能太长，否则微信会提示出错。不过博主没验证过具体能输入多长。
+        localWXMediaMessage.title = "News Today";//不能太长，否则微信会提示出错。不过博主没验证过具体能输入多长。
         localWXMediaMessage.description = news.getTitle();
         if(news.getImage() != null && news.getImage().length != 0 &&
             !news.getImage()[0].equals("")) {

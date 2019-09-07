@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
 
 
 public class AsyncServerNews {
@@ -146,6 +147,8 @@ public class AsyncServerNews {
 
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
         return false;
     }
@@ -183,6 +186,8 @@ public class AsyncServerNews {
             return true;
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e){
             e.printStackTrace();
         }
         return false;
@@ -362,6 +367,9 @@ public class AsyncServerNews {
         }catch (JSONException e) {
             e.printStackTrace();
             return false;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -372,38 +380,42 @@ public class AsyncServerNews {
     public boolean asyncUserToServer(User user) {
 //        User user = null;
         String url = "http://166.111.5.239:8000/user/";
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("email=");
-        sb.append(user.getEmail());
-        sb.append("&name=");
-        sb.append(user.getName());
-        sb.append("&password=");
-        sb.append(user.getPassword());
-        sb.append("&followig=");
-        if (user.getFollowig().size() != 0) {
-            StringBuilder sber = new StringBuilder();
-            ArraySet<String> followigs = user.getFollowig();
-            for(String followig:followigs){
-                sber.append(followig);
-                sber.append(",");
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("email=");
+            sb.append(user.getEmail());
+            sb.append("&name=");
+            sb.append(user.getName());
+            sb.append("&password=");
+            sb.append(user.getPassword());
+            sb.append("&followig=");
+            if (user.getFollowig().size() != 0) {
+                StringBuilder sber = new StringBuilder();
+                ArraySet<String> followigs = user.getFollowig();
+                for (String followig : followigs) {
+                    sber.append(followig);
+                    sber.append(",");
+                }
+                sber.delete(sber.length() - 1, sber.length());
+                sb.append(sber);
+            } else {
+                sb.append("null");
             }
-            sber.delete(sber.length()-1, sber.length());
-            sb.append(sber);
-        }else{
-            sb.append("null");
-        }
-        sb.append("&avatar=");
-        sb.append(user.getAvatar());
-        System.out.println(user.getAvatar());
+            sb.append("&avatar=");
+            sb.append(user.getAvatar());
+            System.out.println(user.getAvatar());
 
-        String res = serverHttpResponse.postResponse(url, sb.toString());
-        if (res == null) {
-            return false;
-        } else {
-            if (res.equals("Fail")) {
+            String res = serverHttpResponse.postResponse(url, sb.toString());
+            if (res == null) {
                 return false;
+            } else {
+                if (res.equals("Fail")) {
+                    return false;
+                }
             }
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
 
         return true;

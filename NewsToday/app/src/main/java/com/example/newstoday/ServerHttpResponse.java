@@ -129,6 +129,7 @@ public class ServerHttpResponse {
             connection.setDoOutput(true);//允许输出
 //            connection.setRequestMethod("POST");//POST请求 要在获取输入输出流之前设置  否则报错
             connection.setConnectTimeout(500);
+            connection.setReadTimeout(500);
             connection.connect();
 
 
@@ -158,7 +159,6 @@ public class ServerHttpResponse {
             isr.close();
             in.close();
 
-//            System.out.println(sb.toString());
             return sb.toString();
         }catch (SocketException e){
             return null;
