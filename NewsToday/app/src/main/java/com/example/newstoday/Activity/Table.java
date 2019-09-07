@@ -185,11 +185,11 @@ public class Table extends AppCompatActivity {
         if(requestCode == LOGIN_REQUEST){
             if(resultCode == RESULT_OK){
                 String email = (String) data.getSerializableExtra("email");
-                if(account.contains(email)){
-                    Toast.makeText(getApplicationContext(), "账号已登陆", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                account.add(email);
+//                if(account.contains(email)){
+//                    Toast.makeText(getApplicationContext(), "账号已登陆", Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//                account.add(email);
                 User user = userManager.getUserByEmail(email)[0];
                 String name = (String) data.getSerializableExtra("name");
                 if(user.getAvatar().equals("")) {
@@ -394,9 +394,9 @@ public class Table extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "当前没有用户登录", Toast.LENGTH_SHORT).show();
                                 return false;
                             }
-                            userManagerOnServer.userSignOut();
-                            account.remove(header.getActiveProfile().getEmail().toString());
-                            header.removeProfileByIdentifier(header.getActiveProfile().getIdentifier());
+                            userManagerOnServer.userSignOut(Table.this);
+//                            account.remove(header.getActiveProfile().getEmail().toString());
+//                            header.removeProfileByIdentifier(header.getActiveProfile().getIdentifier());
                             --identifier;
                             --position;
                             if(identifier != 3)
@@ -532,25 +532,28 @@ public class Table extends AppCompatActivity {
                                     .setTheme(R.style.Uploading)
                                     .build();
                             spotsDialog.show();
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        Thread.sleep(3000);
-                                    }catch (InterruptedException e){
-                                        e.printStackTrace();
-                                    }
-                                    spotsDialog.dismiss();
-                                }
-                            }).start();
+//                            new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    try {
+//                                        Thread.sleep(3000);
+//                                    }catch (InterruptedException e){
+//                                        e.printStackTrace();
+//                                    }
+//                                    spotsDialog.dismiss();
+//                                }
+//                            }).start();
 
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
                                         asyncServerNews.asyncDataToServer();
+                                        spotsDialog.dismiss();
                                     }catch (Exception e){
                                         e.printStackTrace();
+                                    }finally {
+                                        spotsDialog.dismiss();
                                     }
                                 }
                             }).start();
@@ -563,18 +566,32 @@ public class Table extends AppCompatActivity {
                                     .setTheme(R.style.Downloading)
                                     .build();
                             spotsDialog.show();
+//                            new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    try {
+//                                        Thread.sleep(2000);
+//                                    }catch (InterruptedException e){
+//                                        e.printStackTrace();
+//                                    }
+//                                    spotsDialog.dismiss();
+//                                }
+//                            }).start();
+//                            asyncServerNews.asyncDataFromServer();
+
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     try {
-                                        Thread.sleep(2000);
-                                    }catch (InterruptedException e){
+                                        asyncServerNews.asyncDataFromServer();
+                                        spotsDialog.dismiss();
+                                    }catch (Exception e){
                                         e.printStackTrace();
+                                    }finally {
+                                        spotsDialog.dismiss();
                                     }
-                                    spotsDialog.dismiss();
                                 }
                             }).start();
-                            asyncServerNews.asyncDataFromServer();
 
 //                            newsManager.deleteAllHistory();
 //                            asyncServerNews.asyncNewsFromServer();

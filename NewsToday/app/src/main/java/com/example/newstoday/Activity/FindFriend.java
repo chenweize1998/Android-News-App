@@ -88,9 +88,15 @@ public class FindFriend extends Fragment {
                             return false;
                         }
                         String email = input.getText().toString();
-                        User friend = userManager.getUserByEmail(email)[0];
-                        User[] users = new User[1];
-                        users[0] = friend;
+                        User[] users;
+                        if(userManager.getUserByEmail(email).length == 0) {
+                            users = new User[0];
+                        }
+                        else {
+                            User friend = userManager.getUserByEmail(email)[0];
+                            users = new User[1];
+                            users[0] = friend;
+                        }
                         mAdapter.updateUser(users);
                         mAdapter.notifyDataSetChanged();
                         InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

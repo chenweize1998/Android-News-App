@@ -1,6 +1,8 @@
 package com.example.newstoday;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.ArraySet;
 
@@ -8,6 +10,8 @@ import com.example.newstoday.Activity.Table;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import dmax.dialog.SpotsDialog;
 
 public class UserManagerOnServer {
 
@@ -85,9 +89,15 @@ public class UserManagerOnServer {
         }
     }
 
-    public boolean userSignOut(){
+    public boolean userSignOut(final Activity activity){
         String data = "user="+ Table.header.getActiveProfile().getEmail().toString();
         String res = serverHttpResponse.postResponse("http://166.111.5.239:8000/signOut/", data);
+        final AlertDialog spotsDialog = new SpotsDialog.Builder()
+                .setContext(activity)
+                .setCancelable(false)
+                .setTheme(R.style.Uploading)
+                .build();
+        spotsDialog.show();
         if(res==null){
             return false;
         }else{
@@ -95,9 +105,23 @@ public class UserManagerOnServer {
                 return false;
             }
         }
-        asyncServerNews.asyncDataToServer();
-        asyncServerNews.asyncUserToServer(userManager.getUserByEmail(Table.header.getActiveProfile().getEmail().toString())[0]);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                asyncServerNews.asyncDataToServer();
+                asyncServerNews.asyncUserToServer(userManager.getUserByEmail(Table.header.getActiveProfile().getEmail().toString())[0]);
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Table.header.removeProfileByIdentifier(Table.header.getActiveProfile().getIdentifier());
+                        spotsDialog.dismiss();
+                    }
+                });
+            }
+        }).start();
         return true;
+
     }
 
 }

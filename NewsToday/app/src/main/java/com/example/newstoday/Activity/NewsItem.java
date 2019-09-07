@@ -91,7 +91,7 @@ public class NewsItem extends Fragment {
                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
                 if (!newsManager.getLastCategory().equals(category)) {
                     System.out.println("Enter");
-                    news = newsManager.getNews(20, "2019-08-09", today, null, currentCategory, false, false);
+                    news = newsManager.getNews(20, null, today, null, currentCategory, false, false);
                     if(mAdapterNews != null) {
                         ArrayList<News> newsTmp = new ArrayList<News>();
                         newsTmp.addAll(news);
@@ -161,7 +161,7 @@ public class NewsItem extends Fragment {
                             @Override
                             public void run() {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-                                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                                ArrayList<News> newsTmp = newsManager.getNews(20, null,
                                         today, null, currentCategory, true, true);
                                 news.clear();
                                 news.addAll(newsTmp);
@@ -185,7 +185,7 @@ public class NewsItem extends Fragment {
                             @Override
                             public void run() {
                                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-                                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                                ArrayList<News> newsTmp = newsManager.getNews(20, null,
                                         today, null, currentCategory, true, false);
                                 news.addAll(newsTmp);
                                 mAdapterNews.refreshNews(newsTmp);
@@ -217,7 +217,7 @@ public class NewsItem extends Fragment {
                     newsTmp = forwordingNewsManager.getAllForwardingNews();
                 }
                 else {
-                    newsTmp = newsManager.getNews(20, "2019-08-09",
+                    newsTmp = newsManager.getNews(20, null,
                             today, null, currentCategory, true, true);
                 }
                 news = new ArrayList<>();
@@ -295,7 +295,7 @@ public class NewsItem extends Fragment {
                 mAdapterCat.notifyDataSetChanged();
                 newsManager.resetPageCounter();
                 String today = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
-                ArrayList<News> newsTmp = newsManager.getNews(20, "2019-08-09",
+                ArrayList<News> newsTmp = newsManager.getNews(20, null,
                         today, null, currentCategory, true, true);
                 news.clear();
                 news.addAll(newsTmp);
