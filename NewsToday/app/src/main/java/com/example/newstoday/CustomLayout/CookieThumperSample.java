@@ -83,28 +83,44 @@ public class CookieThumperSample {
                 .setPosition(Align.BOTTOM_OF, textWeize).build();
 
         Text textThreeWeeks = TextBuilder
-                .create("Three Weeks")
+                .create("3 Weeks")
                 .setPaint(paint)
                 .setSize(50)
                 .setAlpha(0)
                 .setColor(Color.RED)
                 .setPosition(Align.BOTTOM_OF, textPengHao).build();
 
-//        Text textDaaiAnies = TextBuilder
-//                .create("Daai Anies")
-//                .setPaint(paint)
-//                .setSize(44)
-//                .setAlpha(0)
-//                .setColor(Color.WHITE)
-//                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textHaai).build();
+        Text text330 = TextBuilder
+                .create("330")
+                .setPaint(paint)
+                .setSize(45)
+                .setAlpha(0)
+                .setColor(Color.RED)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textThreeWeeks).build();
 //
-//        Text texThyLamInnie = TextBuilder
-//                .create(" hy lam innie mang ja.")
-//                .setPaint(paint)
-//                .setSize(44)
-//                .setAlpha(0)
-//                .setColor(Color.WHITE)
-//                .setPosition(Align.RIGHT_OF, textDaaiAnies).build();
+        Text textCommits = TextBuilder
+                .create(" commits")
+                .setPaint(paint)
+                .setSize(40)
+                .setAlpha(0)
+                .setColor(Color.WHITE)
+                .setPosition(Align.RIGHT_OF, text330).build();
+
+        Text textAddNum = TextBuilder
+                .create("10803 ")
+                .setPaint(paint)
+                .setSize(45)
+                .setAlpha(0)
+                .setColor(Color.CYAN)
+                .setPosition(Align.BOTTOM_OF, text330).build();
+
+        Text textAdd = TextBuilder
+                .create(" additions")
+                .setPaint(paint)
+                .setSize(40)
+                .setAlpha(0)
+                .setColor(Color.WHITE)
+                .setPosition(Align.RIGHT_OF, textAddNum).build();
 
         Text textJava = TextBuilder
                 .create("Android JAVA Project")
@@ -112,7 +128,7 @@ public class CookieThumperSample {
                 .setSize(44)
                 .setAlpha(0)
                 .setColor(Color.WHITE)
-                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textThreeWeeks).build();
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, textAdd).build();
 
         Text textHope = TextBuilder
                 .create("Enjoy it :)")
@@ -140,6 +156,11 @@ public class CookieThumperSample {
                         new Parallel(new TransSurface(750, textPengHao, Pivot.CENTER), Rotate3D.showFromSide(textPengHao, 750, Pivot.LEFT), ChangeColor.to(textPengHao, 750, Color.WHITE)),
                         Delay.duration(500),
                         new Parallel(TransSurface.toCenter(textThreeWeeks, 500), Rotate3D.showFromSide(textThreeWeeks, 750, Pivot.TOP)),
+                        new Parallel(TransSurface.toCenter(text330, 500), Rotate3D.showFromSide(text330, 500, Pivot.TOP)),
+                        new Parallel(new TransSurface(500, textCommits, Pivot.CENTER), ShapeReveal.create(textCommits, 1300, SideCut.show(Side.LEFT), false)),
+                        Delay.duration(500),
+                        new Parallel(TransSurface.toCenter(textAddNum, 500), Rotate3D.showFromSide(textAddNum, 750, Pivot.TOP)),
+                        new Parallel(new TransSurface(500, textAdd, Pivot.CENTER), ShapeReveal.create(textAdd, 1300, SideCut.show(Side.LEFT), false)),
 //                        new Parallel(TransSurface.toCenter(textDaaiAnies, 500), Slide.showFrom(Side.TOP, textDaaiAnies, 500)),
 //                        new Parallel(TransSurface.toCenter(texThyLamInnie, 750), Slide.showFrom(Side.LEFT, texThyLamInnie, 500))
                         Delay.duration(500),
@@ -160,7 +181,11 @@ public class CookieThumperSample {
                                 Alpha.hide(textCodedBy, 1500),
                                 Alpha.hide(textWeize, 1500),
                                 Alpha.hide(textPengHao, 1500),
-                                Alpha.hide(textThreeWeeks, 1500)
+                                Alpha.hide(textThreeWeeks, 1500),
+                                Alpha.hide(text330, 1500),
+                                Alpha.hide(textCommits, 1500),
+                                Alpha.hide(textAdd, 1500),
+                                Alpha.hide(textAddNum, 1500)
                         ),
                         new Parallel(new ISurfaceAnimation() {
                             @Override
