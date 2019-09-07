@@ -629,6 +629,10 @@ public class Table extends AppCompatActivity {
         super.onResume();
         if(mAdapterNews != null)
             mAdapterNews.notifyDataSetChanged();
+        if(CollectionNews.mAdapterNews != null)
+            CollectionNews.mAdapterNews.notifyDataSetChanged();
+        if(HistoryNews.mAdapterNews != null)
+            HistoryNews.mAdapterNews.notifyDataSetChanged();
         drawer.setSelectionAtPosition(-1);
     }
 

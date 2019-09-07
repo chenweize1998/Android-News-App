@@ -83,6 +83,10 @@ public class FindFriend extends Fragment {
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN){
                     if(i == KeyEvent.KEYCODE_ENTER){
+                        if(Table.header.getActiveProfile() == null){
+                            Toast.makeText(getActivity().getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
                         String email = input.getText().toString();
                         User friend = userManager.getUserByEmail(email)[0];
                         User[] users = new User[1];

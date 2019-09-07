@@ -38,7 +38,7 @@ import java.util.Collections;
 
 public class CollectionNews extends Fragment {
     private RecyclerView recyclerViewNews;
-    private NewsAdapter mAdapterNews;
+    public static NewsAdapter mAdapterNews;
     private RecyclerView.LayoutManager layoutManagerNews;
     private ArrayList<News> news;
     private NewsManager newsManager;
