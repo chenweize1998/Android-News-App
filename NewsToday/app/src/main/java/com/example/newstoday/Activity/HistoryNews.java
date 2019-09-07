@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class HistoryNews extends Fragment {
 
     private RecyclerView recyclerViewNews;
-    private NewsAdapter mAdapterNews;
+    public static NewsAdapter mAdapterNews;
     private RecyclerView.LayoutManager layoutManagerNews;
     private ArrayList<News> news;
     private NewsManager newsManager;
