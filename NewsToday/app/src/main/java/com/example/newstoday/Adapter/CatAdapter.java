@@ -21,6 +21,20 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
     private OnItemClickListener listener;
     private View lastClicked;
     private boolean updateSelection;
+    private static CatAdapter Instance = null;
+
+    private CatAdapter(){ }
+
+    public static CatAdapter getCatAdapter(){
+        if(Instance == null)
+            Instance = new CatAdapter();
+        return Instance;
+    }
+
+//    public CatAdapter(String[] category){
+//        if(category != null)
+//            this.category = new ArrayList<>(Arrays.asList(category));
+//    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
@@ -86,4 +100,5 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.MyViewHolder> {
     public void updateSelection(){
         updateSelection = true;
     }
+
 }

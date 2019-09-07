@@ -129,6 +129,9 @@ public class Table extends AppCompatActivity {
             }
         }
 
+        Intent intent = getIntent();
+        String[] cat = intent.getStringArrayExtra("category");
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
@@ -153,7 +156,7 @@ public class Table extends AppCompatActivity {
         buildDrawer(this);
 
 //        if(savedInstanceState != null) {
-        Intent intent = getIntent();
+
         String[] email = intent.getStringArrayExtra("email");
         String[] name = intent.getStringArrayExtra("name");
         String[] avatar = intent.getStringArrayExtra("avatar");
@@ -215,19 +218,49 @@ public class Table extends AppCompatActivity {
                 if(data == null)
                     return;
 //                try {
-                    User user = userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0];
-//                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
-//                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
-//                            Uri.parse(PostImage.getRealPathFromURI(data.getData(), getContentResolver())));
-//                    user.setAvatar(bitmap);
-                    imagePoster.postAvaterToServer(ImageFilePath.getPath(this, data.getData()), user);
-                    homepage.updateHeader(data.getData());
-                    header.getActiveProfile().withIcon(data.getData());
-                    header.updateProfile(header.getActiveProfile());
+            spotsDialog = new SpotsDialog.Builder()
+                    .setContext(Table.this)
+                    .setCancelable(false)
+                    .setTheme(R.style.Uploading)
+                    .build();
+            spotsDialog.show();
 
-                    userManager.updateUser(user);//更新到数据库
-                    asyncServerNews.asyncUserToServer(user);//更新到服务器
+            Luban.with(getApplicationContext())
+                    .load(data.getData())
+                    .ignoreBy(0)
+                    .setTargetDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath())
+                    .filter(new CompressionPredicate() {
+                        @Override
+                        public boolean apply(String path) {
+                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+                        }
+                    })
+                    .setCompressListener(new OnCompressListener() {
+                        @Override
+                        public void onStart() {
+                            if(!spotsDialog.isShowing())
+                                spotsDialog.show();
+                        }
+
+                        @Override
+                        public void onSuccess(File file) {
+                            User user = userManager.getUserByEmail(header.getActiveProfile().getEmail().toString())[0];
+                            imagePoster.postAvaterToServer(file.getAbsolutePath(), user);
+                            homepage.updateHeader(Uri.parse(file.toURI().toString()));
+                            header.getActiveProfile().withIcon(Uri.parse(file.toURI().toString()));
+                            header.updateProfile(header.getActiveProfile());
+
+                            userManager.updateUser(user);//更新到数据库
+                            asyncServerNews.asyncUserToServer(user);//更新到服务器
+                            spotsDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(getApplicationContext(), "图片压缩失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }).launch();
+
 //                    System.out.println(getSupportFragmentManager().getFragments().size());
 //                } /*catch (FileNotFoundException e){
 //                    e.printStackTrace();

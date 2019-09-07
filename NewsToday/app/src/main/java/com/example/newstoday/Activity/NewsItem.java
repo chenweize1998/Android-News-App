@@ -57,6 +57,7 @@ public class NewsItem extends Fragment {
     private ArrayList<News> news;
     private NewsManager newsManager;
     private String currentCategory = "推荐";
+//    private String[] category = null;
 
     private int DISMISS_TIMEOUT = 500;
 
@@ -70,6 +71,7 @@ public class NewsItem extends Fragment {
 
     NewsItem(FragmentManager fragmentManager){
         this.fragmentManager = fragmentManager;
+//        this.category = category;
     }
 
     @Override
@@ -266,13 +268,13 @@ public class NewsItem extends Fragment {
             }
         }).start();
 
-
         RecyclerView recyclerViewCat = view.findViewById(R.id.cat_recycler_view);
         recyclerViewCat.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManagerCat = new LinearLayoutManager(getContext());
         ((LinearLayoutManager) layoutManagerCat).setOrientation(RecyclerView.HORIZONTAL);
         recyclerViewCat.setLayoutManager(layoutManagerCat);
-        mAdapterCat = new CatAdapter();
+        mAdapterCat = CatAdapter.getCatAdapter();
+        mAdapterCat.updateSelection();
         mAdapterCat.setOnItemClickListener(listenerCat);
         recyclerViewCat.setAdapter(mAdapterCat);
         recyclerViewCat.setItemViewCacheSize(5);

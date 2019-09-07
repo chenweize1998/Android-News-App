@@ -99,7 +99,7 @@ public class WechatShareManager implements IWXAPIEventHandler{
         localWXWebpageObject.webpageUrl = url;
         WXMediaMessage localWXMediaMessage = new WXMediaMessage(
                 localWXWebpageObject);
-        localWXMediaMessage.title = "newsToday";//不能太长，否则微信会提示出错。不过博主没验证过具体能输入多长。
+        localWXMediaMessage.title = "News Today";//不能太长，否则微信会提示出错。不过博主没验证过具体能输入多长。
         localWXMediaMessage.description = news.getTitle();
         if(news.getImage() != null && news.getImage().length != 0 &&
             !news.getImage()[0].equals("")) {
