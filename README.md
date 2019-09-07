@@ -54,7 +54,7 @@
 2. 一个可以左右滑动的类别列表
 3. 一个可以上下滑动的新闻列表
 
-![](D:\AndroidStudioProjects\news_list.png)![](D:\AndroidStudioProjects\search.png)
+![](.\pics\news_list.png)![](\pics\search.png)
 
 具体如上左图所示。具体实现为
 
@@ -68,7 +68,7 @@
 
 右侧有一个按钮，按下之后可以进入到对类别进行增加/删除以及排序操作的界面，如下左图所示
 
-![](D:\AndroidStudioProjects\cat_rearrange.png)![](.\pics\news_item.png)
+![](.\pics\cat_rearrange.png)![](.\pics\news_item.png)
 
 上下各有一个自定义的`GridLayout`，实现了拖动时半透明的功能，以及实时插入所在位置的效果。在`我的频道`中点击对应的频道，可以删除，在`隐藏的频道`中点击被删除的分类，可以恢复，长按可以进行分类的拖动排序。
 
