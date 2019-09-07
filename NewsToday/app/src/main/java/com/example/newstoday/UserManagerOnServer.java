@@ -9,6 +9,8 @@ import com.example.newstoday.Activity.Table;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.ExecutionException;
+
 public class UserManagerOnServer {
 
     private ServerHttpResponse serverHttpResponse;
@@ -95,8 +97,19 @@ public class UserManagerOnServer {
                 return false;
             }
         }
-        asyncServerNews.asyncDataToServer();
-        asyncServerNews.asyncUserToServer(userManager.getUserByEmail(Table.header.getActiveProfile().getEmail().toString())[0]);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    asyncServerNews.asyncDataToServer();
+                    asyncServerNews.asyncUserToServer(userManager.getUserByEmail(Table.header.getActiveProfile().getEmail().toString())[0]);
+                }catch (Exception e){
+                        e.printStackTrace();
+                }
+            }
+        }).start();
+
         return true;
     }
 

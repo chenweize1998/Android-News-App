@@ -541,7 +541,17 @@ public class Table extends AppCompatActivity {
                                     spotsDialog.dismiss();
                                 }
                             }).start();
-                            asyncServerNews.asyncDataFromServer();
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        asyncServerNews.asyncDataFromServer();
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
 
 //                            newsManager.deleteAllHistory();
 //                            asyncServerNews.asyncNewsFromServer();
