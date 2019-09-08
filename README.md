@@ -28,11 +28,11 @@
 ### 2 基础后端介绍
 这部分主要介绍该app的后端基础——本地数据库和远程服务器。后端的框架是以这两个部分为基石建立起来的。
 以下是整个后端的框架结构图。内存表示正在运行的Andriod程序在内存中维护的数据；数据库表示在本地外部存储器的数据，远程服务器表示在远程服务器的数据。
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/kuangjia.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/kuangjia.png)
 
 #### 2.1 本地数据库
 本地数据库使用Android自带的数据库——Room来实现。Room是google推出的用于做数据持久化保存的一个库。通过注释手段来实现一个抽象层，更数据库打交道，也是官方推荐的数据库。Room的基本框架如下图，关于Room的细节，在此不再进行冗余的介绍。
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/room.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/room.png)
 我在本地实现了两种数据库表单，分别存放两个不同类型的数据——新闻和用户。以下我会单独来介绍这两种数据库表单的结构以及主要的访问方法。
 
 ##### 2.1.1 新闻表单
@@ -44,7 +44,7 @@
 在服务器端和本地数据库一样，我为新闻类的数据创建了四张表单（没有为离线新闻创建），创建了一个用户类表单，同时还创建了专门用来存储图片的表单。当来到请求之后，django会执行相应的函数，进行服务器和数据库的交互。从上图可以看出来，为了方便同步以及清晰的数据管理，我只允许数据库和远程服务器之间的交互，内存是不能直接和远程服务器进行交互的。
 #### 2.3 后端的Java类框架
 下图是整个后端类的总览。
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/lei.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/lei.png)
 以下列表是后端主要功能类的介绍：
 
 * News类：此类的功能是记录新闻数据的各种必要信息。
@@ -63,7 +63,7 @@
 
 #### 3.1 应用初始界面
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/front_page.jpg)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/front_page.jpg)
 
 打开APP后进入MainActivity中，在本应用的设计中，这只作为一个跳转页，展示应用的封面，如上图。设置一个三秒的计时器，到时后有两种可能性：
 
@@ -74,7 +74,7 @@
 
 使用[`TextSurface`](https://github.com/elevenetc/TextSurface)包进行绘制。动画结束后，自动渐变进入新闻列表。但由于这个包5年前就停止维护了，导致某些效果无法使用，调试了很久，最终大致效果如下图。
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/opening_animation.gif)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/opening_animation.gif)
 
 #### 3.3 使用Fragment
 
@@ -88,7 +88,7 @@
 2. 一个可以左右滑动的类别列表
 3. 一个可以上下滑动的新闻列表
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/news_list.png)![](\pics\search.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/news_list.png)![](\pics\search.png)
 
 具体如上左图所示。具体实现为
 
@@ -102,7 +102,7 @@
 
 右侧有一个按钮，按下之后可以进入到对类别进行增加/删除以及排序操作的界面，如下左图所示
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/cat_rearrange.png)![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/news_item.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/cat_rearrange.png)![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/news_item.png)
 
 上下各有一个自定义的`GridLayout`，实现了拖动时半透明的功能，以及实时插入所在位置的效果。在`我的频道`中点击对应的频道，可以删除，在`隐藏的频道`中点击被删除的分类，可以恢复，长按可以进行分类的拖动排序。
 
@@ -126,7 +126,7 @@
 
 由于不知道新闻中到底会有几张图片，所以很难动态地在新闻文字当中插入图片。因此我们的想法就是在页顶设置一个`ViewPager`，可以左右滑动查看新闻包含的所有图片，由于要让整个布局随着图片的大小调整高度过于耗费资源，而且容易出现bug，所以采用固定高度的策略。这样会造成某些图片无法显示完全，因此在每一张图片上设置了一个`onClickListener`来监听点击事件，一旦被点击，则通过一个没有选项的对话框展示图片，如下图所示。
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/news_page_pic.png)![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/comment.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/news_page_pic.png)![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/comment.png)
 
 底部存在一个可随着滑动隐藏和出现的底栏，其中可以输入评论，也可以在其中进行分享和收藏操作。右上图中我们给出了一个展示评论的例子（假的新闻）。
 
@@ -137,15 +137,15 @@
 
 #### 3.6 收藏新闻
 在新闻列表中对收藏按钮监听点击事件。应用中的收藏按钮都基于[ShineButton](https://github.com/ChadCSong/ShineButton)实现，它用简洁的方式提供了优秀的交互效果。用户对按钮进行点击后，将有动画反馈。与此同时，检查点击后的状态来判断是删除收藏还是添加收藏，并更新到后端数据库中。后端同样通过NewsManager类管理收藏数据表单，根据前端的动作实现收藏新闻表单的添加或者删除。同时，在内存中维护一个ArraySet\<String\>来记录收藏新闻的newsID，并且和数据库实时同步。具体效果可见下图
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/shinebutton.gif)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/shinebutton.gif)
 
 #### 3.7 分享新闻
 在新闻列表中对分享按钮监听点击事件。在点击分享按钮之后，底部会出现菜单，这个bottom dialog是基于[BottomSheet](https://material.io/components/sheets-bottom/#modal-bottom-sheet)实现。他提供了简洁的画面，并且可以很方便的设置点击监听事件。具体效果可见下图
-![](D:\AndroidStudioProjects\bottom.png)![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/share.png)
+![](D:\AndroidStudioProjects\bottom.png)![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/share.png)
 
 由于对微博的app申请没有获得批准，所以只实现了分享到微信的功能。微信分享功能靠WechaShareManager类来实现，可以实现分享到会话或者分享到朋友圈。可以分享问题，图片和URL，具体实现效果如上图。
 微博申请被驳回
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/back.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/back.png)
 
 #### 3.8 搜索新闻
 
@@ -158,7 +158,7 @@
 
 「屏蔽」所引起的联想似乎都不太美好：于应用管理者而言，屏蔽虽然在一定程度上提高了内容质量的下限，但可能同时也意味着对某些潜在价值观的抵制；于使用者而言，屏蔽是最简便的“眼不见为净”的践行方式，但可能同时也意味着信息茧房的不断收束。
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/filter.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/filter.png)
 
 所以前端在这一功能的UI设计上，将一句问句与所要填写的屏蔽词结合，希望能够引起用户的思考“屏蔽这个词，不再接受这个词的任何新闻，真的好吗？”。以噪声的波形图作为背景，辅以故障风的文字，试图营造出一个并不舒适的环境，并隐式地传递给用户设计者的立场。
 
@@ -171,7 +171,7 @@ Filter Words的显示复用了之前在分类排序中的`GridLayout`。
 #### 3.10 查找好友
 
 查找好友功能的实现，主要是通过UserManager类。用户输入被查找人的email, 后端会调用UserManager中的getUserByEmail方法从数据库中检索出这个用户的全部信息（如头像，昵称等），然后返回一个User对象，前端需要展示这个user的很多信息，所以直接返回一个User对象是方便的，合理的。得到的用户信息会被展示到空白位置。具体效果如下图
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/friend.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/friend.png)
 
 ##### 3.10.1 设计思路
 
@@ -187,9 +187,9 @@ Filter Words的显示复用了之前在分类排序中的`GridLayout`。
 
 我们为实现了用户的注册，登陆和退出功能。当用户输入消息后，点击注册，后端会调用UserManagerOnServer类中的signUp方法，与远程服务器进行通信，远程服务器判断这个注册是否有效，如果有效，则修改服务器的状态，并且返回成功的信息；如果无效，则直接返回失败的信息。在调用signUp函数的同时，如果返回成功，则会在本地创建一个User类的对象，并且放到user的数据库表单之中。当用户输入消息后，点击登陆，后端会调用UserManagerOnServer类中的signIn方法，与远程服务器进行通信，远程服务器会判断这个登陆是不是有效，如果有效，则修改服务器的状态，并返回成功的信息；如果无效，则直接返回失败的信息。在调用signIn函数的同时，如果返回成功，则创建一个User类的对象，并从服务器将关于这个user的信息全部下载下来，并且存储到本地数据库之中。在用户登陆或者注册成功之后，如果想退出，则直接点击log out, 后端会首先将这个用户的全部数据自动上传到服务器，并且更改服务器的状态，然后将本地的关于这个用户的数据删除，节省空间。
 为了使叙述更加清楚，下面流程图展示了一个user的生命周期：
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/user.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/user.png)
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/login.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/login.png)
 上图是登陆界面，登陆界面挺简单的，两句Slogan加上传统的登陆信息就构成了这个界面。`Get to Know the World`表明了我们希望我们的应用能够帮助用户了解到世界上发生的各种各样的事件，而`News are temporary, pride is forever`中的`pride`更多的想指我们所做出这个APP所产生的成就感。
 
 Slogan下的一条红横线其实是一个高度为1dp的View，不是实际的线。三个输入框是官方提供的`TextInputEditText`，下面两个按钮就是普通的`Button`
@@ -197,7 +197,7 @@ Slogan下的一条红横线其实是一个高度为1dp的View，不是实际的�
 #### 3.12 发布消息
 
 我们实现了用户发布消息的功能。用户发布的消息同样用News类来表示，不同的是里面的publisher属性改成用户自己的邮箱。点击发布按钮，可以进入编辑发布消息的界面。输入title, 和 content, 并且可以选择图片，图片最多选择9张。为了和原本的News统一，也为了存取方便，发布的图片会首先上传到远程服务器，然后得图片的url, 存储在News类的image域中。对于发布的消息，通过UserMessageManager类进行管理和同步。 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/andy.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/andy.png)
 
 ##### 3.13.1 设计思路
 
@@ -212,11 +212,11 @@ Slogan下的一条红横线其实是一个高度为1dp的View，不是实际的�
 
 #### 3.14 UI逻辑
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/ui.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/ui.png)
 
 #### 3.15 不同的动画
 
-![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/cat_rearrange.gif)![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/waiting_animation.gif)![](https://github.com/chenweize1998/Android-News-App/tree/master/pics/refresh.gif)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/cat_rearrange.gif)![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/waiting_animation.gif)![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/refresh.gif)
 
 以上分别为：分类排序、上传下载等待以及刷新的动画。
 
