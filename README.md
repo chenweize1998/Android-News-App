@@ -145,7 +145,7 @@
 
 由于对微博的app申请没有获得批准，所以只实现了分享到微信的功能。微信分享功能靠WechaShareManager类来实现，可以实现分享到会话或者分享到朋友圈。可以分享问题，图片和URL，具体实现效果如上图。
 微博申请被驳回
-![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/back.png)
+
 
 #### 3.8 搜索新闻
 
