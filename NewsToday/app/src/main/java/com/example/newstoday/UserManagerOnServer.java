@@ -11,6 +11,7 @@ import com.example.newstoday.Activity.Table;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import dmax.dialog.SpotsDialog;
 
 public class UserManagerOnServer {
