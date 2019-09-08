@@ -137,6 +137,15 @@
 在新闻列表中对收藏按钮监听点击事件。应用中的收藏按钮都基于[ShineButton](https://github.com/ChadCSong/ShineButton)实现，它用简洁的方式提供了优秀的交互效果。用户对按钮进行点击后，将有动画反馈。与此同时，检查点击后的状态来判断是删除收藏还是添加收藏，并更新到后端数据库中。后端同样通过NewsManager类管理收藏数据表单，根据前端的动作实现收藏新闻表单的添加或者删除。同时，在内存中维护一个ArraySet\<String\>来记录收藏新闻的newsID，并且和数据库实时同步。具体效果可见下图
 ![](.\pics\shinebutton.gif)
 
+#### 3.7 分享新闻
+在新闻列表中对分享按钮监听点击事件。在点击分享按钮之后，底部会出现菜单，这个bottom dialog是基于[BottomSheet](https://material.io/components/sheets-bottom/#modal-bottom-sheet)实现。他提供了简洁的画面，并且可以很方便的设置点击监听事件。具体效果可见下图
+![](.\pics\bottom.png)
+
+由于对微博的app申请没有获得批准，所以只实现了分享到微信的功能。微信分享功能靠WechaShareManager类来实现，可以实现分享到会话或者分享到朋友圈。可以分享问题，图片和URL。
+微博申请被驳回
+![](.\pics\back.png)
+微信分享具体实现效果如下图
+![](.\pics\share.png)
 #### 3.7 搜索新闻
 
 通过`Android`官方提供的`SearchView`来完成搜索功能的配置。具体步骤与[官网上的教程](https://developer.android.com/guide/topics/search/search-dialog)一致。只不过在`Search Activity`当中执行的是将`query`作为查询关键词，输入到`api`中，获得返回的新闻。通过继承SearchRecentSuggestionsProvider 类构造一个记录搜索历史的类，并且通过这个provider自动为SearchView提供内容，这个父类也是`Android`官方提供的。
@@ -187,8 +196,7 @@ Slogan下的一条红横线其实是一个高度为1dp的View，不是实际的�
 
 #### 3.11 发布消息
 
-我们实现了用户发布消息的功能。用户发布的消息同样用News类来表示，不同的是里面的publisher属性改成用户自己的邮箱。点击发布按钮，可以进入编辑发布消息的界面。输入title, 和 content, 并且可以选择图片，图片最多选择9张。为了和原本的News统一，也为了存取方便，发布的图片会首先上传到远程服务器，然后得图片的url, 存储在News类的image域中， 
-
+我们实现了用户发布消息的功能。用户发布的消息同样用News类来表示，不同的是里面的publisher属性改成用户自己的邮箱。点击发布按钮，可以进入编辑发布消息的界面。输入title, 和 content, 并且可以选择图片，图片最多选择9张。为了和原本的News统一，也为了存取方便，发布的图片会首先上传到远程服务器，然后得图片的url, 存储在News类的image域中。对于发布的消息，通过UserMessageManager类进行管理和同步。 
 ![](.\pics\andy.png)
 
 ##### 3.11.1 设计思路
