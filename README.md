@@ -42,6 +42,7 @@
 ####  2.2 远程服务器
 远程服务器使用Django进行搭建。Django是python的一个web服务器框架，方便搭建，方便管理。但是原生Django的并发处理能力比较差，对于多条请求，会出现阻塞的情况，但是对于本次作业而言，这个远程服务器已经足够。
 在服务器端和本地数据库一样，我为新闻类的数据创建了四张表单（没有为离线新闻创建），创建了一个用户类表单，同时还创建了专门用来存储图片的表单。当来到请求之后，django会执行相应的函数，进行服务器和数据库的交互。从上图可以看出来，为了方便同步以及清晰的数据管理，我只允许数据库和远程服务器之间的交互，内存是不能直接和远程服务器进行交互的。
+
 #### 2.3 后端的Java类框架
 下图是整个后端类的总览。
 ![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/lei.png)
@@ -88,7 +89,7 @@
 2. 一个可以左右滑动的类别列表
 3. 一个可以上下滑动的新闻列表
 
-![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/news_list.png)![](\pics\search.png)
+![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/news_list.png)![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/search.png)
 
 具体如上左图所示。具体实现为
 
@@ -145,7 +146,6 @@
 
 由于对微博的app申请没有获得批准，所以只实现了分享到微信的功能。微信分享功能靠WechaShareManager类来实现，可以实现分享到会话或者分享到朋友圈。可以分享问题，图片和URL，具体实现效果如上图。
 微博申请被驳回
-![](https://github.com/chenweize1998/Android-News-App/blob/master/pics/back.png)
 
 #### 3.8 搜索新闻
 
